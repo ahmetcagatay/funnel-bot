@@ -1,7 +1,5 @@
 {
   "rewrites": [
-    { "source": "/rapor", "destination": "/rapor_englifyai.html" },
-    { "source": "/demo-funnel", "destination": "/demo_englifyai_funnel.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
