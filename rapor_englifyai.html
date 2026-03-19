@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page {
+    size: A4;
+    margin: 25mm 20mm 25mm 20mm;
+    @bottom-center {
+      content: "Sayfa " counter(page) " / " counter(pages);
+      font-size: 9px;
+      color: #999;
+    }
+  }
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #1a1a2e;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* Cover */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 700px;
+    text-align: center;
+  }
+  .cover-badge {
+    background: #e8f0fe;
+    color: #1a73e8;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 18px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .cover h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0 0 10px 0;
+    line-height: 1.2;
+  }
+  .cover h2 {
+    font-size: 18px;
+    font-weight: 400;
+    color: #5f6368;
+    margin: 0 0 40px 0;
+  }
+  .cover-meta {
+    font-size: 14px;
+    color: #80868b;
+    margin-top: 20px;
+  }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #1a73e8, #34a853);
+    margin: 30px auto;
+    border-radius: 2px;
+  }
+  .cover-footer {
+    margin-top: 60px;
+    font-size: 12px;
+    color: #aaa;
+  }
+
+  /* Sections */
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a2e;
+    border-bottom: 2px solid #1a73e8;
+    padding-bottom: 6px;
+    margin: 30px 0 16px 0;
+  }
+  h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin: 20px 0 10px 0;
+  }
+  h4 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    margin: 14px 0 6px 0;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 20px 0;
+    font-size: 12px;
+  }
+  th {
+    background: #1a1a2e;
+    color: #fff;
+    text-align: left;
+    padding: 8px 10px;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #e8eaed;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #f8f9fa; }
+
+  /* Alert boxes */
+  .alert {
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin: 14px 0;
+    font-size: 13px;
+  }
+  .alert-danger {
+    background: #fce8e6;
+    border-left: 4px solid #ea4335;
+    color: #c5221f;
+  }
+  .alert-warning {
+    background: #fef7e0;
+    border-left: 4px solid #f9ab00;
+    color: #e37400;
+  }
+  .alert-info {
+    background: #e8f0fe;
+    border-left: 4px solid #1a73e8;
+    color: #174ea6;
+  }
+  .alert-success {
+    background: #e6f4ea;
+    border-left: 4px solid #34a853;
+    color: #137333;
+  }
+  .alert strong { display: block; margin-bottom: 4px; }
+
+  /* Lists */
+  ul, ol { margin: 8px 0 14px 20px; }
+  li { margin-bottom: 6px; }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    background: #e8eaed;
+    color: #5f6368;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    margin: 2px 4px 2px 0;
+    font-weight: 500;
+  }
+  .tag-red { background: #fce8e6; color: #c5221f; }
+  .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #e8f0fe; color: #174ea6; }
+  .tag-orange { background: #fef7e0; color: #e37400; }
+
+  /* Phase boxes */
+  .phase {
+    background: #f8f9fa;
+    border: 1px solid #e8eaed;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+  }
+  .phase-title {
+    font-weight: 700;
+    font-size: 15px;
+    color: #1a73e8;
+    margin-bottom: 8px;
+  }
+
+  /* Page break */
+  .page-break { page-break-before: always; }
+
+  p { margin: 6px 0; }
+
+  .summary-grid {
+    display: flex;
+    gap: 12px;
+    margin: 14px 0;
+  }
+  .summary-card {
+    flex: 1;
+    background: #f8f9fa;
+    border: 1px solid #e8eaed;
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+  }
+  .summary-card .value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a73e8;
+  }
+  .summary-card .label {
+    font-size: 11px;
+    color: #80868b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+  }
+
+  .score-bar {
+    height: 8px;
+    background: #e8eaed;
+    border-radius: 4px;
+    margin: 4px 0 2px 0;
+    overflow: hidden;
+  }
+  .score-fill {
+    height: 100%;
+    border-radius: 4px;
+  }
+  .score-low { background: #ea4335; }
+  .score-mid { background: #f9ab00; }
+  .score-high { background: #34a853; }
+</style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanim</div>
+  <h1>EnglifyAI.com</h1>
+  <h2>Dijital Funnel &amp; Rekabet Analiz Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazirlanma Tarihi:</strong> 19 Mart 2026<br>
+    <strong>Domain:</strong> englifyai.com<br>
+    <strong>Sektor:</strong> B2B SaaS - AI Toplanti Analizi ile Ingilizce Gelistirme<br>
+    <strong>Rapor Turu:</strong> Detayli Analiz + Strateji Onerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web arastirmasina dayanarak hazirlanmistir.</div>
+</div>
+
+<!-- COPY IMPROVEMENTS BUTTON (browser only) -->
+<style>
+  @media print { .copy-section { display: none !important; } }
+  .copy-section {
+    padding: 20px 24px;
+    background: #f0f4ff;
+    border: 2px dashed #1a73e8;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .copy-section h3 { font-size: 16px; color: #1a1a2e; margin-bottom: 6px; border: none; }
+  .copy-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .copy-btn {
+    background: #1a73e8; color: #fff; border: none;
+    padding: 12px 28px; border-radius: 8px; font-size: 14px;
+    font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s;
+  }
+  .copy-btn:hover { background: #1557b0; }
+  .copy-btn.copied { background: #34a853; }
+  .copy-status { margin-top: 10px; font-size: 12px; color: #80868b; }
+</style>
+
+<div class="copy-section">
+  <h3>Iyilestirme Onerilerini Kopyala</h3>
+  <p>Rapordaki tum iyilestirme onerilerini kopyalayarak yapay zekana veya ekibinize iletebilirsiniz.</p>
+  <button class="copy-btn" id="copyBtn" onclick="copyImprovements()">Iyilestirmeleri Kopyala</button>
+  <div class="copy-status" id="copyStatus"></div>
+</div>
+
+<script>
+function copyImprovements() {
+  const btn = document.getElementById('copyBtn');
+  const status = document.getElementById('copyStatus');
+
+  const text = `ENGLIFYAI.COM - IYILESTIRME ONERILERI
+=====================================
+
+ACIL DUZELTMELER (Hafta 1-2):
+
+1. GORSEL ICERIK ZENGINLESTIRME
+   SVG ikon seti olusturun (Claude Code gibi AI araclariyla hizlica uretebilirsiniz). Her ozellik icin aciklayici ikon/emoji kullanin.
+
+2. PRICING'I GIZLEYIN
+   Ana navigasyondan Pricing linkini kaldirin. Fiyati sadece kullanici urunu denedikten veya lead bilgisi verdikten sonra gosterin.
+
+3. LEAD-FIRST FUNNEL OLUSTURUN
+   "Meeting'lerde konusulanlarin hepsini anliyor musun?" ile baslayan, 8-10 soruluk bir degerlendirme funnel'i. Kullaniciyi taniyin, sonra kisisellesmis teklif sunun.
+
+4. MOBIL PWA DENEYIMI
+   Siteyi tam ekran, swipeable, app-like bir formata cevirin. Scroll yerine adim adim ilerleyen bir akis.
+
+5. TESTIMONIAL TOPLAMA
+   Mevcut kullanicilardan kisa geri bildirim alin. Yoksa, 5-10 ucretsiz pilot kullanici edinin ve onlardan yorum isteyin.
+
+6. "BIZ ULASALIM" CTA
+   "Sign up" yerine "Analiz raporunuzu hazirlayalim, size ulasacagiz" mesaji. Kullaniciyi arastirmak zorunda birakmayin.
+
+7. KIRIK FOOTER LINKLERINI DUZELTME
+   Blog, About, Contact sayfalari olusturun veya linkleri kaldirin.
+
+-----
+
+SEO VE B2B ALTYAPISI (Hafta 3-4):
+
+1. SSR/SSG GECISI - Vite SPA'dan Next.js veya Astro'ya gecis
+2. STRUCTURED DATA - SoftwareApplication schema, pricing schema ekleme
+3. FIYATLANDIRMA REVIZESI - Enterprise $49 fiyatini pazar gerceklerine gore duzeltme
+4. SOSYAL KANIT - Testimonial, kullanici sayisi, ornek sonuclar ekleme
+5. BLOG BASLANGICI - "Meeting English analysis", "CEFR level improvement" gibi nis konular
+6. LINKEDIN SIRKET SAYFASI - Duzenli icerik, karar verici profil optimizasyonu
+
+-----
+
+B2B BUYUME (Ay 2+):
+
+1. PILOT MUSTERI EDINIMI - 2-3 kucuk sirketle ucretsiz pilot calistirma
+2. CASE STUDY URETIMI - "CEFR B1'den B2'ye X haftada" gibi somut referans
+3. LINKEDIN OUTBOUND - HR/L&D yoneticilerine dogrudan mesaj
+4. GOOGLE ADS - "meeting English analysis", "employee English training" anahtar kelimeleri
+5. ROI HESAPLAYICI - "Insan ogretmene gore X kat tasarruf" interaktif arac
+6. RAKIPLERLE TAMAMLAYICI KONUMLANDIRMA - "ELSA ile pratiginizi yapin, EnglifyAI ile gercek performansinizi olcun"
+
+-----
+
+TEKNIK SEO SORUNLARI:
+- SSR yok (Vite SPA) - Googlebot sayfayi bos goruyor [KRITIK]
+- Title tag jenerik: "Englify App" → "EnglifyAI - AI Meeting Analysis for Professional English" [KRITIK]
+- Meta description jenerik - toplanti analizi odagini yansitmiyor [ORTA]
+- OG taglari Lovable storage uzerinde - kendi CDN'e tasiyin [ORTA]
+- Structured Data (Schema) yok [ORTA]
+- Lovable (no-code) altyapisi - enterprise icin olceklenebilirlik riski [ORTA]
+
+-----
+
+GORSEL VE UX SORUNLARI:
+- Gorsel anlatim zayif - metin agirlikli, ikon/animasyon eksik
+- Pricing erken sunuluyor - once lead alin, sonra fiyat gosterin
+- Mobil deneyim yetersiz - PWA benzeri app-like deneyim sart
+- Mesaj karisik - tek net CTA: "Toplanti kaydini yukle, ucretsiz analiz al"
+- Testimonial / sosyal kanit tamamen eksik
+- Ucretsiz deneyim one cikarilmiyor
+
+-----
+
+FIYATLANDIRMA NOTU:
+- Starter $9/ay: Bireysel segmentte rekabetci (ELSA $12, Loora $10, Praktika $8)
+- Enterprise $49/kul./ay: B2B pazarinda cok pahali (ELSA $18, Loora $10, Praktika $8)
+- Oneri: $9-15 arasi takim plani olusturun, Enterprise'i ozel teklif yapin
+
+-----
+
+STRATEJI NOTU: ONCE LEAD AL, SONRA SAT
+Musterinizi tanimadan satis yapmak "kor satis" yapmaktir. Sitene yatirim yapan kullanicinin verdigi cevaplarla (butce, takim buyuklugu, sorunlari) onu taniyabilirsiniz. Ilk lead'leriniz en degerli ogrenme kaynaklarinizdir - onlari fiyatla sikistirmayin.`;
+
+  try {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '\u2705 Kopyalandi!';
+      btn.classList.add('copied');
+      status.textContent = (text.length / 1024).toFixed(1) + ' KB kopyalandi';
+      setTimeout(() => { btn.textContent = 'Iyilestirmeleri Kopyala'; btn.classList.remove('copied'); }, 3000);
+    });
+  } catch(e) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;left:-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '\u2705 Kopyalandi!';
+    btn.classList.add('copied');
+    status.textContent = (text.length / 1024).toFixed(1) + ' KB kopyalandi';
+    setTimeout(() => { btn.textContent = 'Iyilestirmeleri Kopyala'; btn.classList.remove('copied'); }, 3000);
+  }
+}
+</script>
+
+<!-- PAGE 1 - PROFIL -->
+<h2 class="page-break">1. Lead Profil Ozeti</h2>
+
+<div class="summary-grid">
+  <div class="summary-card">
+    <div class="value">B2B</div>
+    <div class="label">Hedef Pazar</div>
+  </div>
+  <div class="summary-card">
+    <div class="value">SaaS</div>
+    <div class="label">Sektor</div>
+  </div>
+  <div class="summary-card">
+    <div class="value">10+</div>
+    <div class="label">Urun Deneyimi</div>
+  </div>
+  <div class="summary-card">
+    <div class="value">0 TL</div>
+    <div class="label">Aylik Gelir</div>
+  </div>
+  <div class="summary-card">
+    <div class="value">0 TL</div>
+    <div class="label">Reklam Butcesi</div>
+  </div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Deger</th></tr>
+  <tr><td><strong>Website</strong></td><td>englifyai.com</td></tr>
+  <tr><td><strong>Urun Tanimi</strong></td><td>Toplanti kayitlarini (MP3, WAV, M4A, MP4, MOV, AVI) AI ile analiz ederek profesyonel Ingilizce konusma becerilerini gelistiren SaaS araci. Akicilik, gramer, kelime hazinesi ve CEFR seviyesi analizi sunar.</td></tr>
+  <tr><td><strong>Mevcut Durum</strong></td><td>Satislari iyilestirmek istiyor (improve_sales)</td></tr>
+  <tr><td><strong>Hedef Pazar</strong></td><td>B2B - Kurumsal musterilere satis</td></tr>
+  <tr><td><strong>Sektor</strong></td><td>SaaS / Yazilim</td></tr>
+  <tr><td><strong>Deneyim</strong></td><td>10+ urun pazarlamis - deneyimli profil</td></tr>
+  <tr><td><strong>Aylik Gelir</strong></td><td>0 TL - Henuz monetize edilmemis</td></tr>
+  <tr><td><strong>Reklam Kanallari</strong></td><td>Hicbiri - Hic dijital reklam vermemis</td></tr>
+  <tr><td><strong>Reklam Butcesi</strong></td><td>0 TL</td></tr>
+  <tr><td><strong>LinkedIn</strong></td><td>Girilmemis</td></tr>
+  <tr><td><strong>ROAS</strong></td><td>Girilmemis</td></tr>
+  <tr><td><strong>Funnel Durumu</strong></td><td><span class="tag tag-green">Tamamlandi</span></td></tr>
+  <tr><td><strong>Kayit Tarihi</strong></td><td>19 Mart 2026, 14:09 (TR)</td></tr>
+</table>
+
+<h3>Urun Ozellikleri (Sitede Mevcut)</h3>
+<table>
+  <tr><th>Ozellik</th><th>Aciklama</th></tr>
+  <tr><td><strong>Kolay Yukleme</strong></td><td>MP3, WAV, M4A, MP4, MOV, AVI formatlarini destekler</td></tr>
+  <tr><td><strong>Akicilik Analizi</strong></td><td>Konusma hizi, dolgu kelimeler, duraksamalar</td></tr>
+  <tr><td><strong>Kelime Hazinesi</strong></td><td>Profesyonel kelime alternatifleri, CEFR seviyesi degerlendirmesi</td></tr>
+  <tr><td><strong>Gramer Incelemesi</strong></td><td>Oncesi/sonrasi duzeltmeler, kural aciklamalari</td></tr>
+  <tr><td><strong>Odakli Aksiyon Planlari</strong></td><td>Sonraki toplanti icin oncelikli gelistirme alani</td></tr>
+  <tr><td><strong>Gelisim Takibi</strong></td><td>Longitudinal analiz, oncesi/sonrasi kanit karsilastirmasi</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Profil Yorumu</strong>
+  Deneyimli bir girisimci (10+ urun) ancak EnglifyAI henuz gelir uretmiyor ve hic dijital reklam deneyimi yok. Urun "toplanti kaydi analizi" seklinde nis bir konumlandirmaya sahip - bu rakiplerden farkli ve potansiyel olarak guclu bir diferansiyasyon. Fiyatlandirma sayfasi ve demo sayfasi mevcut, ancak B2B altyapisinda onemli eksikler var.
+</div>
+
+<!-- PAGE 2 - WEBSITE SORUNLARI -->
+<h2 class="page-break">2. Web Sitesi Analizi - Tespit Edilen Sorunlar</h2>
+
+<p><strong>englifyai.com</strong> Vite tabanli bir SPA (Single Page Application) olarak Lovable (GPT-Engineer) no-code platformuyla gelistirilmis. Sayfa kaynagi acildiginda sadece "Englify App" basligi gorunuyor. Meta description ve OG taglari mevcut ancak iyilestirmeye ihtiyac duymaktadir.</p>
+
+<h3>2.1 Teknik SEO Sorunlari</h3>
+<table>
+  <tr><th>Sorun</th><th>Aciklama</th><th>Etki Seviyesi</th></tr>
+  <tr>
+    <td><strong>Server-Side Rendering (SSR) yok</strong></td>
+    <td>Vite SPA olarak tum icerik JavaScript ile yukleniyor. Googlebot sayfayi bos olarak goruyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Title tag jenerik</strong></td>
+    <td>Sayfa basligi "Englify App" olarak ayarlanmis. "EnglifyAI - AI Meeting Analysis for Professional English" gibi markalanmis ve aciklayici bir baslik olmali.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Meta Description jenerik</strong></td>
+    <td>Meta description mevcut ("Improve your spoken English with AI-powered analytics") ancak urunun toplanti analizi odagini yansitmiyor. Daha spesifik olmali.</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+  <tr>
+    <td><strong>OG taglari mevcut ama sorunlu</strong></td>
+    <td>Open Graph ve Twitter Card taglari var. Ancak OG gorsel Lovable/GPT-Engineer cloud storage uzerinde barindiriliyor - profesyonel degil ve kontrolunuz disinda. OG title "Englify App" olarak gozukuyor.</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+  <tr>
+    <td><strong>Structured Data (Schema) yok</strong></td>
+    <td>Google zengin sonuc (rich snippet) gosteremez. SoftwareApplication veya Product schema eklenmeli.</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sitemap.xml / robots.txt belirsiz</strong></td>
+    <td>Arama motorlari icin yonlendirme eksik.</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+  <tr>
+    <td><strong>Lovable (no-code) altyapisi</strong></td>
+    <td>Site bir no-code AI builder (Lovable/GPT-Engineer) ile olusturulmus. Enterprise musteriler icin olceklenebilirlik ve ozellestirme konusunda sinirliliklar olusabilir.</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+</table>
+
+<h3>2.2 B2B Donusum Sorunlari</h3>
+
+<h4>Mevcut Olan (Pozitif)</h4>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr>
+    <td><strong>Fiyatlandirma sayfasi</strong></td>
+    <td><span class="tag tag-green">Var</span> - Free ($0, 3 analiz), Starter ($9/ay), Enterprise ($49/kullanici/ay)</td>
+  </tr>
+  <tr>
+    <td><strong>Demo sayfasi (/demo)</strong></td>
+    <td><span class="tag tag-green">Var</span> - Ornek dashboard: 12 rapor, 68/100 ortalama skor, 347 dk analiz, %15 gelisim. CEFR seviyeleri (B1, B2) gosteriyor.</td>
+  </tr>
+  <tr>
+    <td><strong>Enterprise ozellikleri</strong></td>
+    <td><span class="tag tag-green">Var</span> - Grup dashboard, SSO, admin kontrolleri, API erisimi, ozel ogretmen ($49/kullanici/ay)</td>
+  </tr>
+  <tr>
+    <td><strong>Ucretsiz plan</strong></td>
+    <td><span class="tag tag-green">Var</span> - 3 toplanti analizi, temel CAF Model raporlari</td>
+  </tr>
+</table>
+
+<h4>Eksik Olan (Kritik)</h4>
+<table>
+  <tr><th>Eksik Element</th><th>Neden Gerekli</th></tr>
+  <tr>
+    <td><strong>About / Hakkimizda sayfasi</strong></td>
+    <td>B2B'de guvenilirlik kritik. Takim, vizyon, iletisim bilgisi sart. Footer'da link var ama sayfa yok (404 veya bos).</td>
+  </tr>
+  <tr>
+    <td><strong>Case Study / Referanslar</strong></td>
+    <td>HR yoneticileri karar verirken "baska kimler kullaniyor?" sorar. Hicbir sosyal kanit yok.</td>
+  </tr>
+  <tr>
+    <td><strong>Blog icerikleri</strong></td>
+    <td>Footer'da Blog linki var ama icerik yok. SEO ve thought leadership icin kritik.</td>
+  </tr>
+  <tr>
+    <td><strong>Testimonial / Sosyal kanit</strong></td>
+    <td>Landing page'de hicbir kullanici yorumu veya referans yok.</td>
+  </tr>
+  <tr>
+    <td><strong>ROI hesaplayici</strong></td>
+    <td>"Insan ogretmene gore X kat ucuz" mesaji karar surecini hizlandirir.</td>
+  </tr>
+  <tr>
+    <td><strong>For Business / Kurumsal sayfa</strong></td>
+    <td>B2B ve B2C trafigi ayri sayfalara yonlendirilmeli.</td>
+  </tr>
+  <tr>
+    <td><strong>Kirik footer linkleri</strong></td>
+    <td>Footer'da Blog, About, Contact linkleri var ama sayfalar mevcut degil veya bos. Bu, profesyonellik algisini ciddi sekilde zedeler.</td>
+  </tr>
+  <tr>
+    <td><strong>Interaktif demo</strong></td>
+    <td>Mevcut /demo sayfasi statik ornek veriler gosteriyor. Gercek bir deneme veya interaktif deneyim sunmuyor.</td>
+  </tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Genel Degerlendirme</strong>
+  EnglifyAI'nin fiyatlandirma ve demo sayfasi olmasi olumlu bir baslangic. Ancak bir HR yoneticisi veya L&D karar vericisi bu siteye geldiginde: sirket bilgisi bulamaz, referans goremez, blog okuyor gorunup bos sayfayla karsilasir, ve demo sayfasinda sadece statik veriler gorur. Fiyatlandirma ve ozellik sayfasi mevcut olsa da, guven unsurlarinin eksikligi B2B donusumu engelliyor.
+</div>
+
+<div class="alert alert-danger">
+  <strong>Teknik Risk: No-Code Altyapi</strong>
+  Site Lovable (GPT-Engineer) ile olusturulmus. Enterprise musterilerin beklentileri (ozel entegrasyonlar, SSO implementasyonu, SLA garantileri) no-code platformlarda karsilanmasi zor olabilir. Olceklendirme stratejisi planlanmali.
+</div>
+
+<h3>2.3 Gorsel ve UX Sorunlari</h3>
+<table>
+  <tr><th>Sorun</th><th>Aciklama</th><th>Oneri</th></tr>
+  <tr>
+    <td><strong>Gorsel anlatim zayif</strong></td>
+    <td>Site metin agirlikli, gorsel elementler (ikon, ilustrasyon, animasyon) yetersiz. Kullanici deneyimi metne bagimli.</td>
+    <td>SVG ikonlar ve emoji kullanimi ile gorsel zenginlik katilmali. Claude Code gibi AI araclariyla hizlica SVG ikon setleri olusturulabilir.</td>
+  </tr>
+  <tr>
+    <td><strong>Pricing erken sunuluyor</strong></td>
+    <td>Fiyatlandirma sayfasi ana navigasyonda one cikiyor. Kullanici henuz urunu deneyimlemeden fiyat goruyor.</td>
+    <td>Once lead al, kullaniciyi tani, sonra fiyat sun. Kullanicinin verdigi cevaplarla (butce, takim buyuklugu, ihtiyac) kisisellesmis teklif olustur.</td>
+  </tr>
+  <tr>
+    <td><strong>Mobil deneyim yetersiz</strong></td>
+    <td>Site scrollable web sayfasi olarak tasarlanmis. Mobil kullanicilar icin PWA benzeri, swipe-tabanli bir deneyim sunulmuyor.</td>
+    <td>Mobil sayfayi tam ekran, swipeable, PWA benzeri bir uygulama deneyimine cevirin. App-like hissiyat olusturun.</td>
+  </tr>
+  <tr>
+    <td><strong>Mesaj karisik</strong></td>
+    <td>Hero section'da birden fazla mesaj var. Kullanici ne yapmasi gerektigini hemen anlayamiyor.</td>
+    <td>Mesaji basitlestirin: "Toplanti kaydini yukle, ucretsiz analiz al." Tek bir net CTA.</td>
+  </tr>
+  <tr>
+    <td><strong>Kullaniciya ulasim yok</strong></td>
+    <td>Kullanici siteyi gezip arastirmak zorunda. Aktif bir iletisim mekanizmasi yok.</td>
+    <td>"Biz sana ulasalim" yaklasimiyla email/telefon toplayin. Kullaniciyi yormayin, siz ulasacaginizi soyleyerek guven olusturun.</td>
+  </tr>
+  <tr>
+    <td><strong>Testimonial / sosyal kanit yok</strong></td>
+    <td>Landing page'de hicbir kullanici yorumu, basari hikayesi veya referans yok.</td>
+    <td>Ilk kullanicilardan geri bildirim alin, bunlari siteye ekleyin. Kisa video testimonial'lar en etkili format.</td>
+  </tr>
+  <tr>
+    <td><strong>Ucretsiz deneyim yetersiz</strong></td>
+    <td>Free plan 3 analiz veriyor ama bunu one cikarmiyor. Kullanici ucretsiz degeri hissetmiyor.</td>
+    <td>Raporun bir kismini ucretsiz gosterin. Kullanici sonuclari gordukten sonra tam rapor icin kayit olsun. Ilk lead'ler pivotlama icin de degerli - onlari sikistirmayin.</td>
+  </tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Strateji Notu: Once Lead Al, Sonra Sat</strong>
+  Musterinizi tanimadan satis yapmaya calismak "kor satis" yapmaktir. Sitene yatirim yapan bir kullanicinin verdigi cevaplarla (butcesi, takim buyuklugu, mevcut sorunlari) onu cok daha iyi taniyabilirsiniz. Bu verilerle kisiye ozel teklif sunabilir, urunun nasil pivot etmesi gerektigini ogrenebilirsiniz. Ilk lead'leriniz en degerli ogrenme kaynaklarinizdir - onlari fiyatla sikistirmak yerine dinleyin.
+</div>
+
+<!-- PAGE 3 - MARKA SORUNU -->
+<h2 class="page-break">3. Marka Ismi Sorunu - "Englify" Catismasi</h2>
+
+<p>Google'da "Englify" arandiginda <strong>EnglifyAI.com hic cikmiyor</strong>. Bunun yerine asagidaki markalar listeleniyor:</p>
+
+<table>
+  <tr><th>Mevcut Marka</th><th>Domain</th><th>Ne Yapiyor</th><th>Kullanici Sayisi</th></tr>
+  <tr>
+    <td><strong>Englify (MWM)</strong></td>
+    <td>App Store / Google Play</td>
+    <td>Gamified Ingilizce ogrenme uygulamasi</td>
+    <td>20,000+</td>
+  </tr>
+  <tr>
+    <td><strong>Englify School</strong></td>
+    <td>englify.uz</td>
+    <td>Ozbekistan - Ingilizce dil okulu</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td><strong>Englify Italia</strong></td>
+    <td>englify.it</td>
+    <td>Metaverse Ingilizce okulu</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td><strong>Englify Social</strong></td>
+    <td>englify.social</td>
+    <td>Sosyal medya postlarini Ingilizceye ceviren AI</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td><strong>Englify Chrome</strong></td>
+    <td>Chrome Web Store</td>
+    <td>Tarayici eklentisi</td>
+    <td>-</td>
+  </tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>SEO ve Marka Riski</strong>
+  "Englify" kelimesi zaten yogun kullaniliyor. EnglifyAI bu kelimede Google'da ilk sayfalara cikmak icin ciddi efor ve butce gerektirir. Iki secenek: (1) "EnglifyAI" olarak farkli bir marka kimligine odaklanmak, "meeting recording analysis" gibi nis anahtar kelimelerde siralamak veya (2) tamamen yeni, benzersiz bir isim degerlendirmek.
+</div>
+
+<!-- PAGE 4 - RAKIP ANALIZI -->
+<h2 class="page-break">4. Rakip Analizi - B2B AI Ingilizce Egitim Pazari</h2>
+
+<h3>4.1 Tier 1 - Ana Rakipler (Aktif B2B Teklifi Olan)</h3>
+
+<table>
+  <tr>
+    <th>Rakip</th>
+    <th>B2B Fiyat</th>
+    <th>One Cikan Ozellik</th>
+    <th>Sosyal Kanit</th>
+  </tr>
+  <tr>
+    <td><strong>ELSA Speak</strong></td>
+    <td>Team: ~$18/kul./ay<br>Business (51+): Ozel fiyat</td>
+    <td>Fonem seviyesinde telaffuz analizi, 7900+ ders, IELTS/TOEFL skor tahmini, HR analitik paneli</td>
+    <td>Milyonlarca kullanici, Google Play'de 4.6 yildiz</td>
+  </tr>
+  <tr>
+    <td><strong>Praktika AI</strong></td>
+    <td>$8/kul./ay (200-999)<br>1000+: Ozel fiyat</td>
+    <td>3D avatar ile yuz yuze simulasyon, 9 dil, HR dashboard, "50x ucuz" konumlandirmasi</td>
+    <td>Hizla buyuyen, agresif B2B yatirimi</td>
+  </tr>
+  <tr>
+    <td><strong>Loora AI</strong></td>
+    <td>~$10/kul./ay (yillik)<br>Dream Team: $10/kul./ay</td>
+    <td>Is senaryolari role-play, 24/7 erisim, admin dashboard, ozel destek (5+ kisi)</td>
+    <td>9M+ kullanici, 420M+ ses etkilesimi, 250K+ 5-yildiz yorum</td>
+  </tr>
+  <tr>
+    <td><strong>Speak</strong></td>
+    <td>Ozel fiyat<br>(speak.com/b2b)</td>
+    <td>Yapilandirilmis mufredat + AI tutor, coklu dil destegi</td>
+    <td>$100M+ yatirim, en yuksek marka biliniligi</td>
+  </tr>
+</table>
+
+<h3>4.2 Tier 2 - Nis Rakipler</h3>
+
+<table>
+  <tr><th>Rakip</th><th>Fiyat</th><th>Odak Alani</th></tr>
+  <tr><td><strong>Fluently</strong></td><td>Premium (ozel)</td><td>Zoom/Teams toplanti analizi, is Ingilizcesi - EnglifyAI'nin en yakin rakibi</td></tr>
+  <tr><td><strong>Talkio AI</strong></td><td>$10-13/ay</td><td>40+ dil, 134 lehce, 400+ AI tutor</td></tr>
+  <tr><td><strong>Gliglish</strong></td><td>$25-29/ay</td><td>ChatGPT tabanli, 30+ dil, akademik destekli</td></tr>
+  <tr><td><strong>Babbel for Business</strong></td><td>Ozel fiyat</td><td>Kokenli marka, kurumsal odak</td></tr>
+  <tr><td><strong>Practice Me</strong></td><td>$60/yil</td><td>Telefon gorusmesi simulasyonu</td></tr>
+</table>
+
+<h3>4.3 Rakiplerde Olup EnglifyAI'da Olmayan / Olan Ozellikler</h3>
+
+<table>
+  <tr><th>Ozellik</th><th>ELSA</th><th>Praktika</th><th>Loora</th><th>Speak</th><th style="background:#1a73e8">EnglifyAI</th></tr>
+  <tr>
+    <td>HR/Admin Dashboard</td><td>Var</td><td>Var</td><td>Var</td><td>Var</td>
+    <td><span class="tag tag-green">Var (Enterprise)</span></td>
+  </tr>
+  <tr>
+    <td>Analitik Raporlama</td><td>Var</td><td>Var</td><td>Var</td><td>Var</td>
+    <td><span class="tag tag-green">Var (CAF Model)</span></td>
+  </tr>
+  <tr>
+    <td>Demo Sayfasi</td><td>Var</td><td>Var</td><td>Var</td><td>Var</td>
+    <td><span class="tag tag-orange">Var (statik)</span></td>
+  </tr>
+  <tr>
+    <td>Fiyatlandirma Sayfasi</td><td>Var</td><td>Var</td><td>Var</td><td>Var</td>
+    <td><span class="tag tag-green">Var</span></td>
+  </tr>
+  <tr>
+    <td>Case Study / Referans</td><td>Var</td><td>Kismi</td><td>Var</td><td>Var</td>
+    <td><span class="tag tag-red">Yok</span></td>
+  </tr>
+  <tr>
+    <td>Sosyal Kanit / Testimonial</td><td>Var</td><td>Var</td><td>Var</td><td>Var</td>
+    <td><span class="tag tag-red">Yok</span></td>
+  </tr>
+  <tr>
+    <td>About / Hakkimizda</td><td>Var</td><td>Var</td><td>Var</td><td>Var</td>
+    <td><span class="tag tag-red">Yok</span></td>
+  </tr>
+  <tr>
+    <td>Blog / Icerik</td><td>Var</td><td>Var</td><td>Var</td><td>Var</td>
+    <td><span class="tag tag-red">Yok (link var, icerik yok)</span></td>
+  </tr>
+  <tr>
+    <td>Sektorel Senaryolar</td><td>Var</td><td>Var</td><td>Var</td><td>Kismi</td>
+    <td><span class="tag tag-red">Yok</span></td>
+  </tr>
+  <tr>
+    <td>Ucretsiz Deneme</td><td>Var</td><td>Var</td><td>7 gun</td><td>Var</td>
+    <td><span class="tag tag-green">Var (3 analiz)</span></td>
+  </tr>
+  <tr>
+    <td>SSR / SEO Uyumluluk</td><td>Var</td><td>Var</td><td>Var</td><td>Var</td>
+    <td><span class="tag tag-red">Yok (Vite SPA)</span></td>
+  </tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Diferansiyasyon Notu</strong>
+  EnglifyAI'nin "toplanti kaydi analizi" odagi rakiplerden farkli bir konumlandirma. ELSA, Praktika, Loora ve Speak hepsi canli/interaktif pratik sunuyor. EnglifyAI ise gercek toplanti performansini analiz ediyor - bu tamamlayici bir urun olabilir. Fluently en yakin rakip (Zoom/Teams analizi) ancak canli entegrasyon sunuyor; EnglifyAI ise kayit yukleme modeli kullaniyor.
+</div>
+
+<!-- PAGE 5 - PAZAR KONUMLANDIRMA -->
+<h2 class="page-break">5. Pazar Fiyat Haritasi ve Konumlandirma Analizi</h2>
+
+<h3>5.1 EnglifyAI Mevcut Fiyatlandirma</h3>
+<table>
+  <tr><th>Plan</th><th>Fiyat</th><th>Icerik</th></tr>
+  <tr>
+    <td><strong>Free</strong></td>
+    <td>$0/ay</td>
+    <td>3 toplanti analizi, temel CAF Model raporlari, akicilik/gramer/kelime skorlari</td>
+  </tr>
+  <tr>
+    <td><strong>Starter</strong> <span class="tag tag-blue">Populer</span></td>
+    <td>$9/ay</td>
+    <td>15 analiz, detayli raporlar, oncesi/sonrasi kanit klipleri, ilerleme takibi, kelime onerileri, gramer duzeltmeleri, oncelikli e-posta destek</td>
+  </tr>
+  <tr>
+    <td><strong>Pro/Enterprise</strong></td>
+    <td>$49/kullanici/ay</td>
+    <td>Sinirsiz analiz, grup dashboard, toplam analitik, ogretmen icgorusteri, ozel kelime listeleri, SSO, admin kontrolleri, ozel ogretmen, API erisimi</td>
+  </tr>
+</table>
+
+<h3>5.2 Pazar Fiyat Karsilastirmasi</h3>
+
+<h4>Bireysel Planlar (kullanici/ay)</h4>
+<table>
+  <tr><th>Urun</th><th>Fiyat</th><th>Gorsel</th><th>Degerlendirme</th></tr>
+  <tr>
+    <td>Gliglish</td>
+    <td>$25-29/ay</td>
+    <td><div class="score-bar" style="width:200px"><div class="score-fill score-low" style="width:58%"></div></div></td>
+    <td>ChatGPT tabanli, 30+ dil</td>
+  </tr>
+  <tr>
+    <td>ELSA Speak</td>
+    <td>~$12/ay</td>
+    <td><div class="score-bar" style="width:200px"><div class="score-fill score-mid" style="width:24%"></div></div></td>
+    <td>Fonem analizi, 7900+ ders</td>
+  </tr>
+  <tr>
+    <td>Loora AI</td>
+    <td>$10/ay (yillik)</td>
+    <td><div class="score-bar" style="width:200px"><div class="score-fill score-mid" style="width:20%"></div></div></td>
+    <td>9M+ kullanici, konusma odakli</td>
+  </tr>
+  <tr>
+    <td style="color:#1a73e8;font-weight:700">EnglifyAI Starter</td>
+    <td style="color:#1a73e8;font-weight:700">$9/ay</td>
+    <td><div class="score-bar" style="width:200px"><div class="score-fill score-high" style="width:18%"></div></div></td>
+    <td><span class="tag tag-green">Rekabetci</span> 15 analiz, detayli raporlar</td>
+  </tr>
+  <tr>
+    <td>Praktika AI</td>
+    <td>$8/ay</td>
+    <td><div class="score-bar" style="width:200px"><div class="score-fill score-high" style="width:16%"></div></div></td>
+    <td>3D avatar, 9 dil</td>
+  </tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Starter Plan ($9/ay) Iyi Konumlanmis</strong>
+  Bireysel kullanici segmentinde $9/ay fiyat, ELSA ($12), Loora ($10) ve Gliglish ($25-29) ile karsilastirildiginda rekabetci bir seviyede. Praktika ($8) ile neredeyse ayni. Bu fiyat bireysel kullanicilar icin cazip.
+</div>
+
+<h4>B2B / Kurumsal Planlar (kullanici/ay)</h4>
+<table>
+  <tr><th>Urun</th><th>B2B Fiyat</th><th>Gorsel</th><th>Degerlendirme</th></tr>
+  <tr>
+    <td style="color:#ea4335;font-weight:700">EnglifyAI Enterprise</td>
+    <td style="color:#ea4335;font-weight:700">$49/kul./ay</td>
+    <td><div class="score-bar" style="width:200px"><div class="score-fill score-low" style="width:100%"></div></div></td>
+    <td><span class="tag tag-red">Cok pahali</span></td>
+  </tr>
+  <tr>
+    <td>ELSA Speak (Team)</td>
+    <td>$18/kul./ay</td>
+    <td><div class="score-bar" style="width:200px"><div class="score-fill score-mid" style="width:37%"></div></div></td>
+    <td>2-50 kullanici, HR analitik</td>
+  </tr>
+  <tr>
+    <td>Loora AI (Business)</td>
+    <td>$10/kul./ay</td>
+    <td><div class="score-bar" style="width:200px"><div class="score-fill score-high" style="width:20%"></div></div></td>
+    <td>Admin dashboard, ozel destek</td>
+  </tr>
+  <tr>
+    <td>Praktika AI (Scale)</td>
+    <td>$8/kul./ay</td>
+    <td><div class="score-bar" style="width:200px"><div class="score-fill score-high" style="width:16%"></div></div></td>
+    <td>200-999 kullanici, HR dashboard</td>
+  </tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Enterprise Fiyatlandirma Sorunu</strong>
+  EnglifyAI'nin Starter plani ($9/ay) bireysel segmentte gayet rekabetci. Ancak Enterprise plani ($49/kullanici/ay) B2B pazarinda sorunlu:
+  <ul style="margin-top:6px">
+    <li>ELSA Team'den <strong>2.7x</strong> daha pahali ($18 vs $49)</li>
+    <li>Loora Business'tan <strong>4.9x</strong> daha pahali ($10 vs $49)</li>
+    <li>Praktika Scale'den <strong>6.1x</strong> daha pahali ($8 vs $49)</li>
+  </ul>
+  $49 fiyati SSO, ozel ogretmen ve API erisimi iceriyor ama henuz referans musterisi olmadan bu fiyati savunmak zor. Oneri: Starter plani B2B'ye de uyarlayin ($9-15 arasi takim plani), Enterprise'i ozel teklif olarak birakin.
+</div>
+
+<h3>5.3 Onerilen Fiyatlandirma Stratejisi</h3>
+<table>
+  <tr><th>Segment</th><th>Kullanici Sayisi</th><th>Onerilen Fiyat</th><th>Gerekce</th></tr>
+  <tr><td>Starter (Bireysel)</td><td>1</td><td>$9/ay (mevcut)</td><td>Bireysel plan icin uygun</td></tr>
+  <tr><td>Team / Kucuk Takim</td><td>5 - 50</td><td>$12-15/kul./ay</td><td>ELSA ($18) altinda, Loora ($10) ustunde</td></tr>
+  <tr><td>Business / Orta Olcek</td><td>51 - 200</td><td>$8-12/kul./ay</td><td>Hacim indirimi, Praktika ($8) seviyesi</td></tr>
+  <tr><td>Enterprise</td><td>200+</td><td>Ozel teklif ($6-10 arasi)</td><td>Mevcut $49 yerine rekabetci fiyat</td></tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Fiyatlandirma Stratejisi</strong>
+  Mevcut Enterprise fiyatinin ($49) ciddi sekilde dusurulmesini oneriyoruz. Pazara giris icin $8-15 araliginda, rakiplerle yarisabilir bir fiyat B2B penetrasyonunu kolaylastirir. "Toplanti kaydi analizi" farkli bir deger onerisi sundugu icin, bunu ELSA/Praktika/Loora ile tamamlayici bir urun olarak konumlandirmak da mumkun - bu durumda "ek arac" olarak dusuk fiyat daha da onemli.
+</div>
+
+<!-- PAGE 6 - STRATEJI -->
+<h2 class="page-break">6. Onerilen Aksiyon Plani</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - Acil Duzeltmeler (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Gorsel icerik zenginlestirme:</strong> SVG ikon seti olusturun (Claude Code gibi AI araclariyla hizlica uretebilirsiniz). Her ozellik icin aciklayici ikon/emoji kullanin.</li>
+    <li><strong>Pricing'i gizleyin:</strong> Ana navigasyondan Pricing linkini kaldirin. Fiyati sadece kullanici urunu denedikten veya lead bilgisi verdikten sonra gosterin.</li>
+    <li><strong>Lead-first funnel olusturun:</strong> "Meeting'lerde konusulanlarin hepsini anliyor musun?" ile baslayan, 8-10 soruluk bir degerlendirme funnel'i. Kullaniciyi taniyin, sonra kisisellesmis teklif sunun.</li>
+    <li><strong>Mobil PWA deneyimi:</strong> Siteyi tam ekran, swipeable, app-like bir formata cevirin. Scroll yerine adim adim ilerleyen bir akis.</li>
+    <li><strong>Testimonial toplama:</strong> Mevcut kullanicilardan (varsa) kisa geri bildirim alin. Yoksa, 5-10 ucretsiz pilot kullanici edinin ve onlardan yorum isteyin.</li>
+    <li><strong>"Biz ulasalim" CTA:</strong> "Sign up" yerine "Analiz raporunuzu hazirlayalim, size ulasacagiz" mesaji. Kullaniciyi arastirmak zorunda birakmayin.</li>
+    <li><strong>Kirik footer linklerini duzeltme:</strong> Blog, About, Contact sayfalari olusturun veya linkleri kaldirin.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - SEO ve B2B Altyapisi (Hafta 3-4)</div>
+  <ol>
+    <li><strong>SSR/SSG gecisi:</strong> Vite SPA'dan Next.js veya Astro'ya gecis. En azindan landing page ve pricing sayfasi icin SSR/SSG. (Not: Lovable altyapisindan cikmak gerekebilir.)</li>
+    <li><strong>Structured data:</strong> SoftwareApplication schema, pricing schema ekleme.</li>
+    <li><strong>Fiyatlandirma revizesi:</strong> Enterprise $49 fiyatini pazar gerceklerine gore duzeltme.</li>
+    <li><strong>Landing page'e sosyal kanit:</strong> Testimonial, kullanici sayisi, ornek sonuclar ekleme.</li>
+    <li><strong>Blog baslangici:</strong> "Meeting English analysis", "professional English at work", "CEFR level improvement" gibi nis konularda icerik.</li>
+    <li><strong>LinkedIn sirket sayfasi:</strong> Duzenli icerik, karar verici profil optimizasyonu.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - B2B Buyume (Ay 2+)</div>
+  <ol>
+    <li><strong>Pilot musteri edinimi:</strong> 2-3 kucuk sirketle ucretsiz pilot calistirma. Toplanti kaydi analizi odakli.</li>
+    <li><strong>Case study uretimi:</strong> Pilot sonuclarindan "CEFR B1'den B2'ye X haftada" gibi somut referans icerik.</li>
+    <li><strong>LinkedIn outbound kampanyasi:</strong> HR/L&D yoneticilerine dogrudan mesaj. "Calisanlarinizin toplanti performansini olcun" mesaji.</li>
+    <li><strong>Google Ads:</strong> "meeting English analysis", "professional English assessment", "employee English training" anahtar kelimeleri.</li>
+    <li><strong>Icerik pazarlama:</strong> Whitepaper, "Geleneksel egitim vs AI toplanti analizi" karsilastirmalari.</li>
+    <li><strong>ROI hesaplayici:</strong> "Insan ogretmene gore X kat tasarruf" interaktif arac.</li>
+    <li><strong>Rakiplerle tamamlayici konumlandirma:</strong> "ELSA ile pratiginizi yapin, EnglifyAI ile gercek toplanti performansinizi olcun" gibi mesajlar.</li>
+  </ol>
+</div>
+
+<!-- PAGE 7 - SONUC -->
+<h2 class="page-break">7. Sonuc ve Genel Degerlendirme</h2>
+
+<h3>Skor Karti</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef</th></tr>
+  <tr>
+    <td>Web Sitesi SEO Skoru</td>
+    <td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td>
+    <td>8/10</td>
+  </tr>
+  <tr>
+    <td>B2B Satis Hazirlik</td>
+    <td><div class="score-bar"><div class="score-fill score-low" style="width:30%"></div></div> 3/10</td>
+    <td>8/10</td>
+  </tr>
+  <tr>
+    <td>Marka Biliniligi</td>
+    <td><div class="score-bar"><div class="score-fill score-low" style="width:5%"></div></div> 0.5/10</td>
+    <td>6/10</td>
+  </tr>
+  <tr>
+    <td>Urun Olgunlugu</td>
+    <td><div class="score-bar"><div class="score-fill score-mid" style="width:50%"></div></div> 5/10</td>
+    <td>8/10</td>
+  </tr>
+  <tr>
+    <td>Fiyatlandirma Rekabetciligi</td>
+    <td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td>
+    <td>7/10</td>
+  </tr>
+  <tr>
+    <td>Rekabetci Konumlanma</td>
+    <td><div class="score-bar"><div class="score-fill score-low" style="width:25%"></div></div> 2.5/10</td>
+    <td>7/10</td>
+  </tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Ozet Degerlendirme</strong>
+  EnglifyAI, "toplanti kaydi analizi ile profesyonel Ingilizce gelistirme" seklinde nis ve farkli bir konumlandirmaya sahip. Fiyatlandirma ve demo sayfasinin mevcut olmasi, temel urun altyapisinin kuruldugunu gosteriyor. Ancak:
+  <ul style="margin-top:6px">
+    <li><strong>SSR eksikligi</strong> nedeniyle Google'da gorunmuyor</li>
+    <li><strong>Enterprise fiyati ($49)</strong> rakiplerin 3-6 kati - B2B penetrasyonu engelliyor</li>
+    <li><strong>Guven unsurlari</strong> (about, referans, testimonial, blog) tamamen eksik</li>
+    <li><strong>No-code altyapi</strong> (Lovable) enterprise olceklendirme icin risk tasiyor</li>
+    <li><strong>Kirik footer linkleri</strong> profesyonellik algisini zedeliyor</li>
+  </ul>
+  Girisimcinin 10+ urun deneyimi ve urunun nis konumlandirmasi onemli avantajlar. Fiyat revizyonu, SEO duzeltmeleri ve guven unsurlarinin eklenmesiyle hizli ilerleme potansiyeli yuksek.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adim</strong>
+  Funnel stratejisinin detaylari ve uygulama plani icin bizimle calisabilirsiniz. Web sitesi optimizasyonu, SSR gecisi, fiyatlandirma stratejisi, B2B landing page tasarimi, LinkedIn outbound kampanyasi ve Google Ads yonetimi konularinda destek sunabiliriz.
+</div>
+
+<p style="text-align:center; color:#999; font-size:11px; margin-top:40px;">
+  Bu rapor otomatik funnel verisi ve web arastirmasina dayanarak hazirlanmistir. &copy; 2026
+</p>
+
+</body>
+</html>

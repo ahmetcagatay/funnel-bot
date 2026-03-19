@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f172a">
+<title>EnglifyAI - Meeting English Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0f172a;
+  --bg-card: #1e293b;
+  --bg-card-hover: #334155;
+  --bg-option: rgba(30, 41, 59, 0.8);
+  --bg-option-selected: rgba(59, 130, 246, 0.15);
+  --border-option: rgba(71, 85, 105, 0.5);
+  --border-selected: rgba(59, 130, 246, 0.6);
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-glow: rgba(59, 130, 246, 0.3);
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: pan-y;
+}
+
+.funnel-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.step {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
+  padding-bottom: calc(16px + var(--safe-bottom));
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  will-change: transform, opacity;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.step[data-position="center"] {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.step[data-position="left"] {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.step[data-position="right"] {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+/* Header */
+.step-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 16px 0 8px;
+  flex-shrink: 0;
+}
+
+.back-btn {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 12px;
+  transition: background 0.2s, color 0.2s;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+
+.back-btn:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.back-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Progress dots */
+.progress-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: all 0.35s ease;
+}
+
+.dot.active {
+  background: var(--accent);
+  width: 24px;
+  border-radius: 4px;
+}
+
+.dot.completed {
+  background: var(--accent);
+}
+
+/* Content area */
+.step-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  min-height: 0;
+}
+
+.step-content::-webkit-scrollbar {
+  display: none;
+}
+
+.question-area {
+  text-align: center;
+  margin-bottom: 28px;
+  flex-shrink: 0;
+}
+
+.question-title {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.question-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Options */
+.options-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.option-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 56px;
+  padding: 14px 18px;
+  background: var(--bg-option);
+  border: 1.5px solid var(--border-option);
+  border-radius: 16px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.option-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--text-muted);
+}
+
+.option-btn:active {
+  transform: scale(0.98);
+}
+
+.option-btn.selected {
+  background: var(--bg-option-selected);
+  border-color: var(--border-selected);
+  box-shadow: 0 0 0 1px var(--border-selected), 0 0 20px var(--accent-glow);
+}
+
+.option-btn .emoji {
+  font-size: 28px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.option-btn .option-label {
+  flex: 1;
+}
+
+.option-btn .check-indicator {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--text-muted);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 13px;
+}
+
+.option-btn.selected .check-indicator {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.option-btn.selected .check-indicator::after {
+  content: '\2713';
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.option-btn.multi .check-indicator {
+  border-radius: 6px;
+}
+
+/* Footer / CTA */
+.step-footer {
+  flex-shrink: 0;
+  padding-top: 16px;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 56px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: -0.01em;
+}
+
+.cta-btn:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px var(--accent-glow);
+}
+
+.cta-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.cta-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Input fields */
+.input-group {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.text-input {
+  width: 100%;
+  height: 56px;
+  padding: 0 18px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-option);
+  border-radius: 16px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.text-input::placeholder {
+  color: var(--text-muted);
+}
+
+.text-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.input-note {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.social-proof {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 14px;
+}
+
+.social-proof .pulse {
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Analysis step */
+.analysis-card {
+  background: var(--bg-card);
+  border-radius: 20px;
+  padding: 24px;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.analysis-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.analysis-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.analysis-header p {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.analysis-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+.analysis-row:last-child {
+  border-bottom: none;
+}
+
+.analysis-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.analysis-value {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.confidence-bar-container {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.confidence-bar-bg {
+  width: 100%;
+  height: 10px;
+  background: rgba(71, 85, 105, 0.4);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.confidence-bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--danger), var(--warning), var(--success));
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0;
+}
+
+.insights-list {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.insight-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.insight-item .emoji {
+  font-size: 20px;
+  flex-shrink: 0;
+  line-height: 1.3;
+}
+
+.priority-box {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 14px;
+}
+
+.priority-box .label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.priority-box .text {
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.free-trial-banner {
+  margin-top: 20px;
+  text-align: center;
+  padding: 16px;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 14px;
+}
+
+.free-trial-banner .emoji {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.free-trial-banner .text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.free-trial-banner .sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* Dashboard preview */
+.dashboard-preview {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.dashboard-preview h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.metric-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.metric-card {
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 14px 10px;
+  text-align: center;
+}
+
+.metric-card .metric-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.metric-card .metric-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mini-table {
+  background: var(--bg-card);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.mini-table-header {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 0.8fr;
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+.mini-table-row {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 0.8fr;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  border-bottom: 1px solid rgba(71, 85, 105, 0.15);
+}
+
+.mini-table-row:last-child {
+  border-bottom: none;
+}
+
+.mini-table-row .score {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.mini-table-row .cefr-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cefr-b1 { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+.cefr-b2 { background: rgba(59, 130, 246, 0.15); color: var(--accent); }
+.cefr-c1 { background: rgba(34, 197, 94, 0.15); color: var(--success); }
+
+/* Thank you check animation */
+.thank-you-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 36px;
+  animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleIn {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Loading animation for analysis */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.loading-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--bg-card);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  margin-top: 20px;
+  font-size: 16px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.loading-text .changing {
+  display: block;
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--text-muted);
+  min-height: 21px;
+}
+
+/* Responsive tweaks */
+@media (max-height: 680px) {
+  .question-title { font-size: 22px; }
+  .option-btn { min-height: 48px; padding: 10px 14px; }
+  .option-btn .emoji { font-size: 24px; }
+  .options-area { gap: 8px; }
+  .analysis-card { padding: 16px; }
+}
+
+@media (min-width: 640px) {
+  .step { padding: 0 40px; padding-bottom: calc(24px + var(--safe-bottom)); }
+  .question-title { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<div class="funnel-container" id="funnel">
+
+  <!-- STEP 1: Hook -->
+  <div class="step" id="step-1" data-position="center">
+    <div class="step-header">
+      <div class="progress-dots" id="dots-1"></div>
+    </div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">Do you understand everything said in your English meetings?</h1>
+      </div>
+      <div class="options-area" data-step="1" data-key="understanding">
+        <button class="option-btn" data-value="yes">
+          <span class="emoji">&#x2705;</span>
+          <span class="option-label">Yes, I understand everything</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="mostly">
+          <span class="emoji">&#x1F914;</span>
+          <span class="option-label">I understand most of it, but miss some parts</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="struggle">
+          <span class="emoji">&#x1F630;</span>
+          <span class="option-label">I struggle to follow along</span>
+          <span class="check-indicator"></span>
+        </button>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-1" disabled>Continue</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: English Level -->
+  <div class="step" id="step-2" data-position="right">
+    <div class="step-header">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="progress-dots" id="dots-2"></div>
+    </div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">Do you know your current English level?</h1>
+      </div>
+      <div class="options-area" data-step="2" data-key="level">
+        <button class="option-btn" data-value="b2plus">
+          <span class="emoji">&#x1F7E2;</span>
+          <span class="option-label">Yes, I'm B2 or above</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="b1b2">
+          <span class="emoji">&#x1F7E1;</span>
+          <span class="option-label">I think I'm around B1-B2</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="belowb1">
+          <span class="emoji">&#x1F534;</span>
+          <span class="option-label">I'm not sure / below B1</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="never">
+          <span class="emoji">&#x1F937;</span>
+          <span class="option-label">I've never been assessed</span>
+          <span class="check-indicator"></span>
+        </button>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-2" disabled>Continue</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Pain Point (multi-select) -->
+  <div class="step" id="step-3" data-position="right">
+    <div class="step-header">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="progress-dots" id="dots-3"></div>
+    </div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">What's your biggest challenge in meetings?</h1>
+        <p class="question-subtitle">Select all that apply</p>
+      </div>
+      <div class="options-area multi" data-step="3" data-key="challenges" data-multi="true">
+        <button class="option-btn multi" data-value="speaking">
+          <span class="emoji">&#x1F5E3;&#xFE0F;</span>
+          <span class="option-label">Speaking confidently</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn multi" data-value="understanding">
+          <span class="emoji">&#x1F442;</span>
+          <span class="option-label">Understanding fast speakers</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn multi" data-value="vocabulary">
+          <span class="emoji">&#x1F4DD;</span>
+          <span class="option-label">Finding the right words</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn multi" data-value="negotiating">
+          <span class="emoji">&#x1F91D;</span>
+          <span class="option-label">Negotiating or persuading</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn multi" data-value="presenting">
+          <span class="emoji">&#x1F4CA;</span>
+          <span class="option-label">Presenting to clients</span>
+          <span class="check-indicator"></span>
+        </button>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-3" disabled>Continue</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: Meeting Frequency -->
+  <div class="step" id="step-4" data-position="right">
+    <div class="step-header">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="progress-dots" id="dots-4"></div>
+    </div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">How often do you have English meetings?</h1>
+      </div>
+      <div class="options-area" data-step="4" data-key="frequency">
+        <button class="option-btn" data-value="daily">
+          <span class="emoji">&#x1F4C5;</span>
+          <span class="option-label">Daily</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="2-3week">
+          <span class="emoji">&#x1F4C6;</span>
+          <span class="option-label">2-3 times a week</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="weekly">
+          <span class="emoji">&#x1F5D3;&#xFE0F;</span>
+          <span class="option-label">Weekly</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="monthly">
+          <span class="emoji">&#x1F4C5;</span>
+          <span class="option-label">A few times a month</span>
+          <span class="check-indicator"></span>
+        </button>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-4" disabled>Continue</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: Team or Individual -->
+  <div class="step" id="step-5" data-position="right">
+    <div class="step-header">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="progress-dots" id="dots-5"></div>
+    </div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">Are you looking for yourself or your team?</h1>
+      </div>
+      <div class="options-area" data-step="5" data-key="audience">
+        <button class="option-btn" data-value="individual">
+          <span class="emoji">&#x1F464;</span>
+          <span class="option-label">Just for myself</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="team">
+          <span class="emoji">&#x1F465;</span>
+          <span class="option-label">For my team (2-20 people)</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="organization">
+          <span class="emoji">&#x1F3E2;</span>
+          <span class="option-label">For my organization (20+)</span>
+          <span class="check-indicator"></span>
+        </button>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-5" disabled>Continue</button>
+    </div>
+  </div>
+
+  <!-- STEP 6: Current Solution -->
+  <div class="step" id="step-6" data-position="right">
+    <div class="step-header">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="progress-dots" id="dots-6"></div>
+    </div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">How do you currently improve your English?</h1>
+      </div>
+      <div class="options-area" data-step="6" data-key="current_solution">
+        <button class="option-btn" data-value="apps">
+          <span class="emoji">&#x1F4F1;</span>
+          <span class="option-label">Language apps (Duolingo, etc.)</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="tutor">
+          <span class="emoji">&#x1F468;&#x200D;&#x1F3EB;</span>
+          <span class="option-label">Private tutor / courses</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="media">
+          <span class="emoji">&#x1F3A7;</span>
+          <span class="option-label">Watching videos / podcasts</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="nothing">
+          <span class="emoji">&#x274C;</span>
+          <span class="option-label">Nothing - I don't have time</span>
+          <span class="check-indicator"></span>
+        </button>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-6" disabled>Continue</button>
+    </div>
+  </div>
+
+  <!-- STEP 7: Budget -->
+  <div class="step" id="step-7" data-position="right">
+    <div class="step-header">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="progress-dots" id="dots-7"></div>
+    </div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">If you found a tool that measurably improved your meeting performance, what would it be worth to you?</h1>
+      </div>
+      <div class="options-area" data-step="7" data-key="budget">
+        <button class="option-btn" data-value="under10">
+          <span class="emoji">&#x1F4B0;</span>
+          <span class="option-label">Less than $10/month</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="10-30">
+          <span class="emoji">&#x1F4B3;</span>
+          <span class="option-label">$10-30/month</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="30-100">
+          <span class="emoji">&#x1F4B5;</span>
+          <span class="option-label">$30-100/month</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="whatever">
+          <span class="emoji">&#x1F680;</span>
+          <span class="option-label">Whatever it takes to improve</span>
+          <span class="check-indicator"></span>
+        </button>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-7" disabled>See My Analysis</button>
+    </div>
+  </div>
+
+  <!-- STEP 8: Analysis Result -->
+  <div class="step" id="step-8" data-position="right">
+    <div class="step-header">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="progress-dots" id="dots-8"></div>
+    </div>
+    <div class="step-content">
+      <div class="analysis-card" id="analysis-card">
+        <div class="analysis-header">
+          <h2>Your Meeting English Profile</h2>
+          <p>Based on your assessment</p>
+        </div>
+        <div class="analysis-row">
+          <span class="analysis-label">Estimated CEFR Level</span>
+          <span class="analysis-value" id="analysis-cefr">B1+</span>
+        </div>
+        <div class="analysis-row">
+          <span class="analysis-label">Biggest Opportunity</span>
+          <span class="analysis-value" id="analysis-opportunity">Speaking</span>
+        </div>
+        <div class="analysis-row" style="flex-direction:column;align-items:stretch;gap:6px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span class="analysis-label">Confidence Score</span>
+            <span class="analysis-value" id="analysis-score">65/100</span>
+          </div>
+          <div class="confidence-bar-container">
+            <div class="confidence-bar-bg">
+              <div class="confidence-bar-fill" id="confidence-fill"></div>
+            </div>
+          </div>
+        </div>
+        <div class="insights-list" id="insights-list"></div>
+        <div class="priority-box">
+          <div class="label">Priority Recommendation</div>
+          <div class="text" id="priority-text">Focus on structured speaking practice with real meeting scenarios to build confidence and fluency.</div>
+        </div>
+        <div class="free-trial-banner">
+          <span class="emoji">&#x1F381;</span>
+          <div class="text">Try EnglifyAI free</div>
+          <div class="sub">Upload your first meeting recording and get a real analysis</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-8">Get My Free Analysis</button>
+    </div>
+  </div>
+
+  <!-- STEP 9: Lead Capture -->
+  <div class="step" id="step-9" data-position="right">
+    <div class="step-header">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="progress-dots" id="dots-9"></div>
+    </div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">Where should we send your personalized improvement plan?</h1>
+      </div>
+      <div class="input-group">
+        <input type="email" class="text-input" id="email-input" placeholder="your@email.com" autocomplete="email" inputmode="email">
+        <p class="input-note">We'll reach out with your free trial details. No spam, ever.</p>
+        <div class="social-proof">
+          <span class="pulse"></span>
+          <span>1,200+ professionals already improving</span>
+        </div>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-9" disabled>Get My Free Analysis</button>
+    </div>
+  </div>
+
+  <!-- STEP 10: Thank You + Dashboard Preview -->
+  <div class="step" id="step-10" data-position="right">
+    <div class="step-header">
+      <div class="progress-dots" id="dots-10"></div>
+    </div>
+    <div class="step-content">
+      <div style="text-align:center;margin-bottom:20px;">
+        <div class="thank-you-icon">&#x2705;</div>
+        <h1 class="question-title" style="font-size:22px;">Thanks! We'll be in touch within 24 hours.</h1>
+      </div>
+      <div class="dashboard-preview">
+        <h3>Here's what your dashboard will look like</h3>
+        <div class="metric-cards">
+          <div class="metric-card">
+            <div class="metric-value">12</div>
+            <div class="metric-label">Reports</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">72</div>
+            <div class="metric-label">Avg Score</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">+15%</div>
+            <div class="metric-label">Improvement</div>
+          </div>
+        </div>
+        <div class="mini-table">
+          <div class="mini-table-header">
+            <span>Date</span>
+            <span>Score</span>
+            <span>CEFR</span>
+          </div>
+          <div class="mini-table-row">
+            <span>Mar 18, 2026</span>
+            <span class="score">78</span>
+            <span><span class="cefr-badge cefr-b2">B2</span></span>
+          </div>
+          <div class="mini-table-row">
+            <span>Mar 12, 2026</span>
+            <span class="score">74</span>
+            <span><span class="cefr-badge cefr-b2">B2</span></span>
+          </div>
+          <div class="mini-table-row">
+            <span>Mar 5, 2026</span>
+            <span class="score">69</span>
+            <span><span class="cefr-badge cefr-b1">B1</span></span>
+          </div>
+          <div class="mini-table-row">
+            <span>Feb 27, 2026</span>
+            <span class="score">65</span>
+            <span><span class="cefr-badge cefr-b1">B1</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-10" onclick="sendOfferEmail()">Send Offer Email</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">
+    Analyzing your profile
+    <span class="changing" id="loading-changing"></span>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  var TOTAL_STEPS = 10;
+  var currentStep = 1;
+  var answers = {};
+
+  // Initialize progress dots for all steps
+  for (var s = 1; s <= TOTAL_STEPS; s++) {
+    var dotsContainer = document.getElementById('dots-' + s);
+    if (!dotsContainer) continue;
+    for (var d = 1; d <= TOTAL_STEPS; d++) {
+      var dot = document.createElement('span');
+      dot.className = 'dot';
+      if (d < s) dot.className += ' completed';
+      if (d === s) dot.className += ' active';
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  // Option click handlers
+  var optionAreas = document.querySelectorAll('.options-area');
+  for (var i = 0; i < optionAreas.length; i++) {
+    (function(area) {
+      var isMulti = area.dataset.multi === 'true';
+      var key = area.dataset.key;
+      var step = parseInt(area.dataset.step, 10);
+      var btns = area.querySelectorAll('.option-btn');
+
+      for (var j = 0; j < btns.length; j++) {
+        (function(btn) {
+          btn.addEventListener('click', function() {
+            if (isMulti) {
+              btn.classList.toggle('selected');
+              var selected = area.querySelectorAll('.option-btn.selected');
+              var vals = [];
+              for (var k = 0; k < selected.length; k++) vals.push(selected[k].dataset.value);
+              answers[key] = vals;
+              document.getElementById('cta-' + step).disabled = vals.length === 0;
+            } else {
+              var allBtns = area.querySelectorAll('.option-btn');
+              for (var k = 0; k < allBtns.length; k++) allBtns[k].classList.remove('selected');
+              btn.classList.add('selected');
+              answers[key] = btn.dataset.value;
+              document.getElementById('cta-' + step).disabled = false;
+            }
+          });
+        })(btns[j]);
+      }
+    })(optionAreas[i]);
+  }
+
+  // Email input validation
+  var emailInput = document.getElementById('email-input');
+  emailInput.addEventListener('input', function() {
+    var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim());
+    document.getElementById('cta-9').disabled = !valid;
+  });
+
+  // CTA click handlers for steps 1-7
+  for (var s = 1; s <= 7; s++) {
+    (function(step) {
+      document.getElementById('cta-' + step).addEventListener('click', function() {
+        if (step === 7) {
+          showLoading(function() {
+            buildAnalysis();
+            goToStep(8);
+          });
+        } else {
+          goToStep(step + 1);
+        }
+      });
+    })(s);
+  }
+
+  document.getElementById('cta-8').addEventListener('click', function() {
+    goToStep(9);
+  });
+
+  document.getElementById('cta-9').addEventListener('click', function() {
+    answers.email = emailInput.value.trim();
+    goToStep(10);
+  });
+
+  function goToStep(target) {
+    if (target < 1 || target > TOTAL_STEPS) return;
+    var prev = currentStep;
+    var prevEl = document.getElementById('step-' + prev);
+    var targetEl = document.getElementById('step-' + target);
+
+    if (target > prev) {
+      prevEl.dataset.position = 'left';
+    } else {
+      prevEl.dataset.position = 'right';
+    }
+    targetEl.dataset.position = 'center';
+    currentStep = target;
+
+    // Animate confidence bar when arriving at analysis step
+    if (target === 8) {
+      setTimeout(function() {
+        var fill = document.getElementById('confidence-fill');
+        if (fill && fill.dataset.target) {
+          fill.style.width = fill.dataset.target + '%';
+        }
+      }, 350);
+    }
+  }
+
+  window.goBack = function() {
+    goToStep(currentStep - 1);
+  };
+
+  // Loading screen with animated text
+  function showLoading(callback) {
+    var overlay = document.getElementById('loading-overlay');
+    var changing = document.getElementById('loading-changing');
+    overlay.classList.add('active');
+
+    var messages = [
+      'Evaluating comprehension level...',
+      'Mapping challenge areas...',
+      'Generating personalized insights...',
+      'Building your profile...'
+    ];
+    var idx = 0;
+    changing.textContent = messages[0];
+
+    var interval = setInterval(function() {
+      idx++;
+      if (idx < messages.length) {
+        changing.textContent = messages[idx];
+      }
+    }, 600);
+
+    setTimeout(function() {
+      clearInterval(interval);
+      overlay.classList.remove('active');
+      callback();
+    }, 2600);
+  }
+
+  // Build personalized analysis based on answers
+  function buildAnalysis() {
+    // CEFR level mapping
+    var cefrMap = {
+      b2plus: 'B2+',
+      b1b2: 'B1-B2',
+      belowb1: 'A2-B1',
+      never: 'B1 (estimated)'
+    };
+    var cefr = cefrMap[answers.level] || 'B1 (estimated)';
+    document.getElementById('analysis-cefr').textContent = cefr;
+
+    // Opportunity mapping
+    var oppMap = {
+      speaking: 'Speaking Confidence',
+      understanding: 'Listening Comprehension',
+      vocabulary: 'Professional Vocabulary',
+      negotiating: 'Negotiation Skills',
+      presenting: 'Presentation Delivery'
+    };
+    var challenges = answers.challenges || [];
+    var opp = challenges.length > 0 ? (oppMap[challenges[0]] || 'Speaking Confidence') : 'Speaking Confidence';
+    document.getElementById('analysis-opportunity').textContent = opp;
+
+    // Calculate confidence score
+    var score = 65;
+    if (answers.understanding === 'yes') score = 82;
+    else if (answers.understanding === 'mostly') score = 65;
+    else if (answers.understanding === 'struggle') score = 42;
+
+    if (answers.level === 'b2plus') score = Math.min(score + 10, 92);
+    else if (answers.level === 'belowb1') score = Math.max(score - 12, 30);
+
+    document.getElementById('analysis-score').textContent = score + '/100';
+    var fill = document.getElementById('confidence-fill');
+    fill.dataset.target = score;
+    fill.style.width = '0%';
+
+    // Generate insights
+    var insights = [];
+
+    if (answers.understanding === 'struggle') {
+      insights.push({ emoji: '\u26A0\uFE0F', text: 'Listening comprehension is significantly impacting your meeting participation. Focused practice with native-speed audio will help.' });
+    } else if (answers.understanding === 'mostly') {
+      insights.push({ emoji: '\uD83D\uDCA1', text: 'You\'re close to full comprehension. Targeted vocabulary building in your industry will bridge the gap.' });
+    } else {
+      insights.push({ emoji: '\u2B50', text: 'Your comprehension is strong. Focus on refining nuance detection and cultural context in meetings.' });
+    }
+
+    if (challenges.indexOf('speaking') !== -1) {
+      insights.push({ emoji: '\uD83C\uDFAF', text: 'Speaking confidence improves fastest with structured practice. Real meeting simulations are 3x more effective than general conversation.' });
+    }
+    if (challenges.indexOf('understanding') !== -1) {
+      insights.push({ emoji: '\uD83D\uDD0A', text: 'Fast-speaker comprehension can be trained. AI-powered playback with keyword highlighting shows measurable improvement in 2-4 weeks.' });
+    }
+    if (challenges.indexOf('vocabulary') !== -1) {
+      insights.push({ emoji: '\uD83D\uDCDA', text: 'Your vocabulary gaps likely center on industry-specific terms. Contextual learning from your own meetings is far more effective than flashcards.' });
+    }
+    if (challenges.indexOf('negotiating') !== -1) {
+      insights.push({ emoji: '\uD83E\uDD1D', text: 'Negotiation in a second language requires both linguistic and strategic skills. Practice with role-play scenarios tailored to your industry.' });
+    }
+    if (challenges.indexOf('presenting') !== -1) {
+      insights.push({ emoji: '\uD83D\uDCCA', text: 'Presentation skills benefit from recorded self-review. Analyzing your own delivery helps identify filler words and pacing issues.' });
+    }
+
+    if (answers.current_solution === 'nothing') {
+      insights.push({ emoji: '\u23F0', text: 'Time-efficient learning is key for you. Even 10 minutes of targeted review per meeting can drive significant improvement.' });
+    }
+    if (answers.current_solution === 'apps') {
+      insights.push({ emoji: '\uD83D\uDCF1', text: 'General language apps build foundations but don\'t address meeting-specific skills. Real meeting analysis provides much more targeted improvement.' });
+    }
+
+    // Show top 3 insights
+    insights = insights.slice(0, 3);
+
+    var insightsList = document.getElementById('insights-list');
+    insightsList.innerHTML = '';
+    for (var i = 0; i < insights.length; i++) {
+      var div = document.createElement('div');
+      div.className = 'insight-item';
+      div.innerHTML = '<span class="emoji">' + insights[i].emoji + '</span><span>' + insights[i].text + '</span>';
+      insightsList.appendChild(div);
+    }
+
+    // Priority recommendation
+    var priorityMap = {
+      speaking: 'Focus on structured speaking practice with real meeting scenarios. Recording and reviewing your contributions will accelerate confidence.',
+      understanding: 'Prioritize active listening training with native-speed content. AI transcription with highlights will help you catch what you miss.',
+      vocabulary: 'Build a personal glossary from your actual meetings. Contextual vocabulary retention is 4x higher than rote memorization.',
+      negotiating: 'Practice persuasion frameworks in English. Role-playing common negotiation scenarios builds both language and strategy.',
+      presenting: 'Record your presentations and review with AI feedback. Focus on pacing, clarity, and reducing filler words.'
+    };
+    var topChallenge = challenges.length > 0 ? challenges[0] : 'speaking';
+    document.getElementById('priority-text').textContent = priorityMap[topChallenge] || priorityMap.speaking;
+  }
+
+  // Send offer email via mailto
+  window.sendOfferEmail = function() {
+    var email = answers.email || '';
+    var subject = encodeURIComponent('Your Free EnglifyAI Trial is Ready \uD83C\uDF89');
+    var body = encodeURIComponent(
+      'Hi!\n\n' +
+      'Thank you for completing our meeting English assessment.\n\n' +
+      'Based on your profile, we\'d like to offer you:\n\n' +
+      '\u2705 5 free meeting analyses\n' +
+      '\u2705 Detailed CAF Model reports\n' +
+      '\u2705 Personalized improvement plan\n\n' +
+      'Click here to start: https://www.englifyai.com/demo\n\n' +
+      'Best,\nEnglifyAI Team'
+    );
+    window.location.href = 'mailto:' + encodeURIComponent(email) + '?subject=' + subject + '&body=' + body;
+  };
+
+  // Touch swipe support for back navigation
+  var touchStartX = 0;
+  var touchStartY = 0;
+
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].clientX;
+    touchStartY = e.changedTouches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    var dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (dx > 0 && currentStep > 1) {
+        goBack();
+      }
+    }
+  }, { passive: true });
+
+})();
+</script>
+</body>
+</html>
