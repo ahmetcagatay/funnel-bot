@@ -1402,6 +1402,119 @@ html, body {
     }
   }, { passive: true });
 
+  // === TRACKING ===
+  var shouldTrack = new URLSearchParams(window.location.search).get('t') !== '0';
+
+  if (shouldTrack) {
+    var SUPA_URL = 'https://frficzdzmxhptmtbkfft.supabase.co';
+    var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';
+
+    var trackId = null;
+    var trackStart = Date.now();
+    var stepEnterTime = Date.now();
+    var stepTimes = {};
+    var maxStepReached = 1;
+    var clickedInterested = false;
+
+    function getTrackPayload() {
+      var now = Date.now();
+      var currentStepKey = 'step_' + currentStep;
+      if (!stepTimes[currentStepKey]) stepTimes[currentStepKey] = 0;
+      stepTimes[currentStepKey] += Math.round((now - stepEnterTime) / 1000);
+      stepEnterTime = now;
+
+      return {
+        website: window.location.pathname,
+        stage: 'demo_funnel_view',
+        linkedin: answers.email || null,
+        extra_notes: JSON.stringify({
+          time_on_page: Math.round((Date.now() - trackStart) / 1000),
+          current_step: currentStep,
+          max_step_reached: maxStepReached,
+          step_times: stepTimes,
+          completed_funnel: currentStep >= 10,
+          clicked_interested: clickedInterested,
+          client: 'englifyai',
+          opened_at: new Date(trackStart).toISOString()
+        }),
+        last_step: clickedInterested ? 'interested' : 'step_' + currentStep,
+        completed: clickedInterested
+      };
+    }
+
+    function supaFetch(method, path, body) {
+      return fetch(SUPA_URL + '/rest/v1/' + path, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPA_KEY,
+          'Authorization': 'Bearer ' + SUPA_KEY,
+          'Prefer': method === 'POST' ? 'return=representation' : 'return=minimal'
+        },
+        body: JSON.stringify(body)
+      });
+    }
+
+    // Initial insert
+    supaFetch('POST', 'funnel_leads', getTrackPayload())
+      .then(function(r) { return r.json(); })
+      .then(function(data) { if (data && data[0]) trackId = data[0].id; });
+
+    // Hook into step navigation
+    var _originalGoToStep = goToStep;
+    goToStep = function(target) {
+      // Save time for current step before moving
+      if (trackId) {
+        var now = Date.now();
+        var key = 'step_' + currentStep;
+        if (!stepTimes[key]) stepTimes[key] = 0;
+        stepTimes[key] += Math.round((now - stepEnterTime) / 1000);
+        stepEnterTime = now;
+      }
+
+      _originalGoToStep(target);
+
+      if (target > maxStepReached) maxStepReached = target;
+
+      if (trackId) {
+        supaFetch('PATCH', 'funnel_leads?id=eq.' + trackId, getTrackPayload());
+      }
+    };
+
+    // Update every 10 seconds
+    setInterval(function() {
+      if (!trackId) return;
+      supaFetch('PATCH', 'funnel_leads?id=eq.' + trackId, getTrackPayload());
+    }, 10000);
+
+    // Final update on page close
+    document.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'hidden' && trackId) {
+        fetch(SUPA_URL + '/rest/v1/funnel_leads?id=eq.' + trackId, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPA_KEY,
+            'Authorization': 'Bearer ' + SUPA_KEY,
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(getTrackPayload()),
+          keepalive: true
+        });
+      }
+    });
+
+    // Hook into the interest button
+    var _originalSendInterest = window.sendInterest;
+    window.sendInterest = function() {
+      clickedInterested = true;
+      if (trackId) {
+        supaFetch('PATCH', 'funnel_leads?id=eq.' + trackId, getTrackPayload());
+      }
+      _originalSendInterest();
+    };
+  }
+
 })();
 </script>
 </body>

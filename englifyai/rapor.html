@@ -227,9 +227,29 @@
   .score-low { background: #ea4335; }
   .score-mid { background: #f9ab00; }
   .score-high { background: #34a853; }
+
+  /* Language toggle */
+  @media print { .lang-toggle { display: none !important; } }
+  .lang-toggle {
+    position: fixed; top: 16px; right: 16px; z-index: 1000;
+    display: flex; gap: 0; border-radius: 8px; overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    font-family: inherit;
+  }
+  .lang-btn {
+    padding: 8px 16px; border: none; font-size: 13px; font-weight: 600;
+    cursor: pointer; font-family: inherit; transition: all 0.2s;
+  }
+  .lang-btn.active { background: #1a73e8; color: #fff; }
+  .lang-btn:not(.active) { background: #fff; color: #333; }
 </style>
 </head>
 <body>
+
+<div class="lang-toggle">
+  <button class="lang-btn active" id="btn-tr" onclick="setLang('tr')">TR</button>
+  <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+</div>
 
 <!-- COVER PAGE -->
 <div class="cover">
@@ -970,6 +990,555 @@ Musterinizi tanimadan satis yapmak "kor satis" yapmaktir. Sitene yatirim yapan k
 <p style="text-align:center; color:#999; font-size:11px; margin-top:40px;">
   Bu rapor otomatik funnel verisi ve web arastirmasina dayanarak hazirlanmistir. &copy; 2026
 </p>
+
+<script>
+// ===== LANGUAGE TOGGLE =====
+(function() {
+  var translations = {
+    // Cover
+    'Gizli - Sadece Dahili Kullanim': 'Confidential - Internal Use Only',
+    'Dijital Funnel & Rekabet Analiz Raporu': 'Digital Funnel & Competitive Analysis Report',
+    'Bu rapor funnel verilerine ve web arastirmasina dayanarak hazirlanmistir.': 'This report is based on funnel data and web research.',
+
+    // Section headings
+    '1. Lead Profil Ozeti': '1. Lead Profile Summary',
+    '2. Web Sitesi Analizi - Tespit Edilen Sorunlar': '2. Website Analysis - Identified Issues',
+    '2.1 Teknik SEO Sorunlari': '2.1 Technical SEO Issues',
+    '2.2 B2B Donusum Sorunlari': '2.2 B2B Conversion Issues',
+    '2.3 Gorsel ve UX Sorunlari': '2.3 Visual & UX Issues',
+    '3. Marka Ismi Sorunu - "Englify" Catismasi': '3. Brand Name Issue - "Englify" Conflict',
+    '4. Rakip Analizi - B2B AI Ingilizce Egitim Pazari': '4. Competitor Analysis - B2B AI English Education Market',
+    '4.1 Tier 1 - Ana Rakipler (Aktif B2B Teklifi Olan)': '4.1 Tier 1 - Main Competitors (Active B2B Offering)',
+    '4.2 Tier 2 - Nis Rakipler': '4.2 Tier 2 - Niche Competitors',
+    '4.3 Rakiplerde Olup EnglifyAI\'da Olmayan / Olan Ozellikler': '4.3 Feature Comparison: Competitors vs EnglifyAI',
+    '5. Pazar Fiyat Haritasi ve Konumlandirma Analizi': '5. Market Pricing Map & Positioning Analysis',
+    '5.1 EnglifyAI Mevcut Fiyatlandirma': '5.1 EnglifyAI Current Pricing',
+    '5.2 Pazar Fiyat Karsilastirmasi': '5.2 Market Price Comparison',
+    '5.3 Onerilen Fiyatlandirma Stratejisi': '5.3 Recommended Pricing Strategy',
+    '6. Onerilen Aksiyon Plani': '6. Recommended Action Plan',
+    '7. Sonuc ve Genel Degerlendirme': '7. Conclusion & Overall Assessment',
+
+    // Sub-headings
+    'Urun Ozellikleri (Sitede Mevcut)': 'Product Features (Available on Site)',
+    'Mevcut Olan (Pozitif)': 'Available (Positive)',
+    'Eksik Olan (Kritik)': 'Missing (Critical)',
+    'Skor Karti': 'Score Card',
+    'Bireysel Planlar (kullanici/ay)': 'Individual Plans (user/month)',
+    'B2B / Kurumsal Planlar (kullanici/ay)': 'B2B / Enterprise Plans (user/month)',
+
+    // Summary cards
+    'Hedef Pazar': 'Target Market',
+    'Sektor': 'Sector',
+    'Urun Deneyimi': 'Product Experience',
+    'Aylik Gelir': 'Monthly Revenue',
+    'Reklam Butcesi': 'Ad Budget',
+
+    // Table headers
+    'Alan': 'Field',
+    'Deger': 'Value',
+    'Ozellik': 'Feature',
+    'Aciklama': 'Description',
+    'Sorun': 'Issue',
+    'Etki Seviyesi': 'Impact Level',
+    'Element': 'Element',
+    'Durum': 'Status',
+    'Eksik Element': 'Missing Element',
+    'Neden Gerekli': 'Why Needed',
+    'Oneri': 'Recommendation',
+    'Mevcut Marka': 'Existing Brand',
+    'Ne Yapiyor': 'What It Does',
+    'Kullanici Sayisi': 'User Count',
+    'Rakip': 'Competitor',
+    'B2B Fiyat': 'B2B Price',
+    'One Cikan Ozellik': 'Key Feature',
+    'Sosyal Kanit': 'Social Proof',
+    'Fiyat': 'Price',
+    'Odak Alani': 'Focus Area',
+    'Plan': 'Plan',
+    'Icerik': 'Content',
+    'Urun': 'Product',
+    'Gorsel': 'Visual',
+    'Degerlendirme': 'Assessment',
+    'Segment': 'Segment',
+    'Onerilen Fiyat': 'Recommended Price',
+    'Gerekce': 'Rationale',
+    'Kriter': 'Criteria',
+    'Mevcut Durum': 'Current Status',
+    'Hedef': 'Target',
+
+    // Alert titles
+    'Profil Yorumu': 'Profile Assessment',
+    'Genel Degerlendirme': 'Overall Assessment',
+    'Teknik Risk: No-Code Altyapi': 'Technical Risk: No-Code Infrastructure',
+    'Strateji Notu: Once Lead Al, Sonra Sat': 'Strategy Note: Get the Lead First, Then Sell',
+    'SEO ve Marka Riski': 'SEO & Brand Risk',
+    'Diferansiyasyon Notu': 'Differentiation Note',
+    'Starter Plan ($9/ay) Iyi Konumlanmis': 'Starter Plan ($9/mo) Well Positioned',
+    'Enterprise Fiyatlandirma Sorunu': 'Enterprise Pricing Issue',
+    'Fiyatlandirma Stratejisi': 'Pricing Strategy',
+    'Ozet Degerlendirme': 'Summary Assessment',
+    'Bir Sonraki Adim': 'Next Step',
+
+    // Phase titles
+    'Faz 1 - Acil Duzeltmeler (Hafta 1-2)': 'Phase 1 - Urgent Fixes (Week 1-2)',
+    'Faz 2 - SEO ve B2B Altyapisi (Hafta 3-4)': 'Phase 2 - SEO & B2B Infrastructure (Week 3-4)',
+    'Faz 3 - B2B Buyume (Ay 2+)': 'Phase 3 - B2B Growth (Month 2+)',
+
+    // Copy section
+    'Iyilestirme Onerilerini Kopyala': 'Copy Improvement Recommendations',
+    'Rapordaki tum iyilestirme onerilerini kopyalayarak yapay zekana veya ekibinize iletebilirsiniz.': 'Copy all improvement recommendations from the report to share with your AI assistant or team.',
+
+    // Cover meta labels (these are inside <strong> tags)
+    'Hazirlanma Tarihi:': 'Date:',
+    'Domain:': 'Domain:',
+    'Sektor:': 'Sector:',
+    'Rapor Turu:': 'Report Type:',
+
+    // Cover meta values
+    'B2B SaaS - AI Toplanti Analizi ile Ingilizce Gelistirme': 'B2B SaaS - English Improvement via AI Meeting Analysis',
+    'Detayli Analiz + Strateji Onerisi': 'Detailed Analysis + Strategy Recommendation',
+
+    // Table cell strong labels
+    'Website': 'Website',
+    'Urun Tanimi': 'Product Description',
+    'Deneyim': 'Experience',
+    'Reklam Kanallari': 'Ad Channels',
+    'LinkedIn': 'LinkedIn',
+    'ROAS': 'ROAS',
+    'Funnel Durumu': 'Funnel Status',
+    'Kayit Tarihi': 'Registration Date',
+
+    // Table cell values
+    'Toplanti kayitlarini (MP3, WAV, M4A, MP4, MOV, AVI) AI ile analiz ederek profesyonel Ingilizce konusma becerilerini gelistiren SaaS araci. Akicilik, gramer, kelime hazinesi ve CEFR seviyesi analizi sunar.': 'A SaaS tool that analyzes meeting recordings (MP3, WAV, M4A, MP4, MOV, AVI) with AI to improve professional English speaking skills. Provides fluency, grammar, vocabulary and CEFR level analysis.',
+    'Satislari iyilestirmek istiyor (improve_sales)': 'Wants to improve sales (improve_sales)',
+    'B2B - Kurumsal musterilere satis': 'B2B - Sales to enterprise customers',
+    'SaaS / Yazilim': 'SaaS / Software',
+    '10+ urun pazarlamis - deneyimli profil': '10+ products marketed - experienced profile',
+    '0 TL - Henuz monetize edilmemis': '0 TL - Not yet monetized',
+    'Hicbiri - Hic dijital reklam vermemis': 'None - No digital advertising done',
+    'Girilmemis': 'Not provided',
+
+    // Product features
+    'Kolay Yukleme': 'Easy Upload',
+    'MP3, WAV, M4A, MP4, MOV, AVI formatlarini destekler': 'Supports MP3, WAV, M4A, MP4, MOV, AVI formats',
+    'Akicilik Analizi': 'Fluency Analysis',
+    'Konusma hizi, dolgu kelimeler, duraksamalar': 'Speech rate, filler words, pauses',
+    'Kelime Hazinesi': 'Vocabulary',
+    'Profesyonel kelime alternatifleri, CEFR seviyesi degerlendirmesi': 'Professional word alternatives, CEFR level assessment',
+    'Gramer Incelemesi': 'Grammar Review',
+    'Oncesi/sonrasi duzeltmeler, kural aciklamalari': 'Before/after corrections, rule explanations',
+    'Odakli Aksiyon Planlari': 'Focused Action Plans',
+    'Sonraki toplanti icin oncelikli gelistirme alani': 'Priority improvement area for next meeting',
+    'Gelisim Takibi': 'Progress Tracking',
+    'Longitudinal analiz, oncesi/sonrasi kanit karsilastirmasi': 'Longitudinal analysis, before/after evidence comparison',
+
+    // Alert body texts
+    'Deneyimli bir girisimci (10+ urun) ancak EnglifyAI henuz gelir uretmiyor ve hic dijital reklam deneyimi yok. Urun "toplanti kaydi analizi" seklinde nis bir konumlandirmaya sahip - bu rakiplerden farkli ve potansiyel olarak guclu bir diferansiyasyon. Fiyatlandirma sayfasi ve demo sayfasi mevcut, ancak B2B altyapisinda onemli eksikler var.': 'An experienced entrepreneur (10+ products) but EnglifyAI is not yet generating revenue and has no digital advertising experience. The product has a niche positioning as "meeting recording analysis" - this is different from competitors and a potentially strong differentiation. Pricing and demo pages exist, but there are significant gaps in B2B infrastructure.',
+
+    // Technical SEO issues - table cells
+    'Server-Side Rendering (SSR) yok': 'No Server-Side Rendering (SSR)',
+    'Vite SPA olarak tum icerik JavaScript ile yukleniyor. Googlebot sayfayi bos olarak goruyor.': 'All content loads via JavaScript as a Vite SPA. Googlebot sees the page as empty.',
+    'Title tag jenerik': 'Generic title tag',
+    'Sayfa basligi "Englify App" olarak ayarlanmis. "EnglifyAI - AI Meeting Analysis for Professional English" gibi markalanmis ve aciklayici bir baslik olmali.': 'Page title is set as "Englify App". Should be a branded, descriptive title like "EnglifyAI - AI Meeting Analysis for Professional English".',
+    'Meta Description jenerik': 'Generic Meta Description',
+    'Meta description mevcut ("Improve your spoken English with AI-powered analytics") ancak urunun toplanti analizi odagini yansitmiyor. Daha spesifik olmali.': 'Meta description exists but does not reflect the meeting analysis focus. Should be more specific.',
+    'OG taglari mevcut ama sorunlu': 'OG tags exist but problematic',
+    'Open Graph ve Twitter Card taglari var. Ancak OG gorsel Lovable/GPT-Engineer cloud storage uzerinde barindiriliyor - profesyonel degil ve kontrolunuz disinda. OG title "Englify App" olarak gozukuyor.': 'Open Graph and Twitter Card tags exist. However, OG image is hosted on Lovable/GPT-Engineer cloud storage - unprofessional and out of your control. OG title shows as "Englify App".',
+    'Structured Data (Schema) yok': 'No Structured Data (Schema)',
+    'Google zengin sonuc (rich snippet) gosteremez. SoftwareApplication veya Product schema eklenmeli.': 'Google cannot show rich snippets. SoftwareApplication or Product schema should be added.',
+    'Sitemap.xml / robots.txt belirsiz': 'Sitemap.xml / robots.txt unclear',
+    'Arama motorlari icin yonlendirme eksik.': 'Search engine directives missing.',
+    'Lovable (no-code) altyapisi': 'Lovable (no-code) infrastructure',
+    'Site bir no-code AI builder (Lovable/GPT-Engineer) ile olusturulmus. Enterprise musteriler icin olceklenebilirlik ve ozellestirme konusunda sinirliliklar olusabilir.': 'Site built with a no-code AI builder (Lovable/GPT-Engineer). Scalability and customization limitations may arise for enterprise customers.',
+
+    // Kritik / Orta tags
+    'Kritik': 'Critical',
+    'Orta': 'Medium',
+
+    // B2B conversion positives
+    'Fiyatlandirma sayfasi': 'Pricing page',
+    'Demo sayfasi (/demo)': 'Demo page (/demo)',
+    'Enterprise ozellikleri': 'Enterprise features',
+    'Ucretsiz plan': 'Free plan',
+    'Var': 'Available',
+
+    // B2B conversion missing items
+    'About / Hakkimizda sayfasi': 'About page',
+    'B2B\'de guvenilirlik kritik. Takim, vizyon, iletisim bilgisi sart. Footer\'da link var ama sayfa yok (404 veya bos).': 'Credibility is critical in B2B. Team, vision, contact info required. Footer link exists but page is missing (404 or empty).',
+    'Case Study / Referanslar': 'Case Studies / References',
+    'HR yoneticileri karar verirken "baska kimler kullaniyor?" sorar. Hicbir sosyal kanit yok.': 'HR managers ask "who else is using this?" when deciding. No social proof exists.',
+    'Blog icerikleri': 'Blog content',
+    'Footer\'da Blog linki var ama icerik yok. SEO ve thought leadership icin kritik.': 'Blog link in footer but no content. Critical for SEO and thought leadership.',
+    'Testimonial / Sosyal kanit': 'Testimonials / Social proof',
+    'Landing page\'de hicbir kullanici yorumu veya referans yok.': 'No user reviews or references on the landing page.',
+    'ROI hesaplayici': 'ROI calculator',
+    '"Insan ogretmene gore X kat ucuz" mesaji karar surecini hizlandirir.': '"X times cheaper than a human teacher" message accelerates decision-making.',
+    'For Business / Kurumsal sayfa': 'For Business / Enterprise page',
+    'B2B ve B2C trafigi ayri sayfalara yonlendirilmeli.': 'B2B and B2C traffic should be directed to separate pages.',
+    'Kirik footer linkleri': 'Broken footer links',
+    'Footer\'da Blog, About, Contact linkleri var ama sayfalar mevcut degil veya bos. Bu, profesyonellik algisini ciddi sekilde zedeler.': 'Footer has Blog, About, Contact links but pages are missing or empty. This seriously damages the perception of professionalism.',
+    'Interaktif demo': 'Interactive demo',
+    'Mevcut /demo sayfasi statik ornek veriler gosteriyor. Gercek bir deneme veya interaktif deneyim sunmuyor.': 'Current /demo page shows static sample data. Does not offer a real trial or interactive experience.',
+
+    // Alert bodies - website analysis
+    'EnglifyAI\'nin fiyatlandirma ve demo sayfasi olmasi olumlu bir baslangic. Ancak bir HR yoneticisi veya L&D karar vericisi bu siteye geldiginde: sirket bilgisi bulamaz, referans goremez, blog okuyor gorunup bos sayfayla karsilasir, ve demo sayfasinda sadece statik veriler gorur. Fiyatlandirma ve ozellik sayfasi mevcut olsa da, guven unsurlarinin eksikligi B2B donusumu engelliyor.': 'Having pricing and demo pages is a positive start. However, when an HR manager or L&D decision-maker visits: they cannot find company info, see no references, encounter empty pages when clicking blog, and see only static data on the demo page. Despite having pricing and feature pages, the lack of trust elements blocks B2B conversion.',
+    'Site Lovable (GPT-Engineer) ile olusturulmus. Enterprise musterilerin beklentileri (ozel entegrasyonlar, SSO implementasyonu, SLA garantileri) no-code platformlarda karsilanmasi zor olabilir. Olceklendirme stratejisi planlanmali.': 'Site built with Lovable (GPT-Engineer). Enterprise customer expectations (custom integrations, SSO implementation, SLA guarantees) may be difficult to meet on no-code platforms. Scaling strategy should be planned.',
+
+    // Visual & UX issues
+    'Gorsel anlatim zayif': 'Weak visual storytelling',
+    'Site metin agirlikli, gorsel elementler (ikon, ilustrasyon, animasyon) yetersiz. Kullanici deneyimi metne bagimli.': 'Site is text-heavy, visual elements (icons, illustrations, animations) insufficient. User experience depends on text.',
+    'SVG ikonlar ve emoji kullanimi ile gorsel zenginlik katilmali. Claude Code gibi AI araclariyla hizlica SVG ikon setleri olusturulabilir.': 'Visual richness should be added with SVG icons and emoji. SVG icon sets can be quickly created with AI tools like Claude Code.',
+    'Pricing erken sunuluyor': 'Pricing shown too early',
+    'Fiyatlandirma sayfasi ana navigasyonda one cikiyor. Kullanici henuz urunu deneyimlemeden fiyat goruyor.': 'Pricing page is prominent in main navigation. User sees price before experiencing the product.',
+    'Once lead al, kullaniciyi tani, sonra fiyat sun. Kullanicinin verdigi cevaplarla (butce, takim buyuklugu, ihtiyac) kisisellesmis teklif olustur.': 'Get the lead first, know the user, then show price. Create personalized offers based on user responses (budget, team size, needs).',
+    'Mobil deneyim yetersiz': 'Insufficient mobile experience',
+    'Site scrollable web sayfasi olarak tasarlanmis. Mobil kullanicilar icin PWA benzeri, swipe-tabanli bir deneyim sunulmuyor.': 'Site designed as a scrollable web page. Does not offer a PWA-like, swipe-based experience for mobile users.',
+    'Mobil sayfayi tam ekran, swipeable, PWA benzeri bir uygulama deneyimine cevirin. App-like hissiyat olusturun.': 'Convert mobile page to full-screen, swipeable, PWA-like app experience. Create an app-like feel.',
+    'Mesaj karisik': 'Mixed messaging',
+    'Hero section\'da birden fazla mesaj var. Kullanici ne yapmasi gerektigini hemen anlayamiyor.': 'Multiple messages in hero section. User cannot immediately understand what to do.',
+    'Mesaji basitlestirin: "Toplanti kaydini yukle, ucretsiz analiz al." Tek bir net CTA.': 'Simplify the message: "Upload your meeting recording, get a free analysis." One clear CTA.',
+    'Kullaniciya ulasim yok': 'No user outreach',
+    'Kullanici siteyi gezip arastirmak zorunda. Aktif bir iletisim mekanizmasi yok.': 'User has to browse and research the site. No active communication mechanism.',
+    '"Biz sana ulasalim" yaklasimiyla email/telefon toplayin. Kullaniciyi yormayin, siz ulasacaginizi soyleyerek guven olusturun.': 'Collect email/phone with a "we\'ll reach out to you" approach. Don\'t tire the user, build trust by saying you will contact them.',
+    'Testimonial / sosyal kanit yok': 'No testimonials / social proof',
+    'Landing page\'de hicbir kullanici yorumu, basari hikayesi veya referans yok.': 'No user reviews, success stories, or references on the landing page.',
+    'Ilk kullanicilardan geri bildirim alin, bunlari siteye ekleyin. Kisa video testimonial\'lar en etkili format.': 'Get feedback from initial users, add them to the site. Short video testimonials are the most effective format.',
+    'Ucretsiz deneyim yetersiz': 'Insufficient free experience',
+    'Free plan 3 analiz veriyor ama bunu one cikarmiyor. Kullanici ucretsiz degeri hissetmiyor.': 'Free plan offers 3 analyses but doesn\'t highlight this. User doesn\'t feel the free value.',
+    'Raporun bir kismini ucretsiz gosterin. Kullanici sonuclari gordukten sonra tam rapor icin kayit olsun. Ilk lead\'ler pivotlama icin de degerli - onlari sikistirmayin.': 'Show part of the report for free. Let user register for full report after seeing results. First leads are also valuable for pivoting - don\'t squeeze them.',
+
+    // Strategy note alert body
+    'Musterinizi tanimadan satis yapmaya calismak "kor satis" yapmaktir. Sitene yatirim yapan bir kullanicinin verdigi cevaplarla (butcesi, takim buyuklugu, mevcut sorunlari) onu cok daha iyi taniyabilirsiniz. Bu verilerle kisiye ozel teklif sunabilir, urunun nasil pivot etmesi gerektigini ogrenebilirsiniz. Ilk lead\'leriniz en degerli ogrenme kaynaklarinizdir - onlari fiyatla sikistirmak yerine dinleyin.': 'Trying to sell without knowing your customer is "blind selling". With the responses from a user who invests time in your site (budget, team size, current problems), you can know them much better. With this data, you can offer personalized proposals and learn how the product needs to pivot. Your first leads are your most valuable learning resources - listen to them instead of squeezing them with price.',
+
+    // Brand issue section
+    '"Englify" kelimesi zaten yogun kullaniliyor. EnglifyAI bu kelimede Google\'da ilk sayfalara cikmak icin ciddi efor ve butce gerektirir. Iki secenek: (1) "EnglifyAI" olarak farkli bir marka kimligine odaklanmak, "meeting recording analysis" gibi nis anahtar kelimelerde siralamak veya (2) tamamen yeni, benzersiz bir isim degerlendirmek.': 'The word "Englify" is already heavily used. EnglifyAI would need significant effort and budget to rank on Google\'s first pages. Two options: (1) focus on "EnglifyAI" as a distinct brand identity, rank for niche keywords like "meeting recording analysis", or (2) consider a completely new, unique name.',
+
+    // Brand table cells
+    'Gamified Ingilizce ogrenme uygulamasi': 'Gamified English learning app',
+    'Ozbekistan - Ingilizce dil okulu': 'Uzbekistan - English language school',
+    'Metaverse Ingilizce okulu': 'Metaverse English school',
+    'Sosyal medya postlarini Ingilizceye ceviren AI': 'AI that translates social media posts to English',
+    'Tarayici eklentisi': 'Browser extension',
+
+    // Competitor analysis
+    'Fonem seviyesinde telaffuz analizi, 7900+ ders, IELTS/TOEFL skor tahmini, HR analitik paneli': 'Phoneme-level pronunciation analysis, 7900+ lessons, IELTS/TOEFL score prediction, HR analytics panel',
+    'Milyonlarca kullanici, Google Play\'de 4.6 yildiz': 'Millions of users, 4.6 stars on Google Play',
+    '3D avatar ile yuz yuze simulasyon, 9 dil, HR dashboard, "50x ucuz" konumlandirmasi': '3D avatar face-to-face simulation, 9 languages, HR dashboard, "50x cheaper" positioning',
+    'Hizla buyuyen, agresif B2B yatirimi': 'Fast growing, aggressive B2B investment',
+    'Is senaryolari role-play, 24/7 erisim, admin dashboard, ozel destek (5+ kisi)': 'Business scenario role-play, 24/7 access, admin dashboard, dedicated support (5+ people)',
+    '9M+ kullanici, 420M+ ses etkilesimi, 250K+ 5-yildiz yorum': '9M+ users, 420M+ voice interactions, 250K+ 5-star reviews',
+    'Ozel fiyat': 'Custom pricing',
+    'Yapilandirilmis mufredat + AI tutor, coklu dil destegi': 'Structured curriculum + AI tutor, multi-language support',
+    '$100M+ yatirim, en yuksek marka biliniligi': '$100M+ investment, highest brand recognition',
+
+    // Tier 2 competitors
+    'Zoom/Teams toplanti analizi, is Ingilizcesi - EnglifyAI\'nin en yakin rakibi': 'Zoom/Teams meeting analysis, business English - EnglifyAI\'s closest competitor',
+    '40+ dil, 134 lehce, 400+ AI tutor': '40+ languages, 134 dialects, 400+ AI tutors',
+    'ChatGPT tabanli, 30+ dil, akademik destekli': 'ChatGPT-based, 30+ languages, academically backed',
+    'Kokenli marka, kurumsal odak': 'Established brand, enterprise focus',
+    'Telefon gorusmesi simulasyonu': 'Phone call simulation',
+
+    // Feature comparison
+    'HR/Admin Dashboard': 'HR/Admin Dashboard',
+    'Analitik Raporlama': 'Analytics Reporting',
+    'Demo Sayfasi': 'Demo Page',
+    'Fiyatlandirma Sayfasi': 'Pricing Page',
+    'Case Study / Referans': 'Case Study / References',
+    'Sosyal Kanit / Testimonial': 'Social Proof / Testimonials',
+    'About / Hakkimizda': 'About Page',
+    'Blog / Icerik': 'Blog / Content',
+    'Sektorel Senaryolar': 'Industry Scenarios',
+    'Ucretsiz Deneme': 'Free Trial',
+    'SSR / SEO Uyumluluk': 'SSR / SEO Compatibility',
+    'Yok': 'N/A',
+    'Yok (link var, icerik yok)': 'N/A (link exists, no content)',
+    'Yok (Vite SPA)': 'N/A (Vite SPA)',
+    'Var (Enterprise)': 'Available (Enterprise)',
+    'Var (CAF Model)': 'Available (CAF Model)',
+    'Var (statik)': 'Available (static)',
+    'Var (3 analiz)': 'Available (3 analyses)',
+    'Kismi': 'Partial',
+    '7 gun': '7 days',
+
+    // Differentiation note
+    'EnglifyAI\'nin "toplanti kaydi analizi" odagi rakiplerden farkli bir konumlandirma. ELSA, Praktika, Loora ve Speak hepsi canli/interaktif pratik sunuyor. EnglifyAI ise gercek toplanti performansini analiz ediyor - bu tamamlayici bir urun olabilir. Fluently en yakin rakip (Zoom/Teams analizi) ancak canli entegrasyon sunuyor; EnglifyAI ise kayit yukleme modeli kullaniyor.': 'EnglifyAI\'s "meeting recording analysis" focus is a different positioning from competitors. ELSA, Praktika, Loora, and Speak all offer live/interactive practice. EnglifyAI analyzes real meeting performance - this could be a complementary product. Fluently is the closest competitor (Zoom/Teams analysis) but offers live integration; EnglifyAI uses a recording upload model.',
+
+    // Pricing tables
+    '3 toplanti analizi, temel CAF Model raporlari, akicilik/gramer/kelime skorlari': '3 meeting analyses, basic CAF Model reports, fluency/grammar/vocabulary scores',
+    '15 analiz, detayli raporlar, oncesi/sonrasi kanit klipleri, ilerleme takibi, kelime onerileri, gramer duzeltmeleri, oncelikli e-posta destek': '15 analyses, detailed reports, before/after evidence clips, progress tracking, vocabulary suggestions, grammar corrections, priority email support',
+    'Sinirsiz analiz, grup dashboard, toplam analitik, ogretmen icgorusteri, ozel kelime listeleri, SSO, admin kontrolleri, ozel ogretmen, API erisimi': 'Unlimited analyses, group dashboard, aggregate analytics, teacher insights, custom word lists, SSO, admin controls, dedicated teacher, API access',
+    'Populer': 'Popular',
+    'Rekabetci': 'Competitive',
+    'Cok pahali': 'Too expensive',
+    'ChatGPT tabanli, 30+ dil': 'ChatGPT-based, 30+ languages',
+    'Fonem analizi, 7900+ ders': 'Phoneme analysis, 7900+ lessons',
+    '9M+ kullanici, konusma odakli': '9M+ users, conversation-focused',
+    '15 analiz, detayli raporlar': '15 analyses, detailed reports',
+    '3D avatar, 9 dil': '3D avatar, 9 languages',
+    '2-50 kullanici, HR analitik': '2-50 users, HR analytics',
+    'Admin dashboard, ozel destek': 'Admin dashboard, dedicated support',
+    '200-999 kullanici, HR dashboard': '200-999 users, HR dashboard',
+
+    // Pricing alerts
+    'Bireysel kullanici segmentinde $9/ay fiyat, ELSA ($12), Loora ($10) ve Gliglish ($25-29) ile karsilastirildiginda rekabetci bir seviyede. Praktika ($8) ile neredeyse ayni. Bu fiyat bireysel kullanicilar icin cazip.': 'The $9/month price in the individual user segment is competitive compared to ELSA ($12), Loora ($10), and Gliglish ($25-29). Almost the same as Praktika ($8). This price is attractive for individual users.',
+
+    // Pricing strategy table
+    'Starter (Bireysel)': 'Starter (Individual)',
+    'Team / Kucuk Takim': 'Team / Small Team',
+    'Business / Orta Olcek': 'Business / Mid-Scale',
+    'Bireysel plan icin uygun': 'Suitable for individual plan',
+    'ELSA ($18) altinda, Loora ($10) ustunde': 'Below ELSA ($18), above Loora ($10)',
+    'Hacim indirimi, Praktika ($8) seviyesi': 'Volume discount, Praktika ($8) level',
+    'Mevcut $49 yerine rekabetci fiyat': 'Competitive price instead of current $49',
+    'Ozel teklif ($6-10 arasi)': 'Custom offer ($6-10 range)',
+
+    // Pricing strategy alert
+    'Mevcut Enterprise fiyatinin ($49) ciddi sekilde dusurulmesini oneriyoruz. Pazara giris icin $8-15 araliginda, rakiplerle yarisabilir bir fiyat B2B penetrasyonunu kolaylastirir. "Toplanti kaydi analizi" farkli bir deger onerisi sundugu icin, bunu ELSA/Praktika/Loora ile tamamlayici bir urun olarak konumlandirmak da mumkun - bu durumda "ek arac" olarak dusuk fiyat daha da onemli.': 'We recommend significantly reducing the current Enterprise price ($49). A price in the $8-15 range for market entry that can compete with rivals facilitates B2B penetration. Since "meeting recording analysis" offers a different value proposition, positioning it as a complementary product to ELSA/Praktika/Loora is also possible - in which case a low price as an "add-on tool" becomes even more important.',
+
+    // Score card
+    'Web Sitesi SEO Skoru': 'Website SEO Score',
+    'B2B Satis Hazirlik': 'B2B Sales Readiness',
+    'Marka Biliniligi': 'Brand Awareness',
+    'Urun Olgunlugu': 'Product Maturity',
+    'Fiyatlandirma Rekabetciligi': 'Pricing Competitiveness',
+    'Rekabetci Konumlanma': 'Competitive Positioning',
+
+    // Final alerts
+    'Funnel stratejisinin detaylari ve uygulama plani icin bizimle calisabilirsiniz. Web sitesi optimizasyonu, SSR gecisi, fiyatlandirma stratejisi, B2B landing page tasarimi, LinkedIn outbound kampanyasi ve Google Ads yonetimi konularinda destek sunabiliriz.': 'You can work with us for funnel strategy details and implementation plan. We can provide support in website optimization, SSR migration, pricing strategy, B2B landing page design, LinkedIn outbound campaigns, and Google Ads management.',
+
+    // Footer
+    'Bu rapor otomatik funnel verisi ve web arastirmasina dayanarak hazirlanmistir.': 'This report was prepared based on automated funnel data and web research.',
+
+    // Phase action items
+    'Gorsel icerik zenginlestirme:': 'Visual content enrichment:',
+    'SVG ikon seti olusturun (Claude Code gibi AI araclariyla hizlica uretebilirsiniz). Her ozellik icin aciklayici ikon/emoji kullanin.': 'Create an SVG icon set (you can quickly generate with AI tools like Claude Code). Use descriptive icons/emojis for each feature.',
+    'Pricing\'i gizleyin:': 'Hide Pricing:',
+    'Ana navigasyondan Pricing linkini kaldirin. Fiyati sadece kullanici urunu denedikten veya lead bilgisi verdikten sonra gosterin.': 'Remove the Pricing link from main navigation. Show price only after user tries the product or provides lead info.',
+    'Lead-first funnel olusturun:': 'Create a lead-first funnel:',
+    '"Meeting\'lerde konusulanlarin hepsini anliyor musun?" ile baslayan, 8-10 soruluk bir degerlendirme funnel\'i. Kullaniciyi taniyin, sonra kisisellesmis teklif sunun.': 'An 8-10 question assessment funnel starting with "Do you understand everything discussed in meetings?" Get to know the user, then offer personalized proposals.',
+    'Mobil PWA deneyimi:': 'Mobile PWA experience:',
+    'Siteyi tam ekran, swipeable, app-like bir formata cevirin. Scroll yerine adim adim ilerleyen bir akis.': 'Convert the site to a full-screen, swipeable, app-like format. A step-by-step flow instead of scrolling.',
+    'Testimonial toplama:': 'Collect testimonials:',
+    'Mevcut kullanicilardan (varsa) kisa geri bildirim alin. Yoksa, 5-10 ucretsiz pilot kullanici edinin ve onlardan yorum isteyin.': 'Get brief feedback from existing users (if any). Otherwise, acquire 5-10 free pilot users and ask them for reviews.',
+    '"Biz ulasalim" CTA:': '"We\'ll reach out" CTA:',
+    '"Sign up" yerine "Analiz raporunuzu hazirlayalim, size ulasacagiz" mesaji. Kullaniciyi arastirmak zorunda birakmayin.': 'Instead of "Sign up", use "Let us prepare your analysis report, we\'ll contact you". Don\'t force the user to research.',
+    'Kirik footer linklerini duzeltme:': 'Fix broken footer links:',
+    'Blog, About, Contact sayfalari olusturun veya linkleri kaldirin.': 'Create Blog, About, Contact pages or remove the links.',
+
+    // Phase 2 items
+    'SSR/SSG gecisi:': 'SSR/SSG migration:',
+    'Vite SPA\'dan Next.js veya Astro\'ya gecis. En azindan landing page ve pricing sayfasi icin SSR/SSG. (Not: Lovable altyapisindan cikmak gerekebilir.)': 'Migration from Vite SPA to Next.js or Astro. At minimum SSR/SSG for landing page and pricing page. (Note: may need to leave Lovable infrastructure.)',
+    'Structured data:': 'Structured data:',
+    'SoftwareApplication schema, pricing schema ekleme.': 'Add SoftwareApplication schema, pricing schema.',
+    'Fiyatlandirma revizesi:': 'Pricing revision:',
+    'Enterprise $49 fiyatini pazar gerceklerine gore duzeltme.': 'Adjust Enterprise $49 price based on market realities.',
+    'Landing page\'e sosyal kanit:': 'Social proof on landing page:',
+    'Testimonial, kullanici sayisi, ornek sonuclar ekleme.': 'Add testimonials, user count, sample results.',
+    'Blog baslangici:': 'Blog launch:',
+    '"Meeting English analysis", "professional English at work", "CEFR level improvement" gibi nis konularda icerik.': 'Content on niche topics like "Meeting English analysis", "professional English at work", "CEFR level improvement".',
+    'LinkedIn sirket sayfasi:': 'LinkedIn company page:',
+    'Duzenli icerik, karar verici profil optimizasyonu.': 'Regular content, decision-maker profile optimization.',
+
+    // Phase 3 items
+    'Pilot musteri edinimi:': 'Pilot customer acquisition:',
+    '2-3 kucuk sirketle ucretsiz pilot calistirma. Toplanti kaydi analizi odakli.': 'Free pilot program with 2-3 small companies. Focused on meeting recording analysis.',
+    'Case study uretimi:': 'Case study production:',
+    'Pilot sonuclarindan "CEFR B1\'den B2\'ye X haftada" gibi somut referans icerik.': 'Concrete reference content from pilot results like "CEFR B1 to B2 in X weeks".',
+    'LinkedIn outbound kampanyasi:': 'LinkedIn outbound campaign:',
+    'HR/L&D yoneticilerine dogrudan mesaj. "Calisanlarinizin toplanti performansini olcun" mesaji.': 'Direct messages to HR/L&D managers. "Measure your employees\' meeting performance" message.',
+    'Google Ads:': 'Google Ads:',
+    '"meeting English analysis", "professional English assessment", "employee English training" anahtar kelimeleri.': '"meeting English analysis", "professional English assessment", "employee English training" keywords.',
+    'Icerik pazarlama:': 'Content marketing:',
+    'Whitepaper, "Geleneksel egitim vs AI toplanti analizi" karsilastirmalari.': 'Whitepapers, "Traditional training vs AI meeting analysis" comparisons.',
+    'ROI hesaplayici:': 'ROI calculator:',
+    '"Insan ogretmene gore X kat tasarruf" interaktif arac.': '"X times savings compared to human teacher" interactive tool.',
+    'Rakiplerle tamamlayici konumlandirma:': 'Complementary positioning with competitors:',
+    '"ELSA ile pratiginizi yapin, EnglifyAI ile gercek toplanti performansinizi olcun" gibi mesajlar.': '"Practice with ELSA, measure your real meeting performance with EnglifyAI" type messages.',
+
+    // Enterprise pricing alert body
+    'EnglifyAI\'nin Starter plani ($9/ay) bireysel segmentte gayet rekabetci. Ancak Enterprise plani ($49/kullanici/ay) B2B pazarinda sorunlu:': 'EnglifyAI\'s Starter plan ($9/mo) is quite competitive in the individual segment. However, the Enterprise plan ($49/user/mo) is problematic in the B2B market:',
+
+    // Summary assessment alert body
+    'EnglifyAI, "toplanti kaydi analizi ile profesyonel Ingilizce gelistirme" seklinde nis ve farkli bir konumlandirmaya sahip. Fiyatlandirma ve demo sayfasinin mevcut olmasi, temel urun altyapisinin kuruldugunu gosteriyor. Ancak:': 'EnglifyAI has a niche and distinct positioning as "professional English improvement through meeting recording analysis". Having pricing and demo pages shows the basic product infrastructure is in place. However:',
+
+    // Summary bullet points
+    'nedeniyle Google\'da gorunmuyor': 'causes invisibility on Google',
+    'rakiplerin 3-6 kati - B2B penetrasyonu engelliyor': '3-6x competitor prices - blocks B2B penetration',
+    '(about, referans, testimonial, blog) tamamen eksik': '(about, references, testimonials, blog) completely missing',
+    '(Lovable) enterprise olceklendirme icin risk tasiyor': '(Lovable) carries risk for enterprise scaling',
+    'profesyonellik algisini zedeliyor': 'damages perception of professionalism',
+    'Girisimcinin 10+ urun deneyimi ve urunun nis konumlandirmasi onemli avantajlar. Fiyat revizyonu, SEO duzeltmeleri ve guven unsurlarinin eklenmesiyle hizli ilerleme potansiyeli yuksek.': 'The entrepreneur\'s 10+ product experience and the product\'s niche positioning are significant advantages. With price revision, SEO fixes, and adding trust elements, the potential for rapid progress is high.',
+
+    // Tamamlandi tag
+    'Tamamlandi': 'Completed'
+  };
+
+  // Reverse map for EN -> TR
+  var reverseTranslations = {};
+  for (var key in translations) {
+    reverseTranslations[translations[key]] = key;
+  }
+
+  window.setLang = function(lang) {
+    var btnTr = document.getElementById('btn-tr');
+    var btnEn = document.getElementById('btn-en');
+    if (lang === 'en') {
+      btnEn.classList.add('active');
+      btnTr.classList.remove('active');
+    } else {
+      btnTr.classList.add('active');
+      btnEn.classList.remove('active');
+    }
+
+    // Get the map: from current to target
+    var map = lang === 'en' ? translations : reverseTranslations;
+
+    // Find all text nodes and swap
+    var selectors = 'h1, h2, h3, h4, th, td, .cover-badge, .cover-meta, .cover-footer, .phase-title, .alert strong, .alert, .label, .value, .tag, .copy-section h3, .copy-section p, p, li, span';
+    var elements = document.querySelectorAll(selectors);
+
+    elements.forEach(function(el) {
+      // Skip lang toggle buttons
+      if (el.closest('.lang-toggle')) return;
+      // Skip script/style
+      if (el.tagName === 'SCRIPT' || el.tagName === 'STYLE') return;
+
+      // Process child nodes that are text nodes or leaf elements
+      var childNodes = el.childNodes;
+      for (var i = 0; i < childNodes.length; i++) {
+        var node = childNodes[i];
+        if (node.nodeType === 3) { // Text node
+          var text = node.textContent.trim();
+          if (text && map[text]) {
+            node.textContent = node.textContent.replace(text, map[text]);
+          }
+        }
+      }
+
+      // For leaf elements with no children except text
+      if (el.children.length === 0 && el.childNodes.length === 1 && el.childNodes[0].nodeType === 3) {
+        var text = el.textContent.trim();
+        if (text && map[text]) {
+          el.textContent = map[text];
+        }
+      }
+    });
+
+    // Handle the copy button text
+    var copyBtn = document.getElementById('copyBtn');
+    if (copyBtn && !copyBtn.classList.contains('copied')) {
+      if (lang === 'en') copyBtn.textContent = 'Copy Improvements';
+      else copyBtn.textContent = 'Iyilestirmeleri Kopyala';
+    }
+
+    // Update html lang attribute
+    document.documentElement.lang = lang;
+
+    // Persist
+    try { localStorage.setItem('rapor-lang', lang); } catch(e) {}
+  };
+
+  // Auto-restore language
+  try {
+    var saved = localStorage.getItem('rapor-lang');
+    if (saved === 'en') {
+      // Delay to ensure DOM is ready
+      setTimeout(function() { setLang('en'); }, 50);
+    }
+  } catch(e) {}
+})();
+</script>
+
+<!-- TRACKING -->
+<script>
+(function() {
+  // Skip tracking if ?t=0
+  if (new URLSearchParams(window.location.search).get('t') === '0') return;
+
+  var SUPABASE_URL = 'https://frficzdzmxhptmtbkfft.supabase.co';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';
+
+  var trackId = null;
+  var startTime = Date.now();
+  var maxScroll = 0;
+  var client = window.location.pathname.split('/')[1] || 'unknown';
+
+  // Track scroll
+  window.addEventListener('scroll', function() {
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+    if (pct > maxScroll) maxScroll = pct;
+  });
+
+  function getTrackData() {
+    var elapsed = Math.round((Date.now() - startTime) / 1000);
+    return {
+      website: window.location.pathname,
+      stage: 'rapor_view',
+      extra_notes: JSON.stringify({
+        time_on_page: elapsed,
+        scroll_depth: maxScroll,
+        reached_bottom: maxScroll >= 90,
+        client: client,
+        page_type: 'rapor',
+        opened_at: new Date(startTime).toISOString()
+      }),
+      last_step: maxScroll >= 90 ? 'reached_bottom' : (maxScroll > 10 ? 'scrolling' : 'opened'),
+      completed: maxScroll >= 90
+    };
+  }
+
+  // Initial insert
+  fetch(SUPABASE_URL + '/rest/v1/funnel_leads', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Prefer': 'return=representation'
+    },
+    body: JSON.stringify(getTrackData())
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data && data[0]) trackId = data[0].id;
+  })
+  .catch(function() {});
+
+  // Update every 10s
+  setInterval(function() {
+    if (!trackId) return;
+    fetch(SUPABASE_URL + '/rest/v1/funnel_leads?id=eq.' + trackId, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(getTrackData())
+    }).catch(function() {});
+  }, 10000);
+
+  // Final update on page hide (tab close / navigate away)
+  window.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden' && trackId) {
+      fetch(SUPABASE_URL + '/rest/v1/funnel_leads?id=eq.' + trackId, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(getTrackData()),
+        keepalive: true
+      }).catch(function() {});
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
