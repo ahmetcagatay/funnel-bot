@@ -374,8 +374,43 @@
 const SUPABASE_URL = 'https://frficzdzmxhptmtbkfft.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+let leadId = null; // tracks current row in supabase
 </script>
 <script>
+// ==================== SYNC TO SUPABASE ====================
+const stepNames = { 0:'website', 2:'stage', 3:'market', 4:'sectors', 5:'experience', 6:'revenue', 7:'ad_channels', 8:'ad_budget', 9:'linkedin', 10:'details', 11:'analysis' };
+
+async function syncLead(stepName) {
+    const payload = {
+        website: D.website || null,
+        stage: D.stage || null,
+        market: D.market || null,
+        sectors: D.sectors.length ? D.sectors : null,
+        experience: D.experience || null,
+        revenue: D.revenue || null,
+        ad_channels: D.adChannels.length ? D.adChannels : null,
+        ad_budget: D.adBudget || null,
+        linkedin: D.linkedin || null,
+        roas: D.roas || null,
+        extra_notes: D.extraNotes || null,
+        phone: D.phone || null,
+        last_step: stepName,
+        completed: false
+    };
+
+    try {
+        if (!leadId) {
+            // First save — insert
+            const { data, error } = await sb.from('funnel_leads').insert(payload).select('id').single();
+            if (data) leadId = data.id;
+            if (error) console.error('insert err:', error);
+        } else {
+            // Update existing row
+            await sb.from('funnel_leads').update(payload).eq('id', leadId);
+        }
+    } catch (e) { console.error('sync err:', e); }
+}
+
 // ==================== STATE ====================
 let cur = 0;
 const STEPS = [0,2,3,4,5,6,7,8,9,10,11,13]; // actual step numbers in order
@@ -451,6 +486,9 @@ function goNext() {
         if (D.extraNotes) termLog('notlar', D.extraNotes.substring(0, 40) + (D.extraNotes.length > 40 ? '...' : ''));
     }
 
+    // Sync to Supabase (fire and forget)
+    syncLead(stepNames[cur] || 'step_' + cur);
+
     // Step 0 → 2
     if (cur === 0) { cur = 2; show(cur); return; }
     // Skip bütçe if no channels
@@ -464,7 +502,7 @@ function goNext() {
     }
 }
 
-function skipWebsite() { D.website = ''; cur = 2; show(cur); }
+function skipWebsite() { D.website = ''; syncLead('website_skip'); cur = 2; show(cur); }
 
 function goBack() {
     if (cur > 0) {
@@ -689,25 +727,22 @@ async function submitFunnel() {
     btn.disabled = true;
     btn.textContent = 'Gönderiliyor...';
 
-    // Save to Supabase
+    // Final update — mark as completed
     try {
-        await sb.from('funnel_leads').insert({
-            website: D.website || null,
-            stage: D.stage || null,
-            market: D.market || null,
-            sectors: D.sectors.length ? D.sectors : null,
-            experience: D.experience || null,
-            revenue: D.revenue || null,
-            ad_channels: D.adChannels.length ? D.adChannels : null,
-            ad_budget: D.adBudget || null,
-            linkedin: D.linkedin || null,
-            roas: D.roas || null,
-            extra_notes: D.extraNotes || null,
-            phone: D.phone
-        });
-    } catch (e) {
-        console.error('Supabase error:', e);
-    }
+        if (leadId) {
+            await sb.from('funnel_leads').update({
+                phone: D.phone,
+                last_step: 'completed',
+                completed: true
+            }).eq('id', leadId);
+        } else {
+            // Edge case: no row yet
+            await syncLead('completed');
+            if (leadId) {
+                await sb.from('funnel_leads').update({ phone: D.phone, completed: true }).eq('id', leadId);
+            }
+        }
+    } catch (e) { console.error('submit err:', e); }
 
     // Stop everything
     if (window._bgInterval) clearInterval(window._bgInterval);

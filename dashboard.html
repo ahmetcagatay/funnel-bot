@@ -127,6 +127,12 @@
         <!-- Stats -->
         <div class="stats" id="statsGrid"></div>
 
+        <!-- Funnel Drop-off -->
+        <div class="chart-card" style="margin-bottom: 32px;">
+            <h3>Funnel Drop-off</h3>
+            <div id="chartFunnel"></div>
+        </div>
+
         <!-- Charts -->
         <div class="charts">
             <div class="chart-card">
@@ -169,6 +175,8 @@
                             <th>LinkedIn</th>
                             <th>ROAS</th>
                             <th>Not</th>
+                            <th>Son Adım</th>
+                            <th>Durum</th>
                         </tr>
                     </thead>
                     <tbody id="leadsTable"></tbody>
@@ -266,19 +274,47 @@ async function loadData() {
     // Counts
     const total = rows.length;
     const today = rows.filter(r => new Date(r.created_at).toDateString() === new Date().toDateString()).length;
+    const completed = rows.filter(r => r.completed).length;
+    const withPhone = rows.filter(r => r.phone).length;
     const withSite = rows.filter(r => r.website).length;
-    const withLinkedin = rows.filter(r => r.linkedin).length;
+    const dropRate = total ? Math.round((1 - completed / total) * 100) : 0;
 
     document.getElementById('totalCount').textContent = total;
     document.getElementById('todayCount').textContent = today;
 
     // Stats grid
     document.getElementById('statsGrid').innerHTML = `
-        <div class="stat-card"><div class="label">Toplam Lead</div><div class="value">${total}</div></div>
+        <div class="stat-card"><div class="label">Toplam Ziyaret</div><div class="value">${total}</div></div>
         <div class="stat-card"><div class="label">Bugün</div><div class="value">${today}</div></div>
+        <div class="stat-card"><div class="label">Tamamlanan</div><div class="value" style="color:#3fb950;">${completed}</div><div class="sub">${total ? Math.round(completed/total*100) : 0}%</div></div>
+        <div class="stat-card"><div class="label">Telefon Alınan</div><div class="value" style="color:#D78686;">${withPhone}</div><div class="sub">${total ? Math.round(withPhone/total*100) : 0}%</div></div>
         <div class="stat-card"><div class="label">Website Var</div><div class="value">${withSite}</div><div class="sub">${total ? Math.round(withSite/total*100) : 0}%</div></div>
-        <div class="stat-card"><div class="label">LinkedIn Var</div><div class="value">${withLinkedin}</div><div class="sub">${total ? Math.round(withLinkedin/total*100) : 0}%</div></div>
+        <div class="stat-card"><div class="label">Drop Rate</div><div class="value" style="color:#f85149;">${dropRate}%</div></div>
     `;
+
+    // Funnel drop-off chart
+    const stepOrder = ['website','website_skip','stage','market','sectors','experience','revenue','ad_channels','ad_budget','linkedin','details','analysis','completed'];
+    const stepLabelsMap = { website:'Website', website_skip:'Website (skip)', stage:'Aşama', market:'Pazar', sectors:'Sektör', experience:'Deneyim', revenue:'Gelir', ad_channels:'Reklam Kanalları', ad_budget:'Reklam Bütçesi', linkedin:'LinkedIn', details:'Detaylar', analysis:'Analiz', completed:'Tamamlandı' };
+    const funnelCounts = {};
+    stepOrder.forEach(s => funnelCounts[s] = 0);
+    rows.forEach(r => {
+        const step = r.last_step || 'unknown';
+        // Count how many reached at least this step
+        const idx = stepOrder.indexOf(step);
+        for (let i = 0; i <= idx; i++) { funnelCounts[stepOrder[i]]++; }
+    });
+    // Also count all rows for the first step
+    const funnelMax = total;
+    const funnelEl = document.getElementById('chartFunnel');
+    funnelEl.innerHTML = stepOrder.map((s, i) => {
+        const count = i === 0 ? total : funnelCounts[s];
+        const pct = funnelMax ? Math.max((count / funnelMax) * 100, 4) : 0;
+        const color = s === 'completed' ? '#3fb950' : colors[i % colors.length];
+        return `<div class="bar-row">
+            <div class="bar-label">${stepLabelsMap[s] || s}</div>
+            <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color};">${count}</div></div>
+        </div>`;
+    }).join('');
 
     // Charts
     buildBars('chartStage', countField(rows, 'stage'), stageLabels);
@@ -302,6 +338,8 @@ async function loadData() {
             <td>${r.linkedin ? `<a href="${r.linkedin}" target="_blank" style="color:#58a6ff;text-decoration:none;">Profil</a>` : '—'}</td>
             <td>${r.roas || '—'}</td>
             <td class="wrap">${truncate(r.extra_notes, 40)}</td>
+            <td><span class="tag">${r.last_step || '—'}</span></td>
+            <td>${r.completed ? '<span style="color:#3fb950;">✓</span>' : '<span style="color:#f85149;">✗</span>'}</td>
         </tr>
     `).join('');
 }
