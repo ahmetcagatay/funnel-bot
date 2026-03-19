@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f172a">
+<title>AI İnfluencer İhtiyaç Analizi - Danex.AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f172a;--bg-card:#1e293b;--bg-card-hover:#334155;--bg-option:rgba(30,41,59,0.8);--bg-option-selected:rgba(59,130,246,0.15);--border-option:rgba(71,85,105,0.5);--border-selected:rgba(59,130,246,0.6);--text-primary:#f1f5f9;--text-secondary:#94a3b8;--text-muted:#64748b;--accent:#3b82f6;--accent-hover:#2563eb;--accent-glow:rgba(59,130,246,0.3);--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--safe-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text-primary);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;touch-action:pan-y}
+.funnel-container{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}
+.step{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;padding:0 24px;padding-bottom:calc(16px + var(--safe-bottom));transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .4s ease;will-change:transform,opacity;opacity:0;pointer-events:none}
+.step[data-position="center"]{transform:translateX(0);opacity:1;pointer-events:auto}
+.step[data-position="left"]{transform:translateX(-100%);opacity:0}
+.step[data-position="right"]{transform:translateX(100%);opacity:0}
+.step-header{display:flex;align-items:center;justify-content:center;position:relative;padding:16px 0 8px;flex-shrink:0}
+.back-btn{position:absolute;left:0;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-secondary);cursor:pointer;padding:8px;border-radius:12px;display:flex;align-items:center;justify-content:center;width:44px;height:44px}
+.back-btn:hover{background:var(--bg-card);color:var(--text-primary)}
+.back-btn svg{width:22px;height:22px}
+.progress-dots{display:flex;gap:6px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);transition:all .35s ease}
+.dot.active{background:var(--accent);width:24px;border-radius:4px}
+.dot.completed{background:var(--accent)}
+.step-content{flex:1;display:flex;flex-direction:column;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;min-height:0}
+.step-content::-webkit-scrollbar{display:none}
+.question-area{text-align:center;margin-bottom:28px;flex-shrink:0}
+.question-title{font-size:26px;font-weight:700;line-height:1.3;margin-bottom:8px;letter-spacing:-.02em}
+.question-subtitle{font-size:14px;color:var(--text-secondary)}
+.options-area{display:flex;flex-direction:column;gap:12px;width:100%;max-width:480px;margin:0 auto}
+.option-btn{display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:14px 18px;background:var(--bg-option);border:1.5px solid var(--border-option);border-radius:16px;color:var(--text-primary);font-family:inherit;font-size:16px;font-weight:500;text-align:left;cursor:pointer;transition:all .2s;user-select:none}
+.option-btn:hover{background:var(--bg-card-hover);border-color:var(--text-muted)}
+.option-btn:active{transform:scale(.98)}
+.option-btn.selected{background:var(--bg-option-selected);border-color:var(--border-selected);box-shadow:0 0 0 1px var(--border-selected),0 0 20px var(--accent-glow)}
+.option-btn .emoji{font-size:28px;flex-shrink:0;line-height:1}
+.option-btn .option-label{flex:1}
+.option-btn .check-indicator{width:22px;height:22px;border-radius:50%;border:2px solid var(--text-muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.option-btn.selected .check-indicator{background:var(--accent);border-color:var(--accent)}
+.option-btn.selected .check-indicator::after{content:'\2713';color:#fff;font-size:13px;font-weight:700}
+.option-btn.multi .check-indicator{border-radius:6px}
+.step-footer{flex-shrink:0;padding-top:16px;max-width:480px;width:100%;margin:0 auto}
+.cta-btn{display:flex;align-items:center;justify-content:center;width:100%;height:56px;background:var(--accent);color:#fff;border:none;border-radius:16px;font-family:inherit;font-size:17px;font-weight:600;cursor:pointer;transition:all .2s}
+.cta-btn:hover:not(:disabled){background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}
+.cta-btn:disabled{opacity:.35;cursor:not-allowed}
+.input-group{width:100%;max-width:480px;margin:0 auto}
+.text-input{width:100%;height:56px;padding:0 18px;background:var(--bg-card);border:1.5px solid var(--border-option);border-radius:16px;color:var(--text-primary);font-family:inherit;font-size:16px;outline:none}
+.text-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.text-input::placeholder{color:var(--text-muted)}
+.input-note{font-size:13px;color:var(--text-muted);text-align:center;margin-top:10px}
+.social-proof{display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;color:var(--text-secondary);margin-top:14px}
+.social-proof .pulse{width:8px;height:8px;background:var(--success);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.analysis-card{background:var(--bg-card);border-radius:20px;padding:24px;width:100%;max-width:480px;margin:0 auto}
+.analysis-header{text-align:center;margin-bottom:20px}
+.analysis-header h2{font-size:22px;font-weight:700;margin-bottom:4px}
+.analysis-header p{font-size:13px;color:var(--text-secondary)}
+.analysis-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(71,85,105,.3)}
+.analysis-row:last-child{border-bottom:none}
+.analysis-label{font-size:14px;color:var(--text-secondary)}
+.analysis-value{font-size:16px;font-weight:600}
+.confidence-bar-container{width:100%;margin-top:8px}
+.confidence-bar-bg{width:100%;height:10px;background:rgba(71,85,105,.4);border-radius:5px;overflow:hidden}
+.confidence-bar-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--danger),var(--warning),var(--success));transition:width 1.2s cubic-bezier(.4,0,.2,1);width:0}
+.insights-list{margin-top:16px;display:flex;flex-direction:column;gap:10px}
+.insight-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--text-secondary)}
+.insight-item .emoji{font-size:20px;flex-shrink:0;line-height:1.3}
+.priority-box{margin-top:16px;padding:14px 16px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);border-radius:14px}
+.priority-box .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:4px}
+.priority-box .text{font-size:14px;color:var(--text-primary);line-height:1.5}
+.free-trial-banner{margin-top:20px;text-align:center;padding:16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:14px}
+.free-trial-banner .emoji{font-size:28px;display:block;margin-bottom:6px}
+.free-trial-banner .text{font-size:15px;font-weight:600;color:var(--text-primary)}
+.free-trial-banner .sub{font-size:13px;color:var(--text-secondary);margin-top:2px}
+.dashboard-preview{width:100%;max-width:480px;margin:0 auto}
+.dashboard-preview h3{font-size:15px;font-weight:600;color:var(--text-secondary);text-align:center;margin-bottom:14px}
+.metric-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.metric-card{background:var(--bg-card);border-radius:14px;padding:14px 10px;text-align:center}
+.metric-card .metric-value{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.metric-card .metric-label{font-size:11px;color:var(--text-muted);margin-top:2px;text-transform:uppercase;letter-spacing:.04em}
+.mini-table{background:var(--bg-card);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.mini-table-header{display:grid;grid-template-columns:1.2fr .8fr .8fr;padding:10px 14px;font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid rgba(71,85,105,.3)}
+.mini-table-row{display:grid;grid-template-columns:1.2fr .8fr .8fr;padding:10px 14px;font-size:13px;color:var(--text-secondary);border-bottom:1px solid rgba(71,85,105,.15)}
+.mini-table-row:last-child{border-bottom:none}
+.mini-table-row .score{font-weight:600;color:var(--text-primary)}
+.status-badge{display:inline-flex;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:600}
+.status-hot{background:rgba(239,68,68,.15);color:var(--danger)}
+.status-warm{background:rgba(245,158,11,.15);color:var(--warning)}
+.status-new{background:rgba(59,130,246,.15);color:var(--accent)}
+.thank-you-icon{width:72px;height:72px;border-radius:50%;background:rgba(34,197,94,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:36px;animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes scaleIn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+.loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .3s}
+.loading-overlay.active{opacity:1;pointer-events:auto}
+.loading-spinner{width:48px;height:48px;border:3px solid var(--bg-card);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{margin-top:20px;font-size:16px;color:var(--text-secondary);text-align:center}
+.loading-text .changing{display:block;margin-top:6px;font-size:14px;color:var(--text-muted);min-height:21px}
+@media(max-height:680px){.question-title{font-size:22px}.option-btn{min-height:48px;padding:10px 14px}.option-btn .emoji{font-size:24px}.options-area{gap:8px}.analysis-card{padding:16px}}
+@media(min-width:640px){.step{padding:0 40px;padding-bottom:calc(24px + var(--safe-bottom))}.question-title{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="funnel-container" id="funnel">
+
+  <div class="step" id="step-1" data-position="center">
+    <div class="step-header"><div class="progress-dots" id="dots-1"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Markanız için sanal influencer kullanmayı düşündünüz mü?</h1></div>
+      <div class="options-area" data-step="1" data-key="awareness">
+        <button class="option-btn" data-value="using"><span class="emoji">&#x2705;</span><span class="option-label">Evet, zaten kullanıyorum</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="interested"><span class="emoji">&#x1F914;</span><span class="option-label">İlgileniyorum ama henüz denemedim</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="curious"><span class="emoji">&#x1F4A1;</span><span class="option-label">Yeni duydum, merak ediyorum</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="skeptic"><span class="emoji">&#x1F928;</span><span class="option-label">Emin değilim, ikna olmam lazım</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-1" disabled>Devam Et</button></div>
+  </div>
+
+  <div class="step" id="step-2" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-2"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Hangi sektördesiniz?</h1></div>
+      <div class="options-area" data-step="2" data-key="sector">
+        <button class="option-btn" data-value="fashion"><span class="emoji">&#x1F457;</span><span class="option-label">Moda / Güzellik</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="travel"><span class="emoji">&#x2708;&#xFE0F;</span><span class="option-label">Turizm / Seyahat</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="ecommerce"><span class="emoji">&#x1F6D2;</span><span class="option-label">E-Ticaret / Perakende</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="tech"><span class="emoji">&#x1F4BB;</span><span class="option-label">Teknoloji / SaaS</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="other"><span class="emoji">&#x1F4BC;</span><span class="option-label">Diğer</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-2" disabled>Devam Et</button></div>
+  </div>
+
+  <div class="step" id="step-3" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-3"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">İçerik üretiminde en büyük sorununuz ne?</h1><p class="question-subtitle">Birden fazla seçebilirsiniz</p></div>
+      <div class="options-area multi" data-step="3" data-key="pain_points" data-multi="true">
+        <button class="option-btn multi" data-value="cost"><span class="emoji">&#x1F4B8;</span><span class="option-label">İnfluencer maliyetleri çok yüksek</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="time"><span class="emoji">&#x23F0;</span><span class="option-label">İçerik üretimi çok uzun sürüyor</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="consistency"><span class="emoji">&#x1F504;</span><span class="option-label">Tutarlı içerik çıkamıyoruz</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="control"><span class="emoji">&#x1F3AF;</span><span class="option-label">İnfluencer üzerinde kontrol yok</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="scale"><span class="emoji">&#x1F4C8;</span><span class="option-label">Ölçeklenemiyor, her şey manuel</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-3" disabled>Devam Et</button></div>
+  </div>
+
+  <div class="step" id="step-4" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-4"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Aylık içerik pazarlama bütçeniz ne kadar?</h1></div>
+      <div class="options-area" data-step="4" data-key="budget">
+        <button class="option-btn" data-value="low"><span class="emoji">&#x1F4B0;</span><span class="option-label">5.000 TL'den az</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="mid"><span class="emoji">&#x1F4B3;</span><span class="option-label">5.000 - 20.000 TL</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="high"><span class="emoji">&#x1F4B5;</span><span class="option-label">20.000 - 100.000 TL</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="premium"><span class="emoji">&#x1F680;</span><span class="option-label">100.000 TL ve üzeri</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-4" disabled>Devam Et</button></div>
+  </div>
+
+  <div class="step" id="step-5" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-5"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Hangi platformlarda içerik üretiyorsunuz?</h1><p class="question-subtitle">Birden fazla seçebilirsiniz</p></div>
+      <div class="options-area multi" data-step="5" data-key="platforms" data-multi="true">
+        <button class="option-btn multi" data-value="instagram"><span class="emoji">&#x1F4F7;</span><span class="option-label">Instagram</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="tiktok"><span class="emoji">&#x1F3B5;</span><span class="option-label">TikTok</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="linkedin"><span class="emoji">&#x1F4BC;</span><span class="option-label">LinkedIn</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="youtube"><span class="emoji">&#x1F3AC;</span><span class="option-label">YouTube</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="web"><span class="emoji">&#x1F310;</span><span class="option-label">Web sitesi / Blog</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-5" disabled>Analizimi Gör</button></div>
+  </div>
+
+  <!-- Analiz -->
+  <div class="step" id="step-6" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-6"></div></div>
+    <div class="step-content">
+      <div class="analysis-card">
+        <div class="analysis-header"><h2>AI İnfluencer Uyumluluk Profiliniz</h2><p>Cevaplarınıza göre analiz</p></div>
+        <div class="analysis-row"><span class="analysis-label">Önerilen Plan</span><span class="analysis-value" id="a-plan">Pro</span></div>
+        <div class="analysis-row"><span class="analysis-label">Tahmini Tasarruf</span><span class="analysis-value" id="a-saving">%45</span></div>
+        <div class="analysis-row" style="flex-direction:column;align-items:stretch;gap:6px">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span class="analysis-label">AI İnfluencer Uyumluluk Skoru</span><span class="analysis-value" id="a-score">72/100</span></div>
+          <div class="confidence-bar-container"><div class="confidence-bar-bg"><div class="confidence-bar-fill" id="confidence-fill"></div></div></div>
+        </div>
+        <div class="insights-list" id="insights-list"></div>
+        <div class="priority-box"><div class="label">Öncelikli Öneri</div><div class="text" id="priority-text">AI influencer ile içerik maliyetlerinizi düşürün ve üretim hızınızı artırın.</div></div>
+        <div class="free-trial-banner"><span class="emoji">&#x1F381;</span><div class="text">Bu funnel müşterileriniz için de çalışır</div><div class="sub">Potansiyel müşterilerinizin ihtiyacını anlayın, doğru teklifle buluşturun</div></div>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-6">Ücretsiz Deneyin</button></div>
+  </div>
+
+  <!-- İletişim -->
+  <div class="step" id="step-7" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-7"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Size özel demo'nuzu nereye gönderelim?</h1></div>
+      <div class="input-group">
+        <input type="email" class="text-input" id="email-input" placeholder="ornek@marka.com" autocomplete="email" inputmode="email">
+        <p class="input-note">Kişiselleştirilmiş AI influencer demo'nuz e-posta adresinize gönderilecek.</p>
+        <div class="social-proof"><span class="pulse"></span><span>AI influencer'lar %5.9 etkileşim oranı sağlıyor</span></div>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-7" disabled>Demo'mu Gönder</button></div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="step" id="step-8" data-position="right">
+    <div class="step-header"><div class="progress-dots" id="dots-8"></div></div>
+    <div class="step-content">
+      <div style="text-align:center;margin-bottom:20px">
+        <div class="thank-you-icon">&#x2705;</div>
+        <h1 class="question-title" style="font-size:22px">Bu funnel sizin müşterileriniz için de hazır.</h1>
+      </div>
+      <div class="dashboard-preview">
+        <h3>Funnel ile toplanan lead verileri böyle görünür</h3>
+        <div class="metric-cards">
+          <div class="metric-card"><div class="metric-value">156</div><div class="metric-label">Lead</div></div>
+          <div class="metric-card"><div class="metric-value">%31</div><div class="metric-label">Dönüşüm</div></div>
+          <div class="metric-card"><div class="metric-value">%60</div><div class="metric-label">Tasarruf</div></div>
+        </div>
+        <div class="mini-table">
+          <div class="mini-table-header"><span>Marka</span><span>Sektör</span><span>Durum</span></div>
+          <div class="mini-table-row"><span>Moda X</span><span class="score">Moda</span><span><span class="status-badge status-hot">Sıcak</span></span></div>
+          <div class="mini-table-row"><span>TravelCo</span><span class="score">Turizm</span><span><span class="status-badge status-warm">Ilık</span></span></div>
+          <div class="mini-table-row"><span>TechStart</span><span class="score">SaaS</span><span><span class="status-badge status-new">Yeni</span></span></div>
+          <div class="mini-table-row"><span>BeautyBrand</span><span class="score">Güzellik</span><span><span class="status-badge status-hot">Sıcak</span></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-8" onclick="sendInterest()" style="background:#22c55e">Funnel'ı beğendim, bir sonraki aşamaya geçelim</button></div>
+  </div>
+
+</div>
+
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">AI uyumluluk profiliniz analiz ediliyor<span class="changing" id="loading-changing"></span></div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var TS=8,cs=1,ans={};
+  for(var s=1;s<=TS;s++){var dc=document.getElementById('dots-'+s);if(!dc)continue;for(var d=1;d<=TS;d++){var dot=document.createElement('span');dot.className='dot'+(d<s?' completed':'')+(d===s?' active':'');dc.appendChild(dot)}}
+  var oas=document.querySelectorAll('.options-area');
+  for(var i=0;i<oas.length;i++){(function(a){var im=a.dataset.multi==='true',k=a.dataset.key,st=parseInt(a.dataset.step,10);var bs=a.querySelectorAll('.option-btn');for(var j=0;j<bs.length;j++){(function(b){b.addEventListener('click',function(){if(im){b.classList.toggle('selected');var sl=a.querySelectorAll('.option-btn.selected'),v=[];for(var x=0;x<sl.length;x++)v.push(sl[x].dataset.value);ans[k]=v;document.getElementById('cta-'+st).disabled=v.length===0}else{var al=a.querySelectorAll('.option-btn');for(var x=0;x<al.length;x++)al[x].classList.remove('selected');b.classList.add('selected');ans[k]=b.dataset.value;document.getElementById('cta-'+st).disabled=false}})})(bs[j])})(oas[i])}
+  var ei=document.getElementById('email-input');ei.addEventListener('input',function(){document.getElementById('cta-7').disabled=!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ei.value.trim())});
+  for(var s=1;s<=5;s++){(function(st){document.getElementById('cta-'+st).addEventListener('click',function(){if(st===5){showLoading(function(){buildAnalysis();goToStep(6)})}else goToStep(st+1)})})(s)}
+  document.getElementById('cta-6').addEventListener('click',function(){goToStep(7)});
+  document.getElementById('cta-7').addEventListener('click',function(){ans.email=ei.value.trim();goToStep(8)});
+
+  function goToStep(t){if(t<1||t>TS)return;document.getElementById('step-'+cs).dataset.position=t>cs?'left':'right';document.getElementById('step-'+t).dataset.position='center';cs=t;if(t===6)setTimeout(function(){var f=document.getElementById('confidence-fill');if(f&&f.dataset.target)f.style.width=f.dataset.target+'%'},350)}
+  window.goBack=function(){goToStep(cs-1)};
+
+  function showLoading(cb){var o=document.getElementById('loading-overlay'),c=document.getElementById('loading-changing');o.classList.add('active');var m=['Sektörünüz değerlendiriliyor...','İçerik ihtiyaçları analiz ediliyor...','Tasarruf potansiyeli hesaplanıyor...','Kişiselleştirilmiş öneri hazırlanıyor...'];var i=0;c.textContent=m[0];var iv=setInterval(function(){i++;if(i<m.length)c.textContent=m[i]},600);setTimeout(function(){clearInterval(iv);o.classList.remove('active');cb()},2600)}
+
+  function buildAnalysis(){
+    var plan='Pro',saving='%45',score=65;
+    if(ans.budget==='high'||ans.budget==='premium'){plan='Premium';saving='%60';score=85}
+    else if(ans.budget==='mid'){plan='Pro';saving='%50';score=72}
+    else{plan='Free Trial';saving='%35';score=55}
+    if(ans.awareness==='using')score=Math.min(score+10,95);
+    document.getElementById('a-plan').textContent=plan;
+    document.getElementById('a-saving').textContent=saving;
+    document.getElementById('a-score').textContent=score+'/100';
+    var f=document.getElementById('confidence-fill');f.dataset.target=score;f.style.width='0%';
+
+    var ins=[];
+    if(ans.awareness==='skeptic')ins.push({emoji:'\uD83D\uDCA1',text:'AI influencer\'lar gerçek influencer\'lara göre 3x daha yüksek etkileşim oranı sağlıyor (%5.9 vs %1.9). Maliyet ise %60\'a kadar daha düşük.'});
+    else if(ans.awareness==='curious')ins.push({emoji:'\uD83C\uDFAF',text:'AI influencer, markanız için 7/24 çalışan, tamamen kontrol edebildiğiniz bir dijital elçidir. Skandal riski sıfır, tutarlılık maksimum.'});
+    else if(ans.awareness==='interested')ins.push({emoji:'\u26A1',text:'Doğru zamanlama! AI influencer pazarı her yıl 7.5x büyüyor. Erken başlayanlar rakiplerinden önce avantaj kazanıyor.'});
+    else ins.push({emoji:'\u2B50',text:'AI influencer deneyiminiz var - harika! Şimdi ölçeklendirme, otomasyon ve çoklu persona yönetimi ile bir sonraki seviyeye geçme zamanı.'});
+
+    var pp=ans.pain_points||[];
+    if(pp.indexOf('cost')!==-1)ins.push({emoji:'\uD83D\uDCB8',text:'Geleneksel influencer\'a aylık 50.000-500.000 TL ödemek yerine, AI influencer ile aynı içeriği ayda 700 TL\'ye üretebilirsiniz.'});
+    if(pp.indexOf('time')!==-1)ins.push({emoji:'\u23F0',text:'AI ile içerik üretim süresi saatlerden dakikalara düşüyor. Metin girin, görsel/video anında hazır.'});
+    if(pp.indexOf('consistency')!==-1)ins.push({emoji:'\uD83D\uDD04',text:'AI influencer 7/24 tutarlı içerik üretir. Marka tonu, görsel dil ve mesaj hiç sapma göstermez.'});
+    if(pp.indexOf('control')!==-1)ins.push({emoji:'\uD83C\uDFAF',text:'Sanal influencer tamamen sizin kontrolünüzde. Skandal riski sıfır, marka uyumu %100.'});
+    if(pp.indexOf('scale')!==-1)ins.push({emoji:'\uD83D\uDCC8',text:'Tek bir platformdan 10 farklı persona yönetin. Her biri farklı hedef kitleye hitap etsin, hepsi otomatik paylaşım yapsın.'});
+    ins=ins.slice(0,3);
+
+    var il=document.getElementById('insights-list');il.innerHTML='';
+    for(var i=0;i<ins.length;i++){var d=document.createElement('div');d.className='insight-item';d.innerHTML='<span class="emoji">'+ins[i].emoji+'</span><span>'+ins[i].text+'</span>';il.appendChild(d)}
+
+    var pm={fashion:'Moda sektöründe AI influencer en etkili: ürün görselleri, "Be Anywhere" ile farklı lokasyonlarda çekim ve otomatik Instagram paylaşımı ile markanızı büyütün.',travel:'Turizm sektöründe sanal influencer ile dünyanın her yerinden içerik üretin. Uçak bileti, otel, fotoğrafçı masrafı olmadan.',ecommerce:'E-ticaret\'te AI ürün fotoğrafçılığı ile katalog maliyetlerini %80 düşürün. Her ürünü farklı ortamlarda, farklı modellerde gösterin.',tech:'Teknoloji markası olarak AI-first yaklaşım sergileyin. Sanal marka elçisi ile thought leadership içerikleri otomatik üretin.',other:'Sektörünüze özel AI influencer stratejisi ile içerik maliyetlerini düşürün ve üretim hızınızı katlanın.'};
+    document.getElementById('priority-text').textContent=pm[ans.sector]||pm.other;
+  }
+
+  window.sendInterest=function(){var b=document.getElementById('cta-8');b.disabled=true;b.textContent='Gönderiliyor...';
+    fetch('https://frficzdzmxhptmtbkfft.supabase.co/rest/v1/funnel_leads',{method:'POST',headers:{'Content-Type':'application/json','apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI','Prefer':'return=minimal'},body:JSON.stringify({email:ans.email||'',source:'demo-funnel',status:'interested',answers:JSON.stringify(ans),created_at:new Date().toISOString()})}).then(function(){b.textContent='\u2705 İlginiz için teşekkürler!';b.style.background='#16a34a';var n=document.createElement('p');n.style.cssText='text-align:center;color:var(--text-secondary);font-size:14px;margin-top:12px';n.textContent='En kısa sürede sizinle iletişime geçeceğiz.';b.parentNode.appendChild(n)}).catch(function(){b.textContent='\u2705 İlginiz için teşekkürler!';b.style.background='#16a34a'})};
+
+  var tsx=0,tsy=0;
+  document.addEventListener('touchstart',function(e){tsx=e.changedTouches[0].clientX;tsy=e.changedTouches[0].clientY},{passive:true});
+  document.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-tsx,dy=e.changedTouches[0].clientY-tsy;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5&&dx>0&&cs>1)goBack()},{passive:true});
+
+  var sT=new URLSearchParams(window.location.search).get('t')!=='0';
+  if(sT){var SU='https://frficzdzmxhptmtbkfft.supabase.co',SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';
+  var tId=null,tSt=Date.now(),sET=Date.now(),sTm={},mSR=1,cI=false;
+  function gTP(){var n=Date.now(),k='step_'+cs;if(!sTm[k])sTm[k]=0;sTm[k]+=Math.round((n-sET)/1000);sET=n;return{website:window.location.pathname,stage:'demo_funnel_view',linkedin:ans.email||null,extra_notes:JSON.stringify({time_on_page:Math.round((Date.now()-tSt)/1000),current_step:cs,max_step_reached:mSR,step_times:sTm,completed_funnel:cs>=8,clicked_interested:cI,client:'danexai',opened_at:new Date(tSt).toISOString()}),last_step:cI?'interested':'step_'+cs,completed:cI}}
+  function sF(m,p,b){return fetch(SU+'/rest/v1/'+p,{method:m,headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':m==='POST'?'return=representation':'return=minimal'},body:JSON.stringify(b)})}
+  sF('POST','funnel_leads',gTP()).then(function(r){return r.json()}).then(function(d){if(d&&d[0])tId=d[0].id});
+  var _og=goToStep;goToStep=function(t){if(tId){var n=Date.now(),k='step_'+cs;if(!sTm[k])sTm[k]=0;sTm[k]+=Math.round((n-sET)/1000);sET=n}_og(t);if(t>mSR)mSR=t;if(tId)sF('PATCH','funnel_leads?id=eq.'+tId,gTP())};
+  setInterval(function(){if(tId)sF('PATCH','funnel_leads?id=eq.'+tId,gTP())},10000);
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'&&tId)fetch(SU+'/rest/v1/funnel_leads?id=eq.'+tId,{method:'PATCH',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=minimal'},body:JSON.stringify(gTP()),keepalive:true})});
+  var _osi=window.sendInterest;window.sendInterest=function(){cI=true;if(tId)sF('PATCH','funnel_leads?id=eq.'+tId,gTP());_osi()}}
+})();
+</script>
+</body>
+</html>
