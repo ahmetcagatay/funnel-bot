@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 25mm 20mm 25mm 20mm; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 13px; line-height: 1.6; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #e8f0fe; color: #1a73e8; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px 0; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px 0; }
+  .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #1a73e8, #34a853); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a73e8; padding-bottom: 6px; margin: 30px 0 16px 0; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px 0; }
+  h4 { font-size: 12px; font-weight: 600; color: #555; margin: 14px 0 6px 0; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px 0; font-size: 12px; }
+  th { background: #1a1a2e; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #e8f0fe; border-left: 4px solid #1a73e8; color: #174ea6; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; }
+  li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; }
+  .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #e8f0fe; color: #174ea6; }
+  .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #1a73e8; margin-bottom: 8px; }
+  .page-break { page-break-before: always; }
+  p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; }
+  .summary-card { flex: 1; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #1a73e8; }
+  .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px 0; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; }
+  .score-mid { background: #f9ab00; }
+  .score-high { background: #34a853; }
+  @media print { .copy-section { display: none !important; } }
+  .copy-section { padding: 20px 24px; background: #f0f4ff; border: 2px dashed #1a73e8; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .copy-section h3 { font-size: 16px; color: #1a1a2e; margin-bottom: 6px; border: none; }
+  .copy-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .copy-btn { background: #1a73e8; color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+  .copy-btn:hover { background: #1557b0; }
+  .copy-btn.copied { background: #34a853; }
+  .copy-status { margin-top: 10px; font-size: 12px; color: #80868b; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanım</div>
+  <h1>WebsiteMerkezi.com.tr</h1>
+  <h2>Dijital Pazarlama &amp; Dönüşüm Strateji Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazırlanma Tarihi:</strong> 19 Mart 2026<br>
+    <strong>Domain:</strong> websitemerkezi.com.tr<br>
+    <strong>Sektör:</strong> Web Tasarım &amp; Yazılım Ajansı<br>
+    <strong>Rapor Türü:</strong> Detaylı Analiz + Strateji Önerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır.</div>
+</div>
+
+<!-- COPY BUTTON -->
+<div class="copy-section">
+  <h3>İyileştirme Önerilerini Kopyala</h3>
+  <p>Rapordaki tüm iyileştirme önerilerini kopyalayarak yapay zekânıza veya ekibinize iletebilirsiniz.</p>
+  <button class="copy-btn" id="copyBtn" onclick="copyImprovements()">İyileştirmeleri Kopyala</button>
+  <div class="copy-status" id="copyStatus"></div>
+</div>
+
+<script>
+function copyImprovements() {
+  const btn = document.getElementById('copyBtn');
+  const status = document.getElementById('copyStatus');
+  const text = `WEBSITEMERKEZI.COM.TR - İYİLEŞTİRME ÖNERİLERİ
+=====================================
+
+ACİL DÜZELTMELER (Hafta 1-2):
+
+1. FİYAT ŞEFFAFLIĞI SAĞLAYIN
+   En az 3 paket (Başlangıç / Kurumsal / E-Ticaret) fiyatlarını sitede gösterin. "Ücretsiz Teklif Al" tek başına dönüşüm sağlamıyor.
+
+2. DENEYIM TUTARSIZLIĞINI DÜZELTİN
+   Ana sayfa "3+ yıl" diyor, Hakkımızda "10+ yıl" diyor. Tek bir tutarlı rakam kullanın.
+
+3. META TAG VE SEO ALTYAPISINI KURUN
+   Title, meta description, Open Graph, canonical tag, sitemap.xml - bunlar SEO hizmeti satan bir ajans için olmazsa olmaz.
+
+4. SOSYAL MEDYA HESAPLARI OLUŞTURUN
+   Instagram, LinkedIn, Facebook - bir web tasarım ajansının sosyal medyada olmaması güven sorunu yaratıyor.
+
+5. MÜŞTERİ YORUMLARI/REFERANSLARI EKLEYİN
+   "%99 memnuniyet" iddiasını kanıtlayın. Google yorumları, müşteri testimonial'ları ekleyin.
+
+6. MARKA SORUNU - İSİM BENZERLİĞİ
+   websitemerkezi.com farklı bir firma. Bu karışıklık potansiyel müşteri kaybettiriyor.
+
+-----
+
+DİJİTAL PAZARLAMA STRATEJİSİ (Hafta 3-4):
+
+1. LEAD FUNNEL OLUŞTURUN - "Web siteniz size müşteri getiriyor mu?" ile başlayan kalifikasyon funnel'ı
+2. BLOG BAŞLATIN - "Web sitesi fiyatları 2026", "E-ticaret sitesi maliyeti" gibi anahtar kelimelerle organik trafik
+3. PORTFOLYO SAYFALARINI OPTİMİZE EDİN - Her proje için ayrı SEO-uyumlu sayfa
+4. GOOGLE MY BUSINESS OLUŞTURUN - Yerel SEO için kritik
+5. SCHEMA MARKUP EKLEYİN - LocalBusiness, Organization, Service schema'ları
+6. REKLAM HARCAMASINI OPTİMİZE EDİN - 5-20K bütçe, 0 gelir: funnel olmadan reklam para israfı
+
+-----
+
+BÜYÜME STRATEJİSİ (Ay 2+):
+
+1. NİŞ ODAKLANMA - Sağlık, hukuk, emlak gibi sektörlere özelleşin
+2. RECURRING GELİR MODELİ - Aylık bakım/yönetim paketleri ile sürdürülebilir gelir
+3. CASE STUDY ÜRETİN - Karavan kiralama yazılımı gibi projelerin başarı hikayelerini anlatın
+4. LINKEDIN OUTBOUND - Karar vericilere doğrudan mesaj kampanyası
+5. REFERANS PROGRAMI - Mevcut müşterilerden yönlendirme komisyonu
+6. TEKNOLOJİ YÜKSELTME - Vanilla PHP'den Laravel/Next.js'e geçiş
+
+-----
+
+KRİTİK SORUNLAR:
+- Fiyat bilgisi sitede yok [KRİTİK]
+- Sosyal medya varlığı sıfır [KRİTİK]
+- SEO hizmeti satarken kendi sitesinin SEO'su zayıf [KRİTİK]
+- Deneyim bilgisi tutarsız (3 yıl vs 10 yıl) [YÜKSEK]
+- Müşteri referansları/yorumları yok [YÜKSEK]
+- İsim benzerliği sorunu (websitemerkezi.com) [ORTA]
+- 5-20K reklam bütçesi harcanıyor ama 0 gelir [KRİTİK]`;
+
+  try {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '\u2705 Kopyalandı!';
+      btn.classList.add('copied');
+      status.textContent = (text.length / 1024).toFixed(1) + ' KB kopyalandı';
+      setTimeout(() => { btn.textContent = 'İyileştirmeleri Kopyala'; btn.classList.remove('copied'); }, 3000);
+    });
+  } catch(e) {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.cssText = 'position:fixed;left:-9999px';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    btn.textContent = '\u2705 Kopyalandı!'; btn.classList.add('copied');
+    status.textContent = (text.length / 1024).toFixed(1) + ' KB kopyalandı';
+    setTimeout(() => { btn.textContent = 'İyileştirmeleri Kopyala'; btn.classList.remove('copied'); }, 3000);
+  }
+}
+</script>
+
+<!-- PAGE 1 - PROFİL -->
+<h2 class="page-break">1. Lead Profil Özeti</h2>
+
+<div class="summary-grid">
+  <div class="summary-card">
+    <div class="value">B2B+B2C</div>
+    <div class="label">Hedef Pazar</div>
+  </div>
+  <div class="summary-card">
+    <div class="value">Ajans</div>
+    <div class="label">Sektör</div>
+  </div>
+  <div class="summary-card">
+    <div class="value">0 TL</div>
+    <div class="label">Aylık Gelir</div>
+  </div>
+  <div class="summary-card">
+    <div class="value">5-20K</div>
+    <div class="label">Reklam Bütçesi</div>
+  </div>
+  <div class="summary-card">
+    <div class="value">16+</div>
+    <div class="label">Proje Sayısı</div>
+  </div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Değer</th></tr>
+  <tr><td><strong>Website</strong></td><td>websitemerkezi.com.tr</td></tr>
+  <tr><td><strong>Hizmet Tanımı</strong></td><td>Kurumsal web sitesi tasarımı, e-ticaret geliştirme, özel yazılım (SaaS), SEO optimizasyonu, blog/CMS yönetim sistemleri sunan dijital ajans.</td></tr>
+  <tr><td><strong>Mevcut Durum</strong></td><td>Satışları iyileştirmek istiyor (improve_sales)</td></tr>
+  <tr><td><strong>Hedef Pazar</strong></td><td>B2B + B2C karışık</td></tr>
+  <tr><td><strong>Sektör</strong></td><td>Web Tasarım &amp; Yazılım</td></tr>
+  <tr><td><strong>Aylık Gelir</strong></td><td>0 TL - Henüz gelir elde edemiyor</td></tr>
+  <tr><td><strong>Reklam Bütçesi</strong></td><td>5-20K TL/ay</td></tr>
+  <tr><td><strong>Telefon</strong></td><td>+90 505 009 35 34</td></tr>
+  <tr><td><strong>Teknoloji</strong></td><td>Vanilla PHP, MySQL, Tailwind CSS, FontAwesome 6</td></tr>
+  <tr><td><strong>Funnel Durumu</strong></td><td><span class="tag tag-green">Tamamlandı</span></td></tr>
+</table>
+
+<h3>Portföy Projeleri (16+ beyan edilen)</h3>
+<table>
+  <tr><th>Proje</th><th>Tür</th><th>Öne Çıkan Özellik</th></tr>
+  <tr><td><strong>Karavan Kiralama Yazılımı</strong></td><td>SaaS</td><td>Rezervasyon motoru, filo yönetimi, PayTR entegrasyonu</td></tr>
+  <tr><td><strong>Yat Satış İlan Sitesi</strong></td><td>Portal</td><td>Sınırsız ilan, WhatsApp entegrasyonu</td></tr>
+  <tr><td><strong>Doktor Web Sitesi</strong></td><td>Şablon</td><td>KVKK uyumlu, online randevu</td></tr>
+  <tr><td><strong>Nakliye SEO Yazılımı</strong></td><td>SEO</td><td>İstanbul 39 ilçe, 900+ mahalle otomatik SEO</td></tr>
+  <tr><td><strong>Online Çiçekçi</strong></td><td>E-Ticaret</td><td>Sipariş yönetimi, teslimat takibi</td></tr>
+  <tr><td><strong>Emlak Proje Portalı</strong></td><td>Portal</td><td>AI destekli arama</td></tr>
+  <tr><td><strong>Restaurant Sitesi</strong></td><td>Kurumsal</td><td>Online sipariş sistemi</td></tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>Kritik Tespit: 0 Gelir + Reklam Harcaması</strong>
+  16+ proje portföyüne rağmen gelir 0 TL. 5-20K TL reklam bütçesi harcanıyor ama dönüşüm sağlanamıyor. Bu, funnel ve dönüşüm sürecinde fundamental sorunlar olduğuna işaret ediyor. Reklam trafiği geliyorsa ama müşteriye dönüşmüyorsa, sorun sitede - fiyat şeffaflığı yok, güven sinyalleri eksik, CTA karmaşık.
+</div>
+
+<!-- PAGE 2 - WEB SİTESİ ANALİZİ -->
+<h2 class="page-break">2. Web Sitesi Analizi - Tespit Edilen Sorunlar</h2>
+
+<p><strong>websitemerkezi.com.tr</strong> Vanilla PHP ile geliştirilmiş, Tailwind CSS kullanan, glassmorphism efektli modern bir tasarıma sahip. Ancak SEO altyapısı ve dönüşüm optimizasyonu açısından ciddi eksikler var.</p>
+
+<h3>2.1 Kritik SEO Sorunları</h3>
+<table>
+  <tr><th>Sorun</th><th>Açıklama</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>Meta tag eksikliği</strong></td>
+    <td>Meta description, keywords ve Open Graph etiketleri yok. Arama motorlarında ve sosyal medya paylaşımlarında düzgün görünmüyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Schema markup yok</strong></td>
+    <td>Organization, LocalBusiness, Service gibi yapılandırılmış veri yok. Google zengin sonuç gösteremiyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Başlık hiyerarşisi bozuk</strong></td>
+    <td>H1 etiketi olmadan birden fazla H2 kullanılıyor. SEO için temel HTML yapısı hatalı.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sitemap.xml yok</strong></td>
+    <td>Arama motorlarının siteyi düzgün taraması için sitemap gerekli.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Canonical tag yok</strong></td>
+    <td>Yinelenen içerik riski. Proje kartları iki kez görünüyor (6 öne çıkan + 8 güncel).</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+  <tr>
+    <td><strong>Görsel alt metinleri eksik</strong></td>
+    <td>50+ görsel açıklayıcı alt etiketlerinden yoksun.</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>İroni: SEO Hizmeti Satan Ajansın Kendi SEO'su Zayıf</strong>
+  WebsiteMerkezi SEO optimizasyonu hizmeti sunuyor ancak kendi sitesinde meta tag yok, schema yok, sitemap yok, başlık hiyerarşisi bozuk. Bu durum potansiyel müşterilerde ciddi güven sorunu yaratır. "SEO yapıyoruz" diyen bir ajansın kendi sitesi Google'da düzgün indexlenmiyorsa, müşteri neden güvensin?
+</div>
+
+<h3>2.2 UX ve Dönüşüm Sorunları</h3>
+<table>
+  <tr><th>Sorun</th><th>Açıklama</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>Fiyat bilgisi yok</strong></td>
+    <td>Sitede hiçbir fiyat gösterilmiyor. Sadece "Ücretsiz Teklif Al" butonu var. Ziyaretçi fiyat görmeden siteden ayrılıyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Deneyim tutarsızlığı</strong></td>
+    <td>Ana sayfa "3+ yıl deneyim" diyor, Hakkımızda sayfası "10+ yıl" diyor. Hangisi doğru?</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>CTA karmaşası</strong></td>
+    <td>"Ücretsiz Teklif" butonu 3 kez tekrarlanıyor, hangisi birincil belirsiz.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Müşteri referansları eksik</strong></td>
+    <td>"%99 memnuniyet" iddiası kanıtlanmamış. Testimonial, Google yorum, müşteri logosu yok.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sosyal medya bağlantıları yok</strong></td>
+    <td>Sitede hiçbir sosyal medya linki yok. Dijital ajans için ciddi güven eksikliği.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Proje açıklamaları çok uzun</strong></td>
+    <td>Karavan projesi 500+ kelime. Özetlenmesi gerekiyor.</td>
+    <td><span class="tag">Düşük</span></td>
+  </tr>
+</table>
+
+<h3>2.3 Marka Sorunu</h3>
+
+<div class="alert alert-warning">
+  <strong>İsim Benzerliği Riski: websitemerkezi.com vs .com.tr</strong>
+  <strong>websitemerkezi.com</strong> tamamen farklı bir firma (farklı telefon: +90 533 271 2139, farklı e-posta). Google'da "websitemerkezi" arandığında hangi firma çıkacağı belirsiz. Bu durum potansiyel müşteri kaybına ve marka karışıklığına yol açıyor. İki seçenek: (1) .com domain'ini de satın almak veya (2) tamamen farklı, benzersiz bir marka ismi kullanmak.
+</div>
+
+<div class="alert alert-info">
+  <strong>Strateji Notu: Önce Kendi Evinizi Düzeltin</strong>
+  Bir web tasarım ajansının en güçlü satış aracı kendi web sitesidir. Potansiyel müşteri sitenize geldiğinde "bu ajans benim sitem için ne yapabilir?" sorusunu kendi sitenize bakarak cevaplar. SEO eksiklikleri, fiyat şeffaflığı olmaması, sosyal medya yokluğu ve kanıtlanmamış iddialar potansiyel müşteriyi kaçırıyor. 5-20K reklam bütçesi ile trafik getiriyorsunuz ama site dönüştürmüyor - sorun reklamda değil, sitede.
+</div>
+
+<!-- PAGE 3 - RAKİP ANALİZİ -->
+<h2 class="page-break">3. Rakip Analizi - Web Tasarım Ajans Pazarı</h2>
+
+<h3>3.1 Doğrudan Rakipler</h3>
+<table>
+  <tr><th>Rakip</th><th>Fiyat Aralığı</th><th>Güçlü Yönü</th><th>Fiyat Şeffaflığı</th></tr>
+  <tr>
+    <td><strong>Webtasarımji.com</strong></td>
+    <td>10.000 - 30.000 TL</td>
+    <td>Şeffaf fiyatlandırma, SEO dahil</td>
+    <td><span class="tag tag-green">Var</span></td>
+  </tr>
+  <tr>
+    <td><strong>Ela Design</strong></td>
+    <td>22.000 - 125.000 TL</td>
+    <td>Kurumsal odak, detaylı paketler</td>
+    <td><span class="tag tag-green">Var</span></td>
+  </tr>
+  <tr>
+    <td><strong>Penta Yazılım</strong></td>
+    <td>Teklif bazlı</td>
+    <td>Binlerce referans, Türkiye geneli</td>
+    <td><span class="tag tag-red">Yok</span></td>
+  </tr>
+  <tr>
+    <td><strong>Web Tasarım 34</strong></td>
+    <td>Teklif bazlı</td>
+    <td>SEO + dijital pazarlama entegre</td>
+    <td><span class="tag tag-red">Yok</span></td>
+  </tr>
+  <tr>
+    <td><strong>Webintek</strong></td>
+    <td>Teklif bazlı</td>
+    <td>Türkiye geneli hizmet</td>
+    <td><span class="tag tag-red">Yok</span></td>
+  </tr>
+  <tr style="background:#e8f0fe">
+    <td><strong>WebsiteMerkezi</strong></td>
+    <td>Bilinmiyor</td>
+    <td>Çeşitli sektör deneyimi, özel yazılım</td>
+    <td><span class="tag tag-red">Yok</span></td>
+  </tr>
+</table>
+
+<h3>3.2 Pazar Fiyat Haritası (2026 Türkiye)</h3>
+<table>
+  <tr><th>Hizmet Türü</th><th>Alt Sınır</th><th>Ortalama</th><th>Üst Sınır</th></tr>
+  <tr><td>Tek Sayfa Site</td><td>7.000 TL</td><td>10.000 TL</td><td>14.000 TL</td></tr>
+  <tr><td>Kurumsal Web Sitesi</td><td>10.000 TL</td><td>25.000 TL</td><td>75.000 TL</td></tr>
+  <tr><td>E-Ticaret (Başlangıç)</td><td>25.000 TL</td><td>45.000 TL</td><td>110.000 TL</td></tr>
+  <tr><td>E-Ticaret (Profesyonel)</td><td>45.000 TL</td><td>100.000 TL</td><td>280.000 TL</td></tr>
+  <tr><td>Özel Yazılım / SaaS</td><td>50.000 TL</td><td>200.000 TL</td><td>600.000+ TL</td></tr>
+  <tr><td>Aylık Bakım/Yönetim</td><td>3.500 TL</td><td>5.000 TL</td><td>10.000+ TL</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Fiyatlandırma Stratejisi Önerisi</strong>
+  Fiyat göstermeyen ajanslar, şeffaf fiyat gösteren rakiplere (Webtasarımji, Ela Design) müşteri kaybediyor. Önerimiz: En az 3 paket (Başlangıç / Kurumsal / E-Ticaret) ile net fiyatlar gösterin. Fiyatı gizlemek "pahalı olmalı" algısı yaratır ve potansiyel müşteriyi teklif almadan kaybettirir.
+</div>
+
+<h3>3.3 Dolaylı Rakipler (Platformlar)</h3>
+<table>
+  <tr><th>Platform</th><th>Avantajı</th><th>WebsiteMerkezi'ne Tehdidi</th></tr>
+  <tr><td><strong>Wix</strong></td><td>Sürükle-bırak, ~600 TL/ay</td><td>Küçük işletmeler ajansa gerek duymadan site yapıyor</td></tr>
+  <tr><td><strong>WordPress + Tema</strong></td><td>Esneklik, binlerce eklenti</td><td>Freelancer'lar ucuza WordPress site yapıyor</td></tr>
+  <tr><td><strong>Shopier</strong></td><td>Kolay e-ticaret başlangıcı</td><td>Basit e-ticaret ihtiyaçları için ajans gereksiz</td></tr>
+  <tr><td><strong>ikas</strong></td><td>Türk yapımı, ücretsiz plan</td><td>KOBİ'ler altyapı platformlarını tercih ediyor</td></tr>
+</table>
+
+<!-- PAGE 4 - SOSYAL MEDYA -->
+<h2 class="page-break">4. Sosyal Medya ve Dijital Varlık Analizi</h2>
+
+<table>
+  <tr><th>Kanal</th><th>Durum</th><th>Değerlendirme</th></tr>
+  <tr><td><strong>Instagram</strong></td><td><span class="tag tag-red">Yok</span></td><td>Web tasarım ajansları için en önemli görsel portfolyo kanalı</td></tr>
+  <tr><td><strong>LinkedIn</strong></td><td><span class="tag tag-red">Yok</span></td><td>B2B müşteri edinimi için kritik</td></tr>
+  <tr><td><strong>Facebook</strong></td><td><span class="tag tag-red">Yok</span></td><td>Yerel işletme müşterileri için önemli</td></tr>
+  <tr><td><strong>YouTube</strong></td><td><span class="tag tag-red">Yok</span></td><td>Proje showcase videoları çok etkili</td></tr>
+  <tr><td><strong>Google My Business</strong></td><td><span class="tag tag-red">Yok</span></td><td>Yerel SEO ve Google yorumları için olmazsa olmaz</td></tr>
+  <tr><td><strong>Blog</strong></td><td><span class="tag tag-red">Yok</span></td><td>Organik trafik ve thought leadership için kritik</td></tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>Sıfır Dijital Varlık</strong>
+  Bir dijital ajansın hiçbir sosyal medya hesabının olmaması en büyük güven sorunu. Potansiyel müşteri "bu ajans gerçek mi?" diye soracaktır. Instagram'da portfolyo gösteremiyorsanız, LinkedIn'de profesyonel ağınız yoksa, Google'da yorumunuz yoksa - 5-20K reklam bütçesi ne kadar trafik getirirse getirsin dönüşüm olmaz.
+</div>
+
+<!-- PAGE 5 - STRATEJİ -->
+<h2 class="page-break">5. Önerilen Aksiyon Planı</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - Acil Düzeltmeler (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Fiyat şeffaflığı sağlayın:</strong> 3 paket oluşturun: Başlangıç (~10.000 TL), Kurumsal (~25.000 TL), E-Ticaret (~45.000 TL). "Başlangıç fiyatı" yazabilirsiniz, önemli olan ziyaretçinin bir referans noktası görmesi.</li>
+    <li><strong>Deneyim tutarsızlığını düzeltin:</strong> "3+ yıl" ve "10+ yıl" çelişkisini giderin. Tek tutarlı rakam kullanın.</li>
+    <li><strong>SEO temellerini kurun:</strong> Title tag, meta description, Open Graph, canonical tag, sitemap.xml, robots.txt. SEO hizmeti satıyorsanız kendi siteniz kusursuz olmalı.</li>
+    <li><strong>Google My Business oluşturun:</strong> Ücretsiz, hızlı, yerel SEO için şart. Müşteri yorumları toplayın.</li>
+    <li><strong>Sosyal medya hesapları açın:</strong> Instagram (@websitemerkezi), LinkedIn (şirket sayfası), Facebook (işletme sayfası). Haftada 3 paylaşım: proje showcase, tasarım ipuçları, müşteri yorumları.</li>
+    <li><strong>Müşteri testimonial'ları toplayın:</strong> Mevcut müşterilerden yazılı/video yorum alın. Google'da yorum isteyin. "%99 memnuniyet" iddiasını kanıtlayın.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - Dönüşüm Optimizasyonu (Hafta 3-4)</div>
+  <ol>
+    <li><strong>Lead funnel oluşturun:</strong> "Web siteniz size müşteri getiriyor mu?" ile başlayan 8 soruluk kalifikasyon funnel'ı. Müşterinin ihtiyacını anlayın, sonra kişiselleştirilmiş teklif sunun.</li>
+    <li><strong>Blog başlatın:</strong> "Web sitesi fiyatları 2026", "E-ticaret sitesi maliyeti", "SEO nedir" gibi anahtar kelimelerle organik trafik çekin.</li>
+    <li><strong>Portfolyo sayfalarını optimize edin:</strong> Her proje için ayrı sayfa, müşteri sonuçları, kullanılan teknolojiler, proje süresi.</li>
+    <li><strong>Schema markup ekleyin:</strong> LocalBusiness, Organization, Service, FAQ schema'ları.</li>
+    <li><strong>Reklam kampanyasını yeniden yapılandırın:</strong> Genel "web tasarım" yerine sektörel hedefleme: "doktor web sitesi", "avukat web sitesi", "e-ticaret sitesi" gibi niş anahtar kelimeler.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - Büyüme Stratejisi (Ay 2+)</div>
+  <ol>
+    <li><strong>Niş odaklanma:</strong> Sağlık (doktor/klinik), hukuk (avukat), emlak veya lojistik gibi belirli sektörlere uzmanlaşın. Portföyünüzde zaten bu sektörler var.</li>
+    <li><strong>Recurring gelir modeli:</strong> Aylık bakım + yönetim paketleri (3.500-10.000 TL/ay). Bu, proje bazlı gelirin ötesinde sürdürülebilir gelir sağlar.</li>
+    <li><strong>Case study üretin:</strong> Karavan kiralama yazılımı gibi başarılı projelerin detaylı hikayelerini yazın. "Müşteri X, sitemizle Y sonucu aldı" formatında.</li>
+    <li><strong>LinkedIn outbound:</strong> Hedef sektörlerdeki karar vericilere doğrudan mesaj. "Sektörünüze özel web çözümlerimizi görmek ister misiniz?"</li>
+    <li><strong>Referans programı:</strong> Mevcut müşterilerden yönlendirme karşılığı komisyon/indirim.</li>
+    <li><strong>Teknoloji yükseltme:</strong> Vanilla PHP'den Laravel veya Next.js'e geçiş düşünün. Modern framework kullanımı hem güvenlik hem ölçeklenebilirlik sağlar.</li>
+  </ol>
+</div>
+
+<!-- PAGE 6 - SONUÇ -->
+<h2 class="page-break">6. Sonuç ve Genel Değerlendirme</h2>
+
+<h3>Skor Kartı</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef</th></tr>
+  <tr>
+    <td>Web Sitesi SEO Skoru</td>
+    <td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td>
+    <td>8/10</td>
+  </tr>
+  <tr>
+    <td>Dönüşüm Optimizasyonu</td>
+    <td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td>
+    <td>7/10</td>
+  </tr>
+  <tr>
+    <td>Marka Güvenilirliği</td>
+    <td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td>
+    <td>7/10</td>
+  </tr>
+  <tr>
+    <td>Portfolyo Kalitesi</td>
+    <td><div class="score-bar"><div class="score-fill score-mid" style="width:55%"></div></div> 5.5/10</td>
+    <td>8/10</td>
+  </tr>
+  <tr>
+    <td>Sosyal Medya Varlığı</td>
+    <td><div class="score-bar"><div class="score-fill score-low" style="width:0%"></div></div> 0/10</td>
+    <td>7/10</td>
+  </tr>
+  <tr>
+    <td>Fiyatlandırma Stratejisi</td>
+    <td><div class="score-bar"><div class="score-fill score-low" style="width:5%"></div></div> 0.5/10</td>
+    <td>8/10</td>
+  </tr>
+  <tr>
+    <td>Reklam ROI</td>
+    <td><div class="score-bar"><div class="score-fill score-low" style="width:0%"></div></div> 0/10</td>
+    <td>7/10</td>
+  </tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Özet Değerlendirme</strong>
+  WebsiteMerkezi'nin portföy kalitesi (karavan yazılımı, nakliye SEO, sektörel şablonlar) teknik yetkinliğin olduğunu gösteriyor. Ancak:
+  <ul style="margin-top:6px">
+    <li><strong>5-20K reklam bütçesi harcanıyor ama 0 TL gelir</strong> - Dönüşüm hunisi çalışmıyor</li>
+    <li><strong>SEO hizmeti satılıyor ama kendi site SEO'su zayıf</strong> - Güven sorunu</li>
+    <li><strong>Sosyal medya varlığı sıfır</strong> - Dijital ajans için kabul edilemez</li>
+    <li><strong>Fiyat şeffaflığı yok</strong> - Ziyaretçi teklif almadan ayrılıyor</li>
+    <li><strong>Deneyim iddiası tutarsız</strong> - 3 yıl mı 10 yıl mı?</li>
+    <li><strong>İsim benzerliği sorunu</strong> - websitemerkezi.com farklı bir firma</li>
+  </ul>
+  İyi haber: Teknik yetkinlik var, portföy çeşitli, özel yazılım kapasitesi mevcut. Kötü haber: Pazarlama ve dönüşüm süreci tamamen bozuk. Önce kendi sitenizi düzeltin, sonra başkalarına satış yapın.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adım</strong>
+  Bu rapordaki stratejinin uygulanması için sizinle çalışabiliriz. SEO altyapısı kurulumu, lead kalifikasyon funnel'ı tasarımı, sosyal medya stratejisi, fiyatlandırma paketi oluşturma, reklam kampanyası optimizasyonu ve sektörel niş odaklanma konularında destek sunabiliriz. 5-20K reklam bütçenizi gelire dönüştürmek için somut bir plan hazırlayabiliriz.
+</div>
+
+<p style="text-align:center; color:#999; font-size:11px; margin-top:40px;">
+  Bu rapor otomatik funnel verisi ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır. &copy; 2026
+</p>
+
+<!-- TRACKING -->
+<script>
+(function() {
+  if (new URLSearchParams(window.location.search).get('t') === '0') return;
+  var SUPABASE_URL = 'https://frficzdzmxhptmtbkfft.supabase.co';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';
+  var trackId = null, startTime = Date.now(), maxScroll = 0;
+  var client = window.location.pathname.split('/')[1] || 'unknown';
+  window.addEventListener('scroll', function() {
+    var pct = Math.round((window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+    if (pct > maxScroll) maxScroll = pct;
+  });
+  function getTrackData() {
+    return { website: window.location.pathname, stage: 'rapor_view',
+      extra_notes: JSON.stringify({ time_on_page: Math.round((Date.now() - startTime) / 1000), scroll_depth: maxScroll, reached_bottom: maxScroll >= 90, client: client, page_type: 'rapor', opened_at: new Date(startTime).toISOString() }),
+      last_step: maxScroll >= 90 ? 'reached_bottom' : (maxScroll > 10 ? 'scrolling' : 'opened'), completed: maxScroll >= 90 };
+  }
+  fetch(SUPABASE_URL + '/rest/v1/funnel_leads', { method: 'POST', headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Prefer': 'return=representation' }, body: JSON.stringify(getTrackData()) })
+  .then(function(r) { return r.json(); }).then(function(data) { if (data && data[0]) trackId = data[0].id; }).catch(function() {});
+  setInterval(function() { if (!trackId) return; fetch(SUPABASE_URL + '/rest/v1/funnel_leads?id=eq.' + trackId, { method: 'PATCH', headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Prefer': 'return=minimal' }, body: JSON.stringify(getTrackData()) }).catch(function() {}); }, 10000);
+  window.addEventListener('visibilitychange', function() { if (document.visibilityState === 'hidden' && trackId) { fetch(SUPABASE_URL + '/rest/v1/funnel_leads?id=eq.' + trackId, { method: 'PATCH', headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Prefer': 'return=minimal' }, body: JSON.stringify(getTrackData()), keepalive: true }).catch(function() {}); } });
+})();
+</script>
+</body>
+</html>
