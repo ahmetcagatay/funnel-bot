@@ -1093,7 +1093,7 @@ html, body {
       </div>
     </div>
     <div class="step-footer">
-      <button class="cta-btn" id="cta-10" onclick="sendOfferEmail()">Send Offer Email</button>
+      <button class="cta-btn" id="cta-10" onclick="sendInterest()" style="background:#22c55e;">Funnel'i begendim, bir sonraki asamaya gecelim</button>
     </div>
   </div>
 
@@ -1347,21 +1347,40 @@ html, body {
     document.getElementById('priority-text').textContent = priorityMap[topChallenge] || priorityMap.speaking;
   }
 
-  // Send offer email via mailto
-  window.sendOfferEmail = function() {
-    var email = answers.email || '';
-    var subject = encodeURIComponent('Your Free EnglifyAI Trial is Ready \uD83C\uDF89');
-    var body = encodeURIComponent(
-      'Hi!\n\n' +
-      'Thank you for completing our meeting English assessment.\n\n' +
-      'Based on your profile, we\'d like to offer you:\n\n' +
-      '\u2705 5 free meeting analyses\n' +
-      '\u2705 Detailed CAF Model reports\n' +
-      '\u2705 Personalized improvement plan\n\n' +
-      'Click here to start: https://www.englifyai.com/demo\n\n' +
-      'Best,\nEnglifyAI Team'
-    );
-    window.location.href = 'mailto:' + encodeURIComponent(email) + '?subject=' + subject + '&body=' + body;
+  // Send interest to Supabase
+  window.sendInterest = function() {
+    var btn = document.getElementById('cta-10');
+    btn.disabled = true;
+    btn.textContent = 'Gonderiliyor...';
+
+    var payload = {
+      email: answers.email || '',
+      source: 'demo-funnel',
+      status: 'interested',
+      answers: JSON.stringify(answers),
+      created_at: new Date().toISOString()
+    };
+
+    fetch('https://frficzdzmxhptmtbkfft.supabase.co/rest/v1/funnel_leads', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(payload)
+    }).then(function() {
+      btn.textContent = '\u2705 Ilginiz icin tesekkurler!';
+      btn.style.background = '#16a34a';
+      var note = document.createElement('p');
+      note.style.cssText = 'text-align:center;color:var(--text-secondary);font-size:14px;margin-top:12px;';
+      note.textContent = 'En kisa surede sizinle iletisime gececegiz.';
+      btn.parentNode.appendChild(note);
+    }).catch(function() {
+      btn.textContent = '\u2705 Ilginiz icin tesekkurler!';
+      btn.style.background = '#16a34a';
+    });
   };
 
   // Touch swipe support for back navigation
