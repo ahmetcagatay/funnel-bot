@@ -93,9 +93,57 @@
         .empty-state { text-align: center; padding: 60px 20px; color: #8b949e; }
         .empty-state h3 { font-size: 18px; margin-bottom: 8px; color: #e6edf3; }
 
+        /* Filters */
+        .filters-bar {
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+            padding: 12px 24px; border-bottom: 1px solid #21262d;
+        }
+        .filter-group {
+            display: flex; align-items: center; gap: 6px;
+        }
+        .filter-label {
+            font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
+        }
+        .filter-select {
+            background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+            color: #e6edf3; font-size: 13px; padding: 6px 10px; font-family: inherit;
+            outline: none; cursor: pointer; min-width: 100px;
+        }
+        .filter-select:focus { border-color: #D78686; }
+        .filter-search {
+            background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+            color: #e6edf3; font-size: 13px; padding: 6px 12px; font-family: inherit;
+            outline: none; min-width: 180px;
+        }
+        .filter-search:focus { border-color: #D78686; }
+        .filter-search::placeholder { color: #484f58; }
+        .btn-clear-filters {
+            background: none; border: 1px solid #30363d; border-radius: 6px;
+            color: #8b949e; font-size: 12px; padding: 6px 12px; cursor: pointer;
+            font-family: inherit; transition: all 0.15s;
+        }
+        .btn-clear-filters:hover { border-color: #f85149; color: #f85149; }
+        .filter-count {
+            font-size: 12px; color: #8b949e; margin-left: auto; white-space: nowrap;
+        }
+        .filter-count strong { color: #D78686; }
+        .quick-filters {
+            display: flex; gap: 6px; flex-wrap: wrap;
+            padding: 8px 24px; border-bottom: 1px solid #21262d;
+        }
+        .quick-btn {
+            background: #21262d; border: 1px solid #30363d; border-radius: 100px;
+            color: #8b949e; font-size: 12px; padding: 4px 12px; cursor: pointer;
+            font-family: inherit; transition: all 0.15s;
+        }
+        .quick-btn:hover { border-color: #58a6ff; color: #58a6ff; }
+        .quick-btn.active { background: rgba(215,134,134,0.15); border-color: #D78686; color: #D78686; }
+
         @media (max-width: 768px) {
             .charts { grid-template-columns: 1fr; }
             .stats { grid-template-columns: repeat(2, 1fr); }
+            .filters-bar { gap: 6px; }
+            .filter-search { min-width: 140px; }
         }
     </style>
 </head>
@@ -159,11 +207,69 @@
             <div class="table-header">
                 <h3>Tüm Leadler</h3>
             </div>
+            <div class="quick-filters">
+                <button class="quick-btn" onclick="applyQuick('all')">Tümü</button>
+                <button class="quick-btn" onclick="applyQuick('phone')">📱 Telefon Bırakanlar</button>
+                <button class="quick-btn" onclick="applyQuick('completed')">✓ Tamamlayanlar</button>
+                <button class="quick-btn" onclick="applyQuick('highbudget')">💰 Yüksek Bütçe</button>
+                <button class="quick-btn" onclick="applyQuick('noads')">🚫 Reklam Vermemiş</button>
+                <button class="quick-btn" onclick="applyQuick('b2b')">🏢 B2B</button>
+                <button class="quick-btn" onclick="applyQuick('tracking')">📊 Takip Verileri</button>
+                <button class="quick-btn" onclick="applyQuick('interested')">🎯 İlgilenenler</button>
+            </div>
+            <div class="filters-bar">
+                <div class="filter-group">
+                    <span class="filter-label">Ara:</span>
+                    <input type="text" class="filter-search" id="filterSearch" placeholder="Telefon, website, not..." oninput="applyFilters()">
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Kaynak:</span>
+                    <select class="filter-select" id="filterSource" onchange="applyFilters()">
+                        <option value="">Tümü</option>
+                        <option value="funnel">Funnel Lead</option>
+                        <option value="rapor_view">Rapor Görüntüleme</option>
+                        <option value="demo_funnel_view">Demo Funnel</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Bütçe:</span>
+                    <select class="filter-select" id="filterBudget" onchange="applyFilters()">
+                        <option value="">Tümü</option>
+                        <option value="100k+">100K+</option>
+                        <option value="20k-100k">20-100K</option>
+                        <option value="5k-20k">5-20K</option>
+                        <option value="0-5k">0-5K</option>
+                        <option value="0">Yok</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Pazar:</span>
+                    <select class="filter-select" id="filterMarket" onchange="applyFilters()">
+                        <option value="">Tümü</option>
+                        <option value="b2b">B2B</option>
+                        <option value="b2c">B2C</option>
+                        <option value="b2g">B2G</option>
+                        <option value="mixed">Karışık</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Durum:</span>
+                    <select class="filter-select" id="filterStatus" onchange="applyFilters()">
+                        <option value="">Tümü</option>
+                        <option value="completed">Tamamlanan</option>
+                        <option value="phone">Telefon Var</option>
+                        <option value="incomplete">Tamamlanmayan</option>
+                    </select>
+                </div>
+                <button class="btn-clear-filters" onclick="clearFilters()">✕ Temizle</button>
+                <span class="filter-count" id="filterCount"></span>
+            </div>
             <div class="table-scroll">
                 <table>
                     <thead>
                         <tr>
                             <th>Tarih</th>
+                            <th>Kaynak</th>
                             <th>Telefon</th>
                             <th>Website</th>
                             <th>Aşama</th>
@@ -325,10 +431,41 @@ async function loadData() {
     buildBars('chartRevenue', countField(rows, 'revenue'), revenueLabels);
     buildBars('chartBudget', countField(rows, 'ad_budget'), budgetLabels);
 
-    // Table
-    document.getElementById('leadsTable').innerHTML = rows.map(r => `
-        <tr>
+    // Store rows globally for filtering
+    window._allRows = rows;
+    applyFilters();
+}
+
+function renderTable(rows) {
+    document.getElementById('leadsTable').innerHTML = rows.map(r => {
+        // Parse extra_notes for tracking data
+        let trackInfo = '';
+        if (r.extra_notes && r.extra_notes.startsWith('{')) {
+            try {
+                const t = JSON.parse(r.extra_notes);
+                const parts = [];
+                if (t.time_on_page) parts.push(`⏱${t.time_on_page}s`);
+                if (t.scroll_depth !== undefined) parts.push(`📜${t.scroll_depth}%`);
+                if (t.max_step_reached) parts.push(`Step ${t.max_step_reached}/10`);
+                if (t.clicked_interested) parts.push('🎯İlgilendi');
+                if (t.reached_bottom) parts.push('✓Alt');
+                trackInfo = parts.join(' · ') || truncate(r.extra_notes, 40);
+            } catch(e) {
+                trackInfo = truncate(r.extra_notes, 40);
+            }
+        } else {
+            trackInfo = truncate(r.extra_notes, 40);
+        }
+
+        // Source badge
+        let sourceBadge = '';
+        if (r.stage === 'rapor_view') sourceBadge = '<span class="tag" style="background:#1a3a5c;color:#58a6ff;">📊 Rapor</span>';
+        else if (r.stage === 'demo_funnel_view') sourceBadge = '<span class="tag" style="background:#1a3c2a;color:#3fb950;">🎯 Demo</span>';
+        else sourceBadge = '<span class="tag" style="background:#3d2a1a;color:#d29922;">📝 Funnel</span>';
+
+        return `<tr>
             <td class="time-cell">${formatDate(r.created_at)}</td>
+            <td>${sourceBadge}</td>
             <td class="phone-cell">${r.phone || '—'}</td>
             <td>${r.website ? `<a href="${r.website}" target="_blank" style="color:#58a6ff;text-decoration:none;">${truncate(r.website, 25)}</a>` : '—'}</td>
             <td>${stageLabels[r.stage] || r.stage || '—'}</td>
@@ -338,13 +475,97 @@ async function loadData() {
             <td>${revenueLabels[r.revenue] || r.revenue || '—'}</td>
             <td>${r.ad_channels ? r.ad_channels.map(c => `<span class="tag">${c}</span>`).join('') : '—'}</td>
             <td>${budgetLabels[r.ad_budget] || r.ad_budget || '—'}</td>
-            <td>${r.linkedin ? `<a href="${r.linkedin}" target="_blank" style="color:#58a6ff;text-decoration:none;">Profil</a>` : '—'}</td>
+            <td>${r.linkedin ? (r.linkedin.includes('@') ? `<span style="color:#58a6ff;">${r.linkedin}</span>` : `<a href="${r.linkedin}" target="_blank" style="color:#58a6ff;text-decoration:none;">Profil</a>`) : '—'}</td>
             <td>${r.roas || '—'}</td>
-            <td class="wrap">${truncate(r.extra_notes, 40)}</td>
+            <td class="wrap" title="${(r.extra_notes||'').replace(/"/g,'&quot;')}">${trackInfo}</td>
             <td><span class="tag">${r.last_step || '—'}</span></td>
             <td>${r.completed ? '<span style="color:#3fb950;">✓</span>' : '<span style="color:#f85149;">✗</span>'}</td>
-        </tr>
-    `).join('');
+        </tr>`;
+    }).join('');
+
+    document.getElementById('filterCount').innerHTML = `Gösterilen: <strong>${rows.length}</strong> / ${window._allRows.length}`;
+}
+
+function applyFilters() {
+    if (!window._allRows) return;
+    let filtered = [...window._allRows];
+
+    // Text search
+    const search = (document.getElementById('filterSearch').value || '').toLowerCase().trim();
+    if (search) {
+        filtered = filtered.filter(r =>
+            (r.phone || '').toLowerCase().includes(search) ||
+            (r.website || '').toLowerCase().includes(search) ||
+            (r.extra_notes || '').toLowerCase().includes(search) ||
+            (r.linkedin || '').toLowerCase().includes(search) ||
+            (r.stage || '').toLowerCase().includes(search) ||
+            (r.last_step || '').toLowerCase().includes(search)
+        );
+    }
+
+    // Source filter
+    const source = document.getElementById('filterSource').value;
+    if (source === 'funnel') filtered = filtered.filter(r => r.stage && !['rapor_view','demo_funnel_view'].includes(r.stage));
+    else if (source) filtered = filtered.filter(r => r.stage === source);
+
+    // Budget filter
+    const budget = document.getElementById('filterBudget').value;
+    if (budget) filtered = filtered.filter(r => r.ad_budget === budget);
+
+    // Market filter
+    const market = document.getElementById('filterMarket').value;
+    if (market) filtered = filtered.filter(r => r.market === market);
+
+    // Status filter
+    const status = document.getElementById('filterStatus').value;
+    if (status === 'completed') filtered = filtered.filter(r => r.completed);
+    else if (status === 'phone') filtered = filtered.filter(r => r.phone);
+    else if (status === 'incomplete') filtered = filtered.filter(r => !r.completed);
+
+    renderTable(filtered);
+}
+
+function clearFilters() {
+    document.getElementById('filterSearch').value = '';
+    document.getElementById('filterSource').value = '';
+    document.getElementById('filterBudget').value = '';
+    document.getElementById('filterMarket').value = '';
+    document.getElementById('filterStatus').value = '';
+    document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
+    applyFilters();
+}
+
+function applyQuick(type) {
+    clearFilters();
+    document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+
+    switch(type) {
+        case 'phone':
+            document.getElementById('filterStatus').value = 'phone';
+            break;
+        case 'completed':
+            document.getElementById('filterStatus').value = 'completed';
+            break;
+        case 'highbudget':
+            document.getElementById('filterBudget').value = '20k-100k';
+            break;
+        case 'noads':
+            document.getElementById('filterBudget').value = '0';
+            break;
+        case 'b2b':
+            document.getElementById('filterMarket').value = 'b2b';
+            break;
+        case 'tracking':
+            document.getElementById('filterSource').value = 'rapor_view';
+            break;
+        case 'interested':
+            document.getElementById('filterSearch').value = 'interested';
+            break;
+        case 'all':
+            break;
+    }
+    applyFilters();
 }
 </script>
 </body>
