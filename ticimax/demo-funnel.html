@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f172a">
+<title>Ticimax - E-Ticaret Ihtiyac Analizi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0f172a;
+  --bg-card: #1e293b;
+  --bg-card-hover: #334155;
+  --bg-option: rgba(30, 41, 59, 0.8);
+  --bg-option-selected: rgba(59, 130, 246, 0.15);
+  --border-option: rgba(71, 85, 105, 0.5);
+  --border-selected: rgba(59, 130, 246, 0.6);
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-glow: rgba(59, 130, 246, 0.3);
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: pan-y;
+}
+
+.funnel-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.step {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
+  padding-bottom: calc(16px + var(--safe-bottom));
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  will-change: transform, opacity;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.step[data-position="center"] {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.step[data-position="left"] {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.step[data-position="right"] {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 16px 0 8px;
+  flex-shrink: 0;
+}
+
+.back-btn {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 12px;
+  transition: background 0.2s, color 0.2s;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+
+.back-btn:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.back-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.progress-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: all 0.35s ease;
+}
+
+.dot.active {
+  background: var(--accent);
+  width: 24px;
+  border-radius: 4px;
+}
+
+.dot.completed {
+  background: var(--accent);
+}
+
+.step-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  min-height: 0;
+}
+
+.step-content::-webkit-scrollbar {
+  display: none;
+}
+
+.question-area {
+  text-align: center;
+  margin-bottom: 28px;
+  flex-shrink: 0;
+}
+
+.question-title {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.question-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.options-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.option-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 56px;
+  padding: 14px 18px;
+  background: var(--bg-option);
+  border: 1.5px solid var(--border-option);
+  border-radius: 16px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.option-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--text-muted);
+}
+
+.option-btn:active {
+  transform: scale(0.98);
+}
+
+.option-btn.selected {
+  background: var(--bg-option-selected);
+  border-color: var(--border-selected);
+  box-shadow: 0 0 0 1px var(--border-selected), 0 0 20px var(--accent-glow);
+}
+
+.option-btn .emoji {
+  font-size: 28px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.option-btn .option-label {
+  flex: 1;
+}
+
+.option-btn .check-indicator {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--text-muted);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 13px;
+}
+
+.option-btn.selected .check-indicator {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.option-btn.selected .check-indicator::after {
+  content: '\2713';
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.option-btn.multi .check-indicator {
+  border-radius: 6px;
+}
+
+.step-footer {
+  flex-shrink: 0;
+  padding-top: 16px;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 56px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: -0.01em;
+}
+
+.cta-btn:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px var(--accent-glow);
+}
+
+.cta-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.cta-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.input-group {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.text-input {
+  width: 100%;
+  height: 56px;
+  padding: 0 18px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-option);
+  border-radius: 16px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.text-input::placeholder {
+  color: var(--text-muted);
+}
+
+.text-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.input-note {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.social-proof {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 14px;
+}
+
+.social-proof .pulse {
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Analysis step */
+.analysis-card {
+  background: var(--bg-card);
+  border-radius: 20px;
+  padding: 24px;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.analysis-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.analysis-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.analysis-header p {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.analysis-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+.analysis-row:last-child {
+  border-bottom: none;
+}
+
+.analysis-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.analysis-value {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.confidence-bar-container {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.confidence-bar-bg {
+  width: 100%;
+  height: 10px;
+  background: rgba(71, 85, 105, 0.4);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.confidence-bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--danger), var(--warning), var(--success));
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0;
+}
+
+.insights-list {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.insight-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.insight-item .emoji {
+  font-size: 20px;
+  flex-shrink: 0;
+  line-height: 1.3;
+}
+
+.priority-box {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 14px;
+}
+
+.priority-box .label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.priority-box .text {
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.free-trial-banner {
+  margin-top: 20px;
+  text-align: center;
+  padding: 16px;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 14px;
+}
+
+.free-trial-banner .emoji {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.free-trial-banner .text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.free-trial-banner .sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* Dashboard preview */
+.dashboard-preview {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.dashboard-preview h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.metric-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.metric-card {
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 14px 10px;
+  text-align: center;
+}
+
+.metric-card .metric-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.metric-card .metric-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mini-table {
+  background: var(--bg-card);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.mini-table-header {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 0.8fr;
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+.mini-table-row {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 0.8fr;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  border-bottom: 1px solid rgba(71, 85, 105, 0.15);
+}
+
+.mini-table-row:last-child {
+  border-bottom: none;
+}
+
+.mini-table-row .score {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.mini-table-row .status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-hot { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+.status-warm { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+.status-new { background: rgba(59, 130, 246, 0.15); color: var(--accent); }
+
+.thank-you-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 36px;
+  animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleIn {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.loading-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--bg-card);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  margin-top: 20px;
+  font-size: 16px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.loading-text .changing {
+  display: block;
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--text-muted);
+  min-height: 21px;
+}
+
+@media (max-height: 680px) {
+  .question-title { font-size: 22px; }
+  .option-btn { min-height: 48px; padding: 10px 14px; }
+  .option-btn .emoji { font-size: 24px; }
+  .options-area { gap: 8px; }
+  .analysis-card { padding: 16px; }
+}
+
+@media (min-width: 640px) {
+  .step { padding: 0 40px; padding-bottom: calc(24px + var(--safe-bottom)); }
+  .question-title { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<div class="funnel-container" id="funnel">
+
+  <!-- STEP 1: Hook -->
+  <div class="step" id="step-1" data-position="center">
+    <div class="step-header">
+      <div class="progress-dots" id="dots-1"></div>
+    </div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">E-ticaret sitenizden beklediginiz satislari yapiyor musunuz?</h1>
+      </div>
+      <div class="options-area" data-step="1" data-key="satisfaction">
+        <button class="option-btn" data-value="yes">
+          <span class="emoji">&#x2705;</span>
+          <span class="option-label">Evet, hedeflerimi tutturuyorum</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="growing">
+          <span class="emoji">&#x1F4C8;</span>
+          <span class="option-label">Buyuyor ama daha fazlasini istiyorum</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="struggling">
+          <span class="emoji">&#x1F614;</span>
+          <span class="option-label">Beklentimin altinda kaliyorum</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="starting">
+          <span class="emoji">&#x1F680;</span>
+          <span class="option-label">Yeni basliyorum, henuz satis yok</span>
+          <span class="check-indicator"></span>
+        </button>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-1" disabled>Devam Et</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Current Platform -->
+  <div class="step" id="step-2" data-position="right">
+    <div class="step-header">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="progress-dots" id="dots-2"></div>
+    </div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">Su an hangi e-ticaret altyapisini kullaniyorsunuz?</h1>
+      </div>
+      <div class="options-area" data-step="2" data-key="platform">
+        <button class="option-btn" data-value="ticimax">
+          <span class="emoji">&#x1F7E2;</span>
+          <span class="option-label">Ticimax</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="ideasoft">
+          <span class="emoji">&#x1F7E1;</span>
+          <span class="option-label">IdeaSoft</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="tsoft">
+          <span class="emoji">&#x1F7E1;</span>
+          <span class="option-label">T-Soft</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="shopify">
+          <span class="emoji">&#x1F7E3;</span>
+          <span class="option-label">Shopify</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="other">
+          <span class="emoji">&#x1F534;</span>
+          <span class="option-label">Diger / Henuz secmedim</span>
+          <span class="check-indicator"></span>
+        </button>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-2" disabled>Devam Et</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Biggest Challenge (multi-select) -->
+  <div class="step" id="step-3" data-position="right">
+    <div class="step-header">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="progress-dots" id="dots-3"></div>
+    </div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">En buyuk zorlugunuz ne?</h1>
+        <p class="question-subtitle">Birden fazla secebilirsiniz</p>
+      </div>
+      <div class="options-area multi" data-step="3" data-key="challenges" data-multi="true">
+        <button class="option-btn multi" data-value="traffic">
+          <span class="emoji">&#x1F4C9;</span>
+          <span class="option-label">Yeterli trafik/ziyaretci gelmiyor</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn multi" data-value="conversion">
+          <span class="emoji">&#x1F6D2;</span>
+          <span class="option-label">Ziyaretci geliyor ama satin almiyor</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn multi" data-value="marketplace">
+          <span class="emoji">&#x1F3EA;</span>
+          <span class="option-label">Marketplace entegrasyonu zor</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn multi" data-value="operations">
+          <span class="emoji">&#x1F4E6;</span>
+          <span class="option-label">Siparis/stok yonetimi karisik</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn multi" data-value="mobile">
+          <span class="emoji">&#x1F4F1;</span>
+          <span class="option-label">Mobil deneyim yetersiz</span>
+          <span class="check-indicator"></span>
+        </button>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-3" disabled>Devam Et</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: Monthly Order Volume -->
+  <div class="step" id="step-4" data-position="right">
+    <div class="step-header">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="progress-dots" id="dots-4"></div>
+    </div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">Aylik ortalama kac siparis aliyorsunuz?</h1>
+      </div>
+      <div class="options-area" data-step="4" data-key="orders">
+        <button class="option-btn" data-value="0-50">
+          <span class="emoji">&#x1F331;</span>
+          <span class="option-label">0-50 siparis</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="50-200">
+          <span class="emoji">&#x1F33F;</span>
+          <span class="option-label">50-200 siparis</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="200-1000">
+          <span class="emoji">&#x1F333;</span>
+          <span class="option-label">200-1,000 siparis</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="1000+">
+          <span class="emoji">&#x1F3D4;&#xFE0F;</span>
+          <span class="option-label">1,000+ siparis</span>
+          <span class="check-indicator"></span>
+        </button>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-4" disabled>Devam Et</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: Marketplace Usage -->
+  <div class="step" id="step-5" data-position="right">
+    <div class="step-header">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="progress-dots" id="dots-5"></div>
+    </div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">Marketplace'lerde satis yapiyor musunuz?</h1>
+      </div>
+      <div class="options-area" data-step="5" data-key="marketplace">
+        <button class="option-btn" data-value="multiple">
+          <span class="emoji">&#x1F3EA;</span>
+          <span class="option-label">Evet, birden fazla marketplace'de</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="single">
+          <span class="emoji">&#x1F6CD;&#xFE0F;</span>
+          <span class="option-label">Sadece bir marketplace'de (Trendyol/HB)</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="planning">
+          <span class="emoji">&#x1F4CB;</span>
+          <span class="option-label">Henuz yapmiyorum ama planliyorum</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="no">
+          <span class="emoji">&#x274C;</span>
+          <span class="option-label">Hayir, sadece kendi sitemden</span>
+          <span class="check-indicator"></span>
+        </button>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-5" disabled>Devam Et</button>
+    </div>
+  </div>
+
+  <!-- STEP 6: Team Size -->
+  <div class="step" id="step-6" data-position="right">
+    <div class="step-header">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="progress-dots" id="dots-6"></div>
+    </div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">E-ticaret operasyonunuzda kac kisi calisiyor?</h1>
+      </div>
+      <div class="options-area" data-step="6" data-key="team">
+        <button class="option-btn" data-value="solo">
+          <span class="emoji">&#x1F464;</span>
+          <span class="option-label">Sadece ben</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="small">
+          <span class="emoji">&#x1F465;</span>
+          <span class="option-label">2-5 kisi</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="medium">
+          <span class="emoji">&#x1F3E2;</span>
+          <span class="option-label">6-20 kisi</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="large">
+          <span class="emoji">&#x1F3ED;</span>
+          <span class="option-label">20+ kisi</span>
+          <span class="check-indicator"></span>
+        </button>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-6" disabled>Devam Et</button>
+    </div>
+  </div>
+
+  <!-- STEP 7: Growth Goal -->
+  <div class="step" id="step-7" data-position="right">
+    <div class="step-header">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="progress-dots" id="dots-7"></div>
+    </div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">Onumuzdeki 6 ayda en onemli hedefiniz ne?</h1>
+      </div>
+      <div class="options-area" data-step="7" data-key="goal">
+        <button class="option-btn" data-value="revenue">
+          <span class="emoji">&#x1F4B0;</span>
+          <span class="option-label">Ciromu 2x+ artirmak</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="marketplace">
+          <span class="emoji">&#x1F30D;</span>
+          <span class="option-label">Yeni marketplace'lere acilmak</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="export">
+          <span class="emoji">&#x2708;&#xFE0F;</span>
+          <span class="option-label">E-ihracat baslatmak</span>
+          <span class="check-indicator"></span>
+        </button>
+        <button class="option-btn" data-value="automation">
+          <span class="emoji">&#x2699;&#xFE0F;</span>
+          <span class="option-label">Operasyonlari otomatize etmek</span>
+          <span class="check-indicator"></span>
+        </button>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-7" disabled>Analizimi Gor</button>
+    </div>
+  </div>
+
+  <!-- STEP 8: Analysis Result -->
+  <div class="step" id="step-8" data-position="right">
+    <div class="step-header">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="progress-dots" id="dots-8"></div>
+    </div>
+    <div class="step-content">
+      <div class="analysis-card" id="analysis-card">
+        <div class="analysis-header">
+          <h2>E-Ticaret Buyume Profiliniz</h2>
+          <p>Cevaplariniza gore analiz</p>
+        </div>
+        <div class="analysis-row">
+          <span class="analysis-label">Onerilen Paket</span>
+          <span class="analysis-value" id="analysis-package">Advance</span>
+        </div>
+        <div class="analysis-row">
+          <span class="analysis-label">Oncelikli Aksiyon</span>
+          <span class="analysis-value" id="analysis-action">Donusum</span>
+        </div>
+        <div class="analysis-row" style="flex-direction:column;align-items:stretch;gap:6px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span class="analysis-label">Buyume Potansiyeli</span>
+            <span class="analysis-value" id="analysis-score">72/100</span>
+          </div>
+          <div class="confidence-bar-container">
+            <div class="confidence-bar-bg">
+              <div class="confidence-bar-fill" id="confidence-fill"></div>
+            </div>
+          </div>
+        </div>
+        <div class="insights-list" id="insights-list"></div>
+        <div class="priority-box">
+          <div class="label">Oncelikli Oneri</div>
+          <div class="text" id="priority-text">Marketplace entegrasyonlari ve donusum optimizasyonu ile satislarinizi hizla artirabilirsiniz.</div>
+        </div>
+        <div class="free-trial-banner">
+          <span class="emoji">&#x1F381;</span>
+          <div class="text">Bu funnel sizin musterileriniz icin de calisir</div>
+          <div class="sub">Potansiyel musterilerinizi taniyin, dogru paketle bulusturun</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-8">Detayli Raporu Gor</button>
+    </div>
+  </div>
+
+  <!-- STEP 9: Lead Capture -->
+  <div class="step" id="step-9" data-position="right">
+    <div class="step-header">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="progress-dots" id="dots-9"></div>
+    </div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">Kisisellesmis strateji raporunuzu nereye gonderelim?</h1>
+      </div>
+      <div class="input-group">
+        <input type="email" class="text-input" id="email-input" placeholder="ornek@sirket.com" autocomplete="email" inputmode="email">
+        <p class="input-note">Raporunuz ve ozel funnel demonuz e-posta adresinize gonderilecek.</p>
+        <div class="social-proof">
+          <span class="pulse"></span>
+          <span>30,000+ marka Ticimax ile buyuyor</span>
+        </div>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-9" disabled>Raporumu Gonder</button>
+    </div>
+  </div>
+
+  <!-- STEP 10: Thank You + Dashboard Preview -->
+  <div class="step" id="step-10" data-position="right">
+    <div class="step-header">
+      <div class="progress-dots" id="dots-10"></div>
+    </div>
+    <div class="step-content">
+      <div style="text-align:center;margin-bottom:20px;">
+        <div class="thank-you-icon">&#x2705;</div>
+        <h1 class="question-title" style="font-size:22px;">Bu funnel sizin de musterileriniz icin hazir.</h1>
+      </div>
+      <div class="dashboard-preview">
+        <h3>Funnel ile toplanan lead verileri boyle gorunur</h3>
+        <div class="metric-cards">
+          <div class="metric-card">
+            <div class="metric-value">247</div>
+            <div class="metric-label">Lead</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">%34</div>
+            <div class="metric-label">Donusum</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">3.2x</div>
+            <div class="metric-label">ROI</div>
+          </div>
+        </div>
+        <div class="mini-table">
+          <div class="mini-table-header">
+            <span>Musteri</span>
+            <span>Siparis</span>
+            <span>Durum</span>
+          </div>
+          <div class="mini-table-row">
+            <span>Ayse Moda</span>
+            <span class="score">500+/ay</span>
+            <span><span class="status-badge status-hot">Sicak</span></span>
+          </div>
+          <div class="mini-table-row">
+            <span>Tech Store</span>
+            <span class="score">200/ay</span>
+            <span><span class="status-badge status-warm">Ilik</span></span>
+          </div>
+          <div class="mini-table-row">
+            <span>Gida Market</span>
+            <span class="score">50/ay</span>
+            <span><span class="status-badge status-new">Yeni</span></span>
+          </div>
+          <div class="mini-table-row">
+            <span>Spor Dunyasi</span>
+            <span class="score">1000+/ay</span>
+            <span><span class="status-badge status-hot">Sicak</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-10" onclick="sendInterest()" style="background:#22c55e;">Funnel'i begendim, bir sonraki asamaya gecelim</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">
+    E-ticaret profiliniz analiz ediliyor
+    <span class="changing" id="loading-changing"></span>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  var TOTAL_STEPS = 10;
+  var currentStep = 1;
+  var answers = {};
+
+  // Initialize progress dots
+  for (var s = 1; s <= TOTAL_STEPS; s++) {
+    var dotsContainer = document.getElementById('dots-' + s);
+    if (!dotsContainer) continue;
+    for (var d = 1; d <= TOTAL_STEPS; d++) {
+      var dot = document.createElement('span');
+      dot.className = 'dot';
+      if (d < s) dot.className += ' completed';
+      if (d === s) dot.className += ' active';
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  // Option click handlers
+  var optionAreas = document.querySelectorAll('.options-area');
+  for (var i = 0; i < optionAreas.length; i++) {
+    (function(area) {
+      var isMulti = area.dataset.multi === 'true';
+      var key = area.dataset.key;
+      var step = parseInt(area.dataset.step, 10);
+      var btns = area.querySelectorAll('.option-btn');
+
+      for (var j = 0; j < btns.length; j++) {
+        (function(btn) {
+          btn.addEventListener('click', function() {
+            if (isMulti) {
+              btn.classList.toggle('selected');
+              var selected = area.querySelectorAll('.option-btn.selected');
+              var vals = [];
+              for (var k = 0; k < selected.length; k++) vals.push(selected[k].dataset.value);
+              answers[key] = vals;
+              document.getElementById('cta-' + step).disabled = vals.length === 0;
+            } else {
+              var allBtns = area.querySelectorAll('.option-btn');
+              for (var k = 0; k < allBtns.length; k++) allBtns[k].classList.remove('selected');
+              btn.classList.add('selected');
+              answers[key] = btn.dataset.value;
+              document.getElementById('cta-' + step).disabled = false;
+            }
+          });
+        })(btns[j]);
+      }
+    })(optionAreas[i]);
+  }
+
+  // Email input validation
+  var emailInput = document.getElementById('email-input');
+  emailInput.addEventListener('input', function() {
+    var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim());
+    document.getElementById('cta-9').disabled = !valid;
+  });
+
+  // CTA handlers steps 1-7
+  for (var s = 1; s <= 7; s++) {
+    (function(step) {
+      document.getElementById('cta-' + step).addEventListener('click', function() {
+        if (step === 7) {
+          showLoading(function() {
+            buildAnalysis();
+            goToStep(8);
+          });
+        } else {
+          goToStep(step + 1);
+        }
+      });
+    })(s);
+  }
+
+  document.getElementById('cta-8').addEventListener('click', function() {
+    goToStep(9);
+  });
+
+  document.getElementById('cta-9').addEventListener('click', function() {
+    answers.email = emailInput.value.trim();
+    goToStep(10);
+  });
+
+  function goToStep(target) {
+    if (target < 1 || target > TOTAL_STEPS) return;
+    var prev = currentStep;
+    var prevEl = document.getElementById('step-' + prev);
+    var targetEl = document.getElementById('step-' + target);
+
+    if (target > prev) {
+      prevEl.dataset.position = 'left';
+    } else {
+      prevEl.dataset.position = 'right';
+    }
+    targetEl.dataset.position = 'center';
+    currentStep = target;
+
+    if (target === 8) {
+      setTimeout(function() {
+        var fill = document.getElementById('confidence-fill');
+        if (fill && fill.dataset.target) {
+          fill.style.width = fill.dataset.target + '%';
+        }
+      }, 350);
+    }
+  }
+
+  window.goBack = function() {
+    goToStep(currentStep - 1);
+  };
+
+  function showLoading(callback) {
+    var overlay = document.getElementById('loading-overlay');
+    var changing = document.getElementById('loading-changing');
+    overlay.classList.add('active');
+
+    var messages = [
+      'Mevcut altyapi degerlendiriliyor...',
+      'Siparis hacmi analiz ediliyor...',
+      'Marketplace firsatlari hesaplaniyor...',
+      'Kisisellesmis oneri hazirlaniyor...'
+    ];
+    var idx = 0;
+    changing.textContent = messages[0];
+
+    var interval = setInterval(function() {
+      idx++;
+      if (idx < messages.length) {
+        changing.textContent = messages[idx];
+      }
+    }, 600);
+
+    setTimeout(function() {
+      clearInterval(interval);
+      overlay.classList.remove('active');
+      callback();
+    }, 2600);
+  }
+
+  function buildAnalysis() {
+    // Package recommendation
+    var pkg = 'Advance';
+    if (answers.orders === '1000+' || answers.team === 'large') {
+      pkg = 'Advance Plus';
+    } else if (answers.orders === '0-50' && answers.team === 'solo') {
+      pkg = 'Advantage';
+    }
+    document.getElementById('analysis-package').textContent = pkg;
+
+    // Action mapping
+    var actionMap = {
+      traffic: 'Trafik Artirma',
+      conversion: 'Donusum Optimizasyonu',
+      marketplace: 'Marketplace Acilim',
+      operations: 'Operasyon Otomasyonu',
+      mobile: 'Mobil Deneyim'
+    };
+    var challenges = answers.challenges || [];
+    var action = challenges.length > 0 ? (actionMap[challenges[0]] || 'Donusum Optimizasyonu') : 'Donusum Optimizasyonu';
+    document.getElementById('analysis-action').textContent = action;
+
+    // Score
+    var score = 60;
+    if (answers.satisfaction === 'yes') score = 85;
+    else if (answers.satisfaction === 'growing') score = 72;
+    else if (answers.satisfaction === 'struggling') score = 48;
+    else if (answers.satisfaction === 'starting') score = 35;
+
+    if (answers.orders === '200-1000' || answers.orders === '1000+') score = Math.min(score + 10, 95);
+    if (answers.marketplace === 'multiple') score = Math.min(score + 5, 95);
+
+    document.getElementById('analysis-score').textContent = score + '/100';
+    var fill = document.getElementById('confidence-fill');
+    fill.dataset.target = score;
+    fill.style.width = '0%';
+
+    // Insights
+    var insights = [];
+
+    if (answers.satisfaction === 'struggling') {
+      insights.push({ emoji: '\u26A0\uFE0F', text: 'Satis performansiniz beklentinin altinda. Dogru altyapi + funnel stratejisi ile hizli sonuc alinabilir.' });
+    } else if (answers.satisfaction === 'growing') {
+      insights.push({ emoji: '\uD83D\uDCA1', text: 'Buyume trendinizdeysiniz. Simdi dogru zamanda dogru yatirimla buyumeyi hizlandirabilirsiniz.' });
+    } else if (answers.satisfaction === 'starting') {
+      insights.push({ emoji: '\uD83D\uDE80', text: 'Yeni baslayan isletmeler icin dogru altyapi secimi kritik. Baslangicinizi saglikli bir temelle atin.' });
+    } else {
+      insights.push({ emoji: '\u2B50', text: 'Hedeflerinize ulasiyorsunuz - harika! Simdi buyumeyi olceklendirmek ve yeni kanallara acilmak zamani.' });
+    }
+
+    if (challenges.indexOf('traffic') !== -1) {
+      insights.push({ emoji: '\uD83C\uDFAF', text: 'Trafik sorunu genellikle SEO + reklam funnel eksikliginden kaynaklanir. Lead toplayan funnel ile reklamdan gelen trafigi daha etkili kullanin.' });
+    }
+    if (challenges.indexOf('conversion') !== -1) {
+      insights.push({ emoji: '\uD83D\uDED2', text: 'Donusum problemi: Tek sayfa odeme, guven sinyalleri (yorumlar, SSL badge) ve sepet terk e-postalari ile %20-40 iyilestirme mumkun.' });
+    }
+    if (challenges.indexOf('marketplace') !== -1) {
+      insights.push({ emoji: '\uD83C\uDFEA', text: 'Marketplace entegrasyonu ile satis kanallarinizi coglaltin. Tek panelden Trendyol, Hepsiburada, Amazon yonetimi verimliligi artir.' });
+    }
+    if (challenges.indexOf('operations') !== -1) {
+      insights.push({ emoji: '\u2699\uFE0F', text: 'Siparis/stok karisikligi buyumeyi engeller. WMS entegrasyonu ve otomatik stok senkronizasyonu ile operasyonel yukunu %60 azaltin.' });
+    }
+    if (challenges.indexOf('mobile') !== -1) {
+      insights.push({ emoji: '\uD83D\uDCF1', text: 'E-ticaret trafiginizin %70+\'i mobilden geliyor. Native mobil uygulama ile push bildirim, hizli odeme deneyimi sunun.' });
+    }
+
+    if (answers.goal === 'export') {
+      insights.push({ emoji: '\u2708\uFE0F', text: 'E-ihracat icin coklu dil, coklu para birimi ve uluslararasi kargo entegrasyonu hazir olmali. Bu altyapiyi simdi kurmak dogru zamanlama.' });
+    }
+
+    insights = insights.slice(0, 3);
+
+    var insightsList = document.getElementById('insights-list');
+    insightsList.innerHTML = '';
+    for (var i = 0; i < insights.length; i++) {
+      var div = document.createElement('div');
+      div.className = 'insight-item';
+      div.innerHTML = '<span class="emoji">' + insights[i].emoji + '</span><span>' + insights[i].text + '</span>';
+      insightsList.appendChild(div);
+    }
+
+    // Priority
+    var priorityMap = {
+      traffic: 'SEO optimizasyonu + reklam funnel\'i ile trafiginizi artirin ve gelen ziyaretcileri leadle donusturun.',
+      conversion: 'Tek sayfa odeme, guven sinyalleri ve sepet terk otomasyonu ile donusum oranini yukseletin.',
+      marketplace: 'Trendyol, Hepsiburada ve Amazon entegrasyonlari ile satis kanallarinizi 3x\'e cikarin.',
+      operations: 'WMS + otomatik stok senkronizasyonu ile operasyonel verimliligi artirin, hatalari azaltin.',
+      mobile: 'Native mobil uygulama ile push bildirim, hizli odeme ve kisisellesmis deneyim sunun.'
+    };
+    var topChallenge = challenges.length > 0 ? challenges[0] : 'conversion';
+    document.getElementById('priority-text').textContent = priorityMap[topChallenge] || priorityMap.conversion;
+  }
+
+  // Send interest
+  window.sendInterest = function() {
+    var btn = document.getElementById('cta-10');
+    btn.disabled = true;
+    btn.textContent = 'Gonderiliyor...';
+
+    var payload = {
+      email: answers.email || '',
+      source: 'demo-funnel',
+      status: 'interested',
+      answers: JSON.stringify(answers),
+      created_at: new Date().toISOString()
+    };
+
+    fetch('https://frficzdzmxhptmtbkfft.supabase.co/rest/v1/funnel_leads', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(payload)
+    }).then(function() {
+      btn.textContent = '\u2705 Ilginiz icin tesekkurler!';
+      btn.style.background = '#16a34a';
+      var note = document.createElement('p');
+      note.style.cssText = 'text-align:center;color:var(--text-secondary);font-size:14px;margin-top:12px;';
+      note.textContent = 'En kisa surede sizinle iletisime gececegiz.';
+      btn.parentNode.appendChild(note);
+    }).catch(function() {
+      btn.textContent = '\u2705 Ilginiz icin tesekkurler!';
+      btn.style.background = '#16a34a';
+    });
+  };
+
+  // Touch swipe
+  var touchStartX = 0;
+  var touchStartY = 0;
+
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].clientX;
+    touchStartY = e.changedTouches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    var dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (dx > 0 && currentStep > 1) {
+        goBack();
+      }
+    }
+  }, { passive: true });
+
+  // === TRACKING ===
+  var shouldTrack = new URLSearchParams(window.location.search).get('t') !== '0';
+
+  if (shouldTrack) {
+    var SUPA_URL = 'https://frficzdzmxhptmtbkfft.supabase.co';
+    var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';
+
+    var trackId = null;
+    var trackStart = Date.now();
+    var stepEnterTime = Date.now();
+    var stepTimes = {};
+    var maxStepReached = 1;
+    var clickedInterested = false;
+
+    function getTrackPayload() {
+      var now = Date.now();
+      var currentStepKey = 'step_' + currentStep;
+      if (!stepTimes[currentStepKey]) stepTimes[currentStepKey] = 0;
+      stepTimes[currentStepKey] += Math.round((now - stepEnterTime) / 1000);
+      stepEnterTime = now;
+
+      return {
+        website: window.location.pathname,
+        stage: 'demo_funnel_view',
+        linkedin: answers.email || null,
+        extra_notes: JSON.stringify({
+          time_on_page: Math.round((Date.now() - trackStart) / 1000),
+          current_step: currentStep,
+          max_step_reached: maxStepReached,
+          step_times: stepTimes,
+          completed_funnel: currentStep >= 10,
+          clicked_interested: clickedInterested,
+          client: 'ticimax',
+          opened_at: new Date(trackStart).toISOString()
+        }),
+        last_step: clickedInterested ? 'interested' : 'step_' + currentStep,
+        completed: clickedInterested
+      };
+    }
+
+    function supaFetch(method, path, body) {
+      return fetch(SUPA_URL + '/rest/v1/' + path, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPA_KEY,
+          'Authorization': 'Bearer ' + SUPA_KEY,
+          'Prefer': method === 'POST' ? 'return=representation' : 'return=minimal'
+        },
+        body: JSON.stringify(body)
+      });
+    }
+
+    supaFetch('POST', 'funnel_leads', getTrackPayload())
+      .then(function(r) { return r.json(); })
+      .then(function(data) { if (data && data[0]) trackId = data[0].id; });
+
+    var _originalGoToStep = goToStep;
+    goToStep = function(target) {
+      if (trackId) {
+        var now = Date.now();
+        var key = 'step_' + currentStep;
+        if (!stepTimes[key]) stepTimes[key] = 0;
+        stepTimes[key] += Math.round((now - stepEnterTime) / 1000);
+        stepEnterTime = now;
+      }
+
+      _originalGoToStep(target);
+
+      if (target > maxStepReached) maxStepReached = target;
+
+      if (trackId) {
+        supaFetch('PATCH', 'funnel_leads?id=eq.' + trackId, getTrackPayload());
+      }
+    };
+
+    setInterval(function() {
+      if (!trackId) return;
+      supaFetch('PATCH', 'funnel_leads?id=eq.' + trackId, getTrackPayload());
+    }, 10000);
+
+    document.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'hidden' && trackId) {
+        fetch(SUPA_URL + '/rest/v1/funnel_leads?id=eq.' + trackId, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPA_KEY,
+            'Authorization': 'Bearer ' + SUPA_KEY,
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(getTrackPayload()),
+          keepalive: true
+        });
+      }
+    });
+
+    var _originalSendInterest = window.sendInterest;
+    window.sendInterest = function() {
+      clickedInterested = true;
+      if (trackId) {
+        supaFetch('PATCH', 'funnel_leads?id=eq.' + trackId, getTrackPayload());
+      }
+      _originalSendInterest();
+    };
+  }
+
+})();
+</script>
+</body>
+</html>

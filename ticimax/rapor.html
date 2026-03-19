@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page {
+    size: A4;
+    margin: 25mm 20mm 25mm 20mm;
+    @bottom-center {
+      content: "Sayfa " counter(page) " / " counter(pages);
+      font-size: 9px;
+      color: #999;
+    }
+  }
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #1a1a2e;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* Cover */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 700px;
+    text-align: center;
+  }
+  .cover-badge {
+    background: #e8f0fe;
+    color: #1a73e8;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 18px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .cover h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0 0 10px 0;
+    line-height: 1.2;
+  }
+  .cover h2 {
+    font-size: 18px;
+    font-weight: 400;
+    color: #5f6368;
+    margin: 0 0 40px 0;
+  }
+  .cover-meta {
+    font-size: 14px;
+    color: #80868b;
+    margin-top: 20px;
+  }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #1a73e8, #34a853);
+    margin: 30px auto;
+    border-radius: 2px;
+  }
+  .cover-footer {
+    margin-top: 60px;
+    font-size: 12px;
+    color: #aaa;
+  }
+
+  /* Sections */
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a2e;
+    border-bottom: 2px solid #1a73e8;
+    padding-bottom: 6px;
+    margin: 30px 0 16px 0;
+  }
+  h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin: 20px 0 10px 0;
+  }
+  h4 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    margin: 14px 0 6px 0;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 20px 0;
+    font-size: 12px;
+  }
+  th {
+    background: #1a1a2e;
+    color: #fff;
+    text-align: left;
+    padding: 8px 10px;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #e8eaed;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #f8f9fa; }
+
+  /* Alert boxes */
+  .alert {
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin: 14px 0;
+    font-size: 13px;
+  }
+  .alert-danger {
+    background: #fce8e6;
+    border-left: 4px solid #ea4335;
+    color: #c5221f;
+  }
+  .alert-warning {
+    background: #fef7e0;
+    border-left: 4px solid #f9ab00;
+    color: #e37400;
+  }
+  .alert-info {
+    background: #e8f0fe;
+    border-left: 4px solid #1a73e8;
+    color: #174ea6;
+  }
+  .alert-success {
+    background: #e6f4ea;
+    border-left: 4px solid #34a853;
+    color: #137333;
+  }
+  .alert strong { display: block; margin-bottom: 4px; }
+
+  /* Lists */
+  ul, ol { margin: 8px 0 14px 20px; }
+  li { margin-bottom: 6px; }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    background: #e8eaed;
+    color: #5f6368;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    margin: 2px 4px 2px 0;
+    font-weight: 500;
+  }
+  .tag-red { background: #fce8e6; color: #c5221f; }
+  .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #e8f0fe; color: #174ea6; }
+  .tag-orange { background: #fef7e0; color: #e37400; }
+
+  /* Phase boxes */
+  .phase {
+    background: #f8f9fa;
+    border: 1px solid #e8eaed;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+  }
+  .phase-title {
+    font-weight: 700;
+    font-size: 15px;
+    color: #1a73e8;
+    margin-bottom: 8px;
+  }
+
+  /* Page break */
+  .page-break { page-break-before: always; }
+
+  p { margin: 6px 0; }
+
+  .summary-grid {
+    display: flex;
+    gap: 12px;
+    margin: 14px 0;
+  }
+  .summary-card {
+    flex: 1;
+    background: #f8f9fa;
+    border: 1px solid #e8eaed;
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+  }
+  .summary-card .value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a73e8;
+  }
+  .summary-card .label {
+    font-size: 11px;
+    color: #80868b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+  }
+
+  .score-bar {
+    height: 8px;
+    background: #e8eaed;
+    border-radius: 4px;
+    margin: 4px 0 2px 0;
+    overflow: hidden;
+  }
+  .score-fill {
+    height: 100%;
+    border-radius: 4px;
+  }
+  .score-low { background: #ea4335; }
+  .score-mid { background: #f9ab00; }
+  .score-high { background: #34a853; }
+
+  /* Language toggle */
+  @media print { .lang-toggle { display: none !important; } }
+  .lang-toggle {
+    position: fixed; top: 16px; right: 16px; z-index: 1000;
+    display: flex; gap: 0; border-radius: 8px; overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    font-family: inherit;
+  }
+  .lang-btn {
+    padding: 8px 16px; border: none; font-size: 13px; font-weight: 600;
+    cursor: pointer; font-family: inherit; transition: all 0.2s;
+  }
+  .lang-btn.active { background: #1a73e8; color: #fff; }
+  .lang-btn:not(.active) { background: #fff; color: #333; }
+</style>
+</head>
+<body>
+
+<div class="lang-toggle">
+  <button class="lang-btn active" id="btn-tr" onclick="setLang('tr')">TR</button>
+  <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+</div>
+
+<!-- COVER PAGE -->
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanim</div>
+  <h1>Ticimax.com</h1>
+  <h2>Dijital Pazarlama &amp; Funnel Strateji Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazirlanma Tarihi:</strong> 19 Mart 2026<br>
+    <strong>Domain:</strong> ticimax.com<br>
+    <strong>Sektor:</strong> B2B SaaS - E-Ticaret Altyapi Cozumleri<br>
+    <strong>Rapor Turu:</strong> Detayli Analiz + Strateji Onerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web arastirmasina dayanarak Claude Code Opus 4.6 ile hazirlanmistir.</div>
+</div>
+
+<!-- COPY IMPROVEMENTS BUTTON (browser only) -->
+<style>
+  @media print { .copy-section { display: none !important; } }
+  .copy-section {
+    padding: 20px 24px;
+    background: #f0f4ff;
+    border: 2px dashed #1a73e8;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .copy-section h3 { font-size: 16px; color: #1a1a2e; margin-bottom: 6px; border: none; }
+  .copy-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .copy-btn {
+    background: #1a73e8; color: #fff; border: none;
+    padding: 12px 28px; border-radius: 8px; font-size: 14px;
+    font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s;
+  }
+  .copy-btn:hover { background: #1557b0; }
+  .copy-btn.copied { background: #34a853; }
+  .copy-status { margin-top: 10px; font-size: 12px; color: #80868b; }
+</style>
+
+<div class="copy-section">
+  <h3>Iyilestirme Onerilerini Kopyala</h3>
+  <p>Rapordaki tum iyilestirme onerilerini kopyalayarak yapay zekana veya ekibinize iletebilirsiniz.</p>
+  <button class="copy-btn" id="copyBtn" onclick="copyImprovements()">Iyilestirmeleri Kopyala</button>
+  <div class="copy-status" id="copyStatus"></div>
+</div>
+
+<script>
+function copyImprovements() {
+  const btn = document.getElementById('copyBtn');
+  const status = document.getElementById('copyStatus');
+
+  const text = `TICIMAX.COM - IYILESTIRME ONERILERI
+=====================================
+
+ACIL DUZELTMELER (Hafta 1-2):
+
+1. AGRESIF POPUP'I KALDIR VEYA AZALT
+   Bayram/kampanya popup'i tum sayfayi kapatarak kullanici deneyimini bozuyor. Overlay yerine banner veya sticky bar kullanin.
+
+2. LEAD-FIRST FUNNEL OLUSTURUN
+   "E-ticaret sitenizden beklediginiz satislari yapiyor musunuz?" ile baslayan 8-10 soruluk funnel. Musterinin ihtiyacini anlayin, sonra dogru paketi onerin.
+
+3. CTA HIYERARSISINI NETLESIRIN
+   Ana sayfada 15+ cozum turu ve birden fazla "Demo" butonu var. Ziyaretci hangi butona tiklamasi gerektigini bilemiyor. Tek net CTA: "Ucretsiz Demo Alin"
+
+4. SAYFA HIZINI OPTIMIZE EDIN
+   Agir JavaScript yukleri Core Web Vitals'i olumsuz etkiliyor. Lazy loading, code splitting ve gorsel optimizasyon uygulayin.
+
+5. NAVIGASYON BASITLESTIRILMELI
+   15+ cozum kategorisi ziyaretciyi bocalatiyor. "Yeni Baslayanlar / Buyuyen Isletmeler / Enterprise" gibi segmentasyon ile kullaniciyi yonlendirin.
+
+6. KARAR AGACI ARACI EKLEYIN
+   "Hangi paket bana uygun?" interaktif araci. Musterinin soru cevaplamasi ve dogru pakete yonlendirilmesi.
+
+-----
+
+DIJITAL PAZARLAMA STRATEJISI (Hafta 3-4):
+
+1. FUNNEL BAZLI LEAD TOPLAMA - Her reklam kanali icin ayri landing page + funnel
+2. RETARGETING KAMPANYASI - Site ziyaretcilerini Facebook/Google ile yeniden hedefle
+3. CASE STUDY SAYFASI - Victoria's Secret, Starbucks gibi referans musterilerin basari hikayeleri
+4. AI YATIRIMINI VURGULA - 450M TL AI yatirimi hikayesini PR ve iceriklerde kullan
+5. PCI DSS 4.0 SERTIFIKASI - Turkiye'de tek olmak buyuk avantaj, bunu daha fazla vurgula
+6. RAKIP KARSILASTIRMA SAYFALARI - "Ticimax vs IdeaSoft", "Ticimax vs T-Soft" SEO sayfalari
+7. SEGMENT BAZLI LANDING PAGE - B2C, B2B, E-Export icin ayri sayfalar
+
+-----
+
+BUYUME STRATEJISI (Ay 2+):
+
+1. FREEMIUM/TRIAL MODELI - ikas'in ucretsiz modeline karsi bir cevap gelistirin
+2. PARTNER/AJANS PROGRAMI - E-ticaret ajanslari icin partner program
+3. ETICARET AKADEMISI - Video egitim serisi ile organik trafik ve guven insa edin
+4. LINKEDIN B2B KAMPANYASI - E-ticaret karar vericilerine LinkedIn Ads
+5. WEBINAR SERISI - "E-ticarette AI Donusumu" gibi guncel konularda duzenli webinar
+6. UPSELL FUNNEL - Mevcut Advantage musterilerini Advance/Advance Plus'a tasima stratejisi
+7. SIKAYETVAR YONETIMI - Iptal surecini iyilestirin, memnun musteriyi tesvik edin
+
+-----
+
+WEB SITESI UX SORUNLARI:
+- Agresif popup overlay kampanya icerigi ile sayfayi kapatyor [KRITIK]
+- Dagilmis CTA'lar - birden fazla "Demo" butonu net hiyerarsi yok [YUKSEK]
+- Navigasyon karisikligi - 15+ cozum turu one cikiyor [YUKSEK]
+- Agir JavaScript Core Web Vitals'i etkiliyor [ORTA]
+- Dil secimi butonlari menu kirliligi yaratiyor [DUSUK]
+- Responsive layout kaymalari (900px-1540px arasi) [ORTA]
+
+-----
+
+FIYATLANDIRMA NOTU:
+- Advantage 3,250 TL/ay (39,000 TL/yil): IdeaSoft'tan yuksek ama daha fazla ozellik
+- Advance 4,991 TL/ay (59,900 TL/yil): Fiyat/performans dengesi iyi
+- Advance Plus 6,583 TL/ay (79,000 TL/yil): T-Soft'tan ucuz, daha fazla entegrasyon
+- Zayiflik: Freemium yok (ikas'in ucretsiz plani var)
+- Guc: PCI DSS 4.0 Level 1 (Turkiye'de tek), 30,000+ marka
+
+-----
+
+STRATEJI NOTU: FUNNEL ILE MUSTERI TANI, SONRA SAT
+Her potansiyel musterinin ihtiyaci farkli. Yeni baslayanin beklentisi ile 200K+ ciro yapanin beklentisi ayni degildir. Funnel ile musterinin buyuklugunu, mevcut platformunu, acil ihtiyaclarini ogrenin - sonra kisisellesmis demo ve teklif sunun. Genel "Demo Talep Et" butonu yerine "Sana en uygun paketi bulalim" yaklasimiyla donusum oranini 3-5x artirabilirsiniz.`;
+
+  try {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '\u2705 Kopyalandi!';
+      btn.classList.add('copied');
+      status.textContent = (text.length / 1024).toFixed(1) + ' KB kopyalandi';
+      setTimeout(() => { btn.textContent = 'Iyilestirmeleri Kopyala'; btn.classList.remove('copied'); }, 3000);
+    });
+  } catch(e) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;left:-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '\u2705 Kopyalandi!';
+    btn.classList.add('copied');
+    status.textContent = (text.length / 1024).toFixed(1) + ' KB kopyalandi';
+    setTimeout(() => { btn.textContent = 'Iyilestirmeleri Kopyala'; btn.classList.remove('copied'); }, 3000);
+  }
+}
+</script>
+
+<!-- PAGE 1 - PROFIL -->
+<h2 class="page-break">1. Lead Profil Ozeti</h2>
+
+<div class="summary-grid">
+  <div class="summary-card">
+    <div class="value">B2B</div>
+    <div class="label">Hedef Pazar</div>
+  </div>
+  <div class="summary-card">
+    <div class="value">SaaS</div>
+    <div class="label">Sektor</div>
+  </div>
+  <div class="summary-card">
+    <div class="value">200K+</div>
+    <div class="label">Aylik Gelir</div>
+  </div>
+  <div class="summary-card">
+    <div class="value">100K+</div>
+    <div class="label">Reklam Butcesi</div>
+  </div>
+  <div class="summary-card">
+    <div class="value">2005</div>
+    <div class="label">Kurulus Yili</div>
+  </div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Deger</th></tr>
+  <tr><td><strong>Website</strong></td><td>ticimax.com</td></tr>
+  <tr><td><strong>Urun Tanimi</strong></td><td>Turkiye'nin lider e-ticaret altyapi saglayicisi. 30,000+ marka tarafindan kullanilan, omnichannel yonetim, marketplace entegrasyonu, AI destekli araclar ve mobil uygulama sunan SaaS platformu.</td></tr>
+  <tr><td><strong>Mevcut Durum</strong></td><td>Satislari iyilestirmek istiyor (improve_sales)</td></tr>
+  <tr><td><strong>Hedef Pazar</strong></td><td>B2B - E-ticaret yapan isletmelere altyapi satisi</td></tr>
+  <tr><td><strong>Sektor</strong></td><td>SaaS / E-Ticaret Altyapisi</td></tr>
+  <tr><td><strong>Aylik Gelir</strong></td><td>200K+ TL</td></tr>
+  <tr><td><strong>Reklam Kanallari</strong></td><td>Aktif dijital reklam veriyor</td></tr>
+  <tr><td><strong>Reklam Butcesi</strong></td><td>100K+ TL/ay</td></tr>
+  <tr><td><strong>Telefon</strong></td><td>+90 532 210 54 02</td></tr>
+  <tr><td><strong>Funnel Durumu</strong></td><td><span class="tag tag-green">Tamamlandi</span></td></tr>
+</table>
+
+<h3>Platform Ozellikleri (Mevcut)</h3>
+<table>
+  <tr><th>Ozellik</th><th>Aciklama</th></tr>
+  <tr><td><strong>Omnichannel Yonetim</strong></td><td>Marketplace, sosyal medya ve fiziksel magaza yonetimi tek panelden</td></tr>
+  <tr><td><strong>Marketplace Entegrasyonu</strong></td><td>Trendyol, Hepsiburada, Amazon TR, N11 ve daha fazlasi</td></tr>
+  <tr><td><strong>Mobil Uygulamalar</strong></td><td>iOS ve Android native uygulamalar</td></tr>
+  <tr><td><strong>Ticimax AI</strong></td><td>SEO icerik uretimi, urun gorseli olusturma, akilli etiketleme, coklu dil cevirisi</td></tr>
+  <tr><td><strong>Depo Yonetim Sistemi (WMS)</strong></td><td>Entegre stok ve depo yonetimi</td></tr>
+  <tr><td><strong>400+ Kampanya Sablonu</strong></td><td>Hazir kampanya sablonlariyla hizli pazarlama</td></tr>
+  <tr><td><strong>Tek Sayfa Odeme</strong></td><td>Donusum oranini artiran one-page checkout</td></tr>
+  <tr><td><strong>B2B Satis Modulu</strong></td><td>Toptanci/bayi satis altyapisi</td></tr>
+  <tr><td><strong>E-Ihracat Paketleri</strong></td><td>Coklu para birimi, coklu dil, uluslararasi kargo entegrasyonu</td></tr>
+  <tr><td><strong>7/24 Teknik Destek</strong></td><td>Telefon + e-posta ile kesintisiz destek</td></tr>
+  <tr><td><strong>PCI DSS 4.0 Level 1</strong></td><td>Turkiye'de ilk ve tek - en ust duzey odeme guvenligi sertifikasi</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Profil Yorumu</strong>
+  Ticimax, 2005'ten bu yana Turkiye e-ticaret altyapi pazarinin en buyuk oyuncularindan biri. 30,000+ aktif marka, Victoria's Secret ve Starbucks gibi referanslar, 450M TL AI yatirimi ve PCI DSS 4.0 sertifikasi guclu avantajlar. 100K+ reklam butcesi aktif dijital pazarlama yapiyor ancak funnel yaklasimi ve lead kalifikasyonu konusunda iyilestirme potansiyeli var.
+</div>
+
+<!-- PAGE 2 - WEBSITE ANALIZI -->
+<h2 class="page-break">2. Web Sitesi Analizi - Tespit Edilen Sorunlar</h2>
+
+<p><strong>ticimax.com</strong> profesyonel bir kurumsal web sitesi olarak tasarlanmis. SSR destegi ve SEO uyumlulugu mevcut. Ancak kullanici deneyimi ve donusum optimizasyonu acisindan onemli iyilestirme alanlari tespit edildi.</p>
+
+<h3>2.1 UX ve Donusum Sorunlari</h3>
+<table>
+  <tr><th>Sorun</th><th>Aciklama</th><th>Etki Seviyesi</th></tr>
+  <tr>
+    <td><strong>Agresif popup overlay</strong></td>
+    <td>Kampanya zamanlayicisi popup'i ("Bayrama Ozel %60 indirim") tum sayfayi kapatarak icerigi engelliyor. Kullanici ilk izlenimi olumsuz etkileniyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Dagilmis CTA'lar</strong></td>
+    <td>Sayfada birden fazla "Demo" butonu ve telefon numarasi gorsel hiyerarsi olmadan dagilmis. Ziyaretci hangi aksiyonu almasi gerektigini bilemiyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Navigasyon karisikligi</strong></td>
+    <td>15+ cozum turu (marketplace, WMS, mobil app, B2B, e-ihracat...) navigasyonda listelenmiyor karar hiyerarsisi yok. Kucuk isletme vs enterprise ayrimi belirsiz.</td>
+    <td><span class="tag tag-orange">Yuksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Agir JavaScript yukleri</strong></td>
+    <td>Obfuscated JavaScript Core Web Vitals / sayfa yuklenme hizini olumsuz etkiliyor. Mobile performance'i dusurme riski var.</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+  <tr>
+    <td><strong>Dil secimi kirliligi</strong></td>
+    <td>TR/EN/DE/FR dil secimi butonlari sayfada tekrar ederek menu kirliligi yaratiyor.</td>
+    <td><span class="tag">Dusuk</span></td>
+  </tr>
+  <tr>
+    <td><strong>Responsive layout kaymalari</strong></td>
+    <td>CSS breakpoint'leri 900px, 1200px, 1540px'de. Orta boyut ekranlarda layout shift sorunlari olusabilir.</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+</table>
+
+<h3>2.2 SEO Pozitif Yonler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr>
+    <td><strong>Organization Schema</strong></td>
+    <td><span class="tag tag-green">Var</span> - Iletisim bilgileri ve sosyal medya linkleri ile dogru yapilandirilmis</td>
+  </tr>
+  <tr>
+    <td><strong>SSR / SEO uyumluluk</strong></td>
+    <td><span class="tag tag-green">Var</span> - Icerik sunucu tarafinda render ediliyor, Googlebot gorebiliyor</td>
+  </tr>
+  <tr>
+    <td><strong>Coklu dil destegi</strong></td>
+    <td><span class="tag tag-green">Var</span> - TR, EN, DE, FR - uluslararasi hedef kitle icin hazir</td>
+  </tr>
+  <tr>
+    <td><strong>Blog icerigi</strong></td>
+    <td><span class="tag tag-green">Var</span> - Organik SEO icin duzeli icerik uretimi yapiliyor</td>
+  </tr>
+  <tr>
+    <td><strong>H1 tag</strong></td>
+    <td><span class="tag tag-green">Var</span> - Aksiyon odakli: "E-ticaret sitenizi dakikalar icinde acin"</td>
+  </tr>
+</table>
+
+<h3>2.3 Eksik/Iyilestirilebilir Alanlar</h3>
+<table>
+  <tr><th>Eksik Element</th><th>Neden Gerekli</th></tr>
+  <tr>
+    <td><strong>Lead kalifikasyon funnel'i</strong></td>
+    <td>Genel "Demo Talep Et" formu musterinin ihtiyacini anlamiyor. Funnel ile musteri segmenti, mevcut platform, ciro, ihtiyac ogrenilmeli - sonra kisisellesmis demo sunulmali.</td>
+  </tr>
+  <tr>
+    <td><strong>Interaktif paket secici</strong></td>
+    <td>3 paket var ama hangisinin kime uygun oldugu net degil. "Hangi paket bana uygun?" araci potansiyel musteriyi yonlendirmeli.</td>
+  </tr>
+  <tr>
+    <td><strong>Case study sayfasi</strong></td>
+    <td>Victoria's Secret, Starbucks gibi referanslar logo olarak var ama detayli basari hikayesi yok. "Ticimax ile satislarini %X artirdi" formunda hikayeler cok etkili.</td>
+  </tr>
+  <tr>
+    <td><strong>Rakip karsilastirma sayfasi</strong></td>
+    <td>"Ticimax vs IdeaSoft", "Ticimax vs T-Soft" gibi SEO sayfalarinin olmamasi organik trafik kaybi. Bu aramalarda rakip bloglar siralamada.</td>
+  </tr>
+  <tr>
+    <td><strong>ROI hesaplayici</strong></td>
+    <td>"Mevcut platformdan Ticimax'a geciste ne kadar tasarruf edersiniz?" interaktif arac karar surecini hizlandirir.</td>
+  </tr>
+  <tr>
+    <td><strong>Segment bazli landing page</strong></td>
+    <td>B2C, B2B, E-Export musterileri farkli ihtiyaclara sahip. Her segment icin ayri landing page donusum oranini artirirdi.</td>
+  </tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Genel Degerlendirme</strong>
+  Ticimax teknik SEO acisindan rakiplere gore iyi durumda (SSR, schema, blog). Ancak 100K+ TL reklam butcesi harcayan bir sirket icin donusum optimizasyonu kritik. Popup overlay, dagilmis CTA'lar ve segmentsiz navigasyon potansiyel musterileri kaybettiriyor. Bir lead kalifikasyon funnel'i ile "dogru musteriyi, dogru paketle, dogru zamanda bulusturmak" daha az butceyle daha cok donusum saglar.
+</div>
+
+<div class="alert alert-info">
+  <strong>Strateji Notu: Funnel ile Musteri Tani, Sonra Sat</strong>
+  Her potansiyel musterinin ihtiyaci farkli. Yeni baslayanin beklentisi ile 200K+ ciro yapanin beklentisi ayni degil. Funnel ile musterinin buyuklugunu, mevcut platformunu, acil ihtiyaclarini ogrenin - sonra kisisellesmis demo ve teklif sunun. Genel "Demo Talep Et" butonu yerine "Sana en uygun paketi bulalim" yaklasimiyla donusum oranini 3-5x artirabilirsiniz.
+</div>
+
+<!-- PAGE 3 - RAKIP ANALIZI -->
+<h2 class="page-break">3. Rakip Analizi - Turkiye E-Ticaret Altyapi Pazari</h2>
+
+<h3>3.1 Ana Rakipler</h3>
+
+<table>
+  <tr>
+    <th>Rakip</th>
+    <th>Giris Fiyati (Yillik)</th>
+    <th>One Cikan Ozellik</th>
+    <th>Pazar Konumu</th>
+  </tr>
+  <tr>
+    <td><strong>IdeaSoft</strong></td>
+    <td>25,900 TL/yil (Pro)</td>
+    <td>Guclu SEO ozellikleri, kullanici dostu arayuz, 5,000+ referans</td>
+    <td>Fiyat avantajli, KOBi segmentinde guclu</td>
+  </tr>
+  <tr>
+    <td><strong>T-Soft</strong></td>
+    <td>45,000 TL/yil (Standard)</td>
+    <td>En derin ozellestirme, buyuk isletmeler icin ideal, 135K+ TL ust paket</td>
+    <td>En pahali, enterprise odakli</td>
+  </tr>
+  <tr>
+    <td><strong>ikas</strong></td>
+    <td>Ucretsiz (Start)</td>
+    <td>Freemium model, modern arayuz, hizli buyume, kargo bonusu</td>
+    <td>Yeni oyuncu, agresif buyume</td>
+  </tr>
+  <tr>
+    <td><strong>PlatinMarket</strong></td>
+    <td>24,990 TL/yil (Bronz)</td>
+    <td>En uygun fiyatli tam ozellik, Gold 39,990 TL</td>
+    <td>Butce odakli segment</td>
+  </tr>
+  <tr>
+    <td><strong>Shopify</strong></td>
+    <td>~$32/ay (~1,100 TL/ay)</td>
+    <td>Global marka, uluslararasi odeme, sinirsiz tema/eklenti</td>
+    <td>USD fiyat, sinirli TR entegrasyonu</td>
+  </tr>
+</table>
+
+<h3>3.2 Fiyat Karsilastirmasi (Yillik Paketler)</h3>
+
+<table>
+  <tr><th>Platform</th><th>Giris Paket</th><th>Orta Paket</th><th>Ust Paket</th><th>Freemium?</th></tr>
+  <tr>
+    <td><strong>Ticimax</strong></td>
+    <td>39,000 TL (Advantage)</td>
+    <td>59,900 TL (Advance)</td>
+    <td>79,000 TL (Advance Plus)</td>
+    <td><span class="tag tag-red">Yok</span></td>
+  </tr>
+  <tr>
+    <td>IdeaSoft</td>
+    <td>25,900 TL (Pro)</td>
+    <td>38,900 TL (Entegre)</td>
+    <td>65,900 TL (Platinum)</td>
+    <td><span class="tag tag-red">Yok</span></td>
+  </tr>
+  <tr>
+    <td>T-Soft</td>
+    <td>45,000 TL (Standard)</td>
+    <td>-</td>
+    <td>135,000 TL+ (Professional)</td>
+    <td><span class="tag tag-red">Yok</span></td>
+  </tr>
+  <tr>
+    <td>ikas</td>
+    <td>Ucretsiz (Start)</td>
+    <td>~24,000 TL bonus (Scale)</td>
+    <td>Ozel (Scale Plus)</td>
+    <td><span class="tag tag-green">Var</span></td>
+  </tr>
+  <tr>
+    <td>PlatinMarket</td>
+    <td>24,990 TL (Bronz)</td>
+    <td>39,990 TL (Gold)</td>
+    <td>59,990 TL (Platin+)</td>
+    <td><span class="tag tag-red">Yok</span></td>
+  </tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Ticimax'in Fiyat Konumlandirmasi</strong>
+  Ticimax, fiyat/ozellik dengesinde pazarin ortasinda konumlanmis. IdeaSoft ve PlatinMarket'ten daha pahali ama daha fazla ozellik (AI, WMS, mobil app) sunuyor. T-Soft'tan belirgin sekilde ucuz. En buyuk tehdit: ikas'in ucretsiz giris plani, kucuk isletmeleri cekim merkezine ceviriyor.
+</div>
+
+<h3>3.3 Ozellik Karsilastirmasi</h3>
+
+<table>
+  <tr><th>Ozellik</th><th style="background:#1a73e8">Ticimax</th><th>IdeaSoft</th><th>T-Soft</th><th>ikas</th></tr>
+  <tr>
+    <td>Marketplace Entegrasyonu</td>
+    <td><span class="tag tag-green">Sinirsiz (Adv+)</span></td>
+    <td>Var</td>
+    <td>Var</td>
+    <td>Sinirli</td>
+  </tr>
+  <tr>
+    <td>Mobil Uygulama (Native)</td>
+    <td><span class="tag tag-green">iOS + Android</span></td>
+    <td>Var</td>
+    <td>Var</td>
+    <td>Var</td>
+  </tr>
+  <tr>
+    <td>AI Araclar</td>
+    <td><span class="tag tag-green">Kapsamli</span></td>
+    <td>Sinirli</td>
+    <td>Sinirli</td>
+    <td>Sinirli</td>
+  </tr>
+  <tr>
+    <td>WMS (Depo Yonetimi)</td>
+    <td><span class="tag tag-green">Var</span></td>
+    <td>Yok</td>
+    <td>Var</td>
+    <td>Yok</td>
+  </tr>
+  <tr>
+    <td>PCI DSS 4.0</td>
+    <td><span class="tag tag-green">Level 1 (Tek!)</span></td>
+    <td>Yok</td>
+    <td>Yok</td>
+    <td>Yok</td>
+  </tr>
+  <tr>
+    <td>B2B Satis Modulu</td>
+    <td><span class="tag tag-green">Var</span></td>
+    <td>Kismi</td>
+    <td>Var</td>
+    <td>Yok</td>
+  </tr>
+  <tr>
+    <td>E-Ihracat</td>
+    <td><span class="tag tag-green">Ozel Paket</span></td>
+    <td>Kismi</td>
+    <td>Kismi</td>
+    <td>Sinirli</td>
+  </tr>
+  <tr>
+    <td>7/24 Destek</td>
+    <td><span class="tag tag-green">Telefon + Mail</span></td>
+    <td>Is saatleri</td>
+    <td>Var</td>
+    <td>Var</td>
+  </tr>
+  <tr>
+    <td>Referans Musteri Sayisi</td>
+    <td><span class="tag tag-blue">30,000+</span></td>
+    <td>5,000+</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Freemium / Ucretsiz Plan</td>
+    <td><span class="tag tag-red">Yok</span></td>
+    <td>Yok</td>
+    <td>Yok</td>
+    <td><span class="tag tag-green">Var</span></td>
+  </tr>
+  <tr>
+    <td>Ozellestirme Derinligi</td>
+    <td>Orta</td>
+    <td>Orta</td>
+    <td><span class="tag tag-green">En Derin</span></td>
+    <td>Sinirli</td>
+  </tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Rekabetci Konum Degerlendirmesi</strong>
+  Ticimax, "Pazar Lideri" konumunda. AI yatirimi (450M TL), PCI DSS 4.0 sertifikasi (Turkiye'de tek) ve 30,000+ marka ile en guclu altyapi. Zayif noktalar: freemium olmamasi (ikas tehdidi), ozellestirme derinligi (T-Soft avantaji), ve satis sonrasi memnuniyetsizlik (Sikayetvar yorumlari). Funnel bazli lead toplama ile dogru segmentteki musterilere odaklanmak, bu avantajlari maksimize eder.
+</div>
+
+<!-- PAGE 4 - MUSTERI MEMNUNIYETI -->
+<h2 class="page-break">4. Musteri Algisi ve Sikayetvar Analizi</h2>
+
+<h3>4.1 Pozitif Yonler</h3>
+<table>
+  <tr><th>Alan</th><th>Detay</th></tr>
+  <tr><td><strong>Teknik destek hizi</strong></td><td>Hizli yanit sureleri ve 7/24 erisim mevcut musterilerden olumlu geri bildirim aliyor</td></tr>
+  <tr><td><strong>Egitim icerikleri</strong></td><td>Surekli egitim ve rehberlik icerikleri uretiliyor</td></tr>
+  <tr><td><strong>KVKK / GDPR uyumluluk</strong></td><td>Yasal uyumluluk konusunda proaktif yaklasim</td></tr>
+  <tr><td><strong>SSL dahil</strong></td><td>Tum paketlerde SSL sertifikasi ucretsiz</td></tr>
+  <tr><td><strong>Sikayetvar Pro uyelik</strong></td><td>10+ yildir aktif yanit veriyor - sikayetleri ciddiye aldigini gosteriyor</td></tr>
+</table>
+
+<h3>4.2 Olumsuz Yonler (Sikayetvar Kaynak)</h3>
+<table>
+  <tr><th>Sikayet Konusu</th><th>Detay</th><th>Risk Seviyesi</th></tr>
+  <tr>
+    <td><strong>Zor iptal sureci</strong></td>
+    <td>Musteriler 60,000 TL odedikten sonra iptal isteminde "yasal haklarinizi kullanin" yaniti aldigini belirtiyor.</td>
+    <td><span class="tag tag-red">Yuksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Satis sonrasi takip eksikligi</strong></td>
+    <td>"Satisindan sonra kimse aramadi, kurulum nasil gidiyor diye sormadi" geri bildirimleri.</td>
+    <td><span class="tag tag-orange">Yuksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Satis oncesi taahhut uyumsuzlugu</strong></td>
+    <td>Satis oncesi verilen sozlerin satis sonrasinda yerine getirilmemesi sikayeti.</td>
+    <td><span class="tag tag-red">Yuksek</span></td>
+  </tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>Musteri Deneyimi Riski</strong>
+  Sikayetvar yorumlari, Ticimax'in satis oncesi surecte guclu ama satis sonrasi surecte iyilestirmeye ihtiyac duyuldugunu gosteriyor. Bu durum, yuksek butceli reklam kampanyalariyla kazanilan musterilerin elde tutulmasini zorlastiriyor. Onboarding funnel'i ve ilk 30 gun takip sureci kritik. <strong>Funnel stratejisi sadece yeni musteri kazanmak icin degil, mevcut musterilerin deneyimini iyilestirmek icin de kullanilabilir.</strong>
+</div>
+
+<!-- PAGE 5 - PAZAR KONUMLANDIRMA -->
+<h2 class="page-break">5. Pazar Fiyat Haritasi ve Konumlandirma</h2>
+
+<h3>5.1 Ticimax Mevcut Fiyatlandirma</h3>
+<table>
+  <tr><th>Paket</th><th>Fiyat</th><th>Hedef Segment</th><th>One Cikan Ozellikler</th></tr>
+  <tr>
+    <td><strong>Advantage</strong></td>
+    <td>3,250 TL/ay<br>(39,000 TL/yil)</td>
+    <td>Yeni baslayanlar</td>
+    <td>Trendyol entegrasyonu, temel AI (logo, icerik), sinirsiz urun</td>
+  </tr>
+  <tr>
+    <td><strong>Advance</strong> <span class="tag tag-blue">Populer</span></td>
+    <td>4,991 TL/ay<br>(59,900 TL/yil)</td>
+    <td>Buyuyen isletmeler</td>
+    <td>3 marketplace, B2B modulu, genisletilmis AI, %0 ertesi gun POS</td>
+  </tr>
+  <tr>
+    <td><strong>Advance Plus</strong></td>
+    <td>6,583 TL/ay<br>(79,000 TL/yil)</td>
+    <td>Profesyonel</td>
+    <td>Sinirsiz marketplace, banner/gorsel/video AI, %0 ertesi gun POS</td>
+  </tr>
+</table>
+
+<h3>5.2 Fiyat Pozisyonu Gorseli</h3>
+
+<h4>Giris Paket Karsilastirmasi (Yillik)</h4>
+<table>
+  <tr><th>Platform</th><th>Fiyat</th><th>Gorsel</th><th>Degerlendirme</th></tr>
+  <tr>
+    <td>T-Soft Standard</td>
+    <td>45,000 TL/yil</td>
+    <td><div class="score-bar" style="width:200px"><div class="score-fill score-low" style="width:90%"></div></div></td>
+    <td>En pahali giris paketi</td>
+  </tr>
+  <tr>
+    <td style="color:#1a73e8;font-weight:700">Ticimax Advantage</td>
+    <td style="color:#1a73e8;font-weight:700">39,000 TL/yil</td>
+    <td><div class="score-bar" style="width:200px"><div class="score-fill score-mid" style="width:78%"></div></div></td>
+    <td><span class="tag tag-blue">Orta ust</span></td>
+  </tr>
+  <tr>
+    <td>IdeaSoft Pro</td>
+    <td>25,900 TL/yil</td>
+    <td><div class="score-bar" style="width:200px"><div class="score-fill score-high" style="width:52%"></div></div></td>
+    <td>Daha uygun giris</td>
+  </tr>
+  <tr>
+    <td>PlatinMarket Bronz</td>
+    <td>24,990 TL/yil</td>
+    <td><div class="score-bar" style="width:200px"><div class="score-fill score-high" style="width:50%"></div></div></td>
+    <td>En uygun fiyat</td>
+  </tr>
+  <tr>
+    <td>ikas Start</td>
+    <td>Ucretsiz</td>
+    <td><div class="score-bar" style="width:200px"><div class="score-fill score-high" style="width:5%"></div></div></td>
+    <td><span class="tag tag-green">Freemium</span></td>
+  </tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Fiyatlandirma Notu</strong>
+  Ticimax'in giris paketi (39,000 TL) IdeaSoft'tan %50 daha pahali. Ancak daha fazla ozellik sunuyor (AI, marketplace, mobil app). Sorun: Bu fark kucuk isletmelere dogru iletilmiyor. Funnel ile musterinin buyuklugunu ogrenip, deger onerisi icin dogru ozellikleri vurgulamak gerekiyor.
+</div>
+
+<h3>5.3 Ticimax'in Guclu Yonleri (Reklam ve Funnel'da Vurgulanmali)</h3>
+
+<table>
+  <tr><th>#</th><th>Avantaj</th><th>Neden Onemli</th><th>Nasil Kullanilmali</th></tr>
+  <tr>
+    <td>1</td>
+    <td><strong>PCI DSS 4.0 Level 1</strong></td>
+    <td>Turkiye'de ilk ve tek. Odeme guvenligi konusunda en ust duzey sertifika.</td>
+    <td>Landing page'in en ustunde "Turkiye'nin en guvenli e-ticaret altyapisi" badge'i</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td><strong>30,000+ aktif marka</strong></td>
+    <td>Sosyal kanit. "Binlerce isletme zaten Ticimax'a guevniyor."</td>
+    <td>Her sayfada sayac + logo karuseli</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td><strong>450M TL AI yatirimi</strong></td>
+    <td>Gelecege yatirim yapan bir platform imaji.</td>
+    <td>PR, blog, webinar icerikleri + "AI ile satislarini artir" kampanyasi</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td><strong>Victoria's Secret, Starbucks referanslari</strong></td>
+    <td>Premium marka guvenilirligi.</td>
+    <td>Case study'ler + "Bu markalar neden Ticimax'i seciyor?" icerigi</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td><strong>7/24 destek</strong></td>
+    <td>Rakiplerin cogundan iyi. Ozellikle gece satislari yapan isletmeler icin kritik.</td>
+    <td>Funnel'da "Gece 3'te siparis problemi? Biz buradayiz." mesaji</td>
+  </tr>
+</table>
+
+<!-- PAGE 6 - STRATEJI -->
+<h2 class="page-break">6. Onerilen Aksiyon Plani</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - Donusum Optimizasyonu (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Lead kalifikasyon funnel'i olusturun:</strong> "E-ticaret sitenizden beklediginiz satislari yapiyor musunuz?" ile baslayan 8-10 soruluk funnel. Musterinin mevcut platformu, cirosu, ihtiyaclari ogrenilsin - dogru paketle bulusturulsun.</li>
+    <li><strong>Popup stratejisiniz degistirin:</strong> Agresif overlay yerine subtle sticky bar veya exit-intent popup kullanin. "Ilk 2 ay %40 indirim" gibi net bir teklif.</li>
+    <li><strong>CTA hiyerarsisini netlestirin:</strong> Ana sayfada tek dominant CTA: "Ucretsiz Demo Alin" veya "Hangi Paket Bana Uygun? Ogren" butonu.</li>
+    <li><strong>Interaktif paket secici ekleyin:</strong> 3-4 soruluk mini quiz: "Aylik siparis sayisi? Marketplace satisi yapiyor musunuz? Ekip buyuklugu?" - Sonuc: "Size en uygun paket: Advance"</li>
+    <li><strong>Navigasyonu segmentleyin:</strong> "Yeni Baslayanlar / Buyuyen Isletmeler / Enterprise" gibi kisi bazli yonlendirme.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - Icerik ve SEO Stratejisi (Hafta 3-4)</div>
+  <ol>
+    <li><strong>Case study sayfalari:</strong> Victoria's Secret, Starbucks, English Home gibi referanslarla detayli basari hikayeleri. "X marka Ticimax ile satislarini %Y artirdi."</li>
+    <li><strong>Rakip karsilastirma SEO sayfalari:</strong> "Ticimax vs IdeaSoft", "Ticimax vs T-Soft", "Ticimax vs ikas" - bu aramalarda organik trafik yakalanmali.</li>
+    <li><strong>AI hikayesini vurgulayin:</strong> 450M TL yatirim hikayesini blog, PR ve sosyal medyada kullanin. "E-ticarette AI donusumu" webinar serisi.</li>
+    <li><strong>PCI DSS 4.0 icerigi:</strong> "Odeme guvenligi neden onemli?" egitim icerigi + "Turkiye'de tek PCI DSS 4.0 Level 1 sertifikali platform" badge'i.</li>
+    <li><strong>Segment bazli landing page'ler:</strong> Reklam trafigi icin ayri "B2C E-Ticaret", "B2B Toptanci", "E-Ihracat" sayfalari.</li>
+    <li><strong>Retargeting funnel'i:</strong> Site ziyaretcilerine Facebook/Google retargeting ile "Demo'nuzu hala bekliyoruz" kampanyasi.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - Buyume Stratejisi (Ay 2+)</div>
+  <ol>
+    <li><strong>Freemium/trial cevap stratejisi:</strong> ikas'in ucretsiz plani tehdidine karsi: 14 gun ucretsiz deneme veya sinirli ozellikli starter plan.</li>
+    <li><strong>Partner/ajans programi:</strong> E-ticaret ajanslari ve danismanlari icin partner program. Her yeni musteri icin komisyon.</li>
+    <li><strong>Onboarding iyilestirmesi:</strong> Sikayetvar'daki "satis sonrasi kimse aramadi" geri bildirimine cevap: Otomatik onboarding e-mail serisi + ilk 30 gun kisisel takip.</li>
+    <li><strong>Upsell funnel'i:</strong> Mevcut Advantage musterilerini Advance/Advance Plus'a tasimak icin "Marketplace satislarinizi genisletin" kampanyasi.</li>
+    <li><strong>LinkedIn B2B kampanyasi:</strong> E-ticaret karar vericilerine LinkedIn Ads + InMail kampanyasi. "E-ticaret altyapiniz buyumenize ayak uyduruyor mu?"</li>
+    <li><strong>Webinar serisi:</strong> "E-ticarette AI Donusumu", "Marketplace Stratejileri", "E-Ihracata Baslangicc" gibi duzeli webinarlar.</li>
+    <li><strong>Sikayetvar yonetimi:</strong> Iptal surecini seffaflastirin, memnun musterileri yorum yazmaya tesvik edin. NPS skoru olcumu baslatin.</li>
+  </ol>
+</div>
+
+<!-- PAGE 7 - SONUC -->
+<h2 class="page-break">7. Sonuc ve Genel Degerlendirme</h2>
+
+<h3>Skor Karti</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef</th></tr>
+  <tr>
+    <td>Web Sitesi SEO Skoru</td>
+    <td><div class="score-bar"><div class="score-fill score-high" style="width:70%"></div></div> 7/10</td>
+    <td>9/10</td>
+  </tr>
+  <tr>
+    <td>Donusum Optimizasyonu</td>
+    <td><div class="score-bar"><div class="score-fill score-low" style="width:35%"></div></div> 3.5/10</td>
+    <td>8/10</td>
+  </tr>
+  <tr>
+    <td>Marka Biliniligi</td>
+    <td><div class="score-bar"><div class="score-fill score-high" style="width:80%"></div></div> 8/10</td>
+    <td>9/10</td>
+  </tr>
+  <tr>
+    <td>Urun Olgunlugu</td>
+    <td><div class="score-bar"><div class="score-fill score-high" style="width:85%"></div></div> 8.5/10</td>
+    <td>9/10</td>
+  </tr>
+  <tr>
+    <td>Fiyatlandirma Rekabetciligi</td>
+    <td><div class="score-bar"><div class="score-fill score-mid" style="width:60%"></div></div> 6/10</td>
+    <td>8/10</td>
+  </tr>
+  <tr>
+    <td>Lead Kalifikasyonu</td>
+    <td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td>
+    <td>8/10</td>
+  </tr>
+  <tr>
+    <td>Musteri Deneyimi (Satis Sonrasi)</td>
+    <td><div class="score-bar"><div class="score-fill score-mid" style="width:45%"></div></div> 4.5/10</td>
+    <td>8/10</td>
+  </tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Ozet Degerlendirme</strong>
+  Ticimax, Turkiye e-ticaret altyapi pazarinin en guclu oyuncularindan. Urun olgunlugu yuksek, marka biliniligi guclu, SEO teknik altyapisi saglikli. Ancak:
+  <ul style="margin-top:6px">
+    <li><strong>Donusum optimizasyonu zayif</strong> - 100K+ reklam butcesi dogru funnel olmadan verimli kullanilmiyor</li>
+    <li><strong>Lead kalifikasyonu yok</strong> - Genel "Demo Talep Et" formu musterinin ihtiyacini anlamiyor</li>
+    <li><strong>Satis sonrasi deneyim</strong> - Onboarding ve takip surecinde Sikayetvar'a yansimis sorunlar var</li>
+    <li><strong>Freemium eksikligi</strong> - ikas'in ucretsiz plani kucuk isletme segmentini cekiyor</li>
+    <li><strong>Case study eksikligi</strong> - Buyuk referanslar var ama detayli basari hikayeleri anlatilmiyor</li>
+  </ul>
+  Funnel bazli lead kalifikasyonu + donusum optimizasyonu ile mevcut reklam butcesinden 3-5x daha fazla deger cikarma potansiyeli var. 100K+ butce + guclu urun + 30,000+ referans kombinasyonu, dogru stratejiyle cok daha yuksek ROI uretebilir.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adim</strong>
+  Bu rapordaki stratejinin uygulanmasi icin sizinle calisabiliriz. Lead kalifikasyon funnel'i tasarimi, donusum optimizasyonu, segment bazli landing page'ler, retargeting kampanyalari, case study uretimi ve Google/LinkedIn Ads yonetimi konularinda destek sunabiliriz. Mevcut 100K+ butcenizden cok daha yuksek ROI elde etmeniz icin somut bir aksiyon plani hazirlamaya haziriz.
+</div>
+
+<p style="text-align:center; color:#999; font-size:11px; margin-top:40px;">
+  Bu rapor otomatik funnel verisi ve web arastirmasina dayanarak Claude Code Opus 4.6 ile hazirlanmistir. &copy; 2026
+</p>
+
+<script>
+// ===== LANGUAGE TOGGLE =====
+(function() {
+  var translations = {
+    // Cover
+    'Gizli - Sadece Dahili Kullanim': 'Confidential - Internal Use Only',
+    'Dijital Pazarlama & Funnel Strateji Raporu': 'Digital Marketing & Funnel Strategy Report',
+    'Bu rapor funnel verilerine ve web arastirmasina dayanarak Claude Code Opus 4.6 ile hazirlanmistir.': 'This report was prepared based on funnel data and web research using Claude Code Opus 4.6.',
+
+    // Section headings
+    '1. Lead Profil Ozeti': '1. Lead Profile Summary',
+    '2. Web Sitesi Analizi - Tespit Edilen Sorunlar': '2. Website Analysis - Identified Issues',
+    '2.1 UX ve Donusum Sorunlari': '2.1 UX & Conversion Issues',
+    '2.2 SEO Pozitif Yonler': '2.2 SEO Positive Aspects',
+    '2.3 Eksik/Iyilestirilebilir Alanlar': '2.3 Missing / Improvable Areas',
+    '3. Rakip Analizi - Turkiye E-Ticaret Altyapi Pazari': '3. Competitor Analysis - Turkey E-Commerce Infrastructure Market',
+    '3.1 Ana Rakipler': '3.1 Main Competitors',
+    '3.2 Fiyat Karsilastirmasi (Yillik Paketler)': '3.2 Price Comparison (Annual Packages)',
+    '3.3 Ozellik Karsilastirmasi': '3.3 Feature Comparison',
+    '4. Musteri Algisi ve Sikayetvar Analizi': '4. Customer Perception & Sikayetvar Analysis',
+    '4.1 Pozitif Yonler': '4.1 Positive Aspects',
+    '4.2 Olumsuz Yonler (Sikayetvar Kaynak)': '4.2 Negative Aspects (Sikayetvar Source)',
+    '5. Pazar Fiyat Haritasi ve Konumlandirma': '5. Market Pricing Map & Positioning',
+    '5.1 Ticimax Mevcut Fiyatlandirma': '5.1 Ticimax Current Pricing',
+    '5.2 Fiyat Pozisyonu Gorseli': '5.2 Price Position Visual',
+    '5.3 Ticimax\'in Guclu Yonleri (Reklam ve Funnel\'da Vurgulanmali)': '5.3 Ticimax Strengths (Highlight in Ads & Funnels)',
+    '6. Onerilen Aksiyon Plani': '6. Recommended Action Plan',
+    '7. Sonuc ve Genel Degerlendirme': '7. Conclusion & Overall Assessment',
+
+    // Sub-headings
+    'Platform Ozellikleri (Mevcut)': 'Platform Features (Available)',
+    'Skor Karti': 'Score Card',
+    'Giris Paket Karsilastirmasi (Yillik)': 'Entry Package Comparison (Annual)',
+
+    // Summary cards
+    'Hedef Pazar': 'Target Market',
+    'Sektor': 'Sector',
+    'Aylik Gelir': 'Monthly Revenue',
+    'Reklam Butcesi': 'Ad Budget',
+    'Kurulus Yili': 'Founded',
+
+    // Table headers
+    'Alan': 'Field',
+    'Deger': 'Value',
+    'Ozellik': 'Feature',
+    'Aciklama': 'Description',
+    'Sorun': 'Issue',
+    'Etki Seviyesi': 'Impact Level',
+    'Element': 'Element',
+    'Durum': 'Status',
+    'Eksik Element': 'Missing Element',
+    'Neden Gerekli': 'Why Needed',
+    'Oneri': 'Recommendation',
+    'Rakip': 'Competitor',
+    'Giris Fiyati (Yillik)': 'Entry Price (Annual)',
+    'One Cikan Ozellik': 'Key Feature',
+    'Pazar Konumu': 'Market Position',
+    'Platform': 'Platform',
+    'Giris Paket': 'Entry Package',
+    'Orta Paket': 'Mid Package',
+    'Ust Paket': 'Top Package',
+    'Freemium?': 'Freemium?',
+    'Paket': 'Package',
+    'Fiyat': 'Price',
+    'Hedef Segment': 'Target Segment',
+    'One Cikan Ozellikler': 'Key Features',
+    'Gorsel': 'Visual',
+    'Degerlendirme': 'Assessment',
+    'Avantaj': 'Advantage',
+    'Neden Onemli': 'Why Important',
+    'Nasil Kullanilmali': 'How to Use',
+    'Kriter': 'Criteria',
+    'Mevcut Durum': 'Current Status',
+    'Hedef': 'Target',
+    'Detay': 'Detail',
+    'Sikayet Konusu': 'Complaint Area',
+    'Risk Seviyesi': 'Risk Level',
+
+    // Tags
+    'Kritik': 'Critical',
+    'Yuksek': 'High',
+    'Orta': 'Medium',
+    'Dusuk': 'Low',
+    'Var': 'Available',
+    'Yok': 'N/A',
+    'Sinirli': 'Limited',
+    'Kismi': 'Partial',
+    'Populer': 'Popular',
+    'Orta ust': 'Upper mid',
+    'Freemium': 'Freemium',
+    'En pahali giris paketi': 'Most expensive entry package',
+    'Daha uygun giris': 'More affordable entry',
+    'En uygun fiyat': 'Best price',
+    'Tamamlandi': 'Completed',
+
+    // Alert titles
+    'Profil Yorumu': 'Profile Assessment',
+    'Genel Degerlendirme': 'Overall Assessment',
+    'Ozet Degerlendirme': 'Summary Assessment',
+    'Bir Sonraki Adim': 'Next Step',
+    'Musteri Deneyimi Riski': 'Customer Experience Risk',
+    'Rekabetci Konum Degerlendirmesi': 'Competitive Position Assessment',
+    'Fiyatlandirma Notu': 'Pricing Note',
+    'Ticimax\'in Fiyat Konumlandirmasi': 'Ticimax Price Positioning',
+    'Strateji Notu: Funnel ile Musteri Tani, Sonra Sat': 'Strategy Note: Know Your Customer via Funnel, Then Sell',
+
+    // Phase titles
+    'Faz 1 - Donusum Optimizasyonu (Hafta 1-2)': 'Phase 1 - Conversion Optimization (Week 1-2)',
+    'Faz 2 - Icerik ve SEO Stratejisi (Hafta 3-4)': 'Phase 2 - Content & SEO Strategy (Week 3-4)',
+    'Faz 3 - Buyume Stratejisi (Ay 2+)': 'Phase 3 - Growth Strategy (Month 2+)',
+
+    // Copy section
+    'Iyilestirme Onerilerini Kopyala': 'Copy Improvement Recommendations',
+    'Rapordaki tum iyilestirme onerilerini kopyalayarak yapay zekana veya ekibinize iletebilirsiniz.': 'Copy all improvement recommendations from the report to share with your AI assistant or team.',
+
+    // Cover meta
+    'Hazirlanma Tarihi:': 'Date:',
+    'Domain:': 'Domain:',
+    'Sektor:': 'Sector:',
+    'Rapor Turu:': 'Report Type:',
+    'B2B SaaS - E-Ticaret Altyapi Cozumleri': 'B2B SaaS - E-Commerce Infrastructure Solutions',
+    'Detayli Analiz + Strateji Onerisi': 'Detailed Analysis + Strategy Recommendation',
+
+    // Score card
+    'Web Sitesi SEO Skoru': 'Website SEO Score',
+    'Donusum Optimizasyonu': 'Conversion Optimization',
+    'Marka Biliniligi': 'Brand Awareness',
+    'Urun Olgunlugu': 'Product Maturity',
+    'Fiyatlandirma Rekabetciligi': 'Pricing Competitiveness',
+    'Lead Kalifikasyonu': 'Lead Qualification',
+    'Musteri Deneyimi (Satis Sonrasi)': 'Customer Experience (Post-Sale)',
+
+    // Footer
+    'Bu rapor otomatik funnel verisi ve web arastirmasina dayanarak Claude Code Opus 4.6 ile hazirlanmistir.': 'This report was prepared based on automated funnel data and web research using Claude Code Opus 4.6.'
+  };
+
+  var reverseTranslations = {};
+  for (var key in translations) {
+    reverseTranslations[translations[key]] = key;
+  }
+
+  window.setLang = function(lang) {
+    var btnTr = document.getElementById('btn-tr');
+    var btnEn = document.getElementById('btn-en');
+    if (lang === 'en') {
+      btnEn.classList.add('active');
+      btnTr.classList.remove('active');
+    } else {
+      btnTr.classList.add('active');
+      btnEn.classList.remove('active');
+    }
+
+    var map = lang === 'en' ? translations : reverseTranslations;
+
+    var selectors = 'h1, h2, h3, h4, th, td, .cover-badge, .cover-meta, .cover-footer, .phase-title, .alert strong, .alert, .label, .value, .tag, .copy-section h3, .copy-section p, p, li, span';
+    var elements = document.querySelectorAll(selectors);
+
+    elements.forEach(function(el) {
+      if (el.closest('.lang-toggle')) return;
+      if (el.tagName === 'SCRIPT' || el.tagName === 'STYLE') return;
+
+      var childNodes = el.childNodes;
+      for (var i = 0; i < childNodes.length; i++) {
+        var node = childNodes[i];
+        if (node.nodeType === 3) {
+          var text = node.textContent.trim();
+          if (text && map[text]) {
+            node.textContent = node.textContent.replace(text, map[text]);
+          }
+        }
+      }
+
+      if (el.children.length === 0 && el.childNodes.length === 1 && el.childNodes[0].nodeType === 3) {
+        var text = el.textContent.trim();
+        if (text && map[text]) {
+          el.textContent = map[text];
+        }
+      }
+    });
+
+    var copyBtn = document.getElementById('copyBtn');
+    if (copyBtn && !copyBtn.classList.contains('copied')) {
+      if (lang === 'en') copyBtn.textContent = 'Copy Improvements';
+      else copyBtn.textContent = 'Iyilestirmeleri Kopyala';
+    }
+
+    document.documentElement.lang = lang;
+    try { localStorage.setItem('rapor-lang', lang); } catch(e) {}
+  };
+
+  try {
+    var saved = localStorage.getItem('rapor-lang');
+    if (saved === 'en') {
+      setTimeout(function() { setLang('en'); }, 50);
+    }
+  } catch(e) {}
+})();
+</script>
+
+<!-- TRACKING -->
+<script>
+(function() {
+  if (new URLSearchParams(window.location.search).get('t') === '0') return;
+
+  var SUPABASE_URL = 'https://frficzdzmxhptmtbkfft.supabase.co';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';
+
+  var trackId = null;
+  var startTime = Date.now();
+  var maxScroll = 0;
+  var client = window.location.pathname.split('/')[1] || 'unknown';
+
+  window.addEventListener('scroll', function() {
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+    if (pct > maxScroll) maxScroll = pct;
+  });
+
+  function getTrackData() {
+    var elapsed = Math.round((Date.now() - startTime) / 1000);
+    return {
+      website: window.location.pathname,
+      stage: 'rapor_view',
+      extra_notes: JSON.stringify({
+        time_on_page: elapsed,
+        scroll_depth: maxScroll,
+        reached_bottom: maxScroll >= 90,
+        client: client,
+        page_type: 'rapor',
+        opened_at: new Date(startTime).toISOString()
+      }),
+      last_step: maxScroll >= 90 ? 'reached_bottom' : (maxScroll > 10 ? 'scrolling' : 'opened'),
+      completed: maxScroll >= 90
+    };
+  }
+
+  fetch(SUPABASE_URL + '/rest/v1/funnel_leads', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Prefer': 'return=representation'
+    },
+    body: JSON.stringify(getTrackData())
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data && data[0]) trackId = data[0].id;
+  })
+  .catch(function() {});
+
+  setInterval(function() {
+    if (!trackId) return;
+    fetch(SUPABASE_URL + '/rest/v1/funnel_leads?id=eq.' + trackId, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(getTrackData())
+    }).catch(function() {});
+  }, 10000);
+
+  window.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden' && trackId) {
+      fetch(SUPABASE_URL + '/rest/v1/funnel_leads?id=eq.' + trackId, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(getTrackData()),
+        keepalive: true
+      }).catch(function() {});
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
