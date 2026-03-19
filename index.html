@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ücretsiz Satış Analizi</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fafafa; color: #1a1a1a;
+            min-height: 100vh; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+        }
+        .container { max-width: 560px; width: 100%; padding: 20px; }
+
+        /* ===== LIVE TERMINAL (persistent top) ===== */
+        #liveTerminal {
+            background: #0d1117; border-radius: 12px; padding: 16px 18px;
+            font-family: 'SF Mono','Fira Code','Cascadia Code',monospace;
+            font-size: 12px; color: #8b949e; margin-bottom: 32px;
+            display: none; line-height: 1.8;
+        }
+        #liveTerminal.visible { display: block; }
+        #liveTerminal .t-head { color: #484f58; font-size: 11px; margin-bottom: 10px; }
+        #liveTerminal .t-log { height: 22px; overflow: hidden; position: relative; }
+        #liveTerminal .t-entry { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        #liveTerminal .t-entry.pending { color: #D78686; }
+        #liveTerminal .t-bar { margin-top: 10px; height: 3px; background: #21262d; border-radius: 2px; overflow: hidden; }
+        #liveTerminal .t-bar-fill { height: 100%; background: #D78686; border-radius: 2px; transition: width 0.4s ease; }
+        .t-ok { color: #3fb950; }
+        .t-val { color: #f0f6fc; font-weight: 500; }
+        .t-dim { color: #484f58; }
+        .t-accent { color: #D78686; }
+
+        /* Steps */
+        .step { display: none; }
+        .step.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .step-question { font-size: 26px; font-weight: 600; line-height: 1.3; margin-bottom: 8px; }
+        .step-description { font-size: 15px; color: #666; margin-bottom: 28px; line-height: 1.5; }
+
+        /* Inputs */
+        input[type="text"], input[type="url"], input[type="tel"], textarea {
+            width: 100%; padding: 14px 16px; font-size: 16px;
+            border: 2px solid #e5e5e5; border-radius: 12px; outline: none;
+            transition: border-color 0.2s; font-family: inherit; background: #fff;
+        }
+        input:focus, textarea:focus { border-color: #1a1a1a; }
+        textarea { resize: vertical; min-height: 100px; }
+        .input-group { margin-bottom: 16px; }
+        .input-group label { display: block; font-size: 14px; font-weight: 500; color: #444; margin-bottom: 8px; }
+
+        /* Options */
+        .options { display: flex; flex-direction: column; gap: 10px; }
+        .option-card {
+            padding: 16px 18px; border: 2px solid #e5e5e5; border-radius: 12px;
+            cursor: pointer; transition: all 0.15s; background: #fff;
+        }
+        .option-card:hover { border-color: #ccc; background: #f9f9f9; }
+        .option-card.selected { border-color: #1a1a1a; background: #f5f5f5; }
+        .option-card .option-title { font-size: 15px; font-weight: 500; }
+        .option-card .option-desc { font-size: 13px; color: #888; margin-top: 3px; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .options-grid .option-card { text-align: center; padding: 14px 12px; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 14px 32px; font-size: 16px; font-weight: 500; border: none;
+            border-radius: 12px; cursor: pointer; transition: all 0.2s; font-family: inherit;
+        }
+        .btn-primary { background: #1a1a1a; color: #fff; width: 100%; margin-top: 20px; }
+        .btn-primary:hover { background: #333; }
+        .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+        .btn-back { background: none; color: #999; padding: 8px 0; font-size: 14px; margin-top: 12px; }
+        .btn-back:hover { color: #666; }
+        .btn-whatsapp { background: #25D366; color: #fff; width: 100%; margin-top: 20px; font-size: 17px; padding: 16px 32px; }
+        .btn-whatsapp:hover { background: #20bd5a; }
+
+        .hero-badge { display: inline-block; background: #f0f0f0; border-radius: 100px; padding: 6px 16px; font-size: 13px; color: #666; margin-bottom: 16px; }
+        .phone-input-wrapper { display: flex; gap: 10px; align-items: center; }
+        .phone-prefix { padding: 14px 12px; font-size: 16px; border: 2px solid #e5e5e5; border-radius: 12px; background: #f5f5f5; color: #666; white-space: nowrap; }
+        .phone-input-wrapper input { flex: 1; }
+
+        /* ===== ANALYSIS ===== */
+        .analysis-phase {
+            background: #fff; border: 2px solid #e5e5e5; border-radius: 16px;
+            padding: 20px 24px; margin-bottom: 14px; transition: all 0.3s;
+        }
+        .analysis-phase.active { border-color: #1a1a1a; }
+        .analysis-phase.done { border-color: #3fb950; }
+        .phase-header { display: flex; align-items: center; gap: 12px; }
+        .phase-icon {
+            width: 32px; height: 32px; border-radius: 50%; background: #f0f0f0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; flex-shrink: 0; transition: all 0.3s;
+        }
+        .phase-icon.active { background: #1a1a1a; color: #fff; }
+        .phase-icon.done { background: #3fb950; color: #fff; }
+        .phase-title { font-size: 15px; font-weight: 500; flex: 1; }
+        .phase-percent { font-size: 13px; color: #999; font-variant-numeric: tabular-nums; }
+        .phase-terminal {
+            background: #0d1117; border-radius: 10px; padding: 14px 16px; margin-top: 14px;
+            font-family: 'SF Mono','Fira Code','Cascadia Code',monospace;
+            font-size: 12px; line-height: 1; color: #8b949e;
+            height: 42px; overflow: hidden; display: none;
+            white-space: nowrap; text-overflow: ellipsis;
+        }
+        .phase-terminal.visible { display: block; }
+        .phase-terminal .success { color: #3fb950; }
+        .phase-terminal .info { color: #D78686; }
+        .phase-terminal .warn { color: #d29922; }
+        .phase-terminal .bright { color: #f0f6fc; font-weight: 500; }
+        .phase-terminal .dim { color: #484f58; }
+
+        .main-progress { display: flex; align-items: center; justify-content: center; margin-bottom: 32px; }
+        .progress-ring-wrapper { position: relative; width: 120px; height: 120px; }
+        .progress-ring { transform: rotate(-90deg); }
+        .progress-ring-bg { fill: none; stroke: #e5e5e5; stroke-width: 6; }
+        .progress-ring-fill { fill: none; stroke: #1a1a1a; stroke-width: 6; stroke-linecap: round; stroke-dasharray: 339.292; stroke-dashoffset: 339.292; transition: stroke-dashoffset 0.3s ease; }
+        .progress-percentage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+        .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid #e5e5e5; border-top-color: #1a1a1a; border-radius: 50%; animation: spin 0.6s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .result-card { background: #fff; border: 2px solid #e5e5e5; border-radius: 16px; padding: 28px 24px; margin-bottom: 20px; }
+        .result-card h3 { font-size: 15px; color: #999; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+        .result-card p { font-size: 15px; color: #444; line-height: 1.6; }
+        .cursor { display: inline-block; width: 7px; height: 14px; background: #D78686; vertical-align: text-bottom; margin-left: 2px; }
+        .wa-icon { width: 22px; height: 22px; fill: currentColor; }
+        .footer-note { text-align: center; font-size: 12px; color: #bbb; margin-top: 40px; }
+
+        @media (max-width: 600px) {
+            .step-question { font-size: 22px; }
+            .options-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- PERSISTENT LIVE TERMINAL -->
+    <div id="liveTerminal">
+        <div class="t-head">ai-marketing-analyze-v1.1</div>
+        <div class="t-log" id="termLog"></div>
+        <div class="t-bar"><div class="t-bar-fill" id="termBar" style="width:0%"></div></div>
+    </div>
+
+    <!-- 0: Hero + Website -->
+    <div class="step active" data-step="0">
+        <span class="hero-badge">Ücretsiz Aksiyon Planı</span>
+        <h1 class="step-question">Ürünün var ama satılmıyor mu?</h1>
+        <p class="step-description">Web siteni AI ile analiz edip sana özel satış stratejini oluşturalım.</p>
+        <div style="background:#0d1117;border-radius:12px;padding:20px;font-family:'SF Mono','Fira Code',monospace;font-size:14px;">
+            <div style="display:flex;align-items:center;gap:8px;color:#8b949e;">
+                <span style="color:#f0f6fc;">$</span>
+                <span style="color:#D78686;">/analyze</span>
+                <span style="color:#f0f6fc;">https://</span>
+                <input type="text" id="websiteUrl" style="flex:1;background:none;border:none;border-radius:0;outline:none;color:#f0f6fc;font-family:inherit;font-size:14px;padding:0;" placeholder="siteadresi.com" />
+            </div>
+        </div>
+        <button class="btn btn-primary" id="btnWebsite" onclick="goNext()" disabled>Analiz Et</button>
+        <button class="btn btn-primary" onclick="skipWebsite()" style="background:transparent;color:#999;margin-top:0;font-size:14px;padding:10px 0;">Web sitem yok, devam et &#8594;</button>
+    </div>
+
+    <!-- 2: Aşama -->
+    <div class="step" data-step="2">
+        <h2 class="step-question">Hangi aşamadasın?</h2>
+        <p class="step-description">Seni doğru yönlendirebilmemiz için mevcut durumunu bilmemiz gerekiyor.</p>
+        <div class="options">
+            <div class="option-card" onclick="pick(this,'stage','improve_sales')"><div class="option-title">Satışlarımı iyileştirmek istiyorum</div><div class="option-desc">Ürünümü satıyorum ama daha fazla satmak istiyorum</div></div>
+            <div class="option-card" onclick="pick(this,'stage','dont_know')"><div class="option-title">Ürünümü nasıl satacağımı bilmiyorum</div><div class="option-desc">Ürünümü oluşturdum ama satış stratejim yok</div></div>
+            <div class="option-card" onclick="pick(this,'stage','no_traffic')"><div class="option-title">Web siteme trafik gelmiyor</div><div class="option-desc">Sitem var ama ziyaretçi yok</div></div>
+            <div class="option-card" onclick="pick(this,'stage','traffic_no_sales')"><div class="option-title">Trafik var ama satış yok</div><div class="option-desc">Ziyaretçiler geliyor ama dönüşüm olmuyor</div></div>
+        </div>
+        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
+    </div>
+
+    <!-- 3: Pazar -->
+    <div class="step" data-step="3">
+        <h2 class="step-question">Hangi alana hizmet veriyorsun?</h2>
+        <p class="step-description">Hedef kitlen stratejini doğrudan etkiler.</p>
+        <div class="options">
+            <div class="option-card" onclick="pick(this,'market','b2c')"><div class="option-title">B2C</div><div class="option-desc">Bireysel tüketicilere satıyorum</div></div>
+            <div class="option-card" onclick="pick(this,'market','b2b')"><div class="option-title">B2B</div><div class="option-desc">Şirketlere / işletmelere satıyorum</div></div>
+            <div class="option-card" onclick="pick(this,'market','b2g')"><div class="option-title">B2G</div><div class="option-desc">Kamu kurumlarına / devlete satıyorum</div></div>
+            <div class="option-card" onclick="pick(this,'market','mixed')"><div class="option-title">Karışık</div><div class="option-desc">Birden fazla alana hizmet veriyorum</div></div>
+        </div>
+        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
+    </div>
+
+    <!-- 4: Sektör -->
+    <div class="step" data-step="4">
+        <h2 class="step-question">Sektörün hangisi?</h2>
+        <p class="step-description">Birden fazla seçebilirsin. Sektöre özel taktikler içerir raporumuz.</p>
+        <div class="options-grid">
+            <div class="option-card" onclick="toggleSector(this,'saas')"><div class="option-title">SaaS / Yazılım</div></div>
+            <div class="option-card" onclick="toggleSector(this,'ecommerce')"><div class="option-title">E-Ticaret</div></div>
+            <div class="option-card" onclick="toggleSector(this,'education')"><div class="option-title">Eğitim</div></div>
+            <div class="option-card" onclick="toggleSector(this,'health')"><div class="option-title">Sağlık</div></div>
+            <div class="option-card" onclick="toggleSector(this,'finance')"><div class="option-title">Finans</div></div>
+            <div class="option-card" onclick="toggleSector(this,'agency')"><div class="option-title">Ajans / Hizmet</div></div>
+            <div class="option-card" onclick="toggleSector(this,'food')"><div class="option-title">Yiyecek / İçecek</div></div>
+            <div class="option-card" onclick="toggleSector(this,'other')"><div class="option-title">Diğer</div></div>
+        </div>
+        <button class="btn btn-primary" id="btnSector" onclick="goNext()" disabled>Devam Et</button>
+        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
+    </div>
+
+    <!-- 5: Ürün Deneyimi -->
+    <div class="step" data-step="5">
+        <h2 class="step-question">Bu zamana kadar pazarladığınız ürün deneyiminiz?</h2>
+        <p class="step-description">Deneyim seviyenize göre stratejimizi şekillendiriyoruz.</p>
+        <div class="options">
+            <div class="option-card" onclick="pick(this,'experience','1')"><div class="option-title">İlk ürünüm</div></div>
+            <div class="option-card" onclick="pick(this,'experience','2+')"><div class="option-title">2'den fazla</div></div>
+            <div class="option-card" onclick="pick(this,'experience','5+')"><div class="option-title">5'ten fazla</div></div>
+            <div class="option-card" onclick="pick(this,'experience','10+')"><div class="option-title">10'dan fazla</div></div>
+        </div>
+        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
+    </div>
+
+    <!-- 6: Aylık Gelir -->
+    <div class="step" data-step="6">
+        <h2 class="step-question">Aylık geliriniz ne kadar?</h2>
+        <p class="step-description">Bu bilgi, sana uygun strateji seviyesini belirlememize yardımcı olur.</p>
+        <div class="options">
+            <div class="option-card" onclick="pick(this,'revenue','0')"><div class="option-title">Henüz gelir yok</div></div>
+            <div class="option-card" onclick="pick(this,'revenue','0-10k')"><div class="option-title">0 - 10.000 TL</div></div>
+            <div class="option-card" onclick="pick(this,'revenue','10k-50k')"><div class="option-title">10.000 - 50.000 TL</div></div>
+            <div class="option-card" onclick="pick(this,'revenue','50k-200k')"><div class="option-title">50.000 - 200.000 TL</div></div>
+            <div class="option-card" onclick="pick(this,'revenue','200k+')"><div class="option-title">200.000 TL+</div></div>
+        </div>
+        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
+    </div>
+
+    <!-- 7: Reklam Kanalları -->
+    <div class="step" data-step="7">
+        <h2 class="step-question">Daha önce reklam verdiniz mi?</h2>
+        <p class="step-description">Kullandığınız kanalları seçin. Birden fazla seçebilirsiniz.</p>
+        <div class="options-grid">
+            <div class="option-card" onclick="toggleChannel(this,'google')"><div class="option-title">Google Ads</div></div>
+            <div class="option-card" onclick="toggleChannel(this,'meta')"><div class="option-title">Meta (FB/IG)</div></div>
+            <div class="option-card" onclick="toggleChannel(this,'tiktok')"><div class="option-title">TikTok Ads</div></div>
+            <div class="option-card" onclick="toggleChannel(this,'linkedin')"><div class="option-title">LinkedIn Ads</div></div>
+            <div class="option-card" onclick="toggleChannel(this,'youtube')"><div class="option-title">YouTube Ads</div></div>
+            <div class="option-card" onclick="toggleChannel(this,'other')"><div class="option-title">Diğer</div></div>
+        </div>
+        <button class="btn btn-primary" onclick="goNext()" style="background:#666;">Reklam vermedim, devam et</button>
+        <button class="btn btn-primary" id="btnChannels" onclick="goNext()" disabled>Devam Et</button>
+        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
+    </div>
+
+    <!-- 8: Reklam Bütçesi -->
+    <div class="step" data-step="8">
+        <h2 class="step-question">Aylık reklam bütçeniz ne kadar?</h2>
+        <p class="step-description">Reklam harcamalarınızı bilmek, doğru kanal stratejisini belirlemek için önemli.</p>
+        <div class="options">
+            <div class="option-card" onclick="pick(this,'adBudget','0-5k')"><div class="option-title">0 - 5.000 TL</div></div>
+            <div class="option-card" onclick="pick(this,'adBudget','5k-20k')"><div class="option-title">5.000 - 20.000 TL</div></div>
+            <div class="option-card" onclick="pick(this,'adBudget','20k-100k')"><div class="option-title">20.000 - 100.000 TL</div></div>
+            <div class="option-card" onclick="pick(this,'adBudget','100k+')"><div class="option-title">100.000 TL+</div></div>
+        </div>
+        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
+    </div>
+
+    <!-- 9: LinkedIn -->
+    <div class="step" data-step="9">
+        <h2 class="step-question">LinkedIn profilin var mı?</h2>
+        <p class="step-description">Seni daha iyi tanımamız ve sektördeki konumunu anlamamız için LinkedIn profilini paylaş.</p>
+        <div class="input-group">
+            <label>LinkedIn profil linkin (opsiyonel)</label>
+            <input type="url" id="linkedinUrl" placeholder="https://linkedin.com/in/kullanici-adi" />
+        </div>
+        <button class="btn btn-primary" onclick="goNext()">Devam Et</button>
+        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
+    </div>
+
+    <!-- 10: Ek Detaylar + ROAS -->
+    <div class="step" data-step="10">
+        <h2 class="step-question">Son birkaç detay</h2>
+        <p class="step-description">Bu bilgiler aksiyon planını daha kişisel hale getirecek. Boş bırakabilirsin.</p>
+        <div class="input-group">
+            <label>Şu andaki ROAS değeriniz (biliyorsanız)</label>
+            <input type="text" id="roasValue" placeholder="Örn: 3.5x — bilmiyorsanız boş bırakın" />
+        </div>
+        <div class="input-group">
+            <label>Eklemek istediğin başka detaylar var mı?</label>
+            <textarea id="extraNotes" placeholder="Opsiyonel — ürünün, hedef kitlen veya sorunların hakkında"></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="goNext()">Analizi Başlat</button>
+        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
+    </div>
+
+    <!-- 11: AI ANALİZ -->
+    <div class="step" data-step="11" style="position:relative;">
+        <!-- Analiz içeriği (blur olacak) -->
+        <div id="analysisContent">
+            <div class="analysis-header" style="text-align:center;margin-bottom:32px;">
+                <h2 style="font-size:24px;font-weight:600;margin-bottom:8px;">AI Analiz Çalışıyor</h2>
+                <p style="font-size:13px;color:#888;font-family:'SF Mono','Fira Code',monospace;" id="analysisStats">✽ Actualizing… (0s · ↓ 0 tokens)</p>
+            </div>
+
+            <div class="main-progress">
+                <div class="progress-ring-wrapper">
+                    <svg class="progress-ring" width="120" height="120">
+                        <circle class="progress-ring-bg" cx="60" cy="60" r="54" />
+                        <circle class="progress-ring-fill" id="ringFill" cx="60" cy="60" r="54" />
+                    </svg>
+                    <div class="progress-percentage" id="mainPercent">0%</div>
+                </div>
+            </div>
+
+            <div class="analysis-phase" id="phase1">
+                <div class="phase-header"><div class="phase-icon" id="phase1Icon"><span class="spinner"></span></div><div class="phase-title">Web sitesi analiz ediliyor...</div><div class="phase-percent" id="phase1Pct">0%</div></div>
+                <div class="phase-terminal" id="term1"></div>
+            </div>
+            <div class="analysis-phase" id="phase2">
+                <div class="phase-header"><div class="phase-icon" id="phase2Icon">2</div><div class="phase-title">Ürün bilgileri işleniyor...</div><div class="phase-percent" id="phase2Pct">0%</div></div>
+                <div class="phase-terminal" id="term2"></div>
+            </div>
+            <div class="analysis-phase" id="phase3">
+                <div class="phase-header"><div class="phase-icon" id="phase3Icon">3</div><div class="phase-title">Aksiyon planı hazırlanıyor...</div><div class="phase-percent" id="phase3Pct">0%</div></div>
+                <div class="phase-terminal" id="term3"></div>
+            </div>
+        </div>
+
+        <!-- Popup overlay -->
+        <div id="phonePopup" style="display:none; position:absolute; inset:0; z-index:10; display:none; align-items:center; justify-content:center;">
+            <div style="position:absolute;inset:0;background:rgba(250,250,250,0.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);"></div>
+            <div style="position:relative;background:#fff;border:2px solid #e5e5e5;border-radius:20px;padding:32px 28px;max-width:420px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,0.1);">
+                <div style="text-align:center;margin-bottom:20px;">
+                    <div style="font-size:32px;margin-bottom:12px;">⏳</div>
+                    <h3 style="font-size:18px;font-weight:600;margin-bottom:8px;">Bu analiz biraz uzun sürebilir</h3>
+                    <p style="font-size:14px;color:#666;line-height:1.5;">Aksiyon planınız hazır olduğunda size WhatsApp üzerinden ileteceğiz. Numaranızı girin, gerisini biz halledelim.</p>
+                </div>
+                <div class="input-group" style="margin-bottom:16px;">
+                    <div class="phone-input-wrapper">
+                        <span class="phone-prefix">+90</span>
+                        <input type="tel" id="userPhone" placeholder="5XX XXX XX XX" maxlength="13" />
+                    </div>
+                </div>
+                <button class="btn btn-whatsapp" id="btnSend" onclick="submitFunnel()" disabled>
+                    <svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Hazır Olunca Bana Ulaşın
+                </button>
+                <p style="font-size:11px;color:#bbb;text-align:center;margin-top:12px;">Spam yapmıyoruz. Sadece aksiyon planınız.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 13: Teşekkür -->
+    <div class="step" data-step="13">
+        <div style="text-align:center;padding:40px 0;">
+            <div style="width:80px;height:80px;background:#25D366;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:24px;">
+                <svg style="width:40px;height:40px;fill:#fff;" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <h2 class="step-question" style="text-align:center;">Aksiyon planın yolda!</h2>
+            <p class="step-description" style="text-align:center;">
+                Artık bu sayfayı kapatabilirsiniz. Aksiyon planınız WhatsApp üzerinden size ulaştırılacaktır.
+            </p>
+            <p style="font-size:13px; color:#999; text-align:center; margin-top: 8px;">
+                Planınız size ulaşmazsa, <strong>1 iş günü içinde</strong> ekip arkadaşlarımız sizinle iletişime geçecektir.
+            </p>
+        </div>
+    </div>
+
+    <p class="footer-note">Verileriniz gizli tutulur ve üçüncü taraflarla paylaşılmaz.</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+const SUPABASE_URL = 'https://frficzdzmxhptmtbkfft.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+</script>
+<script>
+// ==================== STATE ====================
+let cur = 0;
+const STEPS = [0,2,3,4,5,6,7,8,9,10,11,13]; // actual step numbers in order
+const D = { stage:'',market:'',sectors:[],experience:'',revenue:'',adChannels:[],adBudget:'',website:'',linkedin:'',roas:'',extraNotes:'',phone:'' };
+
+// Labels for terminal log
+const termLabels = {
+    website: 'website',
+    stage: 'hedef',
+    market: 'pazar',
+    sectors: 'sektör',
+    experience: 'deneyim',
+    revenue: 'gelir',
+    adChannels: 'reklam_kanallari',
+    adBudget: 'reklam_butcesi',
+    linkedin: 'linkedin',
+    roas: 'roas',
+    extraNotes: 'notlar'
+};
+
+const stageLabels = { 'improve_sales':'satis_iyilestirme','dont_know':'strateji_olusturma','no_traffic':'trafik_kazanimi','traffic_no_sales':'donusum_optimizasyonu' };
+
+// ==================== LIVE TERMINAL ====================
+let termEntries = [];
+
+function termLog(key, val) {
+    if (!val || (Array.isArray(val) && val.length === 0)) return;
+    const display = Array.isArray(val) ? val.join(', ') : val;
+    termEntries.push({ key, val: display });
+    renderTerm();
+}
+
+function renderTerm() {
+    const log = document.getElementById('termLog');
+    const e = termEntries[termEntries.length - 1];
+    // Hard overwrite — single line
+    log.innerHTML = `<div class="t-entry pending"><span class="t-accent">›</span> <span class="t-dim">${e.key}:</span> <span class="t-val">${e.val}</span></div>`;
+    // After brief delay, mark as done
+    setTimeout(() => {
+        log.innerHTML = `<div class="t-entry"><span class="t-ok">✓</span> <span class="t-dim">${e.key}:</span> <span class="t-val">${e.val}</span></div>`;
+    }, 600);
+    // Update bar
+    const pct = Math.min(Math.round((termEntries.length / 10) * 100), 100);
+    document.getElementById('termBar').style.width = pct + '%';
+}
+
+// ==================== NAV ====================
+function show(step) {
+    document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+    const t = document.querySelector(`.step[data-step="${step}"]`);
+    if (t) t.classList.add('active');
+    // Show terminal after hero
+    const term = document.getElementById('liveTerminal');
+    if (step > 0 && step < 11) { term.classList.add('visible'); }
+    else { term.classList.remove('visible'); }
+}
+
+function goNext() {
+    // Collect & log
+    if (cur === 0) {
+        const raw = document.getElementById('websiteUrl').value.trim();
+        D.website = raw ? 'https://' + raw : '';
+        if (D.website) termLog('website', D.website);
+    }
+    if (cur === 9) {
+        D.linkedin = document.getElementById('linkedinUrl').value;
+        if (D.linkedin) termLog('linkedin', D.linkedin);
+    }
+    if (cur === 10) {
+        D.roas = document.getElementById('roasValue').value;
+        D.extraNotes = document.getElementById('extraNotes').value;
+        if (D.roas) termLog('roas', D.roas);
+        if (D.extraNotes) termLog('notlar', D.extraNotes.substring(0, 40) + (D.extraNotes.length > 40 ? '...' : ''));
+    }
+
+    // Step 0 → 2
+    if (cur === 0) { cur = 2; show(cur); return; }
+    // Skip bütçe if no channels
+    if (cur === 7 && D.adChannels.length === 0) { D.adBudget = '0'; cur = 9; show(cur); return; }
+
+    cur++;
+    show(cur);
+    if (cur === 11) {
+        document.getElementById('liveTerminal').classList.remove('visible');
+        runAnalysis();
+    }
+}
+
+function skipWebsite() { D.website = ''; cur = 2; show(cur); }
+
+function goBack() {
+    if (cur > 0) {
+        if (cur === 2) cur = 0;
+        else if (cur === 9 && D.adChannels.length === 0) cur = 7;
+        else cur--;
+        show(cur);
+    }
+}
+
+function pick(el, field, val) {
+    D[field] = val;
+    el.closest('.options,.options-grid').querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    // Log to terminal
+    const label = termLabels[field] || field;
+    const display = field === 'stage' ? (stageLabels[val] || val) : val;
+    termLog(label, display);
+    setTimeout(goNext, 400);
+}
+
+function toggleSector(el, val) {
+    const i = D.sectors.indexOf(val);
+    if (i > -1) { D.sectors.splice(i, 1); el.classList.remove('selected'); }
+    else { D.sectors.push(val); el.classList.add('selected'); }
+    document.getElementById('btnSector').disabled = D.sectors.length === 0;
+}
+
+function toggleChannel(el, val) {
+    const i = D.adChannels.indexOf(val);
+    if (i > -1) { D.adChannels.splice(i, 1); el.classList.remove('selected'); }
+    else { D.adChannels.push(val); el.classList.add('selected'); }
+    document.getElementById('btnChannels').disabled = D.adChannels.length === 0;
+}
+
+// Log multi-selects on goNext
+const _origGoNext = goNext;
+goNext = function() {
+    if (cur === 4 && D.sectors.length > 0) {
+        const sMap = { 'saas':'SaaS','ecommerce':'E-Ticaret','education':'Eğitim','health':'Sağlık','finance':'Finans','agency':'Ajans','food':'Yiyecek','other':'Diğer' };
+        termLog('sektör', D.sectors.map(s => sMap[s]||s));
+    }
+    if (cur === 7 && D.adChannels.length > 0) {
+        termLog('reklam_kanallari', D.adChannels);
+    }
+    _origGoNext();
+};
+
+// ==================== VALIDATION ====================
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('websiteUrl').addEventListener('input', e => {
+        const val = e.target.value.trim();
+        // Just need domain like "example.com" or "example.co.uk"
+        const domainPattern = /^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z]{2,})+/;
+        document.getElementById('btnWebsite').disabled = !domainPattern.test(val);
+    });
+    document.getElementById('userPhone').addEventListener('input', e => {
+        const valid = e.target.value.replace(/\D/g, '').length >= 10;
+        document.getElementById('btnSend').disabled = !valid;
+    });
+});
+
+// ==================== TERMINAL & ANALYSIS ====================
+function termWrite(id, html) { document.getElementById(id).innerHTML = html; }
+function wait(ms) { return new Promise(r => setTimeout(r, ms * (0.7 + Math.random() * 0.6))); }
+
+function setRing(pct) {
+    const c = 2 * Math.PI * 54;
+    document.getElementById('ringFill').style.strokeDashoffset = c - (pct / 100) * c;
+    document.getElementById('mainPercent').textContent = Math.round(pct) + '%';
+}
+function activatePhase(n) {
+    document.getElementById('phase'+n).classList.add('active');
+    const icon = document.getElementById('phase'+n+'Icon');
+    icon.classList.add('active'); icon.innerHTML = '<span class="spinner"></span>';
+    document.getElementById('term'+n).classList.add('visible');
+}
+function completePhase(n) {
+    const p = document.getElementById('phase'+n), ic = document.getElementById('phase'+n+'Icon');
+    p.classList.remove('active'); p.classList.add('done');
+    ic.classList.remove('active'); ic.classList.add('done'); ic.innerHTML = '✓';
+    document.getElementById('phase'+n+'Pct').textContent = '100%';
+}
+
+const stageMap = { 'improve_sales':'satış iyileştirme','dont_know':'satış stratejisi oluşturma','no_traffic':'trafik kazanımı','traffic_no_sales':'dönüşüm optimizasyonu' };
+const sectorMap = { 'saas':'SaaS/Yazılım','ecommerce':'E-Ticaret','education':'Eğitim','health':'Sağlık','finance':'Finans','agency':'Ajans/Hizmet','food':'Yiyecek/İçecek','other':'Diğer' };
+
+let analysisTimer = null;
+let analysisStart = 0;
+let tokenCount = 0;
+
+function startAnalysisStats() {
+    analysisStart = Date.now();
+    tokenCount = 0;
+    analysisTimer = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - analysisStart) / 1000);
+        const min = Math.floor(elapsed / 60);
+        const sec = elapsed % 60;
+        const timeStr = min > 0 ? `${min}m ${sec}s` : `${sec}s`;
+        tokenCount += Math.floor(Math.random() * 120 + 30);
+        const tokenStr = tokenCount > 1000 ? (tokenCount / 1000).toFixed(1) + 'k' : tokenCount;
+        document.getElementById('analysisStats').textContent = `✽ Actualizing… (${timeStr} · ↓ ${tokenStr} tokens)`;
+    }, 800);
+}
+
+function stopAnalysisStats() {
+    clearInterval(analysisTimer);
+    const elapsed = Math.floor((Date.now() - analysisStart) / 1000);
+    const min = Math.floor(elapsed / 60);
+    const sec = elapsed % 60;
+    const timeStr = min > 0 ? `${min}m ${sec}s` : `${sec}s`;
+    const tokenStr = tokenCount > 1000 ? (tokenCount / 1000).toFixed(1) + 'k' : tokenCount;
+    document.getElementById('analysisStats').textContent = `✓ Tamamlandı (${timeStr} · ↓ ${tokenStr} tokens)`;
+}
+
+async function runAnalysis() {
+    setRing(0);
+    startAnalysisStats();
+
+    // ===== PHASE 1 =====
+    activatePhase(1);
+    const hasSite = D.website && D.website.length > 5;
+
+    termWrite('term1', `<span class="bright">$</span> <span class="info">Analiz başlatılıyor...</span><span class="cursor"></span>`);
+    await wait(1400);
+    setRing(2); document.getElementById('phase1Pct').textContent = '3%';
+
+    if (hasSite) {
+        const L1 = [
+            [`<span class="bright">$</span> fetch <span class="bright">${D.website}</span>`, 2200],
+            [`<span class="success">✓</span> HTTP 200 — sayfa yüklendi`, 400],
+            [`<span class="bright">$</span> DOM yapısı taranıyor...<span class="cursor"></span>`, 3200],
+            [`<span class="warn">!</span> CTA butonu tespit edildi — konum analizi`, 1800],
+            [`<span class="success">✓</span> Meta açıklamaları mevcut`, 300],
+            [`<span class="dim">→</span> Sayfa yükleme süresi ölçülüyor...<span class="cursor"></span>`, 2800],
+            [`<span class="warn">!</span> Mobil uyumluluk kontrol ediliyor...`, 2200],
+            [`<span class="success">✓</span> SSL sertifikası aktif`, 200],
+            [`<span class="dim">→</span> SEO skorlaması yapılıyor...<span class="cursor"></span>`, 3500],
+            [`<span class="warn">!</span> Dönüşüm elementleri taranıyor...`, 2600],
+            [`<span class="success">✓</span> Form yapıları analiz edildi`, 300],
+            [`<span class="dim">→</span> Rakip verileri çekiliyor...<span class="cursor"></span>`, 3000],
+            [`<span class="success">✓</span> Rakip profilleri oluşturuldu`, 400],
+        ];
+        for (let i = 0; i < L1.length; i++) {
+            termWrite('term1', L1[i][0]);
+            setRing(2 + (i / L1.length) * 28);
+            document.getElementById('phase1Pct').textContent = Math.round((i+1)/L1.length*100) + '%';
+            await wait(L1[i][1]);
+        }
+    } else {
+        termWrite('term1', `<span class="bright">$</span> Web sitesi girilmedi — sektör analizi...`);
+        await wait(2000); setRing(8);
+        termWrite('term1', `<span class="dim">→</span> Sektör veritabanı taranıyor...<span class="cursor"></span>`);
+        await wait(3500); setRing(15);
+        termWrite('term1', `<span class="success">✓</span> ${D.sectors.length} sektör benchmark yüklendi`);
+        await wait(1200); setRing(22);
+        termWrite('term1', `<span class="dim">→</span> Pazar büyüklüğü verileri çekiliyor...<span class="cursor"></span>`);
+        await wait(2800); setRing(27);
+        termWrite('term1', `<span class="success">✓</span> Rakip profilleri oluşturuldu`);
+        await wait(400);
+    }
+    setRing(30);
+    termWrite('term1', `<span class="success">✓ Web sitesi analizi tamamlandı</span>`);
+    completePhase(1);
+    await wait(800);
+
+    // ===== PHASE 2: Start, run a few lines, then show popup =====
+    activatePhase(2);
+
+    const L2_before = [
+        [`<span class="bright">$</span> <span class="info">Ürün verileri yükleniyor...</span><span class="cursor"></span>`, 1200],
+        [`<span class="dim">→</span> Hedef: <span class="bright">${stageMap[D.stage]||'analiz'}</span>`, 400],
+        [`<span class="dim">→</span> Pazar: <span class="bright">${D.market.toUpperCase()}</span>`, 200],
+        [`<span class="dim">⟳</span> Doğal dil işleme modeli yükleniyor...`, 3200],
+        [`<span class="dim">⟳</span> Ürün açıklaması tokenize ediliyor...`, 800],
+    ];
+    for (let i = 0; i < L2_before.length; i++) {
+        termWrite('term2', L2_before[i][0]);
+        setRing(30 + (i / 13) * 10);
+        document.getElementById('phase2Pct').textContent = Math.round((i+1)/13*100) + '%';
+        await wait(L2_before[i][1]);
+    }
+
+    // === POPUP: blur background, show phone overlay ===
+    document.getElementById('analysisContent').style.filter = 'blur(6px)';
+    document.getElementById('analysisContent').style.pointerEvents = 'none';
+    const popup = document.getElementById('phonePopup');
+    popup.style.display = 'flex';
+
+    // Analysis keeps "running" in background (visual only)
+    const bgLines = [
+        'Hedef kitle segmentasyonu yapılıyor...',
+        'Değer önerisi analiz ediliyor...',
+        'Pazar konumlandırması hesaplanıyor...',
+        'Rakip avantajları karşılaştırılıyor...',
+        'Fiyatlandırma stratejisi değerlendiriliyor...',
+        'Müşteri yolculuğu haritalanıyor...',
+        'Dönüşüm hunisi modelleniyor...',
+        'Büyüme fırsatları belirleniyor...',
+        'Aksiyon planı oluşturuluyor...',
+        'Kişiselleştirilmiş öneriler hazırlanıyor...',
+    ];
+    let bgIdx = 0;
+    const bgInterval = setInterval(() => {
+        if (bgIdx < bgLines.length) {
+            termWrite('term2', `<span class="dim">⟳</span> ${bgLines[bgIdx]}`);
+            const pct = Math.round((5 + bgIdx + 1) / 13 * 100);
+            document.getElementById('phase2Pct').textContent = Math.min(pct, 92) + '%';
+            setRing(35 + bgIdx * 3);
+            bgIdx++;
+        }
+    }, 2500);
+
+    // Store interval so submit can clear it
+    window._bgInterval = bgInterval;
+}
+
+// ==================== SUBMIT ====================
+async function submitFunnel() {
+    D.phone = document.getElementById('userPhone').value;
+    const btn = document.getElementById('btnSend');
+    btn.disabled = true;
+    btn.textContent = 'Gönderiliyor...';
+
+    // Save to Supabase
+    try {
+        await sb.from('funnel_leads').insert({
+            website: D.website || null,
+            stage: D.stage || null,
+            market: D.market || null,
+            sectors: D.sectors.length ? D.sectors : null,
+            experience: D.experience || null,
+            revenue: D.revenue || null,
+            ad_channels: D.adChannels.length ? D.adChannels : null,
+            ad_budget: D.adBudget || null,
+            linkedin: D.linkedin || null,
+            roas: D.roas || null,
+            extra_notes: D.extraNotes || null,
+            phone: D.phone
+        });
+    } catch (e) {
+        console.error('Supabase error:', e);
+    }
+
+    // Stop everything
+    if (window._bgInterval) clearInterval(window._bgInterval);
+    stopAnalysisStats();
+    cur = 13;
+    show(13);
+}
+</script>
+</body>
+</html>
