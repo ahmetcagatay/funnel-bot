@@ -380,35 +380,37 @@ let leadId = null; // tracks current row in supabase
 // ==================== SYNC TO SUPABASE ====================
 const stepNames = { 0:'website', 2:'stage', 3:'market', 4:'sectors', 5:'experience', 6:'revenue', 7:'ad_channels', 8:'ad_budget', 9:'linkedin', 10:'details', 11:'analysis' };
 
-async function syncLead(stepName) {
-    const payload = {
-        website: D.website || null,
-        stage: D.stage || null,
-        market: D.market || null,
-        sectors: D.sectors.length ? D.sectors : null,
-        experience: D.experience || null,
-        revenue: D.revenue || null,
-        ad_channels: D.adChannels.length ? D.adChannels : null,
-        ad_budget: D.adBudget || null,
-        linkedin: D.linkedin || null,
-        roas: D.roas || null,
-        extra_notes: D.extraNotes || null,
-        phone: D.phone || null,
-        last_step: stepName,
-        completed: false
-    };
+let syncQueue = Promise.resolve(); // serialize all syncs
 
-    try {
-        if (!leadId) {
-            // First save — insert
-            const { data, error } = await sb.from('funnel_leads').insert(payload).select('id').single();
-            if (data) leadId = data.id;
-            if (error) console.error('insert err:', error);
-        } else {
-            // Update existing row
-            await sb.from('funnel_leads').update(payload).eq('id', leadId);
-        }
-    } catch (e) { console.error('sync err:', e); }
+function syncLead(stepName) {
+    syncQueue = syncQueue.then(async () => {
+        const payload = {
+            website: D.website || null,
+            stage: D.stage || null,
+            market: D.market || null,
+            sectors: D.sectors.length ? D.sectors : null,
+            experience: D.experience || null,
+            revenue: D.revenue || null,
+            ad_channels: D.adChannels.length ? D.adChannels : null,
+            ad_budget: D.adBudget || null,
+            linkedin: D.linkedin || null,
+            roas: D.roas || null,
+            extra_notes: D.extraNotes || null,
+            phone: D.phone || null,
+            last_step: stepName,
+            completed: false
+        };
+
+        try {
+            if (!leadId) {
+                const { data, error } = await sb.from('funnel_leads').insert(payload).select('id').single();
+                if (data) leadId = data.id;
+                if (error) console.error('insert err:', error);
+            } else {
+                await sb.from('funnel_leads').update(payload).eq('id', leadId);
+            }
+        } catch (e) { console.error('sync err:', e); }
+    });
 }
 
 // ==================== STATE ====================
@@ -727,20 +729,15 @@ async function submitFunnel() {
     btn.disabled = true;
     btn.textContent = 'Gönderiliyor...';
 
-    // Final update — mark as completed
+    // Wait for any pending syncs, then final update
     try {
+        await syncQueue;
         if (leadId) {
             await sb.from('funnel_leads').update({
                 phone: D.phone,
                 last_step: 'completed',
                 completed: true
             }).eq('id', leadId);
-        } else {
-            // Edge case: no row yet
-            await syncLead('completed');
-            if (leadId) {
-                await sb.from('funnel_leads').update({ phone: D.phone, completed: true }).eq('id', leadId);
-            }
         }
     } catch (e) { console.error('submit err:', e); }
 
