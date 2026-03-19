@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funnel Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d1117; color: #e6edf3; min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 32px 20px; }
+
+        /* Header */
+        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; flex-wrap: wrap; gap: 16px; }
+        .header h1 { font-size: 24px; font-weight: 600; }
+        .header-right { display: flex; gap: 12px; align-items: center; }
+        .badge { background: #1a1f2b; border: 1px solid #30363d; border-radius: 100px; padding: 6px 14px; font-size: 13px; color: #8b949e; }
+        .badge strong { color: #D78686; }
+        .btn-refresh {
+            background: #21262d; border: 1px solid #30363d; color: #e6edf3; padding: 8px 16px;
+            border-radius: 8px; font-size: 13px; cursor: pointer; font-family: inherit;
+        }
+        .btn-refresh:hover { background: #30363d; }
+
+        /* Login */
+        #loginScreen { display: flex; align-items: center; justify-content: center; min-height: 60vh; }
+        .login-box {
+            background: #161b22; border: 1px solid #30363d; border-radius: 16px;
+            padding: 40px; max-width: 400px; width: 100%; text-align: center;
+        }
+        .login-box h2 { font-size: 20px; margin-bottom: 8px; }
+        .login-box p { font-size: 14px; color: #8b949e; margin-bottom: 24px; }
+        .login-box input {
+            width: 100%; padding: 12px 16px; background: #0d1117; border: 1px solid #30363d;
+            border-radius: 8px; color: #e6edf3; font-size: 14px; outline: none; font-family: inherit;
+        }
+        .login-box input:focus { border-color: #D78686; }
+        .login-box button {
+            width: 100%; padding: 12px; background: #D78686; color: #fff; border: none;
+            border-radius: 8px; font-size: 15px; font-weight: 500; cursor: pointer;
+            margin-top: 12px; font-family: inherit;
+        }
+        .login-box button:hover { background: #c47474; }
+        .login-error { color: #f85149; font-size: 13px; margin-top: 8px; display: none; }
+
+        /* Stats grid */
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 32px; }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px;
+        }
+        .stat-card .label { font-size: 12px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .stat-card .value { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; }
+        .stat-card .sub { font-size: 12px; color: #8b949e; margin-top: 4px; }
+
+        /* Charts row */
+        .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+        .chart-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 24px;
+        }
+        .chart-card h3 { font-size: 14px; color: #8b949e; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .bar-label { font-size: 13px; width: 120px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .bar-track { flex: 1; height: 24px; background: #21262d; border-radius: 6px; overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 600; min-width: 28px; }
+        .bar-count { font-size: 13px; color: #8b949e; width: 30px; text-align: right; flex-shrink: 0; }
+
+        /* Table */
+        .table-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 12px; overflow: hidden;
+        }
+        .table-header { padding: 16px 24px; border-bottom: 1px solid #21262d; display: flex; justify-content: space-between; align-items: center; }
+        .table-header h3 { font-size: 14px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }
+        table { width: 100%; border-collapse: collapse; }
+        thead th {
+            text-align: left; padding: 10px 16px; font-size: 12px; color: #8b949e;
+            text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #21262d;
+            position: sticky; top: 0; background: #161b22;
+        }
+        tbody tr { border-bottom: 1px solid #21262d; transition: background 0.1s; }
+        tbody tr:hover { background: #1c2128; }
+        td { padding: 12px 16px; font-size: 13px; white-space: nowrap; }
+        td.wrap { white-space: normal; max-width: 200px; }
+        .tag {
+            display: inline-block; background: #21262d; border-radius: 4px;
+            padding: 2px 8px; font-size: 11px; margin: 1px 2px;
+        }
+        .phone-cell { color: #D78686; font-weight: 500; font-family: monospace; }
+        .time-cell { color: #8b949e; }
+        .table-scroll { overflow-x: auto; max-height: 500px; overflow-y: auto; }
+
+        .empty-state { text-align: center; padding: 60px 20px; color: #8b949e; }
+        .empty-state h3 { font-size: 18px; margin-bottom: 8px; color: #e6edf3; }
+
+        @media (max-width: 768px) {
+            .charts { grid-template-columns: 1fr; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- Login -->
+    <div id="loginScreen">
+        <div class="login-box">
+            <h2>Dashboard</h2>
+            <p>Funnel verilerine erişmek için giriş yapın.</p>
+            <input type="password" id="passInput" placeholder="Şifre" onkeydown="if(event.key==='Enter')doLogin()" />
+            <button onclick="doLogin()">Giriş</button>
+            <div class="login-error" id="loginError">Yanlış şifre.</div>
+        </div>
+    </div>
+
+    <!-- Dashboard (hidden until login) -->
+    <div id="dashboardContent" style="display:none;">
+        <div class="header">
+            <h1>Funnel Leads</h1>
+            <div class="header-right">
+                <span class="badge">Toplam: <strong id="totalCount">0</strong></span>
+                <span class="badge">Bugün: <strong id="todayCount">0</strong></span>
+                <button class="btn-refresh" onclick="loadData()">Yenile</button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats" id="statsGrid"></div>
+
+        <!-- Charts -->
+        <div class="charts">
+            <div class="chart-card">
+                <h3>Aşama Dağılımı</h3>
+                <div id="chartStage"></div>
+            </div>
+            <div class="chart-card">
+                <h3>Pazar Dağılımı</h3>
+                <div id="chartMarket"></div>
+            </div>
+            <div class="chart-card">
+                <h3>Gelir Dağılımı</h3>
+                <div id="chartRevenue"></div>
+            </div>
+            <div class="chart-card">
+                <h3>Reklam Bütçesi</h3>
+                <div id="chartBudget"></div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-card">
+            <div class="table-header">
+                <h3>Tüm Leadler</h3>
+            </div>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tarih</th>
+                            <th>Telefon</th>
+                            <th>Website</th>
+                            <th>Aşama</th>
+                            <th>Pazar</th>
+                            <th>Sektör</th>
+                            <th>Deneyim</th>
+                            <th>Gelir</th>
+                            <th>Reklam</th>
+                            <th>Bütçe</th>
+                            <th>LinkedIn</th>
+                            <th>ROAS</th>
+                            <th>Not</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leadsTable"></tbody>
+                </table>
+            </div>
+            <div class="empty-state" id="emptyState" style="display:none;">
+                <h3>Henüz lead yok</h3>
+                <p>Funnel'dan veri gelmeye başladığında burada görünecek.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+const SUPABASE_URL = 'https://frficzdzmxhptmtbkfft.supabase.co';
+// Service role key for reading — dashboard is password-protected
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2Nzg3Mzg1NiwiZXhwIjoyMDgzNDQ5ODU2fQ.4uMuEtv57wm5YWpj3M7bHqik9PPERiaK0JxwXBjKawY';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Simple password gate
+const DASH_PASS = 'funnel2026';
+
+function doLogin() {
+    const input = document.getElementById('passInput').value;
+    if (input === DASH_PASS) {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('dashboardContent').style.display = 'block';
+        loadData();
+    } else {
+        document.getElementById('loginError').style.display = 'block';
+    }
+}
+
+// Labels
+const stageLabels = { improve_sales: 'Satış İyileştirme', dont_know: 'Strateji Yok', no_traffic: 'Trafik Yok', traffic_no_sales: 'Dönüşüm Yok' };
+const marketLabels = { b2c: 'B2C', b2b: 'B2B', b2g: 'B2G', mixed: 'Karışık' };
+const revenueLabels = { '0': 'Gelir yok', '0-10k': '0-10K', '10k-50k': '10-50K', '50k-200k': '50-200K', '200k+': '200K+' };
+const budgetLabels = { '0': 'Yok', '0-5k': '0-5K', '5k-20k': '5-20K', '20k-100k': '20-100K', '100k+': '100K+' };
+const colors = ['#D78686', '#58a6ff', '#3fb950', '#d29922', '#bc8cff', '#f778ba', '#79c0ff', '#56d364'];
+
+function buildBars(containerId, data, labels) {
+    const el = document.getElementById(containerId);
+    if (!data || Object.keys(data).length === 0) { el.innerHTML = '<p style="color:#484f58;font-size:13px;">Veri yok</p>'; return; }
+    const max = Math.max(...Object.values(data), 1);
+    el.innerHTML = Object.entries(data)
+        .sort((a, b) => b[1] - a[1])
+        .map(([k, v], i) => {
+            const pct = Math.max((v / max) * 100, 8);
+            const color = colors[i % colors.length];
+            const label = (labels && labels[k]) || k;
+            return `<div class="bar-row">
+                <div class="bar-label">${label}</div>
+                <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color};">${v}</div></div>
+            </div>`;
+        }).join('');
+}
+
+function countField(rows, field) {
+    const counts = {};
+    rows.forEach(r => {
+        const val = r[field];
+        if (val) { counts[val] = (counts[val] || 0) + 1; }
+    });
+    return counts;
+}
+
+function formatDate(iso) {
+    const d = new Date(iso);
+    return d.toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit' }) + ' ' +
+           d.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+}
+
+function truncate(str, len) {
+    if (!str) return '—';
+    return str.length > len ? str.substring(0, len) + '...' : str;
+}
+
+async function loadData() {
+    const { data: rows, error } = await sb
+        .from('funnel_leads')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) { console.error(error); return; }
+    if (!rows || rows.length === 0) {
+        document.getElementById('emptyState').style.display = 'block';
+        document.getElementById('totalCount').textContent = '0';
+        document.getElementById('todayCount').textContent = '0';
+        return;
+    }
+
+    document.getElementById('emptyState').style.display = 'none';
+
+    // Counts
+    const total = rows.length;
+    const today = rows.filter(r => new Date(r.created_at).toDateString() === new Date().toDateString()).length;
+    const withSite = rows.filter(r => r.website).length;
+    const withLinkedin = rows.filter(r => r.linkedin).length;
+
+    document.getElementById('totalCount').textContent = total;
+    document.getElementById('todayCount').textContent = today;
+
+    // Stats grid
+    document.getElementById('statsGrid').innerHTML = `
+        <div class="stat-card"><div class="label">Toplam Lead</div><div class="value">${total}</div></div>
+        <div class="stat-card"><div class="label">Bugün</div><div class="value">${today}</div></div>
+        <div class="stat-card"><div class="label">Website Var</div><div class="value">${withSite}</div><div class="sub">${total ? Math.round(withSite/total*100) : 0}%</div></div>
+        <div class="stat-card"><div class="label">LinkedIn Var</div><div class="value">${withLinkedin}</div><div class="sub">${total ? Math.round(withLinkedin/total*100) : 0}%</div></div>
+    `;
+
+    // Charts
+    buildBars('chartStage', countField(rows, 'stage'), stageLabels);
+    buildBars('chartMarket', countField(rows, 'market'), marketLabels);
+    buildBars('chartRevenue', countField(rows, 'revenue'), revenueLabels);
+    buildBars('chartBudget', countField(rows, 'ad_budget'), budgetLabels);
+
+    // Table
+    document.getElementById('leadsTable').innerHTML = rows.map(r => `
+        <tr>
+            <td class="time-cell">${formatDate(r.created_at)}</td>
+            <td class="phone-cell">${r.phone || '—'}</td>
+            <td>${r.website ? `<a href="${r.website}" target="_blank" style="color:#58a6ff;text-decoration:none;">${truncate(r.website, 25)}</a>` : '—'}</td>
+            <td>${stageLabels[r.stage] || r.stage || '—'}</td>
+            <td>${marketLabels[r.market] || r.market || '—'}</td>
+            <td>${r.sectors ? r.sectors.map(s => `<span class="tag">${s}</span>`).join('') : '—'}</td>
+            <td>${r.experience || '—'}</td>
+            <td>${revenueLabels[r.revenue] || r.revenue || '—'}</td>
+            <td>${r.ad_channels ? r.ad_channels.map(c => `<span class="tag">${c}</span>`).join('') : '—'}</td>
+            <td>${budgetLabels[r.ad_budget] || r.ad_budget || '—'}</td>
+            <td>${r.linkedin ? `<a href="${r.linkedin}" target="_blank" style="color:#58a6ff;text-decoration:none;">Profil</a>` : '—'}</td>
+            <td>${r.roas || '—'}</td>
+            <td class="wrap">${truncate(r.extra_notes, 40)}</td>
+        </tr>
+    `).join('');
+}
+</script>
+</body>
+</html>
