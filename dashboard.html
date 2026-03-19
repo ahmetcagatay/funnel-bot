@@ -107,6 +107,7 @@
         <div class="login-box">
             <h2>Dashboard</h2>
             <p>Funnel verilerine erişmek için giriş yapın.</p>
+            <input type="text" id="userInput" placeholder="Kullanıcı adı" style="margin-bottom:10px;" onkeydown="if(event.key==='Enter')document.getElementById('passInput').focus()" />
             <input type="password" id="passInput" placeholder="Şifre" onkeydown="if(event.key==='Enter')doLogin()" />
             <button onclick="doLogin()">Giriş</button>
             <div class="login-error" id="loginError">Yanlış şifre.</div>
@@ -198,11 +199,13 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // Simple password gate
-const DASH_PASS = 'funnel2026';
+const DASH_USER = 'ahmet';
+const DASH_PASS = 'admin';
 
 function doLogin() {
-    const input = document.getElementById('passInput').value;
-    if (input === DASH_PASS) {
+    const user = document.getElementById('userInput').value;
+    const pass = document.getElementById('passInput').value;
+    if (user === DASH_USER && pass === DASH_PASS) {
         document.getElementById('loginScreen').style.display = 'none';
         document.getElementById('dashboardContent').style.display = 'block';
         loadData();
