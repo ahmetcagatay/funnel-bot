@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 13px; line-height: 1.6; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #e8f0fe; color: #1a73e8; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #1a73e8, #34a853); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a73e8; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
+  th { background: #1a1a2e; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #e8f0fe; border-left: 4px solid #1a73e8; color: #174ea6; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #e8f0fe; color: #174ea6; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #1a73e8; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; }
+  .summary-card { flex: 1; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #1a73e8; }
+  .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  @media print { .copy-section { display: none !important; } }
+  .copy-section { padding: 20px 24px; background: #f0f4ff; border: 2px dashed #1a73e8; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .copy-section h3 { font-size: 16px; color: #1a1a2e; margin-bottom: 6px; border: none; }
+  .copy-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .copy-btn { background: #1a73e8; color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .copy-btn:hover { background: #1557b0; } .copy-btn.copied { background: #34a853; }
+  .copy-status { margin-top: 10px; font-size: 12px; color: #80868b; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanım</div>
+  <h1>Sodec Technologies</h1>
+  <h2>Dijital Büyüme &amp; İçerik Strateji Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazırlanma Tarihi:</strong> 20 Mart 2026<br>
+    <strong>Domain:</strong> sodec.com<br>
+    <strong>Sektör:</strong> B2B - AI Kimlik Doğrulama &amp; KYC Teknolojileri<br>
+    <strong>Rapor Türü:</strong> Detaylı Analiz + Strateji Önerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır.</div>
+</div>
+
+<!-- COPY -->
+<div class="copy-section">
+  <h3>İyileştirme Önerilerini Kopyala</h3>
+  <p>Rapordaki tüm önerileri kopyalayarak ekibinize iletebilirsiniz.</p>
+  <button class="copy-btn" id="copyBtn" onclick="copyImprovements()">İyileştirmeleri Kopyala</button>
+  <div class="copy-status" id="copyStatus"></div>
+</div>
+<script>
+function copyImprovements(){var b=document.getElementById('copyBtn'),s=document.getElementById('copyStatus');
+var t=`SODEC TECHNOLOGIES - İYİLEŞTİRME ÖNERİLERİ
+=====================================
+
+ACİL (Hafta 1-2):
+1. BLOG/İÇERİK STRATEJİSİ BAŞLATIN - Organik trafik için blog şart. "KYC nedir", "uzaktan kimlik doğrulama", "deepfake tespit" gibi anahtar kelimeler
+2. CASE STUDY SAYFALARI OLUŞTURUN - Türk Telekom, İş Bankası referanslarını detaylı hikayelerle anlatın
+3. ÜRÜN SAYFALARINA DERİNLİK KATIN - Fraud Detection sayfası gibi yüzeysel sayfaları teknik detay, istatistik ve müşteri sonuçlarıyla zenginleştirin
+4. G2/CAPTERRA LİSTELEME - Uluslararası müşteri kazanımı için yazılım inceleme platformlarında yer alın
+
+BÜYÜME (Hafta 3-4):
+1. LEAD KALİFİKASYON FUNNEL'I - "Müşteri edinim sürecinizde en çok nerede tıkanıyorsunuz?" ile başlayan funnel
+2. TÜRKÇE SEO İÇERİKLERİ - "Türkiye KYC çözümleri", "e-KYC yazılımı", "kimlik doğrulama API" gibi yerel anahtar kelimeler
+3. FİYATLANDIRMA ŞEFFAFLIĞI - En azından "doğrulama başına X TL'den başlayan fiyatlar" gibi referans noktası
+4. LINKEDIN THOUGHT LEADERSHIP - Hasan Dertli ve ekip üyelerinin düzenli paylaşımları
+5. NIST BAŞARISINI DAHA FAZLA VURGULAYIN - "Dünya ilk 10" başarısı her sayfada görünmeli
+
+ÖLÇEKLEME (Ay 2+):
+1. ULUSLARARASI İÇERİK - İngilizce blog, karşılaştırma sayfaları, rakip alternatifleri
+2. WEBINAR/WHITE PAPER - "KYC'de AI: Deepfake Tehditleri ve Çözümleri" gibi thought leadership
+3. PARTNER PROGRAMI - Fintech ve banka yazılım entegratörleri için partner ekosistemi
+4. ABOUT SAYFASINI GÜÇLENDİRİN - Ekip üyeleri, kuruluş hikayesi, vizyon
+5. PR STRATEJİSİ - Düzenli basın bültenleri, teknoloji medyasında görünürlük`;
+try{navigator.clipboard.writeText(t).then(function(){b.textContent='\u2705 Kopyalandı!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='İyileştirmeleri Kopyala';b.classList.remove('copied')},3000)})}catch(e){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);b.textContent='\u2705 Kopyalandı!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='İyileştirmeleri Kopyala';b.classList.remove('copied')},3000)}}
+</script>
+
+<!-- PROFİL -->
+<h2 class="page-break">1. Şirket Profil Özeti</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">B2B</div><div class="label">Hedef Pazar</div></div>
+  <div class="summary-card"><div class="value">KYC/AI</div><div class="label">Sektör</div></div>
+  <div class="summary-card"><div class="value">200K+</div><div class="label">Aylık Gelir</div></div>
+  <div class="summary-card"><div class="value">20-100K</div><div class="label">Reklam Bütçesi</div></div>
+  <div class="summary-card"><div class="value">2014</div><div class="label">Kuruluş</div></div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Değer</th></tr>
+  <tr><td><strong>Website</strong></td><td>sodec.com</td></tr>
+  <tr><td><strong>Ürün</strong></td><td>AI destekli kimlik doğrulama, KYC/AML uyumluluk, biyometrik doğrulama, OCR, deepfake tespit, belge doğrulama. 200+ ülke, 15.000+ belge türü desteği.</td></tr>
+  <tr><td><strong>Kurucu</strong></td><td>Hasan Dertli (CEO) - Binghamton University mezunu</td></tr>
+  <tr><td><strong>Merkez</strong></td><td>Dijitalpark Teknokent, Ataşehir/İstanbul</td></tr>
+  <tr><td><strong>Ekip</strong></td><td>20-49 kişi</td></tr>
+  <tr><td><strong>İletişim</strong></td><td>+90 212 916 12 88 / contact@sodec.com</td></tr>
+  <tr><td><strong>Yıllık İşlem</strong></td><td>100+ milyon tarama</td></tr>
+</table>
+
+<h3>Referans Müşteriler</h3>
+<table>
+  <tr><th>Sektör</th><th>Müşteriler</th></tr>
+  <tr><td><strong>Telekom</strong></td><td>Türk Telekom, Turkcell, Vodafone, Deutsche Telekom Cloud</td></tr>
+  <tr><td><strong>Finans</strong></td><td>Türkiye İş Bankası, Quick Finans, Paycell, Sipay, Gelecek Varlık</td></tr>
+  <tr><td><strong>Diğer</strong></td><td>Borusan</td></tr>
+</table>
+
+<h3>Sertifikalar ve Başarılar</h3>
+<table>
+  <tr><th>Sertifika</th><th>Detay</th></tr>
+  <tr><td><strong>NIST İlk 10</strong></td><td>Yüz tanıma testlerinde dünya genelinde ilk 10 - milyonda birden az hata oranı</td></tr>
+  <tr><td><strong>iBeta</strong></td><td>Edinme sürecinde - NIST akredite, dünyada çok az şirkette var</td></tr>
+  <tr><td><strong>ISO Sertifikaları</strong></td><td>Kişisel veri ve bilgi gizliliği standartları</td></tr>
+  <tr><td><strong>Great Place to Work</strong></td><td>Türkiye "Best Workplaces in Technology" listesi</td></tr>
+  <tr><td><strong>GDPR Uyumlu</strong></td><td>Avrupa veri koruma düzenlemelerine tam uygunluk</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Profil Değerlendirmesi</strong>
+  Sodec Technologies, Türkiye'nin kimlik doğrulama ve KYC pazarında en güçlü yerli oyunculardan biri. 2014'ten beri faaliyet gösteriyor, Türk Telekom ve İş Bankası gibi dev referanslara sahip, NIST ilk 10 başarısı global düzeyde kanıtlanmış teknoloji gösteriyor. 200K+ TL gelir ve 20-100K reklam bütçesi, büyüme potansiyeli yüksek bir şirket profili çiziyor. Ana sorun: bu güçlü ürün ve referansların dijital dünyada yeterince görünür olmaması.
+</div>
+
+<!-- RAKİP -->
+<h2 class="page-break">2. Rekabet Analizi - KYC &amp; Kimlik Doğrulama Pazarı</h2>
+
+<h3>2.1 Türkiye'deki Yerel Rakipler</h3>
+<table>
+  <tr><th>Rakip</th><th>Odak</th><th>Sodec'e Göre</th></tr>
+  <tr><td><strong>IHS Teknoloji (Udentify)</strong></td><td>Bulut KYC, OCR</td><td>Daha küçük, Türk kimlik odaklı</td></tr>
+  <tr><td><strong>Techsign (Prove ID)</strong></td><td>Kimlik doğrulama, KYB</td><td>2016 kuruluş, bulut + on-premise</td></tr>
+  <tr><td><strong>SCSOFT</strong></td><td>Fintech KYC</td><td>Daha dar kapsam</td></tr>
+</table>
+
+<h3>2.2 Uluslararası Rakipler</h3>
+<table>
+  <tr><th>Rakip</th><th>Güçlü Yönü</th><th>Sodec Avantajı</th></tr>
+  <tr><td><strong>Jumio</strong></td><td>Öncü, güçlü AI, küresel kapsam</td><td>Yerel destek, Türkçe entegrasyon</td></tr>
+  <tr><td><strong>Veriff</strong></td><td>6 saniye doğrulama, UX</td><td>Daha fazla belge türü (15K+ vs 12K)</td></tr>
+  <tr><td><strong>Sumsub</strong></td><td>All-in-one platform</td><td>NIST ilk 10, yerel referanslar</td></tr>
+  <tr><td><strong>Trulioo</strong></td><td>195+ ülke, 450+ veri kaynağı</td><td>Türkiye'ye özel derin entegrasyon</td></tr>
+  <tr><td><strong>iDenfy</strong></td><td>Uygun fiyat, 8.800+ belge</td><td>15.000+ belge türü desteği</td></tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Sodec'in Rekabetçi Avantajları</strong>
+  <ul style="margin-top:6px">
+    <li><strong>NIST dünya ilk 10</strong> - Yüz tanıma doğruluğunda kanıtlanmış üstünlük</li>
+    <li><strong>15.000+ belge türü</strong> - Rakiplerin çoğundan fazla</li>
+    <li><strong>Deepfake + 3D maske tespiti</strong> - İleri düzey sahtekarlık önleme</li>
+    <li><strong>Türk Telekom, İş Bankası referansları</strong> - Kurumsal güvenilirlik kanıtı</li>
+    <li><strong>2016'dan beri video çağrısız doğrulama</strong> - Sektörde erken hareket eden</li>
+    <li><strong>Yıllık 100M+ tarama</strong> - Kanıtlanmış ölçek</li>
+  </ul>
+</div>
+
+<!-- WEB SİTESİ -->
+<h2 class="page-break">3. Web Sitesi ve Dijital Varlık Analizi</h2>
+
+<h3>3.1 Güçlü Yönler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr><td>Tasarım</td><td><span class="tag tag-green">Profesyonel</span> - Temiz, kurumsal görünüm</td></tr>
+  <tr><td>Çok dilli</td><td><span class="tag tag-green">EN/TR</span> - İngilizce ve Türkçe toggle</td></tr>
+  <tr><td>Schema Markup</td><td><span class="tag tag-green">Var</span> - Organization schema doğru uygulanmış</td></tr>
+  <tr><td>GDPR</td><td><span class="tag tag-green">Uyumlu</span> - Çerez politikası mevcut</td></tr>
+  <tr><td>Analytics</td><td><span class="tag tag-green">Var</span> - Google Analytics entegre</td></tr>
+  <tr><td>Demo CTA</td><td><span class="tag tag-green">Belirgin</span> - Demo talep butonları görünür</td></tr>
+</table>
+
+<h3>3.2 Kritik Sorunlar</h3>
+<table>
+  <tr><th>Sorun</th><th>Açıklama</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>Blog/içerik yok</strong></td>
+    <td>Hiçbir blog yazısı bulunamadı. SEO ile organik trafik çekme potansiyeli sıfır. "KYC nedir", "kimlik doğrulama yazılımı" gibi aramalarda görünmüyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Case study yok</strong></td>
+    <td>Türk Telekom, İş Bankası gibi dev referanslar var ama detaylı başarı hikayesi anlatılmıyor. Müşteri logolarından ibaret.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Ürün sayfaları yüzeysel</strong></td>
+    <td>Fraud Detection gibi sayfalar genel değer önerisi sunuyor, teknik detay, istatistik, vaka çalışması yok.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Fiyatlandırma bilgisi yok</strong></td>
+    <td>"Demo talep et" modeli. Potansiyel müşteriler fiyat referansı olmadan karar veremiyor.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>About sayfası zayıf</strong></td>
+    <td>Kuruluş hikayesi, ekip üyeleri, vizyon/misyon gibi güven artırıcı bilgiler yetersiz.</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+  <tr>
+    <td><strong>G2/Capterra'da yok</strong></td>
+    <td>Yazılım inceleme platformlarında listelenmemiş. Uluslararası müşteri kazanımını zorlaştırıyor.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Türkçe SEO anahtar kelimeleri eksik</strong></td>
+    <td>"Türkiye KYC çözümleri", "uzaktan müşteri edinimi", "e-KYC" gibi aramalarda organik sıralama yok.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Temel Sorun: Güçlü Ürün, Zayıf Dijital Görünürlük</strong>
+  Sodec'in teknolojisi ve referansları çok güçlü - NIST ilk 10, Türk Telekom, İş Bankası, yıllık 100M+ tarama. Ama bu güç dijital dünyaya yansımıyor. Blog yok, case study yok, SEO içerik yok, G2/Capterra'da listelenmemiş. 20-100K TL reklam bütçesi harcanıyor ama potansiyel müşteriler siteye geldiğinde derinlikli içerik bulamıyor. Reklam trafiği, içerik olmadan dönüşmez.
+</div>
+
+<!-- STRATEJİ -->
+<h2 class="page-break">4. Önerilen Aksiyon Planı</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - İçerik Temeli (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Blog başlatın:</strong> "KYC nedir?", "E-KYC vs geleneksel KYC", "Deepfake tehditleri ve çözümleri", "Uzaktan müşteri edinimi nasıl yapılır?" - Türkçe ve İngilizce. Bu anahtar kelimeler yüksek hacimli ve rekabet düşük.</li>
+    <li><strong>Case study sayfaları oluşturun:</strong> En az 3 detaylı vaka çalışması. "Türk Telekom, Sodec ile X milyon kullanıcıyı Y sürede doğruladı" formatında. Somut rakamlar, müşteri alıntısı, kullanılan teknoloji.</li>
+    <li><strong>Ürün sayfalarına derinlik katın:</strong> Her ürün sayfasına teknik detay, performans metrikleri, kullanım senaryoları ve SSS ekleyin.</li>
+    <li><strong>G2 ve Capterra'da listelenin:</strong> Ücretsiz listeleme yapın. Mevcut müşterilerden yorum isteyin. Uluslararası müşteri kazanımında kritik.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - Lead Dönüşüm Optimizasyonu (Hafta 3-4)</div>
+  <ol>
+    <li><strong>Lead kalifikasyon funnel'ı oluşturun:</strong> "Müşteri edinim sürecinizde en çok nerede tıkanıyorsunuz?" ile başlayan 6-7 soruluk funnel. Sektör, hacim, mevcut çözüm, bütçe öğrenilsin - kişiselleştirilmiş demo sunulsun.</li>
+    <li><strong>Fiyatlandırma referans noktası ekleyin:</strong> Paket fiyat vermek istemiyorsanız en azından "doğrulama başına X TL'den başlayan fiyatlar" veya "aylık Y'den başlayan planlar" gibi bir referans.</li>
+    <li><strong>NIST başarısını her yerde vurgulayın:</strong> "Dünya ilk 10 yüz tanıma doğruluğu" badge'i ana sayfa, ürün sayfaları ve footer'da görünmeli.</li>
+    <li><strong>Karşılaştırma sayfaları oluşturun:</strong> "Sodec vs Jumio", "Sodec vs Veriff", "Sodec vs Sumsub" - bu aramalarda organik trafik yakalayın.</li>
+    <li><strong>LinkedIn thought leadership:</strong> Hasan Dertli ve ekip üyelerinin haftada 2-3 paylaşım yapması. KYC/AI/deepfake konularında uzman içerikler.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - Uluslararası Büyüme (Ay 2+)</div>
+  <ol>
+    <li><strong>İngilizce içerik stratejisi:</strong> Global KYC pazarı çok daha büyük. İngilizce blog, karşılaştırma ve case study ile uluslararası organik trafik.</li>
+    <li><strong>White paper / webinar serisi:</strong> "KYC'de AI Devrimi: Deepfake Tehditleri ve Pasif Biyometrik Çözümler" gibi değer sunan lead magnet'ler.</li>
+    <li><strong>Partner ekosistemi:</strong> Fintech yazılım entegratörleri, banka IT departmanları, danışmanlık firmaları ile partner program.</li>
+    <li><strong>About sayfasını güçlendirin:</strong> Kurucu hikayesi, ekip üyeleri (fotoğraf + LinkedIn), vizyon, teknoloji yol haritası.</li>
+    <li><strong>PR stratejisi:</strong> Düzenli basın bültenleri, TechCrunch/VentureBeat gibi uluslararası teknoloji medyasında görünürlük.</li>
+    <li><strong>Sektörel etkinlikler:</strong> Money 20/20, Identity Week gibi global KYC konferanslarında konuşmacı/sponsor olma.</li>
+  </ol>
+</div>
+
+<!-- SONUÇ -->
+<h2 class="page-break">5. Sonuç ve Genel Değerlendirme</h2>
+
+<h3>Skor Kartı</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef</th></tr>
+  <tr><td>Ürün / Teknoloji</td><td><div class="score-bar"><div class="score-fill score-high" style="width:90%"></div></div> 9/10</td><td>9.5/10</td></tr>
+  <tr><td>Müşteri Referansları</td><td><div class="score-bar"><div class="score-fill score-high" style="width:85%"></div></div> 8.5/10</td><td>9/10</td></tr>
+  <tr><td>İçerik / SEO</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>7/10</td></tr>
+  <tr><td>Dönüşüm Optimizasyonu</td><td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td><td>7/10</td></tr>
+  <tr><td>Uluslararası Görünürlük</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>7/10</td></tr>
+  <tr><td>Fiyatlandırma Şeffaflığı</td><td><div class="score-bar"><div class="score-fill score-low" style="width:5%"></div></div> 0.5/10</td><td>6/10</td></tr>
+  <tr><td>Marka Bilinirliği (Dijital)</td><td><div class="score-bar"><div class="score-fill score-low" style="width:25%"></div></div> 2.5/10</td><td>7/10</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Özet Değerlendirme</strong>
+  Sodec Technologies, teknoloji ve referans açısından Türkiye'nin en güçlü KYC/kimlik doğrulama şirketi. NIST ilk 10, Türk Telekom, İş Bankası, yıllık 100M+ tarama - bunlar olağanüstü başarılar. Ancak:
+  <ul style="margin-top:6px">
+    <li><strong>İçerik/SEO skoru 1/10</strong> - Blog yok, Türkçe/İngilizce organik trafik neredeyse sıfır</li>
+    <li><strong>Case study yok</strong> - Dev referanslar anlatılmıyor, müşteri logolarından ibaret</li>
+    <li><strong>G2/Capterra'da listelenmemiş</strong> - Uluslararası müşteri kazanımını engelliyor</li>
+    <li><strong>Fiyatlandırma tamamen kapalı</strong> - Potansiyel müşteri referans noktası bulamıyor</li>
+    <li><strong>20-100K reklam bütçesi</strong> harcanıyor ama dönüşüm süreci optimize değil</li>
+  </ul>
+  <strong>Sonuç:</strong> Sodec'in sorunu ürün değil, pazarlama. Teknoloji 9/10 ama dijital görünürlük 1/10. İçerik stratejisi, case study üretimi ve dönüşüm optimizasyonu ile mevcut reklam bütçesinden çok daha fazla değer çıkarılabilir.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adım</strong>
+  Bu rapordaki stratejinin uygulanması için sizinle çalışabiliriz. İçerik pazarlama stratejisi, blog SEO, case study üretimi, lead kalifikasyon funnel'ı, G2/Capterra listeleme, karşılaştırma sayfaları ve LinkedIn thought leadership konularında destek sunabiliriz. NIST ilk 10 başarınızı dünyaya duyurmak ve 20-100K reklam bütçenizi gelire dönüştürmek için somut bir plan hazırlayabiliriz.
+</div>
+
+<p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır. &copy; 2026</p>
+
+<!-- TRACKING -->
+<script>
+(function(){if(new URLSearchParams(window.location.search).get('t')==='0')return;var SU='https://frficzdzmxhptmtbkfft.supabase.co',SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';var tId=null,st=Date.now(),ms=0,cl=window.location.pathname.split('/')[1]||'unknown';
+window.addEventListener('scroll',function(){var p=Math.round((window.pageYOffset/(document.documentElement.scrollHeight-window.innerHeight))*100);if(p>ms)ms=p});
+function gd(){return{website:window.location.pathname,stage:'rapor_view',extra_notes:JSON.stringify({time_on_page:Math.round((Date.now()-st)/1000),scroll_depth:ms,reached_bottom:ms>=90,client:cl,page_type:'rapor',opened_at:new Date(st).toISOString()}),last_step:ms>=90?'reached_bottom':(ms>10?'scrolling':'opened'),completed:ms>=90}}
+fetch(SU+'/rest/v1/funnel_leads',{method:'POST',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=representation'},body:JSON.stringify(gd())}).then(function(r){return r.json()}).then(function(d){if(d&&d[0])tId=d[0].id}).catch(function(){});
+setInterval(function(){if(!tId)return;fetch(SU+'/rest/v1/funnel_leads?id=eq.'+tId,{method:'PATCH',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=minimal'},body:JSON.stringify(gd())}).catch(function(){})},10000);
+window.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'&&tId)fetch(SU+'/rest/v1/funnel_leads?id=eq.'+tId,{method:'PATCH',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=minimal'},body:JSON.stringify(gd()),keepalive:true}).catch(function(){})})})();
+</script>
+</body>
+</html>
