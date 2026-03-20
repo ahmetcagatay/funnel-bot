@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 13px; line-height: 1.6; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #e8f0fe; color: #1a73e8; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #1a73e8, #34a853); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a73e8; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
+  th { background: #1a1a2e; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #e8f0fe; border-left: 4px solid #1a73e8; color: #174ea6; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #e8f0fe; color: #174ea6; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #1a73e8; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; }
+  .summary-card { flex: 1; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #1a73e8; }
+  .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  @media print { .copy-section { display: none !important; } }
+  .copy-section { padding: 20px 24px; background: #f0f4ff; border: 2px dashed #1a73e8; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .copy-section h3 { font-size: 16px; color: #1a1a2e; margin-bottom: 6px; border: none; }
+  .copy-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .copy-btn { background: #1a73e8; color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .copy-btn:hover { background: #1557b0; } .copy-btn.copied { background: #34a853; }
+  .copy-status { margin-top: 10px; font-size: 12px; color: #80868b; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanım</div>
+  <h1>Mi Kurumsal Danışmanlık</h1>
+  <h2>Dijital Görünürlük &amp; Lead Dönüşüm Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazırlanma Tarihi:</strong> 20 Mart 2026<br>
+    <strong>Domain:</strong> mikurumsal.com<br>
+    <strong>Sektör:</strong> Franchise &amp; Marka Danışmanlığı<br>
+    <strong>Rapor Türü:</strong> Detaylı Analiz + Strateji Önerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır.</div>
+</div>
+
+<!-- COPY -->
+<div class="copy-section">
+  <h3>İyileştirme Önerilerini Kopyala</h3>
+  <p>Rapordaki tüm önerileri kopyalayarak ekibinize iletebilirsiniz.</p>
+  <button class="copy-btn" id="copyBtn" onclick="copyImprovements()">İyileştirmeleri Kopyala</button>
+  <div class="copy-status" id="copyStatus"></div>
+</div>
+<script>
+function copyImprovements(){var b=document.getElementById('copyBtn'),s=document.getElementById('copyStatus');
+var t=`MİKURUMSAL.COM - İYİLEŞTİRME ÖNERİLERİ
+=====================================
+
+ACİL (Hafta 1-2):
+1. HİZMET SAYFASI 404 HATASINI DÜZELTİN - /hizmetlerimiz sayfası çalışmıyor, ziyaretçi bilgiye ulaşamıyor
+2. GOOGLE İNDEKSLEME SORUNU ÇÖZÜLMELİ - site:mikurumsal.com sıfır sonuç, Google siteyi hiç görmüyor
+3. TUTARSIZ İLETİŞİM BİLGİLERİNİ DÜZELTİN - 2 farklı adres, 3 telefon, 2 e-posta = güven sorunu
+4. H1 ETİKETİ VE META TAGLARI EKLEYİN - Temel SEO altyapısı tamamen eksik
+5. KIRIK LİNKLERİ DÜZELTİN - javascript:void(0) bağlantıları fonksiyonel değil
+
+BÜYÜME (Hafta 3-4):
+1. GOOGLE MY BUSINESS KAYDI - Yerel SEO için olmazsa olmaz, ücretsiz
+2. TAVADA TAVUK CASE STUDY'Sİ YAZIN - 60+ şubeli franchise başarı hikayesi çok güçlü bir içerik
+3. BLOG BAŞLATIN - "Franchise nasıl alınır", "AVM'de dükkan kiralama", "marka danışmanlığı nedir" gibi içerikler
+4. SCHEMA MARKUP EKLEYİN - LocalBusiness, Organization, Service
+5. LEAD KALİFİKASYON FUNNEL'I - "Franchise yatırımı düşünüyor musunuz?" ile başlayan funnel
+
+ÖLÇEKLEME (Ay 2+):
+1. REFERANS VİDEOLARI - Franchise sahiplerinden kısa video testimonial'lar
+2. LINKEDIN B2B İÇERİK - Franchise/AVM/lokasyon konularında düzenli paylaşım
+3. KOSGEB DANIŞMANLIK İÇERİĞİ - "KOSGEB desteğiyle franchise açma" gibi yüksek hacimli aramalar
+4. FİYAT ŞEFFAFLIĞI - En azından "danışmanlık paketlerimiz X TL'den başlıyor" referansı`;
+try{navigator.clipboard.writeText(t).then(function(){b.textContent='\u2705 Kopyalandı!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='İyileştirmeleri Kopyala';b.classList.remove('copied')},3000)})}catch(e){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);b.textContent='\u2705 Kopyalandı!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='İyileştirmeleri Kopyala';b.classList.remove('copied')},3000)}}
+</script>
+
+<!-- PROFİL -->
+<h2 class="page-break">1. Firma Profil Özeti</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">B2B+B2C</div><div class="label">Hedef Pazar</div></div>
+  <div class="summary-card"><div class="value">Danışmanlık</div><div class="label">Sektör</div></div>
+  <div class="summary-card"><div class="value">10-50K</div><div class="label">Aylık Gelir</div></div>
+  <div class="summary-card"><div class="value">0-5K</div><div class="label">Reklam Bütçesi</div></div>
+  <div class="summary-card"><div class="value">8</div><div class="label">Ekip</div></div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Değer</th></tr>
+  <tr><td><strong>Website</strong></td><td>mikurumsal.com</td></tr>
+  <tr><td><strong>Hizmet</strong></td><td>Franchise danışmanlığı, marka oluşturma, lokasyon geliştirme, AVM kiralama danışmanlığı, restoran danışmanlığı, operasyonel standardizasyon.</td></tr>
+  <tr><td><strong>Kuruluş</strong></td><td>2021</td></tr>
+  <tr><td><strong>Merkez</strong></td><td>Başakşehir / İstanbul</td></tr>
+  <tr><td><strong>Referans Proje</strong></td><td>Tavada Tavuk (60+ yurt içi, 3 yurt dışı şube, franchise bedeli 200.000 TL)</td></tr>
+  <tr><td><strong>Telefon</strong></td><td>+90 542 382 65 00</td></tr>
+  <tr><td><strong>2025 Performansı</strong></td><td>İlk yarıda 65 proje tamamlandığı beyan ediliyor</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Profil Değerlendirmesi</strong>
+  Mi Kurumsal, franchise danışmanlığı ve lokasyon geliştirme alanında niş bir konumlanmaya sahip. Tavada Tavuk (60+ şube) gibi somut bir referans güçlü bir koz. Ancak Google'da hiç indekslenmemiş olması, hizmet sayfasının 404 vermesi ve tutarsız iletişim bilgileri ciddi güvenilirlik sorunları yaratıyor. 0-5K TL reklam bütçesiyle trafik getiriliyor olabilir ama site dönüştürmeye hazır değil.
+</div>
+
+<!-- WEB SİTESİ -->
+<h2 class="page-break">2. Web Sitesi Analizi</h2>
+
+<h3>2.1 Kritik Sorunlar</h3>
+<table>
+  <tr><th>Sorun</th><th>Açıklama</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>Google'da indekslenmemiş</strong></td>
+    <td>site:mikurumsal.com aramasında sıfır sonuç. Google siteyi hiç görmüyor. Tüm organik trafik potansiyeli kayıp.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Hizmet sayfası 404</strong></td>
+    <td>/hizmetlerimiz sayfası hata veriyor. Ziyaretçi hizmet detaylarına ulaşamıyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Tutarsız iletişim bilgileri</strong></td>
+    <td>2 farklı adres (Başakşehir + Kadıköy), 3 farklı telefon, 2 farklı e-posta. Hangi bilgi doğru?</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>H1 etiketi yok</strong></td>
+    <td>Ana başlık (H1) eksik. SEO'nun en temel elementi bile yok.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Schema markup yok</strong></td>
+    <td>Organization, LocalBusiness, Service schema'ları hiç yok.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Kırık linkler</strong></td>
+    <td>javascript:void(0) bağlantıları navigasyonda. İş Geliştirme menüsü çalışmıyor.</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+  <tr>
+    <td><strong>Blog/içerik yok</strong></td>
+    <td>Hiçbir blog yazısı, makale veya eğitim içeriği yok.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Güven sinyalleri eksik</strong></td>
+    <td>Müşteri yorumu yok, sertifika yok, detaylı vaka çalışması yok.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+</table>
+
+<h3>2.2 Olumlu Yönler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr><td>LiteSpeed Cache + Lazy Loading</td><td><span class="tag tag-green">Var</span> - Sayfa hızı iyi</td></tr>
+  <tr><td>Mobil uyumluluk</td><td><span class="tag tag-green">Var</span> - Responsive tasarım</td></tr>
+  <tr><td>SSL/HTTPS</td><td><span class="tag tag-green">Var</span></td></tr>
+  <tr><td>Google Tag Manager</td><td><span class="tag tag-green">Var</span> - Veri toplama altyapısı hazır</td></tr>
+  <tr><td>KVKK/Çerez Politikası</td><td><span class="tag tag-green">Var</span></td></tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>En Büyük Sorun: Google'da Görünmüyorsunuz</strong>
+  site:mikurumsal.com aramasında sıfır sonuç. Bu, Google'ın sitenizi hiç indekslemediği anlamına geliyor. "Franchise danışmanlık İstanbul", "marka danışmanlığı", "AVM kiralama danışmanlığı" gibi aramalarda görünmeniz imkânsız. 0-5K TL reklam bütçesi harcanıyor ama organik trafikten hiç faydalanılamıyor. İndeksleme sorunu acilen çözülmeli.
+</div>
+
+<!-- RAKİP -->
+<h2 class="page-break">3. Rakip Analizi</h2>
+
+<table>
+  <tr><th>Rakip</th><th>Güçlü Yönü</th><th>Mi Kurumsal'a Göre</th></tr>
+  <tr><td><strong>TFC Danışmanlık</strong></td><td>Türkiye'nin en bilinen franchise danışmanlığı, lokasyon analizi</td><td>Çok daha köklü, güçlü marka</td></tr>
+  <tr><td><strong>Kurumsal Marka</strong></td><td>2004'ten beri faaliyet, çok uluslu deneyim</td><td>20+ yıl deneyim avantajı</td></tr>
+  <tr><td><strong>Ayyıldız Danışmanlık</strong></td><td>Lokasyon seçimi ve franchisee yönlendirme</td><td>Aynı niş, daha deneyimli</td></tr>
+  <tr><td><strong>NTS Danışmanlık</strong></td><td>AVM kiralama ve yönetimi uzmanı</td><td>AVM konusunda daha derin</td></tr>
+  <tr style="background:#e8f0fe">
+    <td><strong>Mi Kurumsal</strong></td>
+    <td>Tavada Tavuk referansı, franchise+lokasyon+AVM üçlüsü</td>
+    <td>Genç ama niş odaklı</td>
+  </tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Mi Kurumsal'ın Güçlü Kozları</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Tavada Tavuk referansı</strong> - 60+ şubeli franchise markası, somut başarı kanıtı</li>
+    <li><strong>Franchise + lokasyon + AVM üçlüsü</strong> - Niş ama kapsamlı hizmet</li>
+    <li><strong>Yurt dışı deneyim</strong> - Erbil projesi uluslararası yetkinlik gösteriyor</li>
+    <li><strong>2025'te 65 proje</strong> - Yoğun iş hacmi (doğrulanabilirse güçlü sosyal kanıt)</li>
+  </ul>
+</div>
+
+<!-- STRATEJİ -->
+<h2 class="page-break">4. Önerilen Aksiyon Planı</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - Acil Düzeltmeler (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Google indeksleme sorununu çözün:</strong> Sitemap.xml oluşturun, Google Search Console'a kayıt olun, indeksleme talep edin. Bu olmadan hiçbir SEO çalışması işe yaramaz.</li>
+    <li><strong>/hizmetlerimiz 404 hatasını düzeltin:</strong> Her hizmet için ayrı çalışan sayfa oluşturun (franchise, lokasyon, AVM kiralama, restoran danışmanlığı).</li>
+    <li><strong>İletişim bilgilerini tutarlı yapın:</strong> Tek adres, tek telefon, tek e-posta. Her yerde aynı bilgi olmalı.</li>
+    <li><strong>H1, meta title/description ekleyin:</strong> Her sayfada benzersiz ve anahtar kelime odaklı başlık ve açıklama.</li>
+    <li><strong>Kırık linkleri düzeltin:</strong> javascript:void(0) bağlantılarını gerçek sayfalara yönlendirin.</li>
+    <li><strong>Google My Business kaydı:</strong> Ücretsiz, yerel SEO için kritik. Müşteri yorumları toplamaya başlayın.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - İçerik ve Güven İnşası (Hafta 3-4)</div>
+  <ol>
+    <li><strong>Tavada Tavuk case study'si yazın:</strong> "60+ şubesiyle Türkiye'nin en hızlı büyüyen tavuk franchise'ı nasıl oluşturuldu?" - Bu tek içerik bile çok güçlü.</li>
+    <li><strong>Blog başlatın:</strong> "Franchise nasıl alınır?", "AVM'de dükkan kiralama rehberi", "Franchise bedeli nedir?", "KOSGEB desteğiyle franchise açma" - yüksek hacimli anahtar kelimeler.</li>
+    <li><strong>Lead kalifikasyon funnel'ı oluşturun:</strong> "Franchise yatırımı düşünüyor musunuz?" ile başlayan funnel. Yatırımcı mı marka mı, bütçe, sektör, zamanlama öğrenilsin.</li>
+    <li><strong>Schema markup ekleyin:</strong> LocalBusiness, Organization, Service schema'ları.</li>
+    <li><strong>Referans videoları çekin:</strong> Tavada Tavuk franchise sahiplerinden 2-3 dakikalık video testimonial'lar.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - Büyüme (Ay 2+)</div>
+  <ol>
+    <li><strong>LinkedIn B2B içerik stratejisi:</strong> Franchise/AVM/lokasyon konularında haftada 2-3 paylaşım. Karar vericilere ulaşın.</li>
+    <li><strong>KOSGEB danışmanlık içeriği:</strong> "KOSGEB desteğiyle franchise açma" çok aranan bir konu. Rehber içerik + lead magnet.</li>
+    <li><strong>Instagram görsel içerik:</strong> Tamamlanan projelerin öncesi/sonrası görselleri, şube açılış hikayeleri.</li>
+    <li><strong>Fiyat şeffaflığı:</strong> En azından "danışmanlık paketlerimiz X TL'den başlıyor" gibi referans noktası.</li>
+    <li><strong>Reklam bütçesini optimize edin:</strong> 0-5K TL bütçeyle Google Ads yerine, önce organik SEO ve sosyal medyaya odaklanın. Reklam, site düzeldikten sonra anlamlı.</li>
+  </ol>
+</div>
+
+<!-- SONUÇ -->
+<h2 class="page-break">5. Sonuç ve Genel Değerlendirme</h2>
+
+<h3>Skor Kartı</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef</th></tr>
+  <tr><td>Google Görünürlüğü</td><td><div class="score-bar"><div class="score-fill score-low" style="width:0%"></div></div> 0/10</td><td>7/10</td></tr>
+  <tr><td>Web Sitesi Teknik Sağlık</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>8/10</td></tr>
+  <tr><td>Referans Gücü</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:60%"></div></div> 6/10</td><td>8/10</td></tr>
+  <tr><td>İçerik/SEO</td><td><div class="score-bar"><div class="score-fill score-low" style="width:0%"></div></div> 0/10</td><td>7/10</td></tr>
+  <tr><td>Güvenilirlik Sinyalleri</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>7/10</td></tr>
+  <tr><td>Dönüşüm Optimizasyonu</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>7/10</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Özet Değerlendirme</strong>
+  Mi Kurumsal, Tavada Tavuk (60+ şube) gibi güçlü bir referansa ve 2025'te 65 proje gibi aktif bir portföye sahip. Ancak:
+  <ul style="margin-top:6px">
+    <li><strong>Google'da hiç indekslenmemiş</strong> - Organik trafik sıfır</li>
+    <li><strong>Hizmet sayfası 404 veriyor</strong> - Ziyaretçi bilgiye ulaşamıyor</li>
+    <li><strong>Tutarsız iletişim bilgileri</strong> - 2 adres, 3 telefon, 2 e-posta</li>
+    <li><strong>İçerik/blog tamamen yok</strong> - "Franchise danışmanlık" aramalarında görünmüyor</li>
+    <li><strong>Güven sinyalleri eksik</strong> - Müşteri yorumu, sertifika, vaka çalışması yok</li>
+  </ul>
+  <strong>Sonuç:</strong> Referanslar güçlü ama dijital altyapı çok zayıf. Tavada Tavuk başarı hikayesi tek başına çok güçlü bir satış aracı olabilir - ama sitenizde anlatılmıyor. Önce teknik sorunları düzeltin, sonra içerik üretin, son olarak reklam harcayın.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adım</strong>
+  Bu rapordaki stratejinin uygulanması için sizinle çalışabiliriz. Google indeksleme düzeltmesi, hizmet sayfaları oluşturma, Tavada Tavuk case study, lead kalifikasyon funnel'ı, blog içerik stratejisi ve Google My Business optimizasyonu konularında destek sunabiliriz.
+</div>
+
+<p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır. &copy; 2026</p>
+
+<!-- TRACKING -->
+<script>
+(function(){if(new URLSearchParams(window.location.search).get('t')==='0')return;var SU='https://frficzdzmxhptmtbkfft.supabase.co',SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';var tId=null,st=Date.now(),ms=0,cl=window.location.pathname.split('/')[1]||'unknown';
+window.addEventListener('scroll',function(){var p=Math.round((window.pageYOffset/(document.documentElement.scrollHeight-window.innerHeight))*100);if(p>ms)ms=p});
+function gd(){return{website:window.location.pathname,stage:'rapor_view',extra_notes:JSON.stringify({time_on_page:Math.round((Date.now()-st)/1000),scroll_depth:ms,reached_bottom:ms>=90,client:cl,page_type:'rapor',opened_at:new Date(st).toISOString()}),last_step:ms>=90?'reached_bottom':(ms>10?'scrolling':'opened'),completed:ms>=90}}
+fetch(SU+'/rest/v1/funnel_leads',{method:'POST',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=representation'},body:JSON.stringify(gd())}).then(function(r){return r.json()}).then(function(d){if(d&&d[0])tId=d[0].id}).catch(function(){});
+setInterval(function(){if(!tId)return;fetch(SU+'/rest/v1/funnel_leads?id=eq.'+tId,{method:'PATCH',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=minimal'},body:JSON.stringify(gd())}).catch(function(){})},10000);
+window.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'&&tId)fetch(SU+'/rest/v1/funnel_leads?id=eq.'+tId,{method:'PATCH',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=minimal'},body:JSON.stringify(gd()),keepalive:true}).catch(function(){})})})();
+</script>
+</body>
+</html>
