@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f172a">
+<title>B2B SEO İhtiyaç Analizi - Crocotive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f172a;--bg-card:#1e293b;--bg-card-hover:#334155;--bg-option:rgba(30,41,59,0.8);--bg-option-selected:rgba(59,130,246,0.15);--border-option:rgba(71,85,105,0.5);--border-selected:rgba(59,130,246,0.6);--text-primary:#f1f5f9;--text-secondary:#94a3b8;--text-muted:#64748b;--accent:#3b82f6;--accent-hover:#2563eb;--accent-glow:rgba(59,130,246,0.3);--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--safe-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text-primary);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;touch-action:pan-y}
+.funnel-container{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}
+.step{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;padding:0 24px;padding-bottom:calc(16px + var(--safe-bottom));transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .4s ease;will-change:transform,opacity;opacity:0;pointer-events:none}
+.step[data-position="center"]{transform:translateX(0);opacity:1;pointer-events:auto}
+.step[data-position="left"]{transform:translateX(-100%);opacity:0}
+.step[data-position="right"]{transform:translateX(100%);opacity:0}
+.step-header{display:flex;align-items:center;justify-content:center;position:relative;padding:16px 0 8px;flex-shrink:0}
+.back-btn{position:absolute;left:0;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-secondary);cursor:pointer;padding:8px;border-radius:12px;display:flex;align-items:center;justify-content:center;width:44px;height:44px}
+.back-btn:hover{background:var(--bg-card);color:var(--text-primary)}
+.back-btn svg{width:22px;height:22px}
+.progress-dots{display:flex;gap:6px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);transition:all .35s ease}
+.dot.active{background:var(--accent);width:24px;border-radius:4px}.dot.completed{background:var(--accent)}
+.step-content{flex:1;display:flex;flex-direction:column;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;min-height:0}
+.step-content::-webkit-scrollbar{display:none}
+.question-area{text-align:center;margin-bottom:28px;flex-shrink:0}
+.question-title{font-size:26px;font-weight:700;line-height:1.3;margin-bottom:8px;letter-spacing:-.02em}
+.question-subtitle{font-size:14px;color:var(--text-secondary)}
+.options-area{display:flex;flex-direction:column;gap:12px;width:100%;max-width:480px;margin:0 auto}
+.option-btn{display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:14px 18px;background:var(--bg-option);border:1.5px solid var(--border-option);border-radius:16px;color:var(--text-primary);font-family:inherit;font-size:16px;font-weight:500;text-align:left;cursor:pointer;transition:all .2s;user-select:none}
+.option-btn:hover{background:var(--bg-card-hover);border-color:var(--text-muted)}
+.option-btn:active{transform:scale(.98)}
+.option-btn.selected{background:var(--bg-option-selected);border-color:var(--border-selected);box-shadow:0 0 0 1px var(--border-selected),0 0 20px var(--accent-glow)}
+.option-btn .emoji{font-size:28px;flex-shrink:0;line-height:1}.option-btn .option-label{flex:1}
+.option-btn .check-indicator{width:22px;height:22px;border-radius:50%;border:2px solid var(--text-muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.option-btn.selected .check-indicator{background:var(--accent);border-color:var(--accent)}
+.option-btn.selected .check-indicator::after{content:'\2713';color:#fff;font-size:13px;font-weight:700}
+.option-btn.multi .check-indicator{border-radius:6px}
+.step-footer{flex-shrink:0;padding-top:16px;max-width:480px;width:100%;margin:0 auto}
+.cta-btn{display:flex;align-items:center;justify-content:center;width:100%;height:56px;background:var(--accent);color:#fff;border:none;border-radius:16px;font-family:inherit;font-size:17px;font-weight:600;cursor:pointer;transition:all .2s}
+.cta-btn:hover:not(:disabled){background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}
+.cta-btn:disabled{opacity:.35;cursor:not-allowed}
+.input-group{width:100%;max-width:480px;margin:0 auto}
+.text-input{width:100%;height:56px;padding:0 18px;background:var(--bg-card);border:1.5px solid var(--border-option);border-radius:16px;color:var(--text-primary);font-family:inherit;font-size:16px;outline:none}
+.text-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.text-input::placeholder{color:var(--text-muted)}
+.input-note{font-size:13px;color:var(--text-muted);text-align:center;margin-top:10px}
+.social-proof{display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;color:var(--text-secondary);margin-top:14px}
+.social-proof .pulse{width:8px;height:8px;background:var(--success);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.analysis-card{background:var(--bg-card);border-radius:20px;padding:24px;width:100%;max-width:480px;margin:0 auto}
+.analysis-header{text-align:center;margin-bottom:20px}
+.analysis-header h2{font-size:22px;font-weight:700;margin-bottom:4px}
+.analysis-header p{font-size:13px;color:var(--text-secondary)}
+.analysis-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(71,85,105,.3)}
+.analysis-row:last-child{border-bottom:none}
+.analysis-label{font-size:14px;color:var(--text-secondary)}.analysis-value{font-size:16px;font-weight:600}
+.confidence-bar-container{width:100%;margin-top:8px}
+.confidence-bar-bg{width:100%;height:10px;background:rgba(71,85,105,.4);border-radius:5px;overflow:hidden}
+.confidence-bar-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--danger),var(--warning),var(--success));transition:width 1.2s cubic-bezier(.4,0,.2,1);width:0}
+.insights-list{margin-top:16px;display:flex;flex-direction:column;gap:10px}
+.insight-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--text-secondary)}
+.insight-item .emoji{font-size:20px;flex-shrink:0;line-height:1.3}
+.priority-box{margin-top:16px;padding:14px 16px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);border-radius:14px}
+.priority-box .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:4px}
+.priority-box .text{font-size:14px;color:var(--text-primary);line-height:1.5}
+.free-trial-banner{margin-top:20px;text-align:center;padding:16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:14px}
+.free-trial-banner .emoji{font-size:28px;display:block;margin-bottom:6px}
+.free-trial-banner .text{font-size:15px;font-weight:600;color:var(--text-primary)}
+.free-trial-banner .sub{font-size:13px;color:var(--text-secondary);margin-top:2px}
+.dashboard-preview{width:100%;max-width:480px;margin:0 auto}
+.dashboard-preview h3{font-size:15px;font-weight:600;color:var(--text-secondary);text-align:center;margin-bottom:14px}
+.metric-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.metric-card{background:var(--bg-card);border-radius:14px;padding:14px 10px;text-align:center}
+.metric-card .metric-value{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.metric-card .metric-label{font-size:11px;color:var(--text-muted);margin-top:2px;text-transform:uppercase;letter-spacing:.04em}
+.mini-table{background:var(--bg-card);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.mini-table-header{display:grid;grid-template-columns:1.2fr .8fr .8fr;padding:10px 14px;font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid rgba(71,85,105,.3)}
+.mini-table-row{display:grid;grid-template-columns:1.2fr .8fr .8fr;padding:10px 14px;font-size:13px;color:var(--text-secondary);border-bottom:1px solid rgba(71,85,105,.15)}
+.mini-table-row:last-child{border-bottom:none}
+.mini-table-row .score{font-weight:600;color:var(--text-primary)}
+.status-badge{display:inline-flex;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:600}
+.status-hot{background:rgba(239,68,68,.15);color:var(--danger)}.status-warm{background:rgba(245,158,11,.15);color:var(--warning)}.status-new{background:rgba(59,130,246,.15);color:var(--accent)}
+.thank-you-icon{width:72px;height:72px;border-radius:50%;background:rgba(34,197,94,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:36px;animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes scaleIn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+.loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .3s}
+.loading-overlay.active{opacity:1;pointer-events:auto}
+.loading-spinner{width:48px;height:48px;border:3px solid var(--bg-card);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{margin-top:20px;font-size:16px;color:var(--text-secondary);text-align:center}
+.loading-text .changing{display:block;margin-top:6px;font-size:14px;color:var(--text-muted);min-height:21px}
+@media(max-height:680px){.question-title{font-size:22px}.option-btn{min-height:48px;padding:10px 14px}.option-btn .emoji{font-size:24px}.options-area{gap:8px}.analysis-card{padding:16px}}
+@media(min-width:640px){.step{padding:0 40px;padding-bottom:calc(24px + var(--safe-bottom))}.question-title{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="funnel-container" id="funnel">
+
+  <div class="step" id="step-1" data-position="center">
+    <div class="step-header"><div class="progress-dots" id="dots-1"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">SEO'dan aylık ne kadar gelir elde ediyorsunuz?</h1></div>
+      <div class="options-area" data-step="1" data-key="seo_revenue">
+        <button class="option-btn" data-value="high"><span class="emoji">&#x1F4B0;</span><span class="option-label">50.000 TL+ aylık organik gelir</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="some"><span class="emoji">&#x1F4C8;</span><span class="option-label">Biraz geliyor ama ölçemiyorum</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="none"><span class="emoji">&#x1F614;</span><span class="option-label">SEO'dan gelir gelmiyor</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="notsure"><span class="emoji">&#x1F937;</span><span class="option-label">SEO yatırımı yapmadım henüz</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-1" disabled>Devam Et</button></div>
+  </div>
+
+  <div class="step" id="step-2" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-2"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Hangi sektördesiniz?</h1></div>
+      <div class="options-area" data-step="2" data-key="sector">
+        <button class="option-btn" data-value="saas"><span class="emoji">&#x1F4BB;</span><span class="option-label">Teknoloji / SaaS</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="education"><span class="emoji">&#x1F393;</span><span class="option-label">Eğitim</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="manufacturing"><span class="emoji">&#x1F3ED;</span><span class="option-label">Üretim / Lojistik</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="health"><span class="emoji">&#x1F3E5;</span><span class="option-label">Sağlık / Finans</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="other"><span class="emoji">&#x1F4BC;</span><span class="option-label">Diğer B2B</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-2" disabled>Devam Et</button></div>
+  </div>
+
+  <div class="step" id="step-3" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-3"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">SEO'da en büyük sorununuz ne?</h1><p class="question-subtitle">Birden fazla seçebilirsiniz</p></div>
+      <div class="options-area multi" data-step="3" data-key="pain_points" data-multi="true">
+        <button class="option-btn multi" data-value="traffic"><span class="emoji">&#x1F4C9;</span><span class="option-label">Organik trafik yeterli değil</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="leads"><span class="emoji">&#x1F4CB;</span><span class="option-label">Trafik var ama lead'e dönüşmüyor</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="technical"><span class="emoji">&#x2699;&#xFE0F;</span><span class="option-label">Teknik SEO sorunları var</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="content"><span class="emoji">&#x270D;&#xFE0F;</span><span class="option-label">İçerik üretimi zor/yavaş</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="ai_visibility"><span class="emoji">&#x1F916;</span><span class="option-label">ChatGPT/Perplexity'de görünmüyoruz</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-3" disabled>Devam Et</button></div>
+  </div>
+
+  <div class="step" id="step-4" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-4"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Aylık SEO bütçeniz ne kadar?</h1></div>
+      <div class="options-area" data-step="4" data-key="budget">
+        <button class="option-btn" data-value="low"><span class="emoji">&#x1F4B0;</span><span class="option-label">15.000 TL'ye kadar</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="mid"><span class="emoji">&#x1F4B3;</span><span class="option-label">15.000 - 50.000 TL</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="high"><span class="emoji">&#x1F4B5;</span><span class="option-label">50.000 - 150.000 TL</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="enterprise"><span class="emoji">&#x1F680;</span><span class="option-label">150.000 TL ve üzeri</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-4" disabled>Analizimi Gör</button></div>
+  </div>
+
+  <!-- Analiz -->
+  <div class="step" id="step-5" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-5"></div></div>
+    <div class="step-content">
+      <div class="analysis-card">
+        <div class="analysis-header"><h2>B2B SEO Büyüme Profiliniz</h2><p>Cevaplarınıza göre analiz</p></div>
+        <div class="analysis-row"><span class="analysis-label">Önerilen Yaklaşım</span><span class="analysis-value" id="a-approach">BOFU-First SEO</span></div>
+        <div class="analysis-row"><span class="analysis-label">Tahmini 6 Ay ROI</span><span class="analysis-value" id="a-roi">3-5x</span></div>
+        <div class="analysis-row" style="flex-direction:column;align-items:stretch;gap:6px">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span class="analysis-label">SEO Büyüme Potansiyeli</span><span class="analysis-value" id="a-score">68/100</span></div>
+          <div class="confidence-bar-container"><div class="confidence-bar-bg"><div class="confidence-bar-fill" id="confidence-fill"></div></div></div>
+        </div>
+        <div class="insights-list" id="insights-list"></div>
+        <div class="priority-box"><div class="label">Öncelikli Öneri</div><div class="text" id="priority-text">BOFU-first SEO ile önce satışa en yakın sayfalarınızı optimize edin, hızlı gelir etkisi görün.</div></div>
+        <div class="free-trial-banner"><span class="emoji">&#x1F381;</span><div class="text">Bu funnel müşterileriniz için de çalışır</div><div class="sub">Potansiyel müşterilerinizin SEO ihtiyacını anlayın, doğru hizmeti sunun</div></div>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-5">Ücretsiz SEO Analizi Al</button></div>
+  </div>
+
+  <!-- İletişim -->
+  <div class="step" id="step-6" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-6"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Ücretsiz SEO analizinizi nereye gönderelim?</h1></div>
+      <div class="input-group">
+        <input type="email" class="text-input" id="email-input" placeholder="isim@sirket.com" autocomplete="email" inputmode="email">
+        <p class="input-note">3 iş günü içinde site analiziniz ve önerilerimiz e-posta adresinize gönderilecek.</p>
+        <div class="social-proof"><span class="pulse"></span><span>3 ay içinde ilerleme garantisi veya para iadesi</span></div>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-6" disabled>Analiz Raporumu Gönder</button></div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="step" id="step-7" data-position="right">
+    <div class="step-header"><div class="progress-dots" id="dots-7"></div></div>
+    <div class="step-content">
+      <div style="text-align:center;margin-bottom:20px">
+        <div class="thank-you-icon">&#x2705;</div>
+        <h1 class="question-title" style="font-size:22px">Bu funnel sizin müşterileriniz için de hazır.</h1>
+      </div>
+      <div class="dashboard-preview">
+        <h3>Funnel ile toplanan lead verileri böyle görünür</h3>
+        <div class="metric-cards">
+          <div class="metric-card"><div class="metric-value">92</div><div class="metric-label">Lead</div></div>
+          <div class="metric-card"><div class="metric-value">%26</div><div class="metric-label">Dönüşüm</div></div>
+          <div class="metric-card"><div class="metric-value">4.2x</div><div class="metric-label">ROI</div></div>
+        </div>
+        <div class="mini-table">
+          <div class="mini-table-header"><span>Şirket</span><span>Sektör</span><span>Durum</span></div>
+          <div class="mini-table-row"><span>TechCorp</span><span class="score">SaaS</span><span><span class="status-badge status-hot">Sıcak</span></span></div>
+          <div class="mini-table-row"><span>EduPlatform</span><span class="score">Eğitim</span><span><span class="status-badge status-warm">Ilık</span></span></div>
+          <div class="mini-table-row"><span>LogiTrans</span><span class="score">Lojistik</span><span><span class="status-badge status-new">Yeni</span></span></div>
+          <div class="mini-table-row"><span>MedGroup</span><span class="score">Sağlık</span><span><span class="status-badge status-hot">Sıcak</span></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-7" onclick="sendInterest()" style="background:#22c55e">Funnel'ı beğendim, bir sonraki aşamaya geçelim</button></div>
+  </div>
+
+</div>
+
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">SEO büyüme profiliniz analiz ediliyor<span class="changing" id="loading-changing"></span></div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  var TOTAL_STEPS = 7;
+  var currentStep = 1;
+  var answers = {};
+
+  // Progress dots
+  for (var s = 1; s <= TOTAL_STEPS; s++) {
+    var dotsContainer = document.getElementById('dots-' + s);
+    if (!dotsContainer) continue;
+    for (var d = 1; d <= TOTAL_STEPS; d++) {
+      var dot = document.createElement('span');
+      dot.className = 'dot';
+      if (d < s) dot.className += ' completed';
+      if (d === s) dot.className += ' active';
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  // Option handlers
+  var optionAreas = document.querySelectorAll('.options-area');
+  for (var i = 0; i < optionAreas.length; i++) {
+    (function(area) {
+      var isMulti = area.dataset.multi === 'true';
+      var key = area.dataset.key;
+      var step = parseInt(area.dataset.step, 10);
+      var btns = area.querySelectorAll('.option-btn');
+      for (var j = 0; j < btns.length; j++) {
+        (function(btn) {
+          btn.addEventListener('click', function() {
+            if (isMulti) {
+              btn.classList.toggle('selected');
+              var selected = area.querySelectorAll('.option-btn.selected');
+              var vals = [];
+              for (var k = 0; k < selected.length; k++) vals.push(selected[k].dataset.value);
+              answers[key] = vals;
+              document.getElementById('cta-' + step).disabled = vals.length === 0;
+            } else {
+              var allBtns = area.querySelectorAll('.option-btn');
+              for (var k = 0; k < allBtns.length; k++) allBtns[k].classList.remove('selected');
+              btn.classList.add('selected');
+              answers[key] = btn.dataset.value;
+              document.getElementById('cta-' + step).disabled = false;
+            }
+          });
+        })(btns[j]);
+      }
+    })(optionAreas[i]);
+  }
+
+  // Email
+  var emailInput = document.getElementById('email-input');
+  emailInput.addEventListener('input', function() {
+    document.getElementById('cta-6').disabled = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim());
+  });
+
+  // CTA handlers
+  for (var s = 1; s <= 4; s++) {
+    (function(step) {
+      document.getElementById('cta-' + step).addEventListener('click', function() {
+        if (step === 4) {
+          showLoading(function() { buildAnalysis(); goToStep(5); });
+        } else {
+          goToStep(step + 1);
+        }
+      });
+    })(s);
+  }
+  document.getElementById('cta-5').addEventListener('click', function() { goToStep(6); });
+  document.getElementById('cta-6').addEventListener('click', function() { answers.email = emailInput.value.trim(); goToStep(7); });
+
+  function goToStep(target) {
+    if (target < 1 || target > TOTAL_STEPS) return;
+    var prev = currentStep;
+    document.getElementById('step-' + prev).dataset.position = target > prev ? 'left' : 'right';
+    document.getElementById('step-' + target).dataset.position = 'center';
+    currentStep = target;
+    if (target === 5) {
+      setTimeout(function() {
+        var fill = document.getElementById('confidence-fill');
+        if (fill && fill.dataset.target) fill.style.width = fill.dataset.target + '%';
+      }, 350);
+    }
+  }
+
+  window.goBack = function() { goToStep(currentStep - 1); };
+
+  function showLoading(callback) {
+    var overlay = document.getElementById('loading-overlay');
+    var changing = document.getElementById('loading-changing');
+    overlay.classList.add('active');
+    var messages = ['Sekt\u00f6r\u00fcn\u00fcz de\u011ferlendiriliyor...', 'SEO potansiyeli hesaplan\u0131yor...', 'Rakip analizi yap\u0131l\u0131yor...', 'Ki\u015fisellendirilmi\u015f strateji haz\u0131rlan\u0131yor...'];
+    var idx = 0;
+    changing.textContent = messages[0];
+    var interval = setInterval(function() { idx++; if (idx < messages.length) changing.textContent = messages[idx]; }, 600);
+    setTimeout(function() { clearInterval(interval); overlay.classList.remove('active'); callback(); }, 2600);
+  }
+
+  function buildAnalysis() {
+    var approach = 'BOFU-First SEO', roi = '3-5x', score = 60;
+    if (answers.seo_revenue === 'high') { approach = '\u00d6l\u00e7eklendirme + GEO'; roi = '5-8x'; score = 85; }
+    else if (answers.seo_revenue === 'some') { approach = 'BOFU-First SEO'; roi = '3-5x'; score = 68; }
+    else if (answers.seo_revenue === 'none') { approach = 'Temel SEO + BOFU'; roi = '2-4x'; score = 50; }
+    else { approach = 'SEO Audit + Strateji'; roi = '2-3x'; score = 40; }
+    if (answers.budget === 'high' || answers.budget === 'enterprise') score = Math.min(score + 15, 95);
+    else if (answers.budget === 'mid') score = Math.min(score + 8, 90);
+
+    document.getElementById('a-approach').textContent = approach;
+    document.getElementById('a-roi').textContent = roi;
+    document.getElementById('a-score').textContent = score + '/100';
+    var fill = document.getElementById('confidence-fill');
+    fill.dataset.target = score; fill.style.width = '0%';
+
+    var insights = [];
+    if (answers.seo_revenue === 'none' || answers.seo_revenue === 'notsure') {
+      insights.push({ emoji: '\u26A0\uFE0F', text: 'SEO\u2019dan gelir gelmiyorsa, b\u00fcy\u00fck bir f\u0131rsat ka\u00e7\u0131r\u0131yorsunuz. B2B al\u0131c\u0131lar\u0131n %71\u2019i sat\u0131n alma s\u00fcrecine Google aramas\u0131yla ba\u015fl\u0131yor.' });
+    } else if (answers.seo_revenue === 'some') {
+      insights.push({ emoji: '\uD83D\uDCA1', text: 'SEO geliriniz var ama \u00f6l\u00e7em\u0131yorsunuz. CRM entegrasyonu ile hangi sayfan\u0131n ne kadar pipeline \u00fcrettiğini g\u00f6rebilirsiniz.' });
+    } else {
+      insights.push({ emoji: '\u2B50', text: 'SEO\u2019dan g\u00fc\u00e7l\u00fc gelir elde ediyorsunuz. \u015eimdi AI g\u00f6r\u00fcn\u00fcrl\u00fc\u011f\u00fc (GEO) ve \u00f6l\u00e7eklendirme ile bir sonraki seviyeye ge\u00e7me zaman\u0131.' });
+    }
+
+    var pp = answers.pain_points || [];
+    if (pp.indexOf('leads') !== -1) insights.push({ emoji: '\uD83C\uDFAF', text: 'Trafik var ama lead yok? BOFU-first yakla\u015f\u0131m\u0131 ile \u00f6nce sat\u0131\u015fa en yak\u0131n sayfalar\u0131 optimize edin. \u201cNas\u0131l yap\u0131l\u0131r\u201d de\u011fil, \u201cen iyi X \u00e7\u00f6z\u00fcm\u00fc\u201d sayfalar\u0131.' });
+    if (pp.indexOf('traffic') !== -1) insights.push({ emoji: '\uD83D\uDCC8', text: 'Organik trafik yetersizse, i\u00e7erik stratejisi ve teknik SEO temeli at\u0131lmal\u0131. Do\u011fru anahtar kelime se\u00e7imi ile 6 ayda %200+ b\u00fcy\u00fcme m\u00fcmk\u00fcn.' });
+    if (pp.indexOf('technical') !== -1) insights.push({ emoji: '\u2699\uFE0F', text: 'Teknik SEO sorunlar\u0131 (h\u0131z, indeksleme, tarama b\u00fct\u00e7esi) i\u00e7eri\u011finizin Google\u2019da g\u00f6r\u00fcnmesini engelliyor. \u00d6nce teknik temel d\u00fczeltilmeli.' });
+    if (pp.indexOf('content') !== -1) insights.push({ emoji: '\u270D\uFE0F', text: '\u0130\u00e7erik \u00fcretimi yava\u015f? AI destekli i\u00e7erik \u00fcretimi + edit\u00f6ryal kalite kontrol\u00fc ile h\u0131z\u0131 3x art\u0131rabilirsiniz.' });
+    if (pp.indexOf('ai_visibility') !== -1) insights.push({ emoji: '\uD83E\uDD16', text: 'ChatGPT ve Perplexity\u2019de g\u00f6r\u00fcnm\u00fck yeni nesil SEO\u2019dur (GEO). Rakiplerinizden \u00f6nce bu alana yat\u0131r\u0131m yap\u0131n.' });
+    insights = insights.slice(0, 3);
+
+    var insightsList = document.getElementById('insights-list');
+    insightsList.innerHTML = '';
+    for (var i = 0; i < insights.length; i++) {
+      var div = document.createElement('div');
+      div.className = 'insight-item';
+      div.innerHTML = '<span class="emoji">' + insights[i].emoji + '</span><span>' + insights[i].text + '</span>';
+      insightsList.appendChild(div);
+    }
+
+    var priMap = {
+      saas: 'SaaS \u015firketleri i\u00e7in BOFU-first SEO: \u00f6nce \u201cen iyi X yaz\u0131l\u0131m\u0131\u201d, \u201cX vs Y\u201d ve fiyat kar\u015f\u0131la\u015ft\u0131rma sayfalar\u0131n\u0131 optimize edin. Pipeline\u2019a do\u011frudan etki.',
+      education: 'E\u011fitim sekt\u00f6r\u00fcnde program ve kurs sayfalar\u0131n\u0131n SEO\u2019su kritik. Yerel SEO + i\u00e7erik stratejisi ile organik kay\u0131t say\u0131s\u0131n\u0131 art\u0131r\u0131n.',
+      manufacturing: '\u00dcretim/lojistik sekt\u00f6r\u00fcnde teknik i\u00e7erik ve \u00fcr\u00fcn sayfalar\u0131 SEO\u2019su \u00f6nemli. Uzun kuyruk anahtar kelimelerle nitelikli B2B lead toplay\u0131n.',
+      health: 'Sa\u011fl\u0131k/finans sekt\u00f6r\u00fcnde E-E-A-T (uzmanl\u0131k, g\u00fcvenilirlik) kritik. \u0130\u00e7erik kalitesi ve otorite in\u015fas\u0131 \u00f6ncelikli.',
+      other: 'Sekt\u00f6r\u00fcn\u00fcze \u00f6zel BOFU-first SEO stratejisi ile sat\u0131\u015fa en yak\u0131n anahtar kelimeleri hedefleyin. 6 ayda \u00f6l\u00e7\u00fclebilir pipeline etkisi.'
+    };
+    document.getElementById('priority-text').textContent = priMap[answers.sector] || priMap.other;
+  }
+
+  // Send interest
+  window.sendInterest = function() {
+    var btn = document.getElementById('cta-7');
+    btn.disabled = true;
+    btn.textContent = 'G\u00f6nderiliyor...';
+    fetch('https://frficzdzmxhptmtbkfft.supabase.co/rest/v1/funnel_leads', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ email: answers.email || '', source: 'demo-funnel', status: 'interested', answers: JSON.stringify(answers), created_at: new Date().toISOString() })
+    }).then(function() {
+      btn.textContent = '\u2705 \u0130lginiz i\u00e7in te\u015fekk\u00fcrler!';
+      btn.style.background = '#16a34a';
+      var note = document.createElement('p');
+      note.style.cssText = 'text-align:center;color:var(--text-secondary);font-size:14px;margin-top:12px';
+      note.textContent = 'En k\u0131sa s\u00fcrede sizinle ileti\u015fime ge\u00e7ece\u011fiz.';
+      btn.parentNode.appendChild(note);
+    }).catch(function() {
+      btn.textContent = '\u2705 \u0130lginiz i\u00e7in te\u015fekk\u00fcrler!';
+      btn.style.background = '#16a34a';
+    });
+  };
+
+  // Touch swipe
+  var touchStartX = 0, touchStartY = 0;
+  document.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].clientX; touchStartY = e.changedTouches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', function(e) { var dx = e.changedTouches[0].clientX - touchStartX, dy = e.changedTouches[0].clientY - touchStartY; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && dx > 0 && currentStep > 1) goBack(); }, { passive: true });
+
+  // === TRACKING ===
+  var shouldTrack = new URLSearchParams(window.location.search).get('t') !== '0';
+  if (shouldTrack) {
+    var SUPA_URL = 'https://frficzdzmxhptmtbkfft.supabase.co';
+    var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';
+    var trackId = null, trackStart = Date.now(), stepEnterTime = Date.now(), stepTimes = {}, maxStepReached = 1, clickedInterested = false;
+
+    function getTrackPayload() {
+      var now = Date.now(), key = 'step_' + currentStep;
+      if (!stepTimes[key]) stepTimes[key] = 0;
+      stepTimes[key] += Math.round((now - stepEnterTime) / 1000);
+      stepEnterTime = now;
+      return { website: window.location.pathname, stage: 'demo_funnel_view', linkedin: answers.email || null,
+        extra_notes: JSON.stringify({ time_on_page: Math.round((Date.now() - trackStart) / 1000), current_step: currentStep, max_step_reached: maxStepReached, step_times: stepTimes, completed_funnel: currentStep >= 7, clicked_interested: clickedInterested, client: 'crocotive', opened_at: new Date(trackStart).toISOString() }),
+        last_step: clickedInterested ? 'interested' : 'step_' + currentStep, completed: clickedInterested };
+    }
+
+    function supaFetch(method, path, body) {
+      return fetch(SUPA_URL + '/rest/v1/' + path, { method: method, headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Prefer': method === 'POST' ? 'return=representation' : 'return=minimal' }, body: JSON.stringify(body) });
+    }
+
+    supaFetch('POST', 'funnel_leads', getTrackPayload()).then(function(r) { return r.json(); }).then(function(data) { if (data && data[0]) trackId = data[0].id; });
+
+    var _originalGoToStep = goToStep;
+    goToStep = function(target) {
+      if (trackId) { var now = Date.now(), key = 'step_' + currentStep; if (!stepTimes[key]) stepTimes[key] = 0; stepTimes[key] += Math.round((now - stepEnterTime) / 1000); stepEnterTime = now; }
+      _originalGoToStep(target);
+      if (target > maxStepReached) maxStepReached = target;
+      if (trackId) supaFetch('PATCH', 'funnel_leads?id=eq.' + trackId, getTrackPayload());
+    };
+
+    setInterval(function() { if (!trackId) return; supaFetch('PATCH', 'funnel_leads?id=eq.' + trackId, getTrackPayload()); }, 10000);
+    document.addEventListener('visibilitychange', function() { if (document.visibilityState === 'hidden' && trackId) fetch(SUPA_URL + '/rest/v1/funnel_leads?id=eq.' + trackId, { method: 'PATCH', headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Prefer': 'return=minimal' }, body: JSON.stringify(getTrackPayload()), keepalive: true }); });
+
+    var _originalSendInterest = window.sendInterest;
+    window.sendInterest = function() { clickedInterested = true; if (trackId) supaFetch('PATCH', 'funnel_leads?id=eq.' + trackId, getTrackPayload()); _originalSendInterest(); };
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 13px; line-height: 1.6; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #e8f0fe; color: #1a73e8; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #1a73e8, #34a853); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a73e8; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
+  th { background: #1a1a2e; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #e8f0fe; border-left: 4px solid #1a73e8; color: #174ea6; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #e8f0fe; color: #174ea6; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #1a73e8; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; }
+  .summary-card { flex: 1; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #1a73e8; }
+  .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  @media print { .copy-section { display: none !important; } }
+  .copy-section { padding: 20px 24px; background: #f0f4ff; border: 2px dashed #1a73e8; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .copy-section h3 { font-size: 16px; color: #1a1a2e; margin-bottom: 6px; border: none; }
+  .copy-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .copy-btn { background: #1a73e8; color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .copy-btn:hover { background: #1557b0; } .copy-btn.copied { background: #34a853; }
+  .copy-status { margin-top: 10px; font-size: 12px; color: #80868b; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanım</div>
+  <h1>Crocotive.com</h1>
+  <h2>Büyüme Stratejisi &amp; Lead Dönüşüm Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazırlanma Tarihi:</strong> 20 Mart 2026<br>
+    <strong>Domain:</strong> crocotive.com<br>
+    <strong>Sektör:</strong> B2B SEO Ajansı - Gelir Odaklı SEO<br>
+    <strong>Rapor Türü:</strong> Detaylı Analiz + Strateji Önerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır.</div>
+</div>
+
+<!-- COPY -->
+<div class="copy-section">
+  <h3>İyileştirme Önerilerini Kopyala</h3>
+  <p>Rapordaki tüm önerileri kopyalayarak ekibinize iletebilirsiniz.</p>
+  <button class="copy-btn" id="copyBtn" onclick="copyImprovements()">İyileştirmeleri Kopyala</button>
+  <div class="copy-status" id="copyStatus"></div>
+</div>
+<script>
+function copyImprovements(){var b=document.getElementById('copyBtn'),s=document.getElementById('copyStatus');
+var t=`CROCOTIVE.COM - İYİLEŞTİRME ÖNERİLERİ
+=====================================
+
+ACİL (Hafta 1-2):
+1. KENDİ SİTENİZİN SEO SORUNLARINI DÜZELTİN - Meta açıklamalar, başlık hiyerarşisi, alt text, sayfa hızı
+2. MÜŞTERİ REFERANSLARINI AÇIK YAPIN - Anonim isimler ("Ferhat Ze**") güvenilirliği düşürüyor
+3. SOSYAL MEDYA VARLIĞINI GÜÇLENDİRİN - 23 Instagram takipçisi B2B SEO ajansı için kabul edilemez
+4. LEAD KALİFİKASYON FUNNEL'I OLUŞTURUN - "SEO'dan ne kadar gelir elde ediyorsunuz?" ile başlayan funnel
+5. TÜRKİYE OFİS ADRESİ EKLEYİN - İngiltere kayıtlı şirket, Türkiye adresi yok = güven sorunu
+
+BÜYÜME (Hafta 3-4):
+1. CASE STUDY ÜRETİN - Doğrulanabilir, isim açık, somut rakamlarla başarı hikayeleri
+2. LINKEDIN İÇERİK STRATEJİSİ - Haftada 3-5 LinkedIn paylaşımı, B2B SEO konularında thought leadership
+3. WEBINAR SERİSİ - "B2B'de SEO ile Gelir Nasıl Artırılır?" gibi lead toplayan içerikler
+4. ELEMENTOR'DAN KURTULUN - Sayfa hızını düşürüyor, SEO ajansı için ironi
+5. AI SEO / GEO İÇERİKLERİNİ ARTIRIN - Bu alan bakir, erken hareket edin
+
+ÖLÇEKLEME (Ay 2+):
+1. BOFU-FIRST METODOLOJİSİNİ MARKA YAPIN - Bu yaklaşım rakiplerden farklılaştırıyor, sahiplenin
+2. PARTNER PROGRAMI - Dijital ajanslarla işbirliği, SEO outsource modeli
+3. ULUSLARARASI GENIŞLEME - İngiltere kayıtlı şirketsiniz, İngilizce pazara da açılın
+4. EKİP BÜYÜTMESİ - 6 kişiyle 200K+ TL/ay sürdürülebilir değil`;
+try{navigator.clipboard.writeText(t).then(function(){b.textContent='\u2705 Kopyalandı!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='İyileştirmeleri Kopyala';b.classList.remove('copied')},3000)})}catch(e){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);b.textContent='\u2705 Kopyalandı!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='İyileştirmeleri Kopyala';b.classList.remove('copied')},3000)}}
+</script>
+
+<!-- PROFİL -->
+<h2 class="page-break">1. Lead Profil Özeti</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">B2B</div><div class="label">Hedef Pazar</div></div>
+  <div class="summary-card"><div class="value">SEO</div><div class="label">Sektör</div></div>
+  <div class="summary-card"><div class="value">200K+</div><div class="label">Aylık Gelir</div></div>
+  <div class="summary-card"><div class="value">0-5K</div><div class="label">Reklam Bütçesi</div></div>
+  <div class="summary-card"><div class="value">6</div><div class="label">Ekip</div></div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Değer</th></tr>
+  <tr><td><strong>Website</strong></td><td>crocotive.com</td></tr>
+  <tr><td><strong>Hizmet</strong></td><td>Gelir odaklı B2B SEO ajansı. BOFU-first (Bottom-of-Funnel-first) yaklaşımı ile önce satışa en yakın sayfaları optimize ediyor. CRM entegrasyonu ile pipeline etkisi ölçümü.</td></tr>
+  <tr><td><strong>Kuruluş</strong></td><td>2025 - Crocotive Limited (İngiltere kayıtlı)</td></tr>
+  <tr><td><strong>Merkez</strong></td><td>71-75 Shelton Street, Covent Garden, London WC2H 9JQ (Türkiye ofisi yok)</td></tr>
+  <tr><td><strong>Çalışan</strong></td><td>6 kişi</td></tr>
+  <tr><td><strong>İletişim</strong></td><td>+90-501-127-39-69 / info@crocotive.com</td></tr>
+  <tr><td><strong>Teknoloji</strong></td><td>WordPress + Elementor + LiteSpeed Cache</td></tr>
+</table>
+
+<h3>Hizmet Portföyü</h3>
+<table>
+  <tr><th>Hizmet</th><th>Açıklama</th><th>Fark</th></tr>
+  <tr><td><strong>BOFU-First SEO</strong></td><td>Önce satışa en yakın sayfaları optimize etme</td><td><span class="tag tag-green">Farklılaştırıcı</span></td></tr>
+  <tr><td><strong>Kurumsal SEO</strong></td><td>Teknik SEO, site hızı, tarama bütçesi, indeksleme</td><td>Standart</td></tr>
+  <tr><td><strong>AI Görünürlüğü / GEO</strong></td><td>ChatGPT, Perplexity, Gemini optimizasyonu</td><td><span class="tag tag-green">Trend</span></td></tr>
+  <tr><td><strong>Account-Based Marketing</strong></td><td>Hedef hesaplara özel SEO stratejisi</td><td><span class="tag tag-blue">Niş</span></td></tr>
+  <tr><td><strong>İçerik Pazarlaması</strong></td><td>Blog, pillar content, topic cluster</td><td>Standart</td></tr>
+  <tr><td><strong>Dönüşüm Optimizasyonu</strong></td><td>CRO, A/B test, UX iyileştirme</td><td>Standart</td></tr>
+</table>
+
+<h3>Fiyatlandırma (Sitede Beyan Edilen Pazar Fiyatları)</h3>
+<table>
+  <tr><th>Segment</th><th>Aylık Fiyat</th></tr>
+  <tr><td>Freelance SEO</td><td>15.000 – 35.000 TL</td></tr>
+  <tr><td>Küçük Ajans</td><td>30.000 – 75.000 TL</td></tr>
+  <tr><td>Kurumsal Ajans</td><td>75.000 – 200.000+ TL</td></tr>
+  <tr><td>Enterprise / Uluslararası</td><td>150.000 – 500.000+ TL</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Profil Değerlendirmesi</strong>
+  Crocotive, B2B SEO pazarında BOFU-first yaklaşımı ve AI SEO/GEO hizmeti ile farklılaşıyor. 200K+ TL aylık gelir 6 kişilik ekip için etkileyici. Ancak 2025 kuruluşu, İngiltere kaydı (Türkiye ofisi yok), 23 Instagram takipçisi ve anonim müşteri referansları güvenilirlik sorunları yaratıyor. Kendi sitesindeki SEO sorunları, SEO ajansı için ciddi bir ironi.
+</div>
+
+<!-- RAKİP ANALİZİ -->
+<h2 class="page-break">2. Rakip Analizi - B2B SEO Ajans Pazarı</h2>
+
+<table>
+  <tr><th>Rakip</th><th>Güçlü Yönü</th><th>Crocotive'e Göre</th></tr>
+  <tr><td><strong>Zeo Agency</strong></td><td>Veri analitiği, teknik SEO, geniş müşteri ağı</td><td>Daha köklü, daha büyük ekip</td></tr>
+  <tr><td><strong>Webtures</strong></td><td>SEO + UX, inbound pazarlama, kurumsal</td><td>Daha çok referans</td></tr>
+  <tr><td><strong>Adverpeak</strong></td><td>Uluslararası SEO, sağlık turizmi</td><td>Uluslararası deneyim</td></tr>
+  <tr><td><strong>Mobitek</strong></td><td>20+ yıl deneyim, Türkiye'nin en köklü</td><td>Sektör güvenilirliği</td></tr>
+  <tr style="background:#e8f0fe">
+    <td><strong>Crocotive</strong></td>
+    <td>BOFU-first, AI SEO/GEO, gelir odaklı, para iadesi garantisi</td>
+    <td>Yeni ama farklılaşmış</td>
+  </tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Crocotive'in Rekabetçi Avantajları</strong>
+  <ul style="margin-top:6px">
+    <li><strong>BOFU-first yaklaşımı</strong> - Rakiplerde yok, satışa doğrudan etki eden SEO</li>
+    <li><strong>AI SEO / GEO hizmeti</strong> - ChatGPT, Perplexity optimizasyonu, Türkiye'de az ajans yapıyor</li>
+    <li><strong>3 ay ilerleme garantisi</strong> - Para iadesi, risk azaltıcı</li>
+    <li><strong>Fiyat şeffaflığı</strong> - Pazar fiyatlarını açıkça paylaşma (rakipler yapmıyor)</li>
+    <li><strong>Gelir odaklı ölçüm</strong> - CRM entegrasyonu ile pipeline etkisi (trafik değil, gelir)</li>
+  </ul>
+</div>
+
+<!-- WEB SİTESİ -->
+<h2 class="page-break">3. Web Sitesi Analizi</h2>
+
+<h3>3.1 Güçlü Yönler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr><td>Blog içerik kalitesi</td><td><span class="tag tag-green">Yüksek</span> - Derinlikli, uzun form SEO içerikleri</td></tr>
+  <tr><td>Fiyatlandırma şeffaflığı</td><td><span class="tag tag-green">Var</span> - Pazar fiyat aralıklarını açıkça paylaşıyor</td></tr>
+  <tr><td>Hizmet sayfaları</td><td><span class="tag tag-green">Kapsamlı</span> - Her hizmet için detaylı açıklama</td></tr>
+  <tr><td>Para iadesi garantisi</td><td><span class="tag tag-green">Var</span> - 3 ay ilerleme garantisi</td></tr>
+</table>
+
+<h3>3.2 Kritik Sorunlar</h3>
+<table>
+  <tr><th>Sorun</th><th>Açıklama</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>Kendi sitesinin SEO'su zayıf</strong></td>
+    <td>Meta açıklamalar eksik, başlık hiyerarşisi bozuk, alt text yok. SEO ajansı için büyük ironi.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Anonim müşteri referansları</strong></td>
+    <td>İsimler yıldızlarla gizlenmiş ("Ferhat Ze**", "Selin De**"). Doğrulanabilir sosyal kanıt yok.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Elementor bağımlılığı</strong></td>
+    <td>WordPress + Elementor = ağır sayfa, yavaş yüklenme. SEO ajansının kendi sitesi hızlı olmalı.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Türkiye ofis adresi yok</strong></td>
+    <td>İngiltere kayıtlı şirket, Türkiye müşterilerine hizmet veriyor ama fiziksel adres yok.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sosyal medya neredeyse yok</strong></td>
+    <td>Instagram: 23 takipçi, 8 gönderi. Twitter/YouTube yok. LinkedIn zayıf.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Agresif iddialar</strong></td>
+    <td>"4 ayda ROI", "%30 aylık organik büyüme" - doğrulanamaz, güvenilirliği zedeler.</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>İroni: SEO Ajansının Kendi SEO Sorunları</strong>
+  Tıpkı WebsiteMerkezi gibi, Crocotive de kendi hizmet alanındaki en temel sorunları kendi sitesinde yaşıyor. Meta tag eksikliği, yavaş sayfa hızı (Elementor), anonim referanslar ve 23 Instagram takipçisi - bunlar kurumsal müşterinin ilk bakışta göreceği kırmızı bayraklar. 200K+ gelir olmasına rağmen bu sorunlar büyümeyi yavaşlatıyor olabilir.
+</div>
+
+<!-- STRATEJİ -->
+<h2 class="page-break">4. Önerilen Aksiyon Planı</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - Güvenilirlik Temeli (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Kendi sitenizin SEO'sunu düzeltin:</strong> Meta description, H1 hiyerarşisi, alt text, Core Web Vitals. SEO satıyorsanız kendi siteniz kusursuz olmalı.</li>
+    <li><strong>Müşteri referanslarını açık yapın:</strong> Anonim isimler yerine tam isim, şirket adı, LinkedIn profili. Doğrulanabilir referans güvenilirliği 10x artırır.</li>
+    <li><strong>Türkiye iletişim adresi ekleyin:</strong> En azından co-working space adresi. İngiltere kayıtlı şirket Türk müşteri için uzak.</li>
+    <li><strong>Sosyal medya atağı başlatın:</strong> LinkedIn'de haftada 3-5 paylaşım (B2B SEO içerikleri). Instagram'ı büyütmek yerine LinkedIn'e odaklanın - B2B müşteriniz orada.</li>
+    <li><strong>Lead kalifikasyon funnel'ı oluşturun:</strong> "SEO'dan aylık ne kadar gelir elde ediyorsunuz?" ile başlayan 7-8 soruluk funnel. Müşteri büyüklüğünü, sektörünü, bütçesini anlayın.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - İçerik ve Lead Üretimi (Hafta 3-4)</div>
+  <ol>
+    <li><strong>Doğrulanabilir case study üretin:</strong> 2-3 müşteriden detaylı başarı hikayesi. "X şirketi, Crocotive ile 6 ayda organik trafiğini Y% artırdı ve Z TL gelir elde etti" formatında.</li>
+    <li><strong>BOFU-first metodolojisini marka yapın:</strong> Bu yaklaşım rakiplerden farklılaştırıyor. Whitepaper, webinar, LinkedIn carousel ile sahiplenin.</li>
+    <li><strong>Elementor'dan kurtulun:</strong> Headless WordPress veya Next.js'e geçiş. SEO ajansının sitesi 90+ Lighthouse skoru almalı.</li>
+    <li><strong>Webinar serisi başlatın:</strong> "B2B'de SEO ile Pipeline Nasıl Büyütülür?", "AI SEO: ChatGPT'de Markanız Nasıl Görünür?" - lead toplayan içerikler.</li>
+    <li><strong>AI SEO/GEO içeriklerini artırın:</strong> Generative Engine Optimization Türkiye'de bakir alan. Blog + LinkedIn ile thought leadership kurun.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - Ölçekleme (Ay 2+)</div>
+  <ol>
+    <li><strong>Partner programı kurun:</strong> Web tasarım ajanslarıyla işbirliği - onlar site yapar, SEO'yu Crocotive'e yönlendirir. Komisyon modeli.</li>
+    <li><strong>Uluslararası genişleme:</strong> İngiltere kayıtlı şirketsiniz - İngilizce pazara da açılın. BOFU-first konsepti global ölçekte de farklılaştırıcı.</li>
+    <li><strong>Ekip büyütmesi:</strong> 6 kişiyle 200K+ TL/ay sürdürülebilir ama ölçeklenemez. İçerik yazarı + teknik SEO uzmanı alımı öncelikli.</li>
+    <li><strong>Agresif iddiaları kanıtlayın:</strong> "4 ayda ROI" iddiasını gerçek verilerle destekleyin. Dashboard veya canlı metrik paylaşımı.</li>
+    <li><strong>Sektörel dikey odaklanma:</strong> Eğitim, lojistik, üretim, teknoloji - bu sektörlere özel landing page ve case study.</li>
+  </ol>
+</div>
+
+<!-- SONUÇ -->
+<h2 class="page-break">5. Sonuç ve Genel Değerlendirme</h2>
+
+<h3>Skor Kartı</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef</th></tr>
+  <tr><td>Hizmet Kalitesi / Farklılaşma</td><td><div class="score-bar"><div class="score-fill score-high" style="width:75%"></div></div> 7.5/10</td><td>9/10</td></tr>
+  <tr><td>Kendi Site SEO Skoru</td><td><div class="score-bar"><div class="score-fill score-low" style="width:30%"></div></div> 3/10</td><td>9/10</td></tr>
+  <tr><td>Marka Güvenilirliği</td><td><div class="score-bar"><div class="score-fill score-low" style="width:25%"></div></div> 2.5/10</td><td>8/10</td></tr>
+  <tr><td>İçerik Kalitesi</td><td><div class="score-bar"><div class="score-fill score-high" style="width:70%"></div></div> 7/10</td><td>9/10</td></tr>
+  <tr><td>Sosyal Medya Varlığı</td><td><div class="score-bar"><div class="score-fill score-low" style="width:5%"></div></div> 0.5/10</td><td>7/10</td></tr>
+  <tr><td>Fiyatlandırma Stratejisi</td><td><div class="score-bar"><div class="score-fill score-high" style="width:70%"></div></div> 7/10</td><td>8/10</td></tr>
+  <tr><td>Lead Dönüşüm Süreci</td><td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td><td>7/10</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Özet Değerlendirme</strong>
+  Crocotive, BOFU-first yaklaşımı ve AI SEO/GEO hizmeti ile B2B SEO pazarında güçlü bir farklılaşma potansiyeline sahip. 200K+ TL gelir 6 kişilik ekiple etkileyici. Ancak:
+  <ul style="margin-top:6px">
+    <li><strong>Kendi sitesinin SEO'su zayıf</strong> - SEO ajansı için en büyük güven sorunu</li>
+    <li><strong>Müşteri referansları anonim</strong> - Doğrulanabilir sosyal kanıt yok</li>
+    <li><strong>Sosyal medya neredeyse yok</strong> - 23 Instagram takipçisi</li>
+    <li><strong>Türkiye ofisi yok</strong> - İngiltere kaydı güven sorununa yol açıyor</li>
+    <li><strong>Agresif iddialar kanıtlanmamış</strong> - "4 ayda ROI" doğrulanabilir değil</li>
+  </ul>
+  İyi haber: Hizmet farklılaşması güçlü, içerik kalitesi yüksek, gelir modeli çalışıyor. Güvenilirlik temelini güçlendirirseniz büyüme potansiyeli çok yüksek. Funnel bazlı lead kalifikasyonu ile 0-5K reklam bütçesiyle bile doğru müşterilere ulaşabilirsiniz.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adım</strong>
+  Bu rapordaki stratejinin uygulanması için sizinle çalışabiliriz. Lead kalifikasyon funnel'ı tasarımı, kendi sitenizin SEO düzeltmeleri, LinkedIn içerik stratejisi, case study üretimi ve sosyal kanıt oluşturma konularında destek sunabiliriz. BOFU-first yaklaşımınızı bir marka haline getirmek ve doğru lead'lere ulaşmak için somut bir plan hazırlayabiliriz.
+</div>
+
+<p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır. &copy; 2026</p>
+
+<!-- TRACKING -->
+<script>
+(function(){if(new URLSearchParams(window.location.search).get('t')==='0')return;var SU='https://frficzdzmxhptmtbkfft.supabase.co',SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';var tId=null,st=Date.now(),ms=0,cl=window.location.pathname.split('/')[1]||'unknown';
+window.addEventListener('scroll',function(){var p=Math.round((window.pageYOffset/(document.documentElement.scrollHeight-window.innerHeight))*100);if(p>ms)ms=p});
+function gd(){return{website:window.location.pathname,stage:'rapor_view',extra_notes:JSON.stringify({time_on_page:Math.round((Date.now()-st)/1000),scroll_depth:ms,reached_bottom:ms>=90,client:cl,page_type:'rapor',opened_at:new Date(st).toISOString()}),last_step:ms>=90?'reached_bottom':(ms>10?'scrolling':'opened'),completed:ms>=90}}
+fetch(SU+'/rest/v1/funnel_leads',{method:'POST',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=representation'},body:JSON.stringify(gd())}).then(function(r){return r.json()}).then(function(d){if(d&&d[0])tId=d[0].id}).catch(function(){});
+setInterval(function(){if(!tId)return;fetch(SU+'/rest/v1/funnel_leads?id=eq.'+tId,{method:'PATCH',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=minimal'},body:JSON.stringify(gd())}).catch(function(){})},10000);
+window.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'&&tId)fetch(SU+'/rest/v1/funnel_leads?id=eq.'+tId,{method:'PATCH',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=minimal'},body:JSON.stringify(gd()),keepalive:true}).catch(function(){})})})();
+</script>
+</body>
+</html>
