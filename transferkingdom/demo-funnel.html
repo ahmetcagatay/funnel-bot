@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f172a">
+<title>Custom Printing Needs Analysis - Transfer Kingdom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--bg:#0f172a;--bg-card:#1e293b;--bg-card-hover:#334155;--bg-option:rgba(30,41,59,0.8);--bg-option-selected:rgba(59,130,246,0.15);--border-option:rgba(71,85,105,0.5);--border-selected:rgba(59,130,246,0.6);--text-primary:#f1f5f9;--text-secondary:#94a3b8;--text-muted:#64748b;--accent:#3b82f6;--accent-hover:#2563eb;--accent-glow:rgba(59,130,246,0.3);--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--safe-bottom:env(safe-area-inset-bottom,0px)}html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text-primary);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;touch-action:pan-y}.funnel-container{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}.step{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;padding:0 24px;padding-bottom:calc(16px + var(--safe-bottom));transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .4s ease;will-change:transform,opacity;opacity:0;pointer-events:none}.step[data-position="center"]{transform:translateX(0);opacity:1;pointer-events:auto}.step[data-position="left"]{transform:translateX(-100%);opacity:0}.step[data-position="right"]{transform:translateX(100%);opacity:0}.step-header{display:flex;align-items:center;justify-content:center;position:relative;padding:16px 0 8px;flex-shrink:0}.back-btn{position:absolute;left:0;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-secondary);cursor:pointer;padding:8px;border-radius:12px;display:flex;align-items:center;justify-content:center;width:44px;height:44px}.back-btn:hover{background:var(--bg-card);color:var(--text-primary)}.back-btn svg{width:22px;height:22px}.progress-dots{display:flex;gap:6px;align-items:center}.dot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);transition:all .35s ease}.dot.active{background:var(--accent);width:24px;border-radius:4px}.dot.completed{background:var(--accent)}.step-content{flex:1;display:flex;flex-direction:column;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;min-height:0}.step-content::-webkit-scrollbar{display:none}.question-area{text-align:center;margin-bottom:28px;flex-shrink:0}.question-title{font-size:26px;font-weight:700;line-height:1.3;margin-bottom:8px;letter-spacing:-.02em}.question-subtitle{font-size:14px;color:var(--text-secondary)}.options-area{display:flex;flex-direction:column;gap:12px;width:100%;max-width:480px;margin:0 auto}.option-btn{display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:14px 18px;background:var(--bg-option);border:1.5px solid var(--border-option);border-radius:16px;color:var(--text-primary);font-family:inherit;font-size:16px;font-weight:500;text-align:left;cursor:pointer;transition:all .2s;user-select:none}.option-btn:hover{background:var(--bg-card-hover);border-color:var(--text-muted)}.option-btn:active{transform:scale(.98)}.option-btn.selected{background:var(--bg-option-selected);border-color:var(--border-selected);box-shadow:0 0 0 1px var(--border-selected),0 0 20px var(--accent-glow)}.option-btn .emoji{font-size:28px;flex-shrink:0;line-height:1}.option-btn .option-label{flex:1}.option-btn .check-indicator{width:22px;height:22px;border-radius:50%;border:2px solid var(--text-muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}.option-btn.selected .check-indicator{background:var(--accent);border-color:var(--accent)}.option-btn.selected .check-indicator::after{content:'\2713';color:#fff;font-size:13px;font-weight:700}.option-btn.multi .check-indicator{border-radius:6px}.step-footer{flex-shrink:0;padding-top:16px;max-width:480px;width:100%;margin:0 auto}.cta-btn{display:flex;align-items:center;justify-content:center;width:100%;height:56px;background:var(--accent);color:#fff;border:none;border-radius:16px;font-family:inherit;font-size:17px;font-weight:600;cursor:pointer;transition:all .2s}.cta-btn:hover:not(:disabled){background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}.cta-btn:disabled{opacity:.35;cursor:not-allowed}.input-group{width:100%;max-width:480px;margin:0 auto}.text-input{width:100%;height:56px;padding:0 18px;background:var(--bg-card);border:1.5px solid var(--border-option);border-radius:16px;color:var(--text-primary);font-family:inherit;font-size:16px;outline:none}.text-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}.text-input::placeholder{color:var(--text-muted)}.input-note{font-size:13px;color:var(--text-muted);text-align:center;margin-top:10px}.social-proof{display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;color:var(--text-secondary);margin-top:14px}.social-proof .pulse{width:8px;height:8px;background:var(--success);border-radius:50%;animation:pulse 2s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}.analysis-card{background:var(--bg-card);border-radius:20px;padding:24px;width:100%;max-width:480px;margin:0 auto}.analysis-header{text-align:center;margin-bottom:20px}.analysis-header h2{font-size:22px;font-weight:700;margin-bottom:4px}.analysis-header p{font-size:13px;color:var(--text-secondary)}.analysis-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(71,85,105,.3)}.analysis-row:last-child{border-bottom:none}.analysis-label{font-size:14px;color:var(--text-secondary)}.analysis-value{font-size:16px;font-weight:600}.confidence-bar-container{width:100%;margin-top:8px}.confidence-bar-bg{width:100%;height:10px;background:rgba(71,85,105,.4);border-radius:5px;overflow:hidden}.confidence-bar-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--danger),var(--warning),var(--success));transition:width 1.2s cubic-bezier(.4,0,.2,1);width:0}.insights-list{margin-top:16px;display:flex;flex-direction:column;gap:10px}.insight-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--text-secondary)}.insight-item .emoji{font-size:20px;flex-shrink:0;line-height:1.3}.priority-box{margin-top:16px;padding:14px 16px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);border-radius:14px}.priority-box .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:4px}.priority-box .text{font-size:14px;color:var(--text-primary);line-height:1.5}.free-trial-banner{margin-top:20px;text-align:center;padding:16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:14px}.free-trial-banner .emoji{font-size:28px;display:block;margin-bottom:6px}.free-trial-banner .text{font-size:15px;font-weight:600;color:var(--text-primary)}.free-trial-banner .sub{font-size:13px;color:var(--text-secondary);margin-top:2px}.dashboard-preview{width:100%;max-width:480px;margin:0 auto}.dashboard-preview h3{font-size:15px;font-weight:600;color:var(--text-secondary);text-align:center;margin-bottom:14px}.metric-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}.metric-card{background:var(--bg-card);border-radius:14px;padding:14px 10px;text-align:center}.metric-card .metric-value{font-size:22px;font-weight:800;letter-spacing:-.02em}.metric-card .metric-label{font-size:11px;color:var(--text-muted);margin-top:2px;text-transform:uppercase;letter-spacing:.04em}.mini-table{background:var(--bg-card);border-radius:14px;overflow:hidden;margin-bottom:14px}.mini-table-header{display:grid;grid-template-columns:1.2fr .8fr .8fr;padding:10px 14px;font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid rgba(71,85,105,.3)}.mini-table-row{display:grid;grid-template-columns:1.2fr .8fr .8fr;padding:10px 14px;font-size:13px;color:var(--text-secondary);border-bottom:1px solid rgba(71,85,105,.15)}.mini-table-row:last-child{border-bottom:none}.mini-table-row .score{font-weight:600;color:var(--text-primary)}.status-badge{display:inline-flex;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:600}.status-hot{background:rgba(239,68,68,.15);color:var(--danger)}.status-warm{background:rgba(245,158,11,.15);color:var(--warning)}.status-new{background:rgba(59,130,246,.15);color:var(--accent)}.thank-you-icon{width:72px;height:72px;border-radius:50%;background:rgba(34,197,94,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:36px;animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1)}@keyframes scaleIn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}.loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .3s}.loading-overlay.active{opacity:1;pointer-events:auto}.loading-spinner{width:48px;height:48px;border:3px solid var(--bg-card);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loading-text{margin-top:20px;font-size:16px;color:var(--text-secondary);text-align:center}.loading-text .changing{display:block;margin-top:6px;font-size:14px;color:var(--text-muted);min-height:21px}@media(max-height:680px){.question-title{font-size:22px}.option-btn{min-height:48px;padding:10px 14px}.option-btn .emoji{font-size:24px}.options-area{gap:8px}.analysis-card{padding:16px}}@media(min-width:640px){.step{padding:0 40px;padding-bottom:calc(24px + var(--safe-bottom))}.question-title{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="funnel-container" id="funnel">
+
+  <div class="step" id="step-1" data-position="center">
+    <div class="step-header"><div class="progress-dots" id="dots-1"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Are you getting enough orders from your printing business?</h1></div>
+      <div class="options-area" data-step="1" data-key="satisfaction">
+        <button class="option-btn" data-value="great"><span class="emoji">&#x2705;</span><span class="option-label">Yes, business is booming</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="growing"><span class="emoji">&#x1F4C8;</span><span class="option-label">Growing, but I want more</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="struggling"><span class="emoji">&#x1F614;</span><span class="option-label">Not enough orders coming in</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="starting"><span class="emoji">&#x1F680;</span><span class="option-label">Just starting out</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-1" disabled>Continue</button></div>
+  </div>
+
+  <div class="step" id="step-2" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-2"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">What type of printing do you do?</h1></div>
+      <div class="options-area" data-step="2" data-key="business_type">
+        <button class="option-btn" data-value="print_shop"><span class="emoji">&#x1F3ED;</span><span class="option-label">I run a print shop / screen printing</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="brand"><span class="emoji">&#x1F455;</span><span class="option-label">I have my own clothing brand</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="etsy"><span class="emoji">&#x1F6CD;&#xFE0F;</span><span class="option-label">I sell on Etsy / online marketplace</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="events"><span class="emoji">&#x1F389;</span><span class="option-label">Events, teams, or custom orders</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="exploring"><span class="emoji">&#x1F50E;</span><span class="option-label">Exploring DTF for my business</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-2" disabled>Continue</button></div>
+  </div>
+
+  <div class="step" id="step-3" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-3"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">What's your biggest challenge right now?</h1><p class="question-subtitle">Select all that apply</p></div>
+      <div class="options-area multi" data-step="3" data-key="challenges" data-multi="true">
+        <button class="option-btn multi" data-value="quality"><span class="emoji">&#x1F3A8;</span><span class="option-label">Finding high-quality transfers</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="speed"><span class="emoji">&#x26A1;</span><span class="option-label">Slow turnaround times</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="cost"><span class="emoji">&#x1F4B8;</span><span class="option-label">Production costs too high</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="variety"><span class="emoji">&#x1F4CB;</span><span class="option-label">Need more design options</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="scale"><span class="emoji">&#x1F4C8;</span><span class="option-label">Hard to scale up orders</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-3" disabled>Continue</button></div>
+  </div>
+
+  <div class="step" id="step-4" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-4"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">How many transfers do you order per month?</h1></div>
+      <div class="options-area" data-step="4" data-key="volume">
+        <button class="option-btn" data-value="starter"><span class="emoji">&#x1F331;</span><span class="option-label">Less than 50</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="growing"><span class="emoji">&#x1F33F;</span><span class="option-label">50 - 200</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="established"><span class="emoji">&#x1F333;</span><span class="option-label">200 - 1,000</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="wholesale"><span class="emoji">&#x1F3D4;&#xFE0F;</span><span class="option-label">1,000+</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-4" disabled>See My Analysis</button></div>
+  </div>
+
+  <!-- Analysis -->
+  <div class="step" id="step-5" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-5"></div></div>
+    <div class="step-content">
+      <div class="analysis-card">
+        <div class="analysis-header"><h2>Your Printing Business Profile</h2><p>Based on your answers</p></div>
+        <div class="analysis-row"><span class="analysis-label">Recommended Solution</span><span class="analysis-value" id="a-solution">Gang Sheets</span></div>
+        <div class="analysis-row"><span class="analysis-label">Estimated Savings</span><span class="analysis-value" id="a-savings">35%</span></div>
+        <div class="analysis-row" style="flex-direction:column;align-items:stretch;gap:6px">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span class="analysis-label">Growth Potential Score</span><span class="analysis-value" id="a-score">72/100</span></div>
+          <div class="confidence-bar-container"><div class="confidence-bar-bg"><div class="confidence-bar-fill" id="confidence-fill"></div></div></div>
+        </div>
+        <div class="insights-list" id="insights-list"></div>
+        <div class="priority-box"><div class="label">Priority Recommendation</div><div class="text" id="priority-text">Switch to DTF gang sheets to maximize your per-transfer savings and scale your business.</div></div>
+        <div class="free-trial-banner"><span class="emoji">&#x1F381;</span><div class="text">This funnel works for your customers too</div><div class="sub">Understand your customers' needs and match them with the right solution</div></div>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-5">Get a Custom Quote</button></div>
+  </div>
+
+  <!-- Contact -->
+  <div class="step" id="step-6" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-6"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Where should we send your custom quote?</h1></div>
+      <div class="input-group">
+        <input type="email" class="text-input" id="email-input" placeholder="you@business.com" autocomplete="email" inputmode="email">
+        <p class="input-note">We'll send your personalized pricing and a free sample offer.</p>
+        <div class="social-proof"><span class="pulse"></span><span>4.7/5 on Trustpilot from 367+ reviews</span></div>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-6" disabled>Send My Quote</button></div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="step" id="step-7" data-position="right">
+    <div class="step-header"><div class="progress-dots" id="dots-7"></div></div>
+    <div class="step-content">
+      <div style="text-align:center;margin-bottom:20px">
+        <div class="thank-you-icon">&#x2705;</div>
+        <h1 class="question-title" style="font-size:22px">This funnel is ready for your customers too.</h1>
+      </div>
+      <div class="dashboard-preview">
+        <h3>Here's what your lead data looks like</h3>
+        <div class="metric-cards">
+          <div class="metric-card"><div class="metric-value">312</div><div class="metric-label">Leads</div></div>
+          <div class="metric-card"><div class="metric-value">38%</div><div class="metric-label">Conversion</div></div>
+          <div class="metric-card"><div class="metric-value">4.7x</div><div class="metric-label">ROI</div></div>
+        </div>
+        <div class="mini-table">
+          <div class="mini-table-header"><span>Customer</span><span>Type</span><span>Status</span></div>
+          <div class="mini-table-row"><span>Urban Prints</span><span class="score">Print Shop</span><span><span class="status-badge status-hot">Hot</span></span></div>
+          <div class="mini-table-row"><span>StreetWear Co</span><span class="score">Brand</span><span><span class="status-badge status-warm">Warm</span></span></div>
+          <div class="mini-table-row"><span>CraftMama</span><span class="score">Etsy</span><span><span class="status-badge status-new">New</span></span></div>
+          <div class="mini-table-row"><span>TeamGear TX</span><span class="score">Events</span><span><span class="status-badge status-hot">Hot</span></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-7" onclick="sendInterest()" style="background:#22c55e">I love this funnel, let's move to the next step</button></div>
+  </div>
+
+</div>
+
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Analyzing your printing business profile<span class="changing" id="loading-changing"></span></div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  var TOTAL_STEPS = 7;
+  var currentStep = 1;
+  var answers = {};
+
+  for (var s = 1; s <= TOTAL_STEPS; s++) {
+    var dotsContainer = document.getElementById('dots-' + s);
+    if (!dotsContainer) continue;
+    for (var d = 1; d <= TOTAL_STEPS; d++) {
+      var dot = document.createElement('span');
+      dot.className = 'dot';
+      if (d < s) dot.className += ' completed';
+      if (d === s) dot.className += ' active';
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  var optionAreas = document.querySelectorAll('.options-area');
+  for (var i = 0; i < optionAreas.length; i++) {
+    (function(area) {
+      var isMulti = area.dataset.multi === 'true';
+      var key = area.dataset.key;
+      var step = parseInt(area.dataset.step, 10);
+      var btns = area.querySelectorAll('.option-btn');
+      for (var j = 0; j < btns.length; j++) {
+        (function(btn) {
+          btn.addEventListener('click', function() {
+            if (isMulti) {
+              btn.classList.toggle('selected');
+              var selected = area.querySelectorAll('.option-btn.selected');
+              var vals = [];
+              for (var k = 0; k < selected.length; k++) vals.push(selected[k].dataset.value);
+              answers[key] = vals;
+              document.getElementById('cta-' + step).disabled = vals.length === 0;
+            } else {
+              var allBtns = area.querySelectorAll('.option-btn');
+              for (var k = 0; k < allBtns.length; k++) allBtns[k].classList.remove('selected');
+              btn.classList.add('selected');
+              answers[key] = btn.dataset.value;
+              document.getElementById('cta-' + step).disabled = false;
+            }
+          });
+        })(btns[j]);
+      }
+    })(optionAreas[i]);
+  }
+
+  var emailInput = document.getElementById('email-input');
+  emailInput.addEventListener('input', function() {
+    document.getElementById('cta-6').disabled = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim());
+  });
+
+  for (var s = 1; s <= 4; s++) {
+    (function(step) {
+      document.getElementById('cta-' + step).addEventListener('click', function() {
+        if (step === 4) { showLoading(function() { buildAnalysis(); goToStep(5); }); }
+        else { goToStep(step + 1); }
+      });
+    })(s);
+  }
+  document.getElementById('cta-5').addEventListener('click', function() { goToStep(6); });
+  document.getElementById('cta-6').addEventListener('click', function() { answers.email = emailInput.value.trim(); goToStep(7); });
+
+  function goToStep(target) {
+    if (target < 1 || target > TOTAL_STEPS) return;
+    document.getElementById('step-' + currentStep).dataset.position = target > currentStep ? 'left' : 'right';
+    document.getElementById('step-' + target).dataset.position = 'center';
+    currentStep = target;
+    if (target === 5) setTimeout(function() { var f = document.getElementById('confidence-fill'); if (f && f.dataset.target) f.style.width = f.dataset.target + '%'; }, 350);
+  }
+  window.goBack = function() { goToStep(currentStep - 1); };
+
+  function showLoading(callback) {
+    var overlay = document.getElementById('loading-overlay');
+    var changing = document.getElementById('loading-changing');
+    overlay.classList.add('active');
+    var messages = ['Evaluating your business type...', 'Calculating optimal pricing...', 'Finding best transfer solution...', 'Building your custom recommendation...'];
+    var idx = 0; changing.textContent = messages[0];
+    var interval = setInterval(function() { idx++; if (idx < messages.length) changing.textContent = messages[idx]; }, 600);
+    setTimeout(function() { clearInterval(interval); overlay.classList.remove('active'); callback(); }, 2600);
+  }
+
+  function buildAnalysis() {
+    var solution = 'Custom DTF Transfers', savings = '25%', score = 60;
+    if (answers.volume === 'wholesale') { solution = 'Wholesale Gang Sheets'; savings = '45%'; score = 90; }
+    else if (answers.volume === 'established') { solution = 'Gang Sheet Bundles'; savings = '35%'; score = 78; }
+    else if (answers.volume === 'growing') { solution = 'Custom DTF + Gang Sheets'; savings = '30%'; score = 68; }
+    else { solution = 'Custom DTF Starter'; savings = '20%'; score = 50; }
+    if (answers.satisfaction === 'great') score = Math.min(score + 5, 95);
+
+    document.getElementById('a-solution').textContent = solution;
+    document.getElementById('a-savings').textContent = savings;
+    document.getElementById('a-score').textContent = score + '/100';
+    var fill = document.getElementById('confidence-fill');
+    fill.dataset.target = score; fill.style.width = '0%';
+
+    var insights = [];
+    if (answers.satisfaction === 'struggling') insights.push({ emoji: '\u26A0\uFE0F', text: 'Not enough orders? DTF transfers let you offer custom printing without expensive equipment. No minimums, same-day shipping.' });
+    else if (answers.satisfaction === 'starting') insights.push({ emoji: '\uD83D\uDE80', text: 'Starting a print business? DTF is the easiest entry point. No printer needed \u2013 just a heat press and our transfers.' });
+    else if (answers.satisfaction === 'growing') insights.push({ emoji: '\uD83D\uDCA1', text: 'Ready to scale? Gang sheets cut your per-transfer cost by up to 45%. More margin on every order.' });
+    else insights.push({ emoji: '\u2B50', text: 'Business is booming! Now optimize your supply chain with wholesale gang sheets and same-day shipping.' });
+
+    var ch = answers.challenges || [];
+    if (ch.indexOf('quality') !== -1) insights.push({ emoji: '\uD83C\uDFA8', text: 'Quality matters. Our DTF transfers are rated 4.7/5 on Trustpilot with vibrant colors and wash durability.' });
+    if (ch.indexOf('speed') !== -1) insights.push({ emoji: '\u26A1', text: 'Same-day production & shipping on orders placed before 5 AM CT. Your transfers arrive while competitors are still processing.' });
+    if (ch.indexOf('cost') !== -1) insights.push({ emoji: '\uD83D\uDCB8', text: 'Gang sheets start at $2/transfer. No setup fees, no minimums. The more you order, the more you save.' });
+    if (ch.indexOf('variety') !== -1) insights.push({ emoji: '\uD83D\uDCCB', text: '5,000+ ready-to-press designs available instantly. Plus custom uploads with no minimum order.' });
+    if (ch.indexOf('scale') !== -1) insights.push({ emoji: '\uD83D\uDCC8', text: 'Scaling is easy with wholesale pricing. Dedicated account support for orders 1,000+/month.' });
+    insights = insights.slice(0, 3);
+
+    var insightsList = document.getElementById('insights-list'); insightsList.innerHTML = '';
+    for (var i = 0; i < insights.length; i++) {
+      var div = document.createElement('div'); div.className = 'insight-item';
+      div.innerHTML = '<span class="emoji">' + insights[i].emoji + '</span><span>' + insights[i].text + '</span>';
+      insightsList.appendChild(div);
+    }
+
+    var priMap = {
+      print_shop: 'As a print shop, gang sheets maximize your margins. Same-day shipping means you can promise faster turnaround to your customers.',
+      brand: 'For your clothing brand, custom DTF transfers give you professional-quality prints without the overhead of screen printing.',
+      etsy: 'Etsy sellers love DTF \u2013 no minimums means you can offer truly custom products. Ready-to-press designs speed up fulfillment.',
+      events: 'For events and teams, fast turnaround is everything. Same-day production + no minimums = happy customers every time.',
+      exploring: 'DTF is the most accessible entry into custom printing. No expensive equipment needed \u2013 just a heat press and our transfers.'
+    };
+    document.getElementById('priority-text').textContent = priMap[answers.business_type] || priMap.exploring;
+  }
+
+  window.sendInterest = function() {
+    var btn = document.getElementById('cta-7'); btn.disabled = true; btn.textContent = 'Sending...';
+    fetch('https://frficzdzmxhptmtbkfft.supabase.co/rest/v1/funnel_leads', {
+      method: 'POST', headers: { 'Content-Type': 'application/json',
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI',
+        'Prefer': 'return=minimal' },
+      body: JSON.stringify({ email: answers.email || '', source: 'demo-funnel', status: 'interested', answers: JSON.stringify(answers), created_at: new Date().toISOString() })
+    }).then(function() {
+      btn.textContent = '\u2705 Thanks for your interest!'; btn.style.background = '#16a34a';
+      var note = document.createElement('p'); note.style.cssText = 'text-align:center;color:var(--text-secondary);font-size:14px;margin-top:12px';
+      note.textContent = "We'll be in touch soon."; btn.parentNode.appendChild(note);
+    }).catch(function() { btn.textContent = '\u2705 Thanks for your interest!'; btn.style.background = '#16a34a'; });
+  };
+
+  var touchStartX = 0, touchStartY = 0;
+  document.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].clientX; touchStartY = e.changedTouches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', function(e) { var dx = e.changedTouches[0].clientX - touchStartX, dy = e.changedTouches[0].clientY - touchStartY; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && dx > 0 && currentStep > 1) goBack(); }, { passive: true });
+
+  // TRACKING
+  var shouldTrack = new URLSearchParams(window.location.search).get('t') !== '0';
+  if (shouldTrack) {
+    var SUPA_URL = 'https://frficzdzmxhptmtbkfft.supabase.co';
+    var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';
+    var trackId = null, trackStart = Date.now(), stepEnterTime = Date.now(), stepTimes = {}, maxStepReached = 1, clickedInterested = false;
+    function getTrackPayload() { var now = Date.now(), key = 'step_' + currentStep; if (!stepTimes[key]) stepTimes[key] = 0; stepTimes[key] += Math.round((now - stepEnterTime) / 1000); stepEnterTime = now;
+      return { website: window.location.pathname, stage: 'demo_funnel_view', linkedin: answers.email || null, extra_notes: JSON.stringify({ time_on_page: Math.round((Date.now() - trackStart) / 1000), current_step: currentStep, max_step_reached: maxStepReached, step_times: stepTimes, completed_funnel: currentStep >= 7, clicked_interested: clickedInterested, client: 'transferkingdom', opened_at: new Date(trackStart).toISOString() }), last_step: clickedInterested ? 'interested' : 'step_' + currentStep, completed: clickedInterested }; }
+    function supaFetch(method, path, body) { return fetch(SUPA_URL + '/rest/v1/' + path, { method: method, headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Prefer': method === 'POST' ? 'return=representation' : 'return=minimal' }, body: JSON.stringify(body) }); }
+    supaFetch('POST', 'funnel_leads', getTrackPayload()).then(function(r) { return r.json(); }).then(function(data) { if (data && data[0]) trackId = data[0].id; });
+    var _originalGoToStep = goToStep;
+    goToStep = function(target) { if (trackId) { var now = Date.now(), key = 'step_' + currentStep; if (!stepTimes[key]) stepTimes[key] = 0; stepTimes[key] += Math.round((now - stepEnterTime) / 1000); stepEnterTime = now; } _originalGoToStep(target); if (target > maxStepReached) maxStepReached = target; if (trackId) supaFetch('PATCH', 'funnel_leads?id=eq.' + trackId, getTrackPayload()); };
+    setInterval(function() { if (!trackId) return; supaFetch('PATCH', 'funnel_leads?id=eq.' + trackId, getTrackPayload()); }, 10000);
+    document.addEventListener('visibilitychange', function() { if (document.visibilityState === 'hidden' && trackId) fetch(SUPA_URL + '/rest/v1/funnel_leads?id=eq.' + trackId, { method: 'PATCH', headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Prefer': 'return=minimal' }, body: JSON.stringify(getTrackPayload()), keepalive: true }); });
+    var _originalSendInterest = window.sendInterest;
+    window.sendInterest = function() { clickedInterested = true; if (trackId) supaFetch('PATCH', 'funnel_leads?id=eq.' + trackId, getTrackPayload()); _originalSendInterest(); };
+  }
+})();
+</script>
+</body>
+</html>
