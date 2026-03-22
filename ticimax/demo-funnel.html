@@ -1549,6 +1549,25 @@ html, body {
     dismiss.textContent = lang === 'en' ? 'Maybe later' : 'Daha sonra';
     dismiss.onclick = function() { overlay.remove(); };
     
+    btn.addEventListener('click', function() {
+      fetch('https://frficzdzmxhptmtbkfft.supabase.co/rest/v1/funnel_leads', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          website: window.location.pathname,
+          stage: 'cal_click',
+          extra_notes: JSON.stringify({ client: 'ticimax', action: 'booking_clicked', clicked_at: new Date().toISOString() }),
+          last_step: 'cal_booking',
+          completed: true
+        })
+      }).catch(function() {});
+    });
+    
     overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
     
     modal.appendChild(emoji);
