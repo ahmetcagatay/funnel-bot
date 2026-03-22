@@ -1378,12 +1378,7 @@ html, body {
       note.style.cssText = 'text-align:center;color:var(--text-secondary);font-size:14px;margin-top:12px;';
       note.textContent = 'En kisa sürede sizinle iletişime geçeceğiz.';
       btn.parentNode.appendChild(note);
-      var calBtn = document.createElement('a');
-      calBtn.href = 'https://cal.com/ahmetcagatay/15min';
-      calBtn.target = '_blank';
-      calBtn.style.cssText = 'display:flex;align-items:center;justify-content:center;width:100%;height:56px;background:#3b82f6;color:#fff;border:none;border-radius:16px;font-family:inherit;font-size:17px;font-weight:600;text-decoration:none;margin-top:12px;';
-      calBtn.textContent = '\u1F4C5 15 Dakika G\u00F6r\u00FC\u015Fme Ayarla';
-      btn.parentNode.appendChild(calBtn);
+      setTimeout(function() { showCalPopup('tr'); }, 1200);
     }).catch(function() {
       btn.textContent = '\u2705 İlginiz için teşekkürler!';
       btn.style.background = '#16a34a';
@@ -1516,6 +1511,54 @@ html, body {
     };
   }
 
+
+  // Cal.com popup
+  window.showCalPopup = function(lang) {
+    var overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;animation:fadeIn .3s ease';
+    
+    var modal = document.createElement('div');
+    modal.style.cssText = 'background:#1e293b;border-radius:24px;padding:32px 24px;max-width:400px;width:100%;text-align:center;position:relative;animation:scaleUp .4s cubic-bezier(.34,1.56,.64,1)';
+    
+    var style = document.createElement('style');
+    style.textContent = '@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes scaleUp{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}';
+    document.head.appendChild(style);
+    
+    var emoji = document.createElement('div');
+    emoji.style.cssText = 'font-size:48px;margin-bottom:16px';
+    emoji.textContent = '\uD83D\uDCC5';
+    
+    var title = document.createElement('h2');
+    title.style.cssText = 'color:#f1f5f9;font-size:22px;font-weight:700;margin-bottom:8px;font-family:Inter,-apple-system,sans-serif';
+    title.textContent = lang === 'en' ? 'Let\u2019s jump on a quick call!' : 'Hemen bir g\u00F6r\u00FC\u015Fme ayarlayal\u0131m!';
+    
+    var desc = document.createElement('p');
+    desc.style.cssText = 'color:#94a3b8;font-size:14px;line-height:1.5;margin-bottom:24px;font-family:Inter,-apple-system,sans-serif';
+    desc.textContent = lang === 'en' ? '15 minutes to discuss your growth strategy. Pick a time that works for you.' : '15 dakikada b\u00FCy\u00FCme stratejinizi konu\u015Fal\u0131m. Size uygun bir zaman se\u00E7in.';
+    
+    var btn = document.createElement('a');
+    btn.href = 'https://cal.com/ahmetcagatay/15min';
+    btn.target = '_blank';
+    btn.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:56px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;border-radius:16px;font-family:Inter,-apple-system,sans-serif;font-size:17px;font-weight:700;text-decoration:none;cursor:pointer;box-shadow:0 4px 20px rgba(34,197,94,0.4);transition:transform .2s,box-shadow .2s';
+    btn.textContent = lang === 'en' ? '\u2705 Book My 15-Min Call' : '\u2705 15 Dakika G\u00F6r\u00FC\u015Fme Se\u00E7';
+    btn.onmouseover = function() { btn.style.transform = 'translateY(-2px)'; btn.style.boxShadow = '0 6px 30px rgba(34,197,94,0.5)'; };
+    btn.onmouseout = function() { btn.style.transform = 'translateY(0)'; btn.style.boxShadow = '0 4px 20px rgba(34,197,94,0.4)'; };
+    
+    var dismiss = document.createElement('button');
+    dismiss.style.cssText = 'background:none;border:none;color:#64748b;font-size:13px;font-family:Inter,-apple-system,sans-serif;cursor:pointer;margin-top:16px;padding:8px';
+    dismiss.textContent = lang === 'en' ? 'Maybe later' : 'Daha sonra';
+    dismiss.onclick = function() { overlay.remove(); };
+    
+    overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+    
+    modal.appendChild(emoji);
+    modal.appendChild(title);
+    modal.appendChild(desc);
+    modal.appendChild(btn);
+    modal.appendChild(dismiss);
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+  };
 })();
 </script>
 </body>
