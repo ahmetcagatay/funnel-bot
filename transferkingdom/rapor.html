@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 13px; line-height: 1.6; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #e8f0fe; color: #1a73e8; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #1a73e8, #34a853); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a73e8; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
+  th { background: #1a1a2e; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #e8f0fe; border-left: 4px solid #1a73e8; color: #174ea6; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #e8f0fe; color: #174ea6; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #1a73e8; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; }
+  .summary-card { flex: 1; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #1a73e8; }
+  .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  @media print { .copy-section { display: none !important; } }
+  .copy-section { padding: 20px 24px; background: #f0f4ff; border: 2px dashed #1a73e8; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .copy-section h3 { font-size: 16px; color: #1a1a2e; margin-bottom: 6px; border: none; }
+  .copy-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .copy-btn { background: #1a73e8; color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .copy-btn:hover { background: #1557b0; } .copy-btn.copied { background: #34a853; }
+  .copy-status { margin-top: 10px; font-size: 12px; color: #80868b; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanım</div>
+  <h1>Transfer Kingdom</h1>
+  <h2>Dijital Büyüme &amp; Dönüşüm Optimizasyonu Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazırlanma Tarihi:</strong> 22 Mart 2026<br>
+    <strong>Domain:</strong> transferkingdom.com<br>
+    <strong>Sektör:</strong> DTF (Direct-to-Film) Baskı &amp; Custom Printing<br>
+    <strong>Rapor Türü:</strong> Detaylı Analiz + Strateji Önerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır.</div>
+</div>
+
+<!-- COPY -->
+<div class="copy-section">
+  <h3>İyileştirme Önerilerini Kopyala</h3>
+  <p>Rapordaki tüm önerileri kopyalayarak ekibinize iletebilirsiniz.</p>
+  <button class="copy-btn" id="copyBtn" onclick="copyImprovements()">İyileştirmeleri Kopyala</button>
+  <div class="copy-status" id="copyStatus"></div>
+</div>
+<script>
+function copyImprovements(){var b=document.getElementById('copyBtn'),s=document.getElementById('copyStatus');
+var t=`TRANSFER KINGDOM - İYİLEŞTİRME ÖNERİLERİ
+=====================================
+
+ACİL (Hafta 1-2):
+1. SAYFA HIZINI OPTİMİZE EDİN - Çok fazla 3. parti script (Trustpilot, RichPanel, Zakeke, Judge.me, Drip Apps, Clarity). Lazy load yapın veya gereksiz olanları kaldırın.
+2. FİYAT ŞEFFAFLIĞINI ARTIRIN - Gang sheet fiyatları dinamik yükleniyor, Google indeksleyemiyor. Statik fiyat tablosu ekleyin.
+3. INFO CENTER SAYFASINI ZENGİNLEŞTİRİN - Sadece iletişim formu var. FAQ, kargo politikası, iade koşulları, uygulama rehberi ekleyin.
+4. MOBİL CORE WEB VITALS DÜZELTİN - Shopify + çok sayıda entegrasyon = LCP ve INP sorunları
+
+BÜYÜME (Hafta 3-4):
+1. LEAD KALİFİKASYON FUNNEL'I - "Baskı işinizi büyütmek mi istiyorsunuz?" ile başlayan B2B funnel
+2. BLOG İÇERİĞİNİ GENİŞLETİN - "DTF vs screen printing", "best DTF transfers 2026", "how to start a DTF business" gibi yüksek hacimli anahtar kelimeler
+3. RAKİP KARŞILAŞTIRMA SAYFALARI - "Transfer Kingdom vs Ninja Transfers", "Transfer Kingdom vs Lion DTF"
+4. B2B WHOLESALE LANDING PAGE - Print shop'lar ve küçük markalar için özel toptan sayfa
+5. EMAIL OTOMASYON - Sepet terk, tekrar alım, yeni ürün bildirimi
+
+ÖLÇEKLEME (Ay 2+):
+1. YOUTUBE TUTORIAL SERİSİ - "How to apply DTF transfers" videoları organik trafik getirir
+2. INFLUENCER ORTAKLIK - TikTok'ta küçük baskı işletmeleri ile işbirliği
+3. ULUSLARARASI GENİŞLEME - Türkiye/Avrupa pazarına kargo + çoklu dil desteği
+4. AFFİLİATE PROGRAMINI BÜYÜTÜN - Mevcut program var ama agresif pazarlanmalı
+5. LOKAL SEO OPTİMİZASYONU - Houston mağazası için Google Business Profile tam optimize edilmeli`;
+try{navigator.clipboard.writeText(t).then(function(){b.textContent='\u2705 Kopyalandı!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='İyileştirmeleri Kopyala';b.classList.remove('copied')},3000)})}catch(e){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);b.textContent='\u2705 Kopyalandı!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='İyileştirmeleri Kopyala';b.classList.remove('copied')},3000)}}
+</script>
+
+<!-- PROFİL -->
+<h2 class="page-break">1. Şirket Profil Özeti</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">B2B+B2C</div><div class="label">Hedef Pazar</div></div>
+  <div class="summary-card"><div class="value">DTF Baskı</div><div class="label">Sektör</div></div>
+  <div class="summary-card"><div class="value">200K+</div><div class="label">Aylık Gelir</div></div>
+  <div class="summary-card"><div class="value">20-100K</div><div class="label">Reklam Bütçesi</div></div>
+  <div class="summary-card"><div class="value">42K</div><div class="label">Instagram</div></div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Değer</th></tr>
+  <tr><td><strong>Website</strong></td><td>transferkingdom.com</td></tr>
+  <tr><td><strong>Ürün</strong></td><td>DTF (Direct-to-Film) transfer baskı, gang sheet, UV DTF sticker, custom patch, boş giyim, kişiselleştirilmiş deri ürünler. 5.000+ hazır tasarım.</td></tr>
+  <tr><td><strong>Kuruluş</strong></td><td>2019 - Innovation SA Inc.</td></tr>
+  <tr><td><strong>Merkez</strong></td><td>10611 Harwin Dr. #406, Houston, TX 77036, ABD</td></tr>
+  <tr><td><strong>Ekip</strong></td><td>~21 kişi</td></tr>
+  <tr><td><strong>Platform</strong></td><td>Shopify</td></tr>
+  <tr><td><strong>Trustpilot</strong></td><td>4.7/5 yıldız (367 yorum, %90 beş yıldız)</td></tr>
+  <tr><td><strong>Fiziksel Mağaza</strong></td><td>Houston'ın en büyük DTF mağazası</td></tr>
+  <tr><td><strong>Kargo</strong></td><td>Aynı gün/ertesi gün kargo, karbon-nötr teslimat</td></tr>
+</table>
+
+<h3>Ürün Portföyü</h3>
+<table>
+  <tr><th>Ürün</th><th>Fiyat</th><th>Öne Çıkan</th></tr>
+  <tr><td><strong>Custom DTF Transfers</strong></td><td>$2.00 - $3.24/adet</td><td>Kendi tasarımını yükle, minimum yok</td></tr>
+  <tr><td><strong>Gang Sheet</strong></td><td>Dinamik fiyat</td><td>Toplu sipariş için ekonomik</td></tr>
+  <tr><td><strong>Ready-to-Press</strong></td><td>Değişken</td><td>5.000+ hazır tasarım</td></tr>
+  <tr><td><strong>UV DTF Stickers</strong></td><td>Değişken</td><td>Sert yüzeyler için</td></tr>
+  <tr><td><strong>Custom Patches</strong></td><td>Değişken</td><td>Yeni lansman</td></tr>
+  <tr><td><strong>Blank Apparel</strong></td><td>Toptan fiyat</td><td>Tişört, hoodie vb.</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Profil Değerlendirmesi</strong>
+  Transfer Kingdom, DTF baskı sektöründe güçlü bir marka. 4.7/5 Trustpilot puanı, 42K Instagram takipçisi, fiziksel mağaza ve aynı gün kargo ile sektörde öne çıkıyor. 200K+ TL aylık gelir ve 20-100K reklam bütçesi büyüme potansiyelinin yüksek olduğunu gösteriyor. Ana iyileştirme alanları: sayfa hızı, fiyat şeffaflığı ve B2B lead funnel'ı.
+</div>
+
+<!-- RAKİP -->
+<h2 class="page-break">2. Rakip Analizi - DTF Baskı Pazarı</h2>
+
+<h3>2.1 Doğrudan Rakipler</h3>
+<table>
+  <tr><th>Rakip</th><th>Güçlü Yönü</th><th>Fiyat</th><th>Transfer Kingdom'a Göre</th></tr>
+  <tr><td><strong>Ninja Transfers</strong></td><td>Sektör lideri, dengeli kalite/hız/fiyat</td><td>Rekabetçi</td><td>En büyük rakip</td></tr>
+  <tr><td><strong>Lion DTF</strong></td><td>$0.017/inch² ile en ucuz</td><td>%15-40 daha ucuz</td><td>Fiyat tehdidi</td></tr>
+  <tr><td><strong>STAHLS'</strong></td><td>Patentli mürekkep, %23 daha geniş renk</td><td>Premium</td><td>Kalite lideri</td></tr>
+  <tr><td><strong>613 Originals</strong></td><td>Sektör güvenilirliği</td><td>Rekabetçi</td><td>Köklü rakip</td></tr>
+  <tr><td><strong>DTFTransfers.com</strong></td><td>Yüksek hacimli fiyat avantajı</td><td>Toptan ucuz</td><td>B2B tehdidi</td></tr>
+  <tr style="background:#e8f0fe">
+    <td><strong>Transfer Kingdom</strong></td>
+    <td>Aynı gün kargo, fiziksel mağaza, 5K+ tasarım, mobil app</td>
+    <td>Orta segment</td>
+    <td>-</td>
+  </tr>
+</table>
+
+<h3>2.2 Pazar Büyüklüğü</h3>
+<table>
+  <tr><th>Metrik</th><th>Değer</th></tr>
+  <tr><td>Global DTF Pazar Büyüklüğü (2024)</td><td><strong>$2.72 Milyar</strong></td></tr>
+  <tr><td>Öngörülen Büyüklük (2030)</td><td><strong>$3.92 Milyar</strong></td></tr>
+  <tr><td>Yıllık Büyüme (CAGR)</td><td><strong>%6.0 - 6.7</strong></td></tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Transfer Kingdom'ın Rekabetçi Avantajları</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Aynı gün kargo</strong> - Rakiplerin çoğu 2-3 gün, TK aynı gün gönderiyor</li>
+    <li><strong>Fiziksel mağaza</strong> - Houston'ın en büyük DTF mağazası, yerinde alışveriş imkânı</li>
+    <li><strong>5.000+ hazır tasarım</strong> - Ready-to-press koleksiyonu çok geniş</li>
+    <li><strong>Mobil uygulama</strong> - Google Play'de mevcut, rakiplerde genellikle yok</li>
+    <li><strong>Minimum sipariş yok + setup ücreti yok</strong> - Giriş bariyeri sıfır</li>
+    <li><strong>4.7/5 Trustpilot</strong> - 367 yorum, %90 beş yıldız</li>
+    <li><strong>Karbon-nötr kargo</strong> - Sürdürülebilirlik odaklı müşteriler için cazip</li>
+  </ul>
+</div>
+
+<!-- WEB SİTESİ -->
+<h2 class="page-break">3. Web Sitesi Analizi</h2>
+
+<h3>3.1 Güçlü Yönler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr><td>Trustpilot entegrasyonu</td><td><span class="tag tag-green">Var</span> - 4.7/5, otomatik yorum gösterimi</td></tr>
+  <tr><td>Blog</td><td><span class="tag tag-green">Var</span> - DTF rehber içerikleri mevcut</td></tr>
+  <tr><td>Ürün kişiselleştirme</td><td><span class="tag tag-green">Zakeke</span> - Tasarım yükleme aracı</td></tr>
+  <tr><td>Müşteri destek</td><td><span class="tag tag-green">RichPanel</span> - Canlı destek entegre</td></tr>
+  <tr><td>Affiliate programı</td><td><span class="tag tag-green">Var</span> - Komisyon modeli aktif</td></tr>
+  <tr><td>Mobil uygulama</td><td><span class="tag tag-green">Google Play</span></td></tr>
+</table>
+
+<h3>3.2 İyileştirme Alanları</h3>
+<table>
+  <tr><th>Sorun</th><th>Açıklama</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>Aşırı 3. parti script</strong></td>
+    <td>Trustpilot, RichPanel, Zakeke, Judge.me, Drip Apps, GA, Clarity, PowerfulForm, YMQ... 10+ script sayfa hızını ciddi şekilde yavaşlatıyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Gang sheet fiyatları dinamik</strong></td>
+    <td>Fiyatlar JavaScript ile yükleniyor, Google indeksleyemiyor. "DTF gang sheet pricing" aramalarını kaçırıyorsunuz.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Info Center sayfası yetersiz</strong></td>
+    <td>Sadece iletişim formu var. FAQ, kargo politikası, uygulama rehberi, iade koşulları eklenebilir - SEO değeri yüksek.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Mobil Core Web Vitals riski</strong></td>
+    <td>Shopify + bu kadar entegrasyon = LCP, CLS, INP sorunları potansiyeli yüksek.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>B2B wholesale sayfası eksik</strong></td>
+    <td>Print shop'lar ve küçük markalar için özel toptan sayfa yok. B2B müşteriler ayrı funnel ile hedeflenmeli.</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+</table>
+
+<h3>3.3 Müşteri Memnuniyeti (Trustpilot)</h3>
+<table>
+  <tr><th>Olumlu</th><th>Olumsuz</th></tr>
+  <tr><td>Canlı, net baskı kalitesi</td><td>Bazı transferler yıkamada soyuluyor</td></tr>
+  <tr><td>Çok hızlı teslimat</td><td>Renk doğruluğu sorunları (aşırı doygunluk)</td></tr>
+  <tr><td>Samimi müşteri hizmetleri</td><td>UV DTF yapışma problemi</td></tr>
+  <tr><td>Kolay sipariş süreci</td><td>Kargo gecikmelerinde iletişim eksikliği</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Trustpilot Olumsuz Yorumlar</strong>
+  %90 beş yıldız mükemmel ama %5 olumsuz yorum (1-2 yıldız) kalite tutarlılığı sorunu gösteriyor. Özellikle "yıkamada soyulma" ve "renk doğruluğu" şikâyetleri teknik iyileştirme gerektirebilir. Bu şikâyetlere proaktif yanıt vermek ve kalite kontrol sürecini paylaşmak güven artırır.
+</div>
+
+<!-- STRATEJİ -->
+<h2 class="page-break">4. Önerilen Aksiyon Planı</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - Teknik Optimizasyon (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Sayfa hızını optimize edin:</strong> Gereksiz 3. parti scriptleri lazy load yapın veya kaldırın. Özellikle Clarity ve PowerfulForm gibi düşük öncelikli scriptler ertelenebilir. Hedef: Lighthouse mobile skoru 80+.</li>
+    <li><strong>Gang sheet fiyatlarını statik gösterin:</strong> En azından temel fiyat tablosunu HTML'de render edin ki Google indeksleyebilsin. "DTF gang sheet pricing" anahtar kelimesinde sıralama potansiyeli var.</li>
+    <li><strong>Info Center'ı zenginleştirin:</strong> Kapsamlı FAQ (20+ soru), kargo/iade politikası, DTF uygulama rehberi, bakım talimatları. Her biri ayrı SEO-uyumlu sayfa olsun.</li>
+    <li><strong>Mobil Core Web Vitals düzeltin:</strong> LCP, CLS, INP metriklerini ölçün ve optimize edin. Shopify tema optimizasyonu + resim sıkıştırma.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - Dönüşüm ve İçerik (Hafta 3-4)</div>
+  <ol>
+    <li><strong>B2B lead kalifikasyon funnel'ı:</strong> "Baskı işinizi büyütmek mi istiyorsunuz?" ile başlayan funnel. Sipariş hacmi, mevcut çözüm, bütçe öğrenilsin - toptan teklif sunulsun.</li>
+    <li><strong>Blog içeriğini genişletin:</strong> "DTF vs screen printing", "best DTF transfers 2026", "how to start a DTF business", "DTF transfer application guide" - yüksek hacimli anahtar kelimeler.</li>
+    <li><strong>Rakip karşılaştırma sayfaları:</strong> "Transfer Kingdom vs Ninja Transfers", "Transfer Kingdom vs Lion DTF" - bu aramalarda organik trafik yakalayın.</li>
+    <li><strong>B2B wholesale landing page:</strong> Print shop'lar ve küçük markalar için özel sayfa: toptan fiyatlar, hacim indirimleri, özel hesap yöneticisi.</li>
+    <li><strong>E-posta otomasyon:</strong> Sepet terk kampanyası, tekrar alım hatırlatması, yeni ürün/tasarım bildirimi, sadakat programı.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - Ölçekleme (Ay 2+)</div>
+  <ol>
+    <li><strong>YouTube tutorial serisi:</strong> "How to apply DTF transfers", "DTF vs HTV", "Gang sheet setup guide" - eğitim içerikleri organik trafik ve güven getirir.</li>
+    <li><strong>TikTok/Instagram influencer ortaklıkları:</strong> Küçük baskı işletmeleri ve Etsy satıcıları ile içerik işbirliği.</li>
+    <li><strong>Uluslararası genişleme:</strong> Türkiye/Avrupa pazarına kargo seçenekleri + çoklu dil desteği. DTF pazarı global büyüyor.</li>
+    <li><strong>Affiliate programını büyütün:</strong> Mevcut program var ama agresif pazarlanmalı. YouTube/blog içerik üreticilerine cazip komisyon sunun.</li>
+    <li><strong>Lokal SEO optimizasyonu:</strong> Houston mağazası için Google Business Profile tam optimize edilmeli. "DTF store Houston", "custom transfers near me" aramalarında üst sıralara çıkın.</li>
+    <li><strong>Kalite tutarlılığı:</strong> Trustpilot'taki yıkama/renk şikâyetlerine proaktif yanıt verin. Kalite kontrol sürecini blog/video ile paylaşın.</li>
+  </ol>
+</div>
+
+<!-- SONUÇ -->
+<h2 class="page-break">5. Sonuç ve Genel Değerlendirme</h2>
+
+<h3>Skor Kartı</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef</th></tr>
+  <tr><td>Ürün / Hizmet Kalitesi</td><td><div class="score-bar"><div class="score-fill score-high" style="width:80%"></div></div> 8/10</td><td>9/10</td></tr>
+  <tr><td>Marka Bilinirliği</td><td><div class="score-bar"><div class="score-fill score-high" style="width:70%"></div></div> 7/10</td><td>8.5/10</td></tr>
+  <tr><td>Müşteri Memnuniyeti</td><td><div class="score-bar"><div class="score-fill score-high" style="width:85%"></div></div> 8.5/10</td><td>9/10</td></tr>
+  <tr><td>Web Sitesi Hızı</td><td><div class="score-bar"><div class="score-fill score-low" style="width:35%"></div></div> 3.5/10</td><td>8/10</td></tr>
+  <tr><td>SEO / İçerik</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:45%"></div></div> 4.5/10</td><td>8/10</td></tr>
+  <tr><td>B2B Dönüşüm Süreci</td><td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td><td>7/10</td></tr>
+  <tr><td>Reklam ROI</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:55%"></div></div> 5.5/10</td><td>8/10</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Özet Değerlendirme</strong>
+  Transfer Kingdom, DTF baskı sektöründe güçlü bir marka konumuna sahip. 4.7/5 müşteri memnuniyeti, 42K Instagram takipçisi, fiziksel mağaza ve aynı gün kargo ile sektörde öne çıkıyor. Ancak:
+  <ul style="margin-top:6px">
+    <li><strong>Sayfa hızı kritik</strong> - 10+ üçüncü parti script mobil performansı yavaşlatıyor</li>
+    <li><strong>B2B funnel yok</strong> - Print shop'lar ve küçük markalar için ayrı dönüşüm yolu yok</li>
+    <li><strong>Fiyat şeffaflığı eksik</strong> - Gang sheet fiyatları dinamik, Google indeksleyemiyor</li>
+    <li><strong>Blog genişletilmeli</strong> - Mevcut içerik iyi ama daha fazla SEO odaklı içerik gerekli</li>
+    <li><strong>Kalite tutarlılığı</strong> - Yıkama/renk şikâyetleri proaktif yönetilmeli</li>
+  </ul>
+  <strong>Sonuç:</strong> Güçlü bir ürün ve marka var. Sayfa hızı optimizasyonu + B2B funnel + içerik genişletme ile 20-100K reklam bütçesinden çok daha yüksek ROI elde edilebilir.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adım</strong>
+  Bu rapordaki stratejinin uygulanması için sizinle çalışabiliriz. Sayfa hızı optimizasyonu, B2B lead funnel tasarımı, blog içerik stratejisi, rakip karşılaştırma sayfaları, e-posta otomasyon ve YouTube içerik planı konularında destek sunabiliriz.
+</div>
+
+<p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır. &copy; 2026</p>
+
+<!-- TRACKING -->
+<script>
+(function(){if(new URLSearchParams(window.location.search).get('t')==='0')return;var SU='https://frficzdzmxhptmtbkfft.supabase.co',SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';var tId=null,st=Date.now(),ms=0,cl=window.location.pathname.split('/')[1]||'unknown';
+window.addEventListener('scroll',function(){var p=Math.round((window.pageYOffset/(document.documentElement.scrollHeight-window.innerHeight))*100);if(p>ms)ms=p});
+function gd(){return{website:window.location.pathname,stage:'rapor_view',extra_notes:JSON.stringify({time_on_page:Math.round((Date.now()-st)/1000),scroll_depth:ms,reached_bottom:ms>=90,client:cl,page_type:'rapor',opened_at:new Date(st).toISOString()}),last_step:ms>=90?'reached_bottom':(ms>10?'scrolling':'opened'),completed:ms>=90}}
+fetch(SU+'/rest/v1/funnel_leads',{method:'POST',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=representation'},body:JSON.stringify(gd())}).then(function(r){return r.json()}).then(function(d){if(d&&d[0])tId=d[0].id}).catch(function(){});
+setInterval(function(){if(!tId)return;fetch(SU+'/rest/v1/funnel_leads?id=eq.'+tId,{method:'PATCH',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=minimal'},body:JSON.stringify(gd())}).catch(function(){})},10000);
+window.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'&&tId)fetch(SU+'/rest/v1/funnel_leads?id=eq.'+tId,{method:'PATCH',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=minimal'},body:JSON.stringify(gd()),keepalive:true}).catch(function(){})})})();
+</script>
+</body>
+</html>
