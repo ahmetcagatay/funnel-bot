@@ -1377,6 +1377,12 @@ html, body {
       note.style.cssText = 'text-align:center;color:var(--text-secondary);font-size:14px;margin-top:12px;';
       note.textContent = 'En kisa surede sizinle iletisime gececegiz.';
       btn.parentNode.appendChild(note);
+      var calBtn = document.createElement('a');
+      calBtn.href = 'https://cal.com/ahmetcagatay/15min';
+      calBtn.target = '_blank';
+      calBtn.style.cssText = 'display:flex;align-items:center;justify-content:center;width:100%;height:56px;background:#3b82f6;color:#fff;border:none;border-radius:16px;font-family:inherit;font-size:17px;font-weight:600;text-decoration:none;margin-top:12px;';
+      calBtn.textContent = '\u1F4C5 15 Dakika G\u00F6r\u00FC\u015Fme Ayarla';
+      btn.parentNode.appendChild(calBtn);
     }).catch(function() {
       btn.textContent = '\u2705 Ilginiz icin tesekkurler!';
       btn.style.background = '#16a34a';

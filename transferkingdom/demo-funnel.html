@@ -329,6 +329,12 @@
       body: JSON.stringify({ email: answers.email || '', source: 'demo-funnel', status: 'interested', answers: JSON.stringify(answers), created_at: new Date().toISOString() })
     }).then(function() {
       btn.textContent = '\u2705 Thanks! We\'ll be in touch.'; btn.style.background = '#16a34a';
+      var calBtn = document.createElement('a');
+      calBtn.href = 'https://cal.com/ahmetcagatay/15min';
+      calBtn.target = '_blank';
+      calBtn.style.cssText = 'display:flex;align-items:center;justify-content:center;width:100%;height:56px;background:#3b82f6;color:#fff;border:none;border-radius:16px;font-family:inherit;font-size:17px;font-weight:600;text-decoration:none;margin-top:12px;';
+      calBtn.textContent = '\u1F4C5 Book a 15-Min Call';
+      btn.parentNode.appendChild(calBtn);
     }).catch(function() { btn.textContent = '\u2705 Thanks! We\'ll be in touch.'; btn.style.background = '#16a34a'; });
   };
 
