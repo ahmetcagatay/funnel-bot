@@ -402,7 +402,7 @@ function renderTerm() {
         log.innerHTML = `<div class="t-entry"><span class="t-ok">✓</span> <span class="t-dim">${e.key}:</span> <span class="t-val">${e.val}</span></div>`;
     }, 600);
     // Update bar
-    const pct = Math.min(Math.round((termEntries.length / 10) * 100), 100);
+    const pct = Math.min(Math.round((termEntries.length / 7) * 100), 100);
     document.getElementById('termBar').style.width = pct + '%';
 }
 
