@@ -235,23 +235,6 @@
         <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
     </div>
 
-    <!-- 7: Reklam Kanalları -->
-    <div class="step" data-step="7">
-        <h2 class="step-question">Daha önce reklam verdiniz mi?</h2>
-        <p class="step-description">Kullandığınız kanalları seçin. Birden fazla seçebilirsiniz.</p>
-        <div class="options-grid">
-            <div class="option-card" onclick="toggleChannel(this,'google')"><div class="option-title">Google Ads</div></div>
-            <div class="option-card" onclick="toggleChannel(this,'meta')"><div class="option-title">Meta (FB/IG)</div></div>
-            <div class="option-card" onclick="toggleChannel(this,'tiktok')"><div class="option-title">TikTok Ads</div></div>
-            <div class="option-card" onclick="toggleChannel(this,'linkedin')"><div class="option-title">LinkedIn Ads</div></div>
-            <div class="option-card" onclick="toggleChannel(this,'youtube')"><div class="option-title">YouTube Ads</div></div>
-            <div class="option-card" onclick="toggleChannel(this,'other')"><div class="option-title">Diğer</div></div>
-        </div>
-        <button class="btn btn-primary" onclick="goNext()" style="background:#666;">Reklam vermedim, devam et</button>
-        <button class="btn btn-primary" id="btnChannels" onclick="goNext()" disabled>Devam Et</button>
-        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
-    </div>
-
     <!-- 8: Reklam Bütçesi -->
     <div class="step" data-step="8">
         <h2 class="step-question">Aylık reklam bütçeniz ne kadar?</h2>
@@ -262,34 +245,6 @@
             <div class="option-card" onclick="pick(this,'adBudget','20k-100k')"><div class="option-title">20.000 - 100.000 TL</div></div>
             <div class="option-card" onclick="pick(this,'adBudget','100k+')"><div class="option-title">100.000 TL+</div></div>
         </div>
-        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
-    </div>
-
-    <!-- 9: LinkedIn -->
-    <div class="step" data-step="9">
-        <h2 class="step-question">LinkedIn profilin var mı?</h2>
-        <p class="step-description">Seni daha iyi tanımamız ve sektördeki konumunu anlamamız için LinkedIn profilini paylaş.</p>
-        <div class="input-group">
-            <label>LinkedIn profil linkin (opsiyonel)</label>
-            <input type="url" id="linkedinUrl" placeholder="https://linkedin.com/in/kullanici-adi" />
-        </div>
-        <button class="btn btn-primary" onclick="goNext()">Devam Et</button>
-        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
-    </div>
-
-    <!-- 10: Ek Detaylar + ROAS -->
-    <div class="step" data-step="10">
-        <h2 class="step-question">Son birkaç detay</h2>
-        <p class="step-description">Bu bilgiler aksiyon planını daha kişisel hale getirecek. Boş bırakabilirsin.</p>
-        <div class="input-group">
-            <label>Şu andaki ROAS değeriniz (biliyorsanız)</label>
-            <input type="text" id="roasValue" placeholder="Örn: 3.5x — bilmiyorsanız boş bırakın" />
-        </div>
-        <div class="input-group">
-            <label>Eklemek istediğin başka detaylar var mı?</label>
-            <textarea id="extraNotes" placeholder="Opsiyonel — ürünün, hedef kitlen veya sorunların hakkında"></textarea>
-        </div>
-        <button class="btn btn-primary" onclick="goNext()">Analizi Başlat</button>
         <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
     </div>
 
@@ -378,7 +333,7 @@ let leadId = null; // tracks current row in supabase
 </script>
 <script>
 // ==================== SYNC TO SUPABASE ====================
-const stepNames = { 0:'website', 2:'stage', 3:'market', 4:'sectors', 5:'experience', 6:'revenue', 7:'ad_channels', 8:'ad_budget', 9:'linkedin', 10:'details', 11:'analysis' };
+const stepNames = { 0:'website', 2:'stage', 3:'market', 4:'sectors', 5:'experience', 6:'revenue', 8:'ad_budget', 11:'analysis' };
 
 let syncQueue = Promise.resolve(); // serialize all syncs
 
@@ -391,11 +346,7 @@ function syncLead(stepName) {
             sectors: D.sectors.length ? D.sectors : null,
             experience: D.experience || null,
             revenue: D.revenue || null,
-            ad_channels: D.adChannels.length ? D.adChannels : null,
             ad_budget: D.adBudget || null,
-            linkedin: D.linkedin || null,
-            roas: D.roas || null,
-            extra_notes: D.extraNotes || null,
             phone: D.phone || null,
             last_step: stepName,
             completed: false
@@ -415,8 +366,8 @@ function syncLead(stepName) {
 
 // ==================== STATE ====================
 let cur = 0;
-const STEPS = [0,2,3,4,5,6,7,8,9,10,11,13]; // actual step numbers in order
-const D = { stage:'',market:'',sectors:[],experience:'',revenue:'',adChannels:[],adBudget:'',website:'',linkedin:'',roas:'',extraNotes:'',phone:'' };
+const STEPS = [0,2,3,4,5,6,8,11,13]; // actual step numbers in order
+const D = { stage:'',market:'',sectors:[],experience:'',revenue:'',adBudget:'',website:'',phone:'' };
 
 // Labels for terminal log
 const termLabels = {
@@ -426,11 +377,7 @@ const termLabels = {
     sectors: 'sektör',
     experience: 'deneyim',
     revenue: 'gelir',
-    adChannels: 'reklam_kanallari',
-    adBudget: 'reklam_butcesi',
-    linkedin: 'linkedin',
-    roas: 'roas',
-    extraNotes: 'notlar'
+    adBudget: 'reklam_butcesi'
 };
 
 const stageLabels = { 'improve_sales':'satis_iyilestirme','dont_know':'strateji_olusturma','no_traffic':'trafik_kazanimi','traffic_no_sales':'donusum_optimizasyonu' };
@@ -477,40 +424,27 @@ function goNext() {
         D.website = raw ? 'https://' + raw : '';
         if (D.website) termLog('website', D.website);
     }
-    if (cur === 9) {
-        D.linkedin = document.getElementById('linkedinUrl').value;
-        if (D.linkedin) termLog('linkedin', D.linkedin);
-    }
-    if (cur === 10) {
-        D.roas = document.getElementById('roasValue').value;
-        D.extraNotes = document.getElementById('extraNotes').value;
-        if (D.roas) termLog('roas', D.roas);
-        if (D.extraNotes) termLog('notlar', D.extraNotes.substring(0, 40) + (D.extraNotes.length > 40 ? '...' : ''));
-    }
-
     // Sync to Supabase (fire and forget)
     syncLead(stepNames[cur] || 'step_' + cur);
 
-    // Step 0 → 2
-    if (cur === 0) { cur = 2; show(cur); return; }
-    // Skip bütçe if no channels
-    if (cur === 7 && D.adChannels.length === 0) { D.adBudget = '0'; cur = 9; show(cur); return; }
-
-    cur++;
-    show(cur);
-    if (cur === 11) {
-        document.getElementById('liveTerminal').classList.remove('visible');
-        runAnalysis();
+    // Navigate using STEPS array
+    const idx = STEPS.indexOf(cur);
+    if (idx < STEPS.length - 1) {
+        cur = STEPS[idx + 1];
+        show(cur);
+        if (cur === 11) {
+            document.getElementById('liveTerminal').classList.remove('visible');
+            runAnalysis();
+        }
     }
 }
 
 function skipWebsite() { D.website = ''; syncLead('website_skip'); cur = 2; show(cur); }
 
 function goBack() {
-    if (cur > 0) {
-        if (cur === 2) cur = 0;
-        else if (cur === 9 && D.adChannels.length === 0) cur = 7;
-        else cur--;
+    const idx = STEPS.indexOf(cur);
+    if (idx > 0) {
+        cur = STEPS[idx - 1];
         show(cur);
     }
 }
@@ -533,22 +467,12 @@ function toggleSector(el, val) {
     document.getElementById('btnSector').disabled = D.sectors.length === 0;
 }
 
-function toggleChannel(el, val) {
-    const i = D.adChannels.indexOf(val);
-    if (i > -1) { D.adChannels.splice(i, 1); el.classList.remove('selected'); }
-    else { D.adChannels.push(val); el.classList.add('selected'); }
-    document.getElementById('btnChannels').disabled = D.adChannels.length === 0;
-}
-
 // Log multi-selects on goNext
 const _origGoNext = goNext;
 goNext = function() {
     if (cur === 4 && D.sectors.length > 0) {
         const sMap = { 'saas':'SaaS','ecommerce':'E-Ticaret','education':'Eğitim','health':'Sağlık','finance':'Finans','agency':'Ajans','food':'Yiyecek','other':'Diğer' };
         termLog('sektör', D.sectors.map(s => sMap[s]||s));
-    }
-    if (cur === 7 && D.adChannels.length > 0) {
-        termLog('reklam_kanallari', D.adChannels);
     }
     _origGoNext();
 };
