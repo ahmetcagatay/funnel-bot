@@ -203,7 +203,10 @@
             </div>
         </div>
         <button class="btn btn-primary" id="btnWebsite" onclick="goNext()" disabled data-i18n="btn_analyze">Analiz Et</button>
-        <button class="btn btn-primary" onclick="skipWebsite()" style="background:transparent;color:#999;margin-top:0;font-size:14px;padding:10px 0;" data-i18n="btn_skip_website">Web sitem yok, devam et &#8594;</button>
+        <div style="display:flex;gap:12px;justify-content:center;align-items:center;margin-top:4px;">
+            <button onclick="showLangSplash()" style="background:transparent;border:none;color:#999;font-size:14px;padding:10px 0;cursor:pointer;font-family:inherit;">&#8592; <span data-i18n="btn_change_lang">Change Language</span></button>
+            <button class="btn btn-primary" onclick="skipWebsite()" style="background:transparent;color:#999;margin-top:0;font-size:14px;padding:10px 0;" data-i18n="btn_skip_website">Web sitem yok, devam et &#8594;</button>
+        </div>
     </div>
 
     <!-- 2: Aşama -->
@@ -496,6 +499,20 @@ function closeSplash() {
     const splash = document.getElementById('langSplash');
     splash.classList.add('hidden');
     setTimeout(() => splash.remove(), 400);
+}
+
+function showLangSplash() {
+    // Re-create splash if it was removed
+    if (!document.getElementById('langSplash')) {
+        const splash = document.createElement('div');
+        splash.className = 'lang-splash';
+        splash.id = 'langSplash';
+        splash.innerHTML = '<h2>Select Language</h2><p>Choose your preferred language</p><div class="lang-grid" id="langGrid"></div>';
+        document.body.prepend(splash);
+    }
+    const splash = document.getElementById('langSplash');
+    splash.classList.remove('hidden');
+    buildLangSplash();
 }
 
 // Init i18n
