@@ -39,13 +39,6 @@
   .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
   .score-fill { height: 100%; border-radius: 4px; }
   .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
-  @media print { .copy-section { display: none !important; } }
-  .copy-section { padding: 20px 24px; background: #f3e8ff; border: 2px dashed #7c3aed; border-radius: 12px; text-align: center; margin-bottom: 24px; }
-  .copy-section h3 { font-size: 16px; color: #1a1a2e; margin-bottom: 6px; border: none; }
-  .copy-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
-  .copy-btn { background: #7c3aed; color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
-  .copy-btn:hover { background: #6d28d9; } .copy-btn.copied { background: #34a853; }
-  .copy-status { margin-top: 10px; font-size: 12px; color: #80868b; }
   .liked-section { padding: 20px 24px; background: #e6f4ea; border: 2px solid #34a853; border-radius: 12px; text-align: center; margin-bottom: 24px; }
   .liked-section h3 { font-size: 16px; color: #137333; margin-bottom: 6px; border: none; }
   .liked-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
@@ -70,31 +63,6 @@
 </div>
 
 <script>
-function copyImprovements(){var b=document.getElementById('copyBtn'),s=document.getElementById('copyStatus');
-var t=`DOGAN YAYINLARI - IYILESTIRME ONERILERI
-=====================================
-
-ACIL (Hafta 1-2):
-1. KISISELLESTIRILMIS ONERI MOTORU - Ziyaretcinin gezinme gecmisine, secili kategorilere ve onceki alisverislerine gore otomatik kitap onerisi. "Bunu okuyanlar sunlari da aldi" bloklari her urun sayfasina eklenmeli.
-2. SEPET TERK E-POSTA OTOMASYONU - Sepete kitap ekleyip satin almayan kullanicilara 1 saat + 24 saat + 72 saat sonra otomatik hatirlatma e-postasi gonderilmeli. Stok azaliyor/fiyat degisebilir uyarilari ile aciliyet olusturun.
-3. KATEGORI SAYFALARI SEO OPTIMIZASYONU - Her kategoriye ozel meta baslik ve aciklama yazilmali. "En iyi polisiye kitaplari 2026", "cocuk kitaplari onerileri" gibi anahtar kelimeler hedeflenmeli.
-4. MOBIL DENEYIMI IYILESTIRIN - Urun kartlarinda fiyat ve sepete ekle butonu daha belirgin olmali. Tek dokunusla satin alma (express checkout) ekleyin.
-
-BUYUME (Hafta 3-4):
-1. KITAP ONERI FUNNEL'I - "Nasil bir kitap ariyorsun?" diye baslayan interaktif funnel. Tur, tercih ve okuma aliskanligi sorup kisisel oneriler sunun.
-2. BLOG ICERIGINI GENISLETIN - "2026'nin en cok okunan kitaplari", "polisiye roman onerileri", "cocuklara kitap okuma aliskanligi kazandirma" gibi SEO odakli icerikler.
-3. YAZAR ODAKLI LANDING PAGE'LER - Elif Safak, Haruki Murakami gibi populer yazarlar icin ozel sayfalar. Biyografi + tum kitaplari + okuyucu yorumlari.
-4. SADAKAT PROGRAMI - Alisveris basina puan kazanma, ozel indirimler, erken erisim. Tekrar alisveris oranini artirin.
-5. E-POSTA SEGMENTASYONU - Tur bazli segmentler olusturun. Polisiye sevenler yeni polisiye ciktiginda, cocuk kitabi alanlar yeni cocuk kitaplari ciktiginda bilgilendirilsin.
-
-OLCEKLEME (Ay 2+):
-1. YOUTUBE KITAP INCELEME KANALI - "Ayın Kitabı", "5 Dakikada Kitap Ozeti", "Yazar Soylesi" gibi seriler organik trafik getirir.
-2. INSTAGRAM/TIKTOK BOOKSTAGRAM ORTAKLIKLARI - Kitap influencer'lari ile isbirligi. #KitapOnerisi icerikleri ile organik erisim.
-3. KURUMSAL SATIS KANALI - Sirketlere toplu kitap satisi (hediye, kutuphane, egitim). Ozel fiyatlandirma ve fatura.
-4. ABONELIK MODELI - Aylik kitap kutusu: secilen ture gore her ay surpriz kitap. Dogan Yayinlari katalogu ile guclu avantaj.
-5. OKUMAKIYIGELIR.COM ENTEGRASYONU - Blog icerigini ana siteyle entegre edin. Her blog yazisinda ilgili kitaplara satin alma linki ekleyin.`;
-try{navigator.clipboard.writeText(t).then(function(){b.textContent='\u2705 Kopyalandi!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='Iyilestirmeleri Kopyala';b.classList.remove('copied')},3000)})}catch(e){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);b.textContent='\u2705 Kopyalandi!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='Iyilestirmeleri Kopyala';b.classList.remove('copied')},3000)}}
-
 function handleLiked(){var b=document.getElementById('likedBtn');b.disabled=true;b.textContent='Yonlendiriliyor...';
 if(window.GROWTHER&&GROWTHER.supaFetch){GROWTHER.supaFetch('POST','funnel_leads',{website:window.location.pathname,stage:'liked_report',extra_notes:JSON.stringify({client:'doganyayinlari',action:'liked_report',clicked_at:new Date().toISOString(),is_test:GROWTHER.isAdmin}),last_step:'liked',completed:true}).catch(function(){});}
 setTimeout(function(){showCalPopup('tr')},500)}
@@ -335,13 +303,6 @@ setTimeout(function(){showCalPopup('tr')},500)}
   <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Begendim, Goruselim</button>
 </div>
 
-<!-- COPY -->
-<div class="copy-section">
-  <h3>Iyilestirme Onerilerini Kopyala</h3>
-  <p>Rapordaki tum onerileri kopyalayarak ekibinize iletebilirsiniz.</p>
-  <button class="copy-btn" id="copyBtn" onclick="copyImprovements()">Iyilestirmeleri Kopyala</button>
-  <div class="copy-status" id="copyStatus"></div>
-</div>
 
 <p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web arastirmasina dayanarak Claude Code Opus 4.6 ile hazirlanmistir. &copy; 2026</p>
 

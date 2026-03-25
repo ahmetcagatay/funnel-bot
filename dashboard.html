@@ -282,6 +282,11 @@
                     </select>
                 </div>
                 <button class="btn-clear-filters" onclick="clearFilters()">✕ Temizle</button>
+                <div class="filter-group" style="margin-left:auto">
+                    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;color:#8b949e">
+                        <input type="checkbox" id="filterShowTests" onchange="loadData()" style="accent-color:#D78686"> Test'leri göster
+                    </label>
+                </div>
                 <span class="filter-count" id="filterCount"></span>
             </div>
             <div class="table-scroll">
@@ -333,6 +338,7 @@ function doLogin() {
     const user = document.getElementById('userInput').value;
     const pass = document.getElementById('passInput').value;
     if (user === DASH_USER && pass === DASH_PASS) {
+        try { localStorage.setItem('growther_admin', 'true'); } catch(e) {}
         document.getElementById('loginScreen').style.display = 'none';
         document.getElementById('dashboardContent').style.display = 'block';
         loadData();
@@ -393,6 +399,16 @@ async function loadData() {
         .order('created_at', { ascending: false });
 
     if (error) { console.error(error); return; }
+
+    // Filter out is_test entries by default
+    const showTests = document.getElementById('filterShowTests') && document.getElementById('filterShowTests').checked;
+    if (!showTests) {
+        var filtered = rows.filter(function(r) {
+            try { var n = JSON.parse(r.extra_notes || '{}'); return !n.is_test; } catch(e) { return true; }
+        });
+        rows.length = 0; rows.push(...filtered);
+    }
+
     if (!rows || rows.length === 0) {
         document.getElementById('emptyState').style.display = 'block';
         document.getElementById('totalCount').textContent = '0';

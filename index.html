@@ -546,6 +546,7 @@ function showLangSplash() {
 
 <script>
 // ==================== SYNC TO SUPABASE ====================
+var isAdmin = false; try { isAdmin = localStorage.getItem('growther_admin') === 'true'; } catch(e) {}
 const stepNames = { 0:'website', 2:'stage', 3:'market', 4:'sectors', 5:'experience', 6:'revenue', 8:'ad_budget', 11:'analysis' };
 
 let syncQueue = Promise.resolve();
@@ -562,7 +563,8 @@ function syncLead(stepName) {
             ad_budget: D.adBudget || null,
             phone: D.phone || null,
             last_step: stepName,
-            completed: false
+            completed: false,
+            extra_notes: isAdmin ? JSON.stringify({ is_test: true }) : null
         };
 
         // Add language if column exists (won't break if column not added yet)

@@ -39,13 +39,6 @@
   .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
   .score-fill { height: 100%; border-radius: 4px; }
   .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
-  @media print { .copy-section { display: none !important; } }
-  .copy-section { padding: 20px 24px; background: #f0f4ff; border: 2px dashed #1a73e8; border-radius: 12px; text-align: center; margin-bottom: 24px; }
-  .copy-section h3 { font-size: 16px; color: #1a1a2e; margin-bottom: 6px; border: none; }
-  .copy-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
-  .copy-btn { background: #1a73e8; color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
-  .copy-btn:hover { background: #1557b0; } .copy-btn.copied { background: #34a853; }
-  .copy-status { margin-top: 10px; font-size: 12px; color: #80868b; }
 </style>
 </head>
 <body>
@@ -64,39 +57,6 @@
   <div class="cover-footer">Bu rapor funnel verilerine ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır.</div>
 </div>
 
-<!-- COPY -->
-<div class="copy-section">
-  <h3>İyileştirme Önerilerini Kopyala</h3>
-  <p>Rapordaki tüm önerileri kopyalayarak ekibinize iletebilirsiniz.</p>
-  <button class="copy-btn" id="copyBtn" onclick="copyImprovements()">İyileştirmeleri Kopyala</button>
-  <div class="copy-status" id="copyStatus"></div>
-</div>
-<script>
-function copyImprovements(){var b=document.getElementById('copyBtn'),s=document.getElementById('copyStatus');
-var t=`MİKURUMSAL.COM - İYİLEŞTİRME ÖNERİLERİ
-=====================================
-
-ACİL (Hafta 1-2):
-1. HİZMET SAYFASI 404 HATASINI DÜZELTİN - /hizmetlerimiz sayfası çalışmıyor, ziyaretçi bilgiye ulaşamıyor
-2. GOOGLE İNDEKSLEME SORUNU ÇÖZÜLMELİ - site:mikurumsal.com sıfır sonuç, Google siteyi hiç görmüyor
-3. TUTARSIZ İLETİŞİM BİLGİLERİNİ DÜZELTİN - 2 farklı adres, 3 telefon, 2 e-posta = güven sorunu
-4. H1 ETİKETİ VE META TAGLARI EKLEYİN - Temel SEO altyapısı tamamen eksik
-5. KIRIK LİNKLERİ DÜZELTİN - javascript:void(0) bağlantıları fonksiyonel değil
-
-BÜYÜME (Hafta 3-4):
-1. GOOGLE MY BUSINESS KAYDI - Yerel SEO için olmazsa olmaz, ücretsiz
-2. TAVADA TAVUK CASE STUDY'Sİ YAZIN - 60+ şubeli franchise başarı hikayesi çok güçlü bir içerik
-3. BLOG BAŞLATIN - "Franchise nasıl alınır", "AVM'de dükkan kiralama", "marka danışmanlığı nedir" gibi içerikler
-4. SCHEMA MARKUP EKLEYİN - LocalBusiness, Organization, Service
-5. LEAD KALİFİKASYON FUNNEL'I - "Franchise yatırımı düşünüyor musunuz?" ile başlayan funnel
-
-ÖLÇEKLEME (Ay 2+):
-1. REFERANS VİDEOLARI - Franchise sahiplerinden kısa video testimonial'lar
-2. LINKEDIN B2B İÇERİK - Franchise/AVM/lokasyon konularında düzenli paylaşım
-3. KOSGEB DANIŞMANLIK İÇERİĞİ - "KOSGEB desteğiyle franchise açma" gibi yüksek hacimli aramalar
-4. FİYAT ŞEFFAFLIĞI - En azından "danışmanlık paketlerimiz X TL'den başlıyor" referansı`;
-try{navigator.clipboard.writeText(t).then(function(){b.textContent='\u2705 Kopyalandı!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='İyileştirmeleri Kopyala';b.classList.remove('copied')},3000)})}catch(e){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);b.textContent='\u2705 Kopyalandı!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='İyileştirmeleri Kopyala';b.classList.remove('copied')},3000)}}
-</script>
 
 <!-- PROFİL -->
 <h2 class="page-break">1. Firma Profil Özeti</h2>
@@ -284,14 +244,7 @@ try{navigator.clipboard.writeText(t).then(function(){b.textContent='\u2705 Kopya
 
 <p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır. &copy; 2026</p>
 
-<!-- TRACKING -->
-<script>
-(function(){if(new URLSearchParams(window.location.search).get('t')==='0')return;var SU='https://frficzdzmxhptmtbkfft.supabase.co',SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';var tId=null,st=Date.now(),ms=0,cl=window.location.pathname.split('/')[1]||'unknown';
-window.addEventListener('scroll',function(){var p=Math.round((window.pageYOffset/(document.documentElement.scrollHeight-window.innerHeight))*100);if(p>ms)ms=p});
-function gd(){return{website:window.location.pathname,stage:'rapor_view',extra_notes:JSON.stringify({time_on_page:Math.round((Date.now()-st)/1000),scroll_depth:ms,reached_bottom:ms>=90,client:cl,page_type:'rapor',opened_at:new Date(st).toISOString()}),last_step:ms>=90?'reached_bottom':(ms>10?'scrolling':'opened'),completed:ms>=90}}
-fetch(SU+'/rest/v1/funnel_leads',{method:'POST',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=representation'},body:JSON.stringify(gd())}).then(function(r){return r.json()}).then(function(d){if(d&&d[0])tId=d[0].id}).catch(function(){});
-setInterval(function(){if(!tId)return;fetch(SU+'/rest/v1/funnel_leads?id=eq.'+tId,{method:'PATCH',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=minimal'},body:JSON.stringify(gd())}).catch(function(){})},10000);
-window.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'&&tId)fetch(SU+'/rest/v1/funnel_leads?id=eq.'+tId,{method:'PATCH',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=minimal'},body:JSON.stringify(gd()),keepalive:true}).catch(function(){})})})();
-</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/tracker.js" data-type="rapor" data-client="mikurumsal"></script>
 </body>
 </html>

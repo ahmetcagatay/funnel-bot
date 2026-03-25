@@ -46,14 +46,6 @@
   .score-low { background: #ea4335; }
   .score-mid { background: #f9ab00; }
   .score-high { background: #34a853; }
-  @media print { .copy-section { display: none !important; } }
-  .copy-section { padding: 20px 24px; background: #f0f4ff; border: 2px dashed #1a73e8; border-radius: 12px; text-align: center; margin-bottom: 24px; }
-  .copy-section h3 { font-size: 16px; color: #1a1a2e; margin-bottom: 6px; border: none; }
-  .copy-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
-  .copy-btn { background: #1a73e8; color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; }
-  .copy-btn:hover { background: #1557b0; }
-  .copy-btn.copied { background: #34a853; }
-  .copy-status { margin-top: 10px; font-size: 12px; color: #80868b; }
 </style>
 </head>
 <body>
@@ -73,91 +65,6 @@
   <div class="cover-footer">Bu rapor funnel verilerine ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır.</div>
 </div>
 
-<!-- COPY BUTTON -->
-<div class="copy-section">
-  <h3>İyileştirme Önerilerini Kopyala</h3>
-  <p>Rapordaki tüm iyileştirme önerilerini kopyalayarak yapay zekânıza veya ekibinize iletebilirsiniz.</p>
-  <button class="copy-btn" id="copyBtn" onclick="copyImprovements()">İyileştirmeleri Kopyala</button>
-  <div class="copy-status" id="copyStatus"></div>
-</div>
-
-<script>
-function copyImprovements() {
-  const btn = document.getElementById('copyBtn');
-  const status = document.getElementById('copyStatus');
-  const text = `WEBSITEMERKEZI.COM.TR - İYİLEŞTİRME ÖNERİLERİ
-=====================================
-
-ACİL DÜZELTMELER (Hafta 1-2):
-
-1. FİYAT ŞEFFAFLIĞI SAĞLAYIN
-   En az 3 paket (Başlangıç / Kurumsal / E-Ticaret) fiyatlarını sitede gösterin. "Ücretsiz Teklif Al" tek başına dönüşüm sağlamıyor.
-
-2. DENEYIM TUTARSIZLIĞINI DÜZELTİN
-   Ana sayfa "3+ yıl" diyor, Hakkımızda "10+ yıl" diyor. Tek bir tutarlı rakam kullanın.
-
-3. META TAG VE SEO ALTYAPISINI KURUN
-   Title, meta description, Open Graph, canonical tag, sitemap.xml - bunlar SEO hizmeti satan bir ajans için olmazsa olmaz.
-
-4. SOSYAL MEDYA HESAPLARI OLUŞTURUN
-   Instagram, LinkedIn, Facebook - bir web tasarım ajansının sosyal medyada olmaması güven sorunu yaratıyor.
-
-5. MÜŞTERİ YORUMLARI/REFERANSLARI EKLEYİN
-   "%99 memnuniyet" iddiasını kanıtlayın. Google yorumları, müşteri testimonial'ları ekleyin.
-
-6. MARKA SORUNU - İSİM BENZERLİĞİ
-   websitemerkezi.com farklı bir firma. Bu karışıklık potansiyel müşteri kaybettiriyor.
-
------
-
-DİJİTAL PAZARLAMA STRATEJİSİ (Hafta 3-4):
-
-1. LEAD FUNNEL OLUŞTURUN - "Web siteniz size müşteri getiriyor mu?" ile başlayan kalifikasyon funnel'ı
-2. BLOG BAŞLATIN - "Web sitesi fiyatları 2026", "E-ticaret sitesi maliyeti" gibi anahtar kelimelerle organik trafik
-3. PORTFOLYO SAYFALARINI OPTİMİZE EDİN - Her proje için ayrı SEO-uyumlu sayfa
-4. GOOGLE MY BUSINESS OLUŞTURUN - Yerel SEO için kritik
-5. SCHEMA MARKUP EKLEYİN - LocalBusiness, Organization, Service schema'ları
-6. REKLAM HARCAMASINI OPTİMİZE EDİN - 5-20K bütçe, 0 gelir: funnel olmadan reklam para israfı
-
------
-
-BÜYÜME STRATEJİSİ (Ay 2+):
-
-1. NİŞ ODAKLANMA - Sağlık, hukuk, emlak gibi sektörlere özelleşin
-2. RECURRING GELİR MODELİ - Aylık bakım/yönetim paketleri ile sürdürülebilir gelir
-3. CASE STUDY ÜRETİN - Karavan kiralama yazılımı gibi projelerin başarı hikayelerini anlatın
-4. LINKEDIN OUTBOUND - Karar vericilere doğrudan mesaj kampanyası
-5. REFERANS PROGRAMI - Mevcut müşterilerden yönlendirme komisyonu
-6. TEKNOLOJİ YÜKSELTME - Vanilla PHP'den Laravel/Next.js'e geçiş
-
------
-
-KRİTİK SORUNLAR:
-- Fiyat bilgisi sitede yok [KRİTİK]
-- Sosyal medya varlığı sıfır [KRİTİK]
-- SEO hizmeti satarken kendi sitesinin SEO'su zayıf [KRİTİK]
-- Deneyim bilgisi tutarsız (3 yıl vs 10 yıl) [YÜKSEK]
-- Müşteri referansları/yorumları yok [YÜKSEK]
-- İsim benzerliği sorunu (websitemerkezi.com) [ORTA]
-- 5-20K reklam bütçesi harcanıyor ama 0 gelir [KRİTİK]`;
-
-  try {
-    navigator.clipboard.writeText(text).then(() => {
-      btn.textContent = '\u2705 Kopyalandı!';
-      btn.classList.add('copied');
-      status.textContent = (text.length / 1024).toFixed(1) + ' KB kopyalandı';
-      setTimeout(() => { btn.textContent = 'İyileştirmeleri Kopyala'; btn.classList.remove('copied'); }, 3000);
-    });
-  } catch(e) {
-    const ta = document.createElement('textarea');
-    ta.value = text; ta.style.cssText = 'position:fixed;left:-9999px';
-    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-    btn.textContent = '\u2705 Kopyalandı!'; btn.classList.add('copied');
-    status.textContent = (text.length / 1024).toFixed(1) + ' KB kopyalandı';
-    setTimeout(() => { btn.textContent = 'İyileştirmeleri Kopyala'; btn.classList.remove('copied'); }, 3000);
-  }
-}
-</script>
 
 <!-- PAGE 1 - PROFİL -->
 <h2 class="page-break">1. Lead Profil Özeti</h2>
@@ -499,28 +406,7 @@ KRİTİK SORUNLAR:
   Bu rapor otomatik funnel verisi ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır. &copy; 2026
 </p>
 
-<!-- TRACKING -->
-<script>
-(function() {
-  if (new URLSearchParams(window.location.search).get('t') === '0') return;
-  var SUPABASE_URL = 'https://frficzdzmxhptmtbkfft.supabase.co';
-  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';
-  var trackId = null, startTime = Date.now(), maxScroll = 0;
-  var client = window.location.pathname.split('/')[1] || 'unknown';
-  window.addEventListener('scroll', function() {
-    var pct = Math.round((window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
-    if (pct > maxScroll) maxScroll = pct;
-  });
-  function getTrackData() {
-    return { website: window.location.pathname, stage: 'rapor_view',
-      extra_notes: JSON.stringify({ time_on_page: Math.round((Date.now() - startTime) / 1000), scroll_depth: maxScroll, reached_bottom: maxScroll >= 90, client: client, page_type: 'rapor', opened_at: new Date(startTime).toISOString() }),
-      last_step: maxScroll >= 90 ? 'reached_bottom' : (maxScroll > 10 ? 'scrolling' : 'opened'), completed: maxScroll >= 90 };
-  }
-  fetch(SUPABASE_URL + '/rest/v1/funnel_leads', { method: 'POST', headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Prefer': 'return=representation' }, body: JSON.stringify(getTrackData()) })
-  .then(function(r) { return r.json(); }).then(function(data) { if (data && data[0]) trackId = data[0].id; }).catch(function() {});
-  setInterval(function() { if (!trackId) return; fetch(SUPABASE_URL + '/rest/v1/funnel_leads?id=eq.' + trackId, { method: 'PATCH', headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Prefer': 'return=minimal' }, body: JSON.stringify(getTrackData()) }).catch(function() {}); }, 10000);
-  window.addEventListener('visibilitychange', function() { if (document.visibilityState === 'hidden' && trackId) { fetch(SUPABASE_URL + '/rest/v1/funnel_leads?id=eq.' + trackId, { method: 'PATCH', headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Prefer': 'return=minimal' }, body: JSON.stringify(getTrackData()), keepalive: true }).catch(function() {}); } });
-})();
-</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/tracker.js" data-type="rapor" data-client="websitemerkezi"></script>
 </body>
 </html>

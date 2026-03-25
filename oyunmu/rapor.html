@@ -39,13 +39,6 @@
   .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
   .score-fill { height: 100%; border-radius: 4px; }
   .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
-  @media print { .copy-section { display: none !important; } }
-  .copy-section { padding: 20px 24px; background: #e8faf0; border: 2px dashed #257D41; border-radius: 12px; text-align: center; margin-bottom: 24px; }
-  .copy-section h3 { font-size: 16px; color: #1a1a2e; margin-bottom: 6px; border: none; }
-  .copy-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
-  .copy-btn { background: #257D41; color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
-  .copy-btn:hover { background: #1b5e20; } .copy-btn.copied { background: #34a853; }
-  .copy-status { margin-top: 10px; font-size: 12px; color: #80868b; }
   .liked-section { padding: 20px 24px; background: #e6f4ea; border: 2px solid #34a853; border-radius: 12px; text-align: center; margin-bottom: 24px; }
   .liked-section h3 { font-size: 16px; color: #137333; margin-bottom: 6px; border: none; }
   .liked-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
@@ -70,31 +63,6 @@
 </div>
 
 <script>
-function copyImprovements(){var b=document.getElementById('copyBtn'),s=document.getElementById('copyStatus');
-var t=`OYUNMU - IYILESTIRME ONERILERI
-=====================================
-
-ACIL (Hafta 1-2):
-1. ONBOARDING FUNNEL'I OLUSTURUN - Yeni kullanicilari "Hangi oyunlari seviyorsun?" diye baslayan interaktif bir akisla karsilayip ilk etkinlige yonlendirin. Kayit sonrasi ilk 5 dakikada etkinlige katilim saglanmali.
-2. ICERIK BOLUMLERI DOLDURULSIN - Etkinlikler, Kurumsal, Elciler, SSS bolumleri bos. Potansiyel kullanicilari kaybediyorsunuz. Her bolume en az 3-5 icerik ekleyin.
-3. SOSYAL KANIT EKLEYIN - Kac kisi kayit oldu, kac etkinlik yapildi, kullanici yorumlari gibi guveni artiran metrikler ana sayfada gosterilmeli.
-4. APP STORE & GOOGLE PLAY LINKLERI - Mobil uygulama varsa store linkleri ana sayfada belirgin sekilde yer almali. Yoksa PWA olarak mobil deneyim optimize edilmeli.
-
-BUYUME (Hafta 3-4):
-1. REFERANS PROGRAMI - "Arkadasini davet et, ikisi de 1 ucretsiz etkinlik kazansin". Viral buyume icin en etkili kanal. Davet linki + WhatsApp/Instagram paylasim butonu.
-2. UNIVERSITE KAMPUS STRATEJISI - Kampuslerde oyun geceleri duzenleyin. Universite ogrencileri hedef kitlenin cekirdegi. Kampus elcileri ile organik buyume.
-3. SEO ICERIK STRATEJISI - "Istanbul'da yapilacak sosyal etkinlikler", "oyun geceleri istanbul", "yeni insanlarla tanisma etkinlikleri" gibi anahtar kelimeler icin blog icerikleri yazin.
-4. E-POSTA OTOMASYON SERISI - Kayit sonrasi 7 gunluk otomatik e-posta serisi: Hosgeldin → Ilk etkinlik onerisi → Topluluk hikayesi → Ozel davet → Referans firsati.
-5. INSTAGRAM REELS / TIKTOK STRATEJISI - Etkinlik anlarini kisa videolarla paylasin. "Oyun gecesi vlog", "yabanci birisiyle tanistim" gibi icerikler organik erisim saglar.
-
-OLCEKLEME (Ay 2+):
-1. KURUMSAL TAKIM ETKINLIKLERI - Sirketlere takim kurma (team building) etkinlikleri satin. B2B gelir kanali acilin. HR departmanlarina ozel paketler hazirlayin.
-2. OYUN ELCISI PROGRAMINI BUYUTUN - Her sehirde 5-10 elci hedefleyin. Elcilere ozel indirimler, merchandise ve event organize etme hakki verin.
-3. FARKLI SEHIRLERE ACILMA - Istanbul disinda Ankara, Izmir, Antalya gibi buyuk sehirlere genisleyin. Her sehirde yerel elciler ve mekanlarla isbirligi yapin.
-4. ABONELIK MODELI - Aylik uyelik: sinrisiz etkinlik katilimi, oncelikli kayit, ozel etkinliklere erisim. Freemium model ile baslayip premium'a donusturun.
-5. OYUN MARKALARYLA SPONSORLUK - Hasbro, Asmodee, Ravensburger gibi oyun markalariyla isbirligi. Urun yerlestirme + sponsored etkinlikler.`;
-try{navigator.clipboard.writeText(t).then(function(){b.textContent='\u2705 Kopyalandi!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='Iyilestirmeleri Kopyala';b.classList.remove('copied')},3000)})}catch(e){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);b.textContent='\u2705 Kopyalandi!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='Iyilestirmeleri Kopyala';b.classList.remove('copied')},3000)}}
-
 function handleLiked(){var b=document.getElementById('likedBtn');b.disabled=true;b.textContent='Yonlendiriliyor...';
 if(window.GROWTHER&&GROWTHER.supaFetch){GROWTHER.supaFetch('POST','funnel_leads',{website:window.location.pathname,stage:'liked_report',extra_notes:JSON.stringify({client:'oyunmu',action:'liked_report',clicked_at:new Date().toISOString(),is_test:GROWTHER.isAdmin}),last_step:'liked',completed:true}).catch(function(){});}
 setTimeout(function(){showCalPopup('tr')},500)}
@@ -338,13 +306,6 @@ setTimeout(function(){showCalPopup('tr')},500)}
   <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Begendim, Goruselim</button>
 </div>
 
-<!-- COPY -->
-<div class="copy-section">
-  <h3>Iyilestirme Onerilerini Kopyala</h3>
-  <p>Rapordaki tum onerileri kopyalayarak ekibinize iletebilirsiniz.</p>
-  <button class="copy-btn" id="copyBtn" onclick="copyImprovements()">Iyilestirmeleri Kopyala</button>
-  <div class="copy-status" id="copyStatus"></div>
-</div>
 
 <p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web arastirmasina dayanarak Claude Code Opus 4.6 ile hazirlanmistir. &copy; 2026</p>
 
