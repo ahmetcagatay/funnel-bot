@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ücretsiz Satış Analizi</title>
+    <title data-i18n="page_title">Ücretsiz Satış Analizi</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -13,6 +13,33 @@
             align-items: center; justify-content: center;
         }
         .container { max-width: 560px; width: 100%; padding: 20px; }
+
+        /* ===== LANGUAGE SELECTOR ===== */
+        .lang-selector {
+            position: fixed; top: 16px; right: 16px; z-index: 100;
+        }
+        .lang-btn {
+            display: flex; align-items: center; gap: 6px;
+            padding: 8px 14px; background: #fff; border: 1.5px solid #e5e5e5;
+            border-radius: 10px; cursor: pointer; font-size: 14px; font-family: inherit;
+            color: #333; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .lang-btn:hover { border-color: #ccc; background: #f9f9f9; }
+        .lang-btn .lang-flag { font-size: 18px; line-height: 1; }
+        .lang-btn .lang-arrow { font-size: 10px; color: #999; transition: transform 0.2s; }
+        .lang-dropdown {
+            display: none; position: absolute; top: calc(100% + 6px); right: 0;
+            background: #fff; border: 1.5px solid #e5e5e5; border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12); overflow: hidden; min-width: 180px;
+        }
+        .lang-dropdown.open { display: block; }
+        .lang-option {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 16px; cursor: pointer; font-size: 14px; transition: background 0.15s;
+        }
+        .lang-option:hover { background: #f5f5f5; }
+        .lang-option.active { background: #f0f0f0; font-weight: 600; }
+        .lang-option .lang-flag { font-size: 18px; }
 
         /* ===== LIVE TERMINAL (persistent top) ===== */
         #liveTerminal {
@@ -131,6 +158,13 @@
         .wa-icon { width: 22px; height: 22px; fill: currentColor; }
         .footer-note { text-align: center; font-size: 12px; color: #bbb; margin-top: 40px; }
 
+        /* RTL support */
+        [dir="rtl"] .lang-selector { right: auto; left: 16px; }
+        [dir="rtl"] .lang-dropdown { right: auto; left: 0; }
+        [dir="rtl"] .phone-input-wrapper { flex-direction: row-reverse; }
+        [dir="rtl"] .phase-header { flex-direction: row-reverse; }
+        [dir="rtl"] .option-card { text-align: right; }
+
         @media (max-width: 600px) {
             .step-question { font-size: 22px; }
             .options-grid { grid-template-columns: 1fr 1fr; }
@@ -138,6 +172,17 @@
     </style>
 </head>
 <body>
+
+<!-- LANGUAGE SELECTOR -->
+<div class="lang-selector">
+    <button class="lang-btn" onclick="toggleLangDropdown()">
+        <span class="lang-flag" id="currentLangFlag"></span>
+        <span id="currentLangName"></span>
+        <span class="lang-arrow">&#9660;</span>
+    </button>
+    <div class="lang-dropdown" id="langDropdown"></div>
+</div>
+
 <div class="container">
 
     <!-- PERSISTENT LIVE TERMINAL -->
@@ -149,111 +194,110 @@
 
     <!-- 0: Hero + Website -->
     <div class="step active" data-step="0">
-        <span class="hero-badge">Ücretsiz Aksiyon Planı</span>
-        <h1 class="step-question">Ürünün var ama satılmıyor mu?</h1>
-        <p class="step-description">Web siteni AI ile analiz edip sana özel satış stratejini oluşturalım.</p>
+        <span class="hero-badge" data-i18n="hero_badge">Ücretsiz Aksiyon Planı</span>
+        <h1 class="step-question" data-i18n="hero_question">Ürünün var ama satılmıyor mu?</h1>
+        <p class="step-description" data-i18n="hero_desc">Web siteni AI ile analiz edip sana özel satış stratejini oluşturalım.</p>
         <div style="background:#0d1117;border-radius:12px;padding:20px;font-family:'SF Mono','Fira Code',monospace;font-size:14px;">
             <div style="display:flex;align-items:center;gap:8px;color:#8b949e;">
                 <span style="color:#f0f6fc;">$</span>
                 <span style="color:#D78686;">/analyze</span>
                 <span style="color:#f0f6fc;">https://</span>
-                <input type="text" id="websiteUrl" style="flex:1;background:none;border:none;border-radius:0;outline:none;color:#f0f6fc;font-family:inherit;font-size:14px;padding:0;" placeholder="siteadresi.com" />
+                <input type="text" id="websiteUrl" data-i18n-placeholder="placeholder_website" style="flex:1;background:none;border:none;border-radius:0;outline:none;color:#f0f6fc;font-family:inherit;font-size:14px;padding:0;" placeholder="siteadresi.com" />
             </div>
         </div>
-        <button class="btn btn-primary" id="btnWebsite" onclick="goNext()" disabled>Analiz Et</button>
-        <button class="btn btn-primary" onclick="skipWebsite()" style="background:transparent;color:#999;margin-top:0;font-size:14px;padding:10px 0;">Web sitem yok, devam et &#8594;</button>
+        <button class="btn btn-primary" id="btnWebsite" onclick="goNext()" disabled data-i18n="btn_analyze">Analiz Et</button>
+        <button class="btn btn-primary" onclick="skipWebsite()" style="background:transparent;color:#999;margin-top:0;font-size:14px;padding:10px 0;" data-i18n="btn_skip_website">Web sitem yok, devam et &#8594;</button>
     </div>
 
     <!-- 2: Aşama -->
     <div class="step" data-step="2">
-        <h2 class="step-question">Hangi aşamadasın?</h2>
-        <p class="step-description">Seni doğru yönlendirebilmemiz için mevcut durumunu bilmemiz gerekiyor.</p>
+        <h2 class="step-question" data-i18n="step2_question">Hangi aşamadasın?</h2>
+        <p class="step-description" data-i18n="step2_desc">Seni doğru yönlendirebilmemiz için mevcut durumunu bilmemiz gerekiyor.</p>
         <div class="options">
-            <div class="option-card" onclick="pick(this,'stage','improve_sales')"><div class="option-title">Satışlarımı iyileştirmek istiyorum</div><div class="option-desc">Ürünümü satıyorum ama daha fazla satmak istiyorum</div></div>
-            <div class="option-card" onclick="pick(this,'stage','dont_know')"><div class="option-title">Ürünümü nasıl satacağımı bilmiyorum</div><div class="option-desc">Ürünümü oluşturdum ama satış stratejim yok</div></div>
-            <div class="option-card" onclick="pick(this,'stage','no_traffic')"><div class="option-title">Web siteme trafik gelmiyor</div><div class="option-desc">Sitem var ama ziyaretçi yok</div></div>
-            <div class="option-card" onclick="pick(this,'stage','traffic_no_sales')"><div class="option-title">Trafik var ama satış yok</div><div class="option-desc">Ziyaretçiler geliyor ama dönüşüm olmuyor</div></div>
+            <div class="option-card" onclick="pick(this,'stage','improve_sales')"><div class="option-title" data-i18n="stage_improve">Satışlarımı iyileştirmek istiyorum</div><div class="option-desc" data-i18n="stage_improve_desc">Ürünümü satıyorum ama daha fazla satmak istiyorum</div></div>
+            <div class="option-card" onclick="pick(this,'stage','dont_know')"><div class="option-title" data-i18n="stage_dont_know">Ürünümü nasıl satacağımı bilmiyorum</div><div class="option-desc" data-i18n="stage_dont_know_desc">Ürünümü oluşturdum ama satış stratejim yok</div></div>
+            <div class="option-card" onclick="pick(this,'stage','no_traffic')"><div class="option-title" data-i18n="stage_no_traffic">Web siteme trafik gelmiyor</div><div class="option-desc" data-i18n="stage_no_traffic_desc">Sitem var ama ziyaretçi yok</div></div>
+            <div class="option-card" onclick="pick(this,'stage','traffic_no_sales')"><div class="option-title" data-i18n="stage_traffic_no_sales">Trafik var ama satış yok</div><div class="option-desc" data-i18n="stage_traffic_no_sales_desc">Ziyaretçiler geliyor ama dönüşüm olmuyor</div></div>
         </div>
-        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
+        <button class="btn btn-back" onclick="goBack()" data-i18n="btn_back">&#8592; Geri</button>
     </div>
 
     <!-- 3: Pazar -->
     <div class="step" data-step="3">
-        <h2 class="step-question">Hangi alana hizmet veriyorsun?</h2>
-        <p class="step-description">Hedef kitlen stratejini doğrudan etkiler.</p>
+        <h2 class="step-question" data-i18n="step3_question">Hangi alana hizmet veriyorsun?</h2>
+        <p class="step-description" data-i18n="step3_desc">Hedef kitlen stratejini doğrudan etkiler.</p>
         <div class="options">
-            <div class="option-card" onclick="pick(this,'market','b2c')"><div class="option-title">B2C</div><div class="option-desc">Bireysel tüketicilere satıyorum</div></div>
-            <div class="option-card" onclick="pick(this,'market','b2b')"><div class="option-title">B2B</div><div class="option-desc">Şirketlere / işletmelere satıyorum</div></div>
-            <div class="option-card" onclick="pick(this,'market','b2g')"><div class="option-title">B2G</div><div class="option-desc">Kamu kurumlarına / devlete satıyorum</div></div>
-            <div class="option-card" onclick="pick(this,'market','mixed')"><div class="option-title">Karışık</div><div class="option-desc">Birden fazla alana hizmet veriyorum</div></div>
+            <div class="option-card" onclick="pick(this,'market','b2c')"><div class="option-title" data-i18n="market_b2c">B2C</div><div class="option-desc" data-i18n="market_b2c_desc">Bireysel tüketicilere satıyorum</div></div>
+            <div class="option-card" onclick="pick(this,'market','b2b')"><div class="option-title" data-i18n="market_b2b">B2B</div><div class="option-desc" data-i18n="market_b2b_desc">Şirketlere / işletmelere satıyorum</div></div>
+            <div class="option-card" onclick="pick(this,'market','b2g')"><div class="option-title" data-i18n="market_b2g">B2G</div><div class="option-desc" data-i18n="market_b2g_desc">Kamu kurumlarına / devlete satıyorum</div></div>
+            <div class="option-card" onclick="pick(this,'market','mixed')"><div class="option-title" data-i18n="market_mixed">Karışık</div><div class="option-desc" data-i18n="market_mixed_desc">Birden fazla alana hizmet veriyorum</div></div>
         </div>
-        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
+        <button class="btn btn-back" onclick="goBack()" data-i18n="btn_back">&#8592; Geri</button>
     </div>
 
     <!-- 4: Sektör -->
     <div class="step" data-step="4">
-        <h2 class="step-question">Sektörün hangisi?</h2>
-        <p class="step-description">Birden fazla seçebilirsin. Sektöre özel taktikler içerir raporumuz.</p>
+        <h2 class="step-question" data-i18n="step4_question">Sektörün hangisi?</h2>
+        <p class="step-description" data-i18n="step4_desc">Birden fazla seçebilirsin. Sektöre özel taktikler içerir raporumuz.</p>
         <div class="options-grid">
-            <div class="option-card" onclick="toggleSector(this,'saas')"><div class="option-title">SaaS / Yazılım</div></div>
-            <div class="option-card" onclick="toggleSector(this,'ecommerce')"><div class="option-title">E-Ticaret</div></div>
-            <div class="option-card" onclick="toggleSector(this,'education')"><div class="option-title">Eğitim</div></div>
-            <div class="option-card" onclick="toggleSector(this,'health')"><div class="option-title">Sağlık</div></div>
-            <div class="option-card" onclick="toggleSector(this,'finance')"><div class="option-title">Finans</div></div>
-            <div class="option-card" onclick="toggleSector(this,'agency')"><div class="option-title">Ajans / Hizmet</div></div>
-            <div class="option-card" onclick="toggleSector(this,'food')"><div class="option-title">Yiyecek / İçecek</div></div>
-            <div class="option-card" onclick="toggleSector(this,'other')"><div class="option-title">Diğer</div></div>
+            <div class="option-card" onclick="toggleSector(this,'saas')"><div class="option-title" data-i18n="sector_saas">SaaS / Yazılım</div></div>
+            <div class="option-card" onclick="toggleSector(this,'ecommerce')"><div class="option-title" data-i18n="sector_ecommerce">E-Ticaret</div></div>
+            <div class="option-card" onclick="toggleSector(this,'education')"><div class="option-title" data-i18n="sector_education">Eğitim</div></div>
+            <div class="option-card" onclick="toggleSector(this,'health')"><div class="option-title" data-i18n="sector_health">Sağlık</div></div>
+            <div class="option-card" onclick="toggleSector(this,'finance')"><div class="option-title" data-i18n="sector_finance">Finans</div></div>
+            <div class="option-card" onclick="toggleSector(this,'agency')"><div class="option-title" data-i18n="sector_agency">Ajans / Hizmet</div></div>
+            <div class="option-card" onclick="toggleSector(this,'food')"><div class="option-title" data-i18n="sector_food">Yiyecek / İçecek</div></div>
+            <div class="option-card" onclick="toggleSector(this,'other')"><div class="option-title" data-i18n="sector_other">Diğer</div></div>
         </div>
-        <button class="btn btn-primary" id="btnSector" onclick="goNext()" disabled>Devam Et</button>
-        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
+        <button class="btn btn-primary" id="btnSector" onclick="goNext()" disabled data-i18n="btn_continue">Devam Et</button>
+        <button class="btn btn-back" onclick="goBack()" data-i18n="btn_back">&#8592; Geri</button>
     </div>
 
     <!-- 5: Ürün Deneyimi -->
     <div class="step" data-step="5">
-        <h2 class="step-question">Bu zamana kadar pazarladığınız ürün deneyiminiz?</h2>
-        <p class="step-description">Deneyim seviyenize göre stratejimizi şekillendiriyoruz.</p>
+        <h2 class="step-question" data-i18n="step5_question">Bu zamana kadar pazarladığınız ürün deneyiminiz?</h2>
+        <p class="step-description" data-i18n="step5_desc">Deneyim seviyenize göre stratejimizi şekillendiriyoruz.</p>
         <div class="options">
-            <div class="option-card" onclick="pick(this,'experience','1')"><div class="option-title">İlk ürünüm</div></div>
-            <div class="option-card" onclick="pick(this,'experience','2+')"><div class="option-title">2'den fazla</div></div>
-            <div class="option-card" onclick="pick(this,'experience','5+')"><div class="option-title">5'ten fazla</div></div>
-            <div class="option-card" onclick="pick(this,'experience','10+')"><div class="option-title">10'dan fazla</div></div>
+            <div class="option-card" onclick="pick(this,'experience','1')"><div class="option-title" data-i18n="exp_first">İlk ürünüm</div></div>
+            <div class="option-card" onclick="pick(this,'experience','2+')"><div class="option-title" data-i18n="exp_2plus">2'den fazla</div></div>
+            <div class="option-card" onclick="pick(this,'experience','5+')"><div class="option-title" data-i18n="exp_5plus">5'ten fazla</div></div>
+            <div class="option-card" onclick="pick(this,'experience','10+')"><div class="option-title" data-i18n="exp_10plus">10'dan fazla</div></div>
         </div>
-        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
+        <button class="btn btn-back" onclick="goBack()" data-i18n="btn_back">&#8592; Geri</button>
     </div>
 
     <!-- 6: Aylık Gelir -->
     <div class="step" data-step="6">
-        <h2 class="step-question">Aylık geliriniz ne kadar?</h2>
-        <p class="step-description">Bu bilgi, sana uygun strateji seviyesini belirlememize yardımcı olur.</p>
+        <h2 class="step-question" data-i18n="step6_question">Aylık geliriniz ne kadar?</h2>
+        <p class="step-description" data-i18n="step6_desc">Bu bilgi, sana uygun strateji seviyesini belirlememize yardımcı olur.</p>
         <div class="options">
-            <div class="option-card" onclick="pick(this,'revenue','0')"><div class="option-title">Henüz gelir yok</div></div>
-            <div class="option-card" onclick="pick(this,'revenue','0-10k')"><div class="option-title">0 - 10.000 TL</div></div>
-            <div class="option-card" onclick="pick(this,'revenue','10k-50k')"><div class="option-title">10.000 - 50.000 TL</div></div>
-            <div class="option-card" onclick="pick(this,'revenue','50k-200k')"><div class="option-title">50.000 - 200.000 TL</div></div>
-            <div class="option-card" onclick="pick(this,'revenue','200k+')"><div class="option-title">200.000 TL+</div></div>
+            <div class="option-card" onclick="pick(this,'revenue','0')"><div class="option-title" data-i18n="rev_none">Henüz gelir yok</div></div>
+            <div class="option-card" onclick="pick(this,'revenue','0-10k')"><div class="option-title" data-i18n="rev_tier1">0 - 10.000 TL</div></div>
+            <div class="option-card" onclick="pick(this,'revenue','10k-50k')"><div class="option-title" data-i18n="rev_tier2">10.000 - 50.000 TL</div></div>
+            <div class="option-card" onclick="pick(this,'revenue','50k-200k')"><div class="option-title" data-i18n="rev_tier3">50.000 - 200.000 TL</div></div>
+            <div class="option-card" onclick="pick(this,'revenue','200k+')"><div class="option-title" data-i18n="rev_tier4">200.000 TL+</div></div>
         </div>
-        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
+        <button class="btn btn-back" onclick="goBack()" data-i18n="btn_back">&#8592; Geri</button>
     </div>
 
     <!-- 8: Reklam Bütçesi -->
     <div class="step" data-step="8">
-        <h2 class="step-question">Aylık reklam bütçeniz ne kadar?</h2>
-        <p class="step-description">Reklam harcamalarınızı bilmek, doğru kanal stratejisini belirlemek için önemli.</p>
+        <h2 class="step-question" data-i18n="step8_question">Aylık reklam bütçeniz ne kadar?</h2>
+        <p class="step-description" data-i18n="step8_desc">Reklam harcamalarınızı bilmek, doğru kanal stratejisini belirlemek için önemli.</p>
         <div class="options">
-            <div class="option-card" onclick="pick(this,'adBudget','0-5k')"><div class="option-title">0 - 5.000 TL</div></div>
-            <div class="option-card" onclick="pick(this,'adBudget','5k-20k')"><div class="option-title">5.000 - 20.000 TL</div></div>
-            <div class="option-card" onclick="pick(this,'adBudget','20k-100k')"><div class="option-title">20.000 - 100.000 TL</div></div>
-            <div class="option-card" onclick="pick(this,'adBudget','100k+')"><div class="option-title">100.000 TL+</div></div>
+            <div class="option-card" onclick="pick(this,'adBudget','0-5k')"><div class="option-title" data-i18n="budget_tier1">0 - 5.000 TL</div></div>
+            <div class="option-card" onclick="pick(this,'adBudget','5k-20k')"><div class="option-title" data-i18n="budget_tier2">5.000 - 20.000 TL</div></div>
+            <div class="option-card" onclick="pick(this,'adBudget','20k-100k')"><div class="option-title" data-i18n="budget_tier3">20.000 - 100.000 TL</div></div>
+            <div class="option-card" onclick="pick(this,'adBudget','100k+')"><div class="option-title" data-i18n="budget_tier4">100.000 TL+</div></div>
         </div>
-        <button class="btn btn-back" onclick="goBack()">&#8592; Geri</button>
+        <button class="btn btn-back" onclick="goBack()" data-i18n="btn_back">&#8592; Geri</button>
     </div>
 
     <!-- 11: AI ANALİZ -->
     <div class="step" data-step="11" style="position:relative;">
-        <!-- Analiz içeriği (blur olacak) -->
         <div id="analysisContent">
             <div class="analysis-header" style="text-align:center;margin-bottom:32px;">
-                <h2 style="font-size:24px;font-weight:600;margin-bottom:8px;">AI Analiz Çalışıyor</h2>
+                <h2 style="font-size:24px;font-weight:600;margin-bottom:8px;" data-i18n="analysis_title">AI Analiz Çalışıyor</h2>
                 <p style="font-size:13px;color:#888;font-family:'SF Mono','Fira Code',monospace;" id="analysisStats">✽ Actualizing… (0s · ↓ 0 tokens)</p>
             </div>
 
@@ -268,15 +312,15 @@
             </div>
 
             <div class="analysis-phase" id="phase1">
-                <div class="phase-header"><div class="phase-icon" id="phase1Icon"><span class="spinner"></span></div><div class="phase-title">Web sitesi analiz ediliyor...</div><div class="phase-percent" id="phase1Pct">0%</div></div>
+                <div class="phase-header"><div class="phase-icon" id="phase1Icon"><span class="spinner"></span></div><div class="phase-title" data-i18n="phase1_title">Web sitesi analiz ediliyor...</div><div class="phase-percent" id="phase1Pct">0%</div></div>
                 <div class="phase-terminal" id="term1"></div>
             </div>
             <div class="analysis-phase" id="phase2">
-                <div class="phase-header"><div class="phase-icon" id="phase2Icon">2</div><div class="phase-title">Ürün bilgileri işleniyor...</div><div class="phase-percent" id="phase2Pct">0%</div></div>
+                <div class="phase-header"><div class="phase-icon" id="phase2Icon">2</div><div class="phase-title" data-i18n="phase2_title">Ürün bilgileri işleniyor...</div><div class="phase-percent" id="phase2Pct">0%</div></div>
                 <div class="phase-terminal" id="term2"></div>
             </div>
             <div class="analysis-phase" id="phase3">
-                <div class="phase-header"><div class="phase-icon" id="phase3Icon">3</div><div class="phase-title">Aksiyon planı hazırlanıyor...</div><div class="phase-percent" id="phase3Pct">0%</div></div>
+                <div class="phase-header"><div class="phase-icon" id="phase3Icon">3</div><div class="phase-title" data-i18n="phase3_title">Aksiyon planı hazırlanıyor...</div><div class="phase-percent" id="phase3Pct">0%</div></div>
                 <div class="phase-terminal" id="term3"></div>
             </div>
         </div>
@@ -287,20 +331,20 @@
             <div style="position:relative;background:#fff;border:2px solid #e5e5e5;border-radius:20px;padding:32px 28px;max-width:420px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,0.1);">
                 <div style="text-align:center;margin-bottom:20px;">
                     <div style="font-size:32px;margin-bottom:12px;">⏳</div>
-                    <h3 style="font-size:18px;font-weight:600;margin-bottom:8px;">Bu analiz biraz uzun sürebilir</h3>
-                    <p style="font-size:14px;color:#666;line-height:1.5;">Aksiyon planınız hazır olduğunda size WhatsApp üzerinden ileteceğiz. Numaranızı girin, gerisini biz halledelim.</p>
+                    <h3 style="font-size:18px;font-weight:600;margin-bottom:8px;" data-i18n="popup_title">Bu analiz biraz uzun sürebilir</h3>
+                    <p style="font-size:14px;color:#666;line-height:1.5;" data-i18n="popup_desc">Aksiyon planınız hazır olduğunda size WhatsApp üzerinden ileteceğiz. Numaranızı girin, gerisini biz halledelim.</p>
                 </div>
                 <div class="input-group" style="margin-bottom:16px;">
                     <div class="phone-input-wrapper">
-                        <span class="phone-prefix">+90</span>
-                        <input type="tel" id="userPhone" placeholder="5XX XXX XX XX" maxlength="13" />
+                        <span class="phone-prefix" id="phonePrefix" data-i18n="phone_prefix">+90</span>
+                        <input type="tel" id="userPhone" data-i18n-placeholder="placeholder_phone" placeholder="5XX XXX XX XX" maxlength="13" />
                     </div>
                 </div>
                 <button class="btn btn-whatsapp" id="btnSend" onclick="submitFunnel()" disabled>
                     <svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                    Hazır Olunca Bana Ulaşın
+                    <span data-i18n="btn_submit">Hazır Olunca Bana Ulaşın</span>
                 </button>
-                <p style="font-size:11px;color:#bbb;text-align:center;margin-top:12px;">Spam yapmıyoruz. Sadece aksiyon planınız.</p>
+                <p style="font-size:11px;color:#bbb;text-align:center;margin-top:12px;" data-i18n="popup_note">Spam yapmıyoruz. Sadece aksiyon planınız.</p>
             </div>
         </div>
     </div>
@@ -311,17 +355,17 @@
             <div style="width:80px;height:80px;background:#25D366;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:24px;">
                 <svg style="width:40px;height:40px;fill:#fff;" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
             </div>
-            <h2 class="step-question" style="text-align:center;">Aksiyon planın yolda!</h2>
-            <p class="step-description" style="text-align:center;">
+            <h2 class="step-question" style="text-align:center;" data-i18n="thanks_title">Aksiyon planın yolda!</h2>
+            <p class="step-description" style="text-align:center;" data-i18n="thanks_desc">
                 Artık bu sayfayı kapatabilirsiniz. Aksiyon planınız WhatsApp üzerinden size ulaştırılacaktır.
             </p>
-            <p style="font-size:13px; color:#999; text-align:center; margin-top: 8px;">
+            <p style="font-size:13px; color:#999; text-align:center; margin-top: 8px;" data-i18n-html="thanks_note">
                 Planınız size ulaşmazsa, <strong>1 iş günü içinde</strong> ekip arkadaşlarımız sizinle iletişime geçecektir.
             </p>
         </div>
     </div>
 
-    <p class="footer-note">Verileriniz gizli tutulur ve üçüncü taraflarla paylaşılmaz.</p>
+    <p class="footer-note" data-i18n="footer">Verileriniz gizli tutulur ve üçüncü taraflarla paylaşılmaz.</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -329,13 +373,133 @@
 const SUPABASE_URL = 'https://frficzdzmxhptmtbkfft.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZyZmljemR6bXhocHRtdGJrZmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NzM4NTYsImV4cCI6MjA4MzQ0OTg1Nn0.3ij2AfqftY3flBnPPbU652qvGqOLkT_QCn_JxJHIQLI';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-let leadId = null; // tracks current row in supabase
+let leadId = null;
 </script>
+
+<script>
+// ==================== i18n ENGINE ====================
+const LANGS = {
+    tr: { flag: '🇹🇷', name: 'Türkçe', dir: 'ltr' },
+    en: { flag: '🇬🇧', name: 'English', dir: 'ltr' },
+    fr: { flag: '🇫🇷', name: 'Français', dir: 'ltr' },
+    de: { flag: '🇩🇪', name: 'Deutsch', dir: 'ltr' },
+    es: { flag: '🇪🇸', name: 'Español', dir: 'ltr' },
+    pt: { flag: '🇧🇷', name: 'Português', dir: 'ltr' },
+    ar: { flag: '🇸🇦', name: 'العربية', dir: 'rtl' },
+    zh: { flag: '🇨🇳', name: '中文', dir: 'ltr' },
+    ja: { flag: '🇯🇵', name: '日本語', dir: 'ltr' },
+    hi: { flag: '🇮🇳', name: 'हिन्दी', dir: 'ltr' }
+};
+
+let currentLang = 'tr';
+let translations = {};
+
+function detectLang() {
+    const params = new URLSearchParams(window.location.search);
+    const urlLang = params.get('lang');
+    if (urlLang && LANGS[urlLang]) return urlLang;
+
+    const stored = localStorage.getItem('lang');
+    if (stored && LANGS[stored]) return stored;
+
+    const browserLang = (navigator.language || '').split('-')[0];
+    if (LANGS[browserLang]) return browserLang;
+
+    return 'tr';
+}
+
+async function loadLang(lang) {
+    try {
+        const res = await fetch(`/lang/${lang}.json`);
+        if (!res.ok) throw new Error('Failed to load');
+        translations = await res.json();
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+
+        // Update URL without reload
+        const url = new URL(window.location);
+        url.searchParams.set('lang', lang);
+        history.replaceState(null, '', url);
+
+        applyTranslations();
+        updateLangSelector();
+    } catch (e) {
+        console.error('i18n load error:', e);
+        if (lang !== 'tr') loadLang('tr');
+    }
+}
+
+function t(key) {
+    return translations[key] || key;
+}
+
+function applyTranslations() {
+    // Set HTML dir and lang
+    const dir = LANGS[currentLang]?.dir || 'ltr';
+    document.documentElement.setAttribute('dir', dir);
+    document.documentElement.setAttribute('lang', currentLang);
+
+    // Text content
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[key]) {
+            if (el.tagName === 'TITLE') document.title = translations[key];
+            else el.textContent = translations[key];
+        }
+    });
+
+    // HTML content (for tags like <strong> inside)
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if (translations[key]) el.innerHTML = translations[key];
+    });
+
+    // Placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (translations[key]) el.placeholder = translations[key];
+    });
+}
+
+function updateLangSelector() {
+    const info = LANGS[currentLang];
+    document.getElementById('currentLangFlag').textContent = info.flag;
+    document.getElementById('currentLangName').textContent = info.name;
+
+    const dropdown = document.getElementById('langDropdown');
+    dropdown.innerHTML = '';
+    for (const [code, lang] of Object.entries(LANGS)) {
+        const opt = document.createElement('div');
+        opt.className = 'lang-option' + (code === currentLang ? ' active' : '');
+        opt.innerHTML = `<span class="lang-flag">${lang.flag}</span><span>${lang.name}</span>`;
+        opt.onclick = () => { loadLang(code); dropdown.classList.remove('open'); };
+        dropdown.appendChild(opt);
+    }
+}
+
+function toggleLangDropdown() {
+    document.getElementById('langDropdown').classList.toggle('open');
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.lang-selector')) {
+        document.getElementById('langDropdown').classList.remove('open');
+    }
+});
+
+// Init i18n
+(async () => {
+    const lang = detectLang();
+    await loadLang(lang);
+})();
+</script>
+
 <script>
 // ==================== SYNC TO SUPABASE ====================
 const stepNames = { 0:'website', 2:'stage', 3:'market', 4:'sectors', 5:'experience', 6:'revenue', 8:'ad_budget', 11:'analysis' };
 
-let syncQueue = Promise.resolve(); // serialize all syncs
+let syncQueue = Promise.resolve();
 
 function syncLead(stepName) {
     syncQueue = syncQueue.then(async () => {
@@ -352,13 +516,25 @@ function syncLead(stepName) {
             completed: false
         };
 
+        // Add language if column exists (won't break if column not added yet)
+        try { payload.language = currentLang; } catch(e) {}
+
         try {
             if (!leadId) {
-                const { data, error } = await sb.from('funnel_leads').insert(payload).select('id').single();
+                let { data, error } = await sb.from('funnel_leads').insert(payload).select('id').single();
+                // If language column doesn't exist yet, retry without it
+                if (error && error.message && error.message.includes('language')) {
+                    delete payload.language;
+                    ({ data, error } = await sb.from('funnel_leads').insert(payload).select('id').single());
+                }
                 if (data) leadId = data.id;
                 if (error) console.error('insert err:', error);
             } else {
-                await sb.from('funnel_leads').update(payload).eq('id', leadId);
+                let { error } = await sb.from('funnel_leads').update(payload).eq('id', leadId);
+                if (error && error.message && error.message.includes('language')) {
+                    delete payload.language;
+                    await sb.from('funnel_leads').update(payload).eq('id', leadId);
+                }
             }
         } catch (e) { console.error('sync err:', e); }
     });
@@ -366,21 +542,8 @@ function syncLead(stepName) {
 
 // ==================== STATE ====================
 let cur = 0;
-const STEPS = [0,2,3,4,5,6,8,11,13]; // actual step numbers in order
+const STEPS = [0,2,3,4,5,6,8,11,13];
 const D = { stage:'',market:'',sectors:[],experience:'',revenue:'',adBudget:'',website:'',phone:'' };
-
-// Labels for terminal log
-const termLabels = {
-    website: 'website',
-    stage: 'hedef',
-    market: 'pazar',
-    sectors: 'sektör',
-    experience: 'deneyim',
-    revenue: 'gelir',
-    adBudget: 'reklam_butcesi'
-};
-
-const stageLabels = { 'improve_sales':'satis_iyilestirme','dont_know':'strateji_olusturma','no_traffic':'trafik_kazanimi','traffic_no_sales':'donusum_optimizasyonu' };
 
 // ==================== LIVE TERMINAL ====================
 let termEntries = [];
@@ -395,13 +558,10 @@ function termLog(key, val) {
 function renderTerm() {
     const log = document.getElementById('termLog');
     const e = termEntries[termEntries.length - 1];
-    // Hard overwrite — single line
     log.innerHTML = `<div class="t-entry pending"><span class="t-accent">›</span> <span class="t-dim">${e.key}:</span> <span class="t-val">${e.val}</span></div>`;
-    // After brief delay, mark as done
     setTimeout(() => {
         log.innerHTML = `<div class="t-entry"><span class="t-ok">✓</span> <span class="t-dim">${e.key}:</span> <span class="t-val">${e.val}</span></div>`;
     }, 600);
-    // Update bar
     const pct = Math.min(Math.round((termEntries.length / 7) * 100), 100);
     document.getElementById('termBar').style.width = pct + '%';
 }
@@ -409,25 +569,21 @@ function renderTerm() {
 // ==================== NAV ====================
 function show(step) {
     document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-    const t = document.querySelector(`.step[data-step="${step}"]`);
-    if (t) t.classList.add('active');
-    // Show terminal after hero
+    const tgt = document.querySelector(`.step[data-step="${step}"]`);
+    if (tgt) tgt.classList.add('active');
     const term = document.getElementById('liveTerminal');
     if (step > 0 && step < 11) { term.classList.add('visible'); }
     else { term.classList.remove('visible'); }
 }
 
 function goNext() {
-    // Collect & log
     if (cur === 0) {
         const raw = document.getElementById('websiteUrl').value.trim();
         D.website = raw ? 'https://' + raw : '';
-        if (D.website) termLog('website', D.website);
+        if (D.website) termLog(t('term_website'), D.website);
     }
-    // Sync to Supabase (fire and forget)
     syncLead(stepNames[cur] || 'step_' + cur);
 
-    // Navigate using STEPS array
     const idx = STEPS.indexOf(cur);
     if (idx < STEPS.length - 1) {
         cur = STEPS[idx + 1];
@@ -453,9 +609,12 @@ function pick(el, field, val) {
     D[field] = val;
     el.closest('.options,.options-grid').querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
     el.classList.add('selected');
-    // Log to terminal
-    const label = termLabels[field] || field;
-    const display = field === 'stage' ? (stageLabels[val] || val) : val;
+
+    const termLabelMap = { website: 'term_website', stage: 'term_target', market: 'term_market', sectors: 'term_sector', experience: 'term_experience', revenue: 'term_revenue', adBudget: 'term_ad_budget' };
+    const stageLabelMap = { improve_sales: 'stage_label_improve', dont_know: 'stage_label_dont_know', no_traffic: 'stage_label_no_traffic', traffic_no_sales: 'stage_label_traffic_no_sales' };
+
+    const label = t(termLabelMap[field] || field);
+    const display = field === 'stage' ? t(stageLabelMap[val] || val) : val;
     termLog(label, display);
     setTimeout(goNext, 400);
 }
@@ -467,12 +626,11 @@ function toggleSector(el, val) {
     document.getElementById('btnSector').disabled = D.sectors.length === 0;
 }
 
-// Log multi-selects on goNext
 const _origGoNext = goNext;
 goNext = function() {
     if (cur === 4 && D.sectors.length > 0) {
-        const sMap = { 'saas':'SaaS','ecommerce':'E-Ticaret','education':'Eğitim','health':'Sağlık','finance':'Finans','agency':'Ajans','food':'Yiyecek','other':'Diğer' };
-        termLog('sektör', D.sectors.map(s => sMap[s]||s));
+        const sectorLabelMap = { saas:'sector_label_saas', ecommerce:'sector_label_ecommerce', education:'sector_label_education', health:'sector_label_health', finance:'sector_label_finance', agency:'sector_label_agency', food:'sector_label_food', other:'sector_label_other' };
+        termLog(t('term_sector'), D.sectors.map(s => t(sectorLabelMap[s]||s)));
     }
     _origGoNext();
 };
@@ -481,12 +639,11 @@ goNext = function() {
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('websiteUrl').addEventListener('input', e => {
         const val = e.target.value.trim();
-        // Just need domain like "example.com" or "example.co.uk"
         const domainPattern = /^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z]{2,})+/;
         document.getElementById('btnWebsite').disabled = !domainPattern.test(val);
     });
     document.getElementById('userPhone').addEventListener('input', e => {
-        const valid = e.target.value.replace(/\D/g, '').length >= 10;
+        const valid = e.target.value.replace(/\D/g, '').length >= 7;
         document.getElementById('btnSend').disabled = !valid;
     });
 });
@@ -513,9 +670,6 @@ function completePhase(n) {
     document.getElementById('phase'+n+'Pct').textContent = '100%';
 }
 
-const stageMap = { 'improve_sales':'satış iyileştirme','dont_know':'satış stratejisi oluşturma','no_traffic':'trafik kazanımı','traffic_no_sales':'dönüşüm optimizasyonu' };
-const sectorMap = { 'saas':'SaaS/Yazılım','ecommerce':'E-Ticaret','education':'Eğitim','health':'Sağlık','finance':'Finans','agency':'Ajans/Hizmet','food':'Yiyecek/İçecek','other':'Diğer' };
-
 let analysisTimer = null;
 let analysisStart = 0;
 let tokenCount = 0;
@@ -541,7 +695,7 @@ function stopAnalysisStats() {
     const sec = elapsed % 60;
     const timeStr = min > 0 ? `${min}m ${sec}s` : `${sec}s`;
     const tokenStr = tokenCount > 1000 ? (tokenCount / 1000).toFixed(1) + 'k' : tokenCount;
-    document.getElementById('analysisStats').textContent = `✓ Tamamlandı (${timeStr} · ↓ ${tokenStr} tokens)`;
+    document.getElementById('analysisStats').textContent = `✓ ${t('analysis_done')} (${timeStr} · ↓ ${tokenStr} tokens)`;
 }
 
 async function runAnalysis() {
@@ -552,25 +706,25 @@ async function runAnalysis() {
     activatePhase(1);
     const hasSite = D.website && D.website.length > 5;
 
-    termWrite('term1', `<span class="bright">$</span> <span class="info">Analiz başlatılıyor...</span><span class="cursor"></span>`);
+    termWrite('term1', `<span class="bright">$</span> <span class="info">${t('term_analyzing')}</span><span class="cursor"></span>`);
     await wait(1400);
     setRing(2); document.getElementById('phase1Pct').textContent = '3%';
 
     if (hasSite) {
         const L1 = [
-            [`<span class="bright">$</span> fetch <span class="bright">${D.website}</span>`, 2200],
-            [`<span class="success">✓</span> HTTP 200 — sayfa yüklendi`, 400],
-            [`<span class="bright">$</span> DOM yapısı taranıyor...<span class="cursor"></span>`, 3200],
-            [`<span class="warn">!</span> CTA butonu tespit edildi — konum analizi`, 1800],
-            [`<span class="success">✓</span> Meta açıklamaları mevcut`, 300],
-            [`<span class="dim">→</span> Sayfa yükleme süresi ölçülüyor...<span class="cursor"></span>`, 2800],
-            [`<span class="warn">!</span> Mobil uyumluluk kontrol ediliyor...`, 2200],
-            [`<span class="success">✓</span> SSL sertifikası aktif`, 200],
-            [`<span class="dim">→</span> SEO skorlaması yapılıyor...<span class="cursor"></span>`, 3500],
-            [`<span class="warn">!</span> Dönüşüm elementleri taranıyor...`, 2600],
-            [`<span class="success">✓</span> Form yapıları analiz edildi`, 300],
-            [`<span class="dim">→</span> Rakip verileri çekiliyor...<span class="cursor"></span>`, 3000],
-            [`<span class="success">✓</span> Rakip profilleri oluşturuldu`, 400],
+            [`<span class="bright">$</span> ${t('term_fetch')} <span class="bright">${D.website}</span>`, 2200],
+            [`<span class="success">✓</span> ${t('term_page_loaded')}`, 400],
+            [`<span class="bright">$</span> ${t('term_scanning_dom')}<span class="cursor"></span>`, 3200],
+            [`<span class="warn">!</span> ${t('term_cta_found')}`, 1800],
+            [`<span class="success">✓</span> ${t('term_meta_ok')}`, 300],
+            [`<span class="dim">→</span> ${t('term_load_time')}<span class="cursor"></span>`, 2800],
+            [`<span class="warn">!</span> ${t('term_mobile_check')}`, 2200],
+            [`<span class="success">✓</span> ${t('term_ssl_ok')}`, 200],
+            [`<span class="dim">→</span> ${t('term_seo_scoring')}<span class="cursor"></span>`, 3500],
+            [`<span class="warn">!</span> ${t('term_conversion_scan')}`, 2600],
+            [`<span class="success">✓</span> ${t('term_forms_analyzed')}`, 300],
+            [`<span class="dim">→</span> ${t('term_competitor_fetch')}<span class="cursor"></span>`, 3000],
+            [`<span class="success">✓</span> ${t('term_competitor_done')}`, 400],
         ];
         for (let i = 0; i < L1.length; i++) {
             termWrite('term1', L1[i][0]);
@@ -579,31 +733,33 @@ async function runAnalysis() {
             await wait(L1[i][1]);
         }
     } else {
-        termWrite('term1', `<span class="bright">$</span> Web sitesi girilmedi — sektör analizi...`);
+        termWrite('term1', `<span class="bright">$</span> ${t('term_no_site')}`);
         await wait(2000); setRing(8);
-        termWrite('term1', `<span class="dim">→</span> Sektör veritabanı taranıyor...<span class="cursor"></span>`);
+        termWrite('term1', `<span class="dim">→</span> ${t('term_sector_scan')}<span class="cursor"></span>`);
         await wait(3500); setRing(15);
-        termWrite('term1', `<span class="success">✓</span> ${D.sectors.length} sektör benchmark yüklendi`);
+        termWrite('term1', `<span class="success">✓</span> ${D.sectors.length} ${t('term_sector_loaded')}`);
         await wait(1200); setRing(22);
-        termWrite('term1', `<span class="dim">→</span> Pazar büyüklüğü verileri çekiliyor...<span class="cursor"></span>`);
+        termWrite('term1', `<span class="dim">→</span> ${t('term_market_data')}<span class="cursor"></span>`);
         await wait(2800); setRing(27);
-        termWrite('term1', `<span class="success">✓</span> Rakip profilleri oluşturuldu`);
+        termWrite('term1', `<span class="success">✓</span> ${t('term_competitor_done')}`);
         await wait(400);
     }
     setRing(30);
-    termWrite('term1', `<span class="success">✓ Web sitesi analizi tamamlandı</span>`);
+    termWrite('term1', `<span class="success">✓ ${t('term_site_done')}</span>`);
     completePhase(1);
     await wait(800);
 
-    // ===== PHASE 2: Start, run a few lines, then show popup =====
+    // ===== PHASE 2 =====
     activatePhase(2);
 
+    const stageLabelMap = { improve_sales:'stage_label_improve', dont_know:'stage_label_dont_know', no_traffic:'stage_label_no_traffic', traffic_no_sales:'stage_label_traffic_no_sales' };
+
     const L2_before = [
-        [`<span class="bright">$</span> <span class="info">Ürün verileri yükleniyor...</span><span class="cursor"></span>`, 1200],
-        [`<span class="dim">→</span> Hedef: <span class="bright">${stageMap[D.stage]||'analiz'}</span>`, 400],
-        [`<span class="dim">→</span> Pazar: <span class="bright">${D.market.toUpperCase()}</span>`, 200],
-        [`<span class="dim">⟳</span> Doğal dil işleme modeli yükleniyor...`, 3200],
-        [`<span class="dim">⟳</span> Ürün açıklaması tokenize ediliyor...`, 800],
+        [`<span class="bright">$</span> <span class="info">${t('term_product_loading')}</span><span class="cursor"></span>`, 1200],
+        [`<span class="dim">→</span> ${t('term_target')}: <span class="bright">${t(stageLabelMap[D.stage]||'')}</span>`, 400],
+        [`<span class="dim">→</span> ${t('term_market')}: <span class="bright">${D.market.toUpperCase()}</span>`, 200],
+        [`<span class="dim">⟳</span> ${t('term_nlp_loading')}`, 3200],
+        [`<span class="dim">⟳</span> ${t('term_tokenizing')}`, 800],
     ];
     for (let i = 0; i < L2_before.length; i++) {
         termWrite('term2', L2_before[i][0]);
@@ -612,25 +768,15 @@ async function runAnalysis() {
         await wait(L2_before[i][1]);
     }
 
-    // === POPUP: blur background, show phone overlay ===
+    // === POPUP ===
     document.getElementById('analysisContent').style.filter = 'blur(6px)';
     document.getElementById('analysisContent').style.pointerEvents = 'none';
     const popup = document.getElementById('phonePopup');
     popup.style.display = 'flex';
 
-    // Analysis keeps "running" in background (visual only)
-    const bgLines = [
-        'Hedef kitle segmentasyonu yapılıyor...',
-        'Değer önerisi analiz ediliyor...',
-        'Pazar konumlandırması hesaplanıyor...',
-        'Rakip avantajları karşılaştırılıyor...',
-        'Fiyatlandırma stratejisi değerlendiriliyor...',
-        'Müşteri yolculuğu haritalanıyor...',
-        'Dönüşüm hunisi modelleniyor...',
-        'Büyüme fırsatları belirleniyor...',
-        'Aksiyon planı oluşturuluyor...',
-        'Kişiselleştirilmiş öneriler hazırlanıyor...',
-    ];
+    const bgLines = [];
+    for (let i = 1; i <= 10; i++) bgLines.push(t('bg_line_' + i));
+
     let bgIdx = 0;
     const bgInterval = setInterval(() => {
         if (bgIdx < bgLines.length) {
@@ -642,7 +788,6 @@ async function runAnalysis() {
         }
     }, 2500);
 
-    // Store interval so submit can clear it
     window._bgInterval = bgInterval;
 }
 
@@ -651,21 +796,20 @@ async function submitFunnel() {
     D.phone = document.getElementById('userPhone').value;
     const btn = document.getElementById('btnSend');
     btn.disabled = true;
-    btn.textContent = 'Gönderiliyor...';
+    btn.querySelector('[data-i18n="btn_submit"]').textContent = t('btn_sending');
 
-    // Wait for any pending syncs, then final update
     try {
         await syncQueue;
         if (leadId) {
-            await sb.from('funnel_leads').update({
-                phone: D.phone,
-                last_step: 'completed',
-                completed: true
-            }).eq('id', leadId);
+            const finalPayload = { phone: D.phone, language: currentLang, last_step: 'completed', completed: true };
+            let { error } = await sb.from('funnel_leads').update(finalPayload).eq('id', leadId);
+            if (error && error.message && error.message.includes('language')) {
+                delete finalPayload.language;
+                await sb.from('funnel_leads').update(finalPayload).eq('id', leadId);
+            }
         }
     } catch (e) { console.error('submit err:', e); }
 
-    // Stop everything
     if (window._bgInterval) clearInterval(window._bgInterval);
     stopAnalysisStats();
     cur = 13;

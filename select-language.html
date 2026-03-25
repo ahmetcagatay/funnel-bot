@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Your Language</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fafafa; color: #1a1a1a;
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+        }
+        .container { max-width: 560px; width: 100%; padding: 24px; }
+        .header { text-align: center; margin-bottom: 36px; }
+        .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .header p { font-size: 15px; color: #666; }
+        .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .lang-card {
+            display: flex; align-items: center; gap: 14px;
+            padding: 18px 20px; background: #fff; border: 2px solid #e5e5e5;
+            border-radius: 14px; cursor: pointer; transition: all 0.2s;
+            text-decoration: none; color: inherit;
+        }
+        .lang-card:hover { border-color: #1a1a1a; background: #f5f5f5; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .lang-card .flag { font-size: 28px; line-height: 1; }
+        .lang-card .info { display: flex; flex-direction: column; }
+        .lang-card .name { font-size: 16px; font-weight: 600; }
+        .lang-card .native { font-size: 13px; color: #888; }
+        .footer { text-align: center; margin-top: 40px; font-size: 12px; color: #bbb; }
+        @media (max-width: 480px) {
+            .lang-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Select Your Language</h1>
+        <p>Choose your preferred language to continue</p>
+    </div>
+    <div class="lang-grid">
+        <a class="lang-card" href="/?lang=tr">
+            <span class="flag">🇹🇷</span>
+            <div class="info"><span class="name">Türkçe</span><span class="native">Turkish</span></div>
+        </a>
+        <a class="lang-card" href="/?lang=en">
+            <span class="flag">🇬🇧</span>
+            <div class="info"><span class="name">English</span><span class="native">English</span></div>
+        </a>
+        <a class="lang-card" href="/?lang=fr">
+            <span class="flag">🇫🇷</span>
+            <div class="info"><span class="name">Français</span><span class="native">French</span></div>
+        </a>
+        <a class="lang-card" href="/?lang=de">
+            <span class="flag">🇩🇪</span>
+            <div class="info"><span class="name">Deutsch</span><span class="native">German</span></div>
+        </a>
+        <a class="lang-card" href="/?lang=es">
+            <span class="flag">🇪🇸</span>
+            <div class="info"><span class="name">Español</span><span class="native">Spanish</span></div>
+        </a>
+        <a class="lang-card" href="/?lang=pt">
+            <span class="flag">🇧🇷</span>
+            <div class="info"><span class="name">Português</span><span class="native">Portuguese</span></div>
+        </a>
+        <a class="lang-card" href="/?lang=ar">
+            <span class="flag">🇸🇦</span>
+            <div class="info"><span class="name">العربية</span><span class="native">Arabic</span></div>
+        </a>
+        <a class="lang-card" href="/?lang=zh">
+            <span class="flag">🇨🇳</span>
+            <div class="info"><span class="name">中文</span><span class="native">Chinese</span></div>
+        </a>
+        <a class="lang-card" href="/?lang=ja">
+            <span class="flag">🇯🇵</span>
+            <div class="info"><span class="name">日本語</span><span class="native">Japanese</span></div>
+        </a>
+        <a class="lang-card" href="/?lang=hi">
+            <span class="flag">🇮🇳</span>
+            <div class="info"><span class="name">हिन्दी</span><span class="native">Hindi</span></div>
+        </a>
+    </div>
+    <p class="footer">Powered by GrowthER AI</p>
+</div>
+</body>
+</html>

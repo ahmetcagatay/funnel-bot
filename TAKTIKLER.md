@@ -83,7 +83,7 @@ Merhaba,
 Funnel verilerinizi analiz ettik. [DOMAIN] icin detayli bir rapor hazirladik:
 
 📊 *Analiz Raporu:*
-https://funnel-bot.vercel.app/[MUSTERI]/rapor.html
+https://growtherai.vercel.app/[MUSTERI]/rapor.html
 
 Raporda sunlar var:
 - Site teknik analizi (SEO, UX sorunlari)
@@ -94,7 +94,7 @@ Raporda sunlar var:
 Ayrica sizin icin ornek bir funnel tasarladik:
 
 🎯 *Demo Funnel:*
-https://funnel-bot.vercel.app/[MUSTERI]/demo-funnel.html
+https://growtherai.vercel.app/[MUSTERI]/demo-funnel.html
 
 Funnel stratejisinin detaylari ve uygulama plani icin birlikte calisabiliriz. Uygun oldugunuz bir zamanda konusalim mi?
 ```
@@ -104,7 +104,7 @@ Funnel stratejisinin detaylari ve uygulama plani icin birlikte calisabiliriz. Uy
 
 ### 5.1 Dosya Yapisi
 ```
-funnel-bot/
+growther-ai/
 ├── index.html          # Ana funnel formu
 ├── dashboard.html      # Lead dashboard
 ├── vercel.json         # Routing

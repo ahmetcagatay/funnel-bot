@@ -200,6 +200,10 @@
                 <h3>Reklam Bütçesi</h3>
                 <div id="chartBudget"></div>
             </div>
+            <div class="chart-card">
+                <h3>Dil Dağılımı</h3>
+                <div id="chartLang"></div>
+            </div>
         </div>
 
         <!-- Table -->
@@ -253,6 +257,22 @@
                     </select>
                 </div>
                 <div class="filter-group">
+                    <span class="filter-label">Dil:</span>
+                    <select class="filter-select" id="filterLang" onchange="applyFilters()">
+                        <option value="">Tümü</option>
+                        <option value="tr">🇹🇷 Türkçe</option>
+                        <option value="en">🇬🇧 English</option>
+                        <option value="fr">🇫🇷 Français</option>
+                        <option value="de">🇩🇪 Deutsch</option>
+                        <option value="es">🇪🇸 Español</option>
+                        <option value="pt">🇧🇷 Português</option>
+                        <option value="ar">🇸🇦 العربية</option>
+                        <option value="zh">🇨🇳 中文</option>
+                        <option value="ja">🇯🇵 日本語</option>
+                        <option value="hi">🇮🇳 हिन्दी</option>
+                    </select>
+                </div>
+                <div class="filter-group">
                     <span class="filter-label">Durum:</span>
                     <select class="filter-select" id="filterStatus" onchange="applyFilters()">
                         <option value="">Tümü</option>
@@ -282,6 +302,7 @@
                             <th>LinkedIn</th>
                             <th>ROAS</th>
                             <th>Not</th>
+                            <th>Dil</th>
                             <th>Son Adım</th>
                             <th>Durum</th>
                         </tr>
@@ -325,6 +346,7 @@ const stageLabels = { improve_sales: 'Satış İyileştirme', dont_know: 'Strate
 const marketLabels = { b2c: 'B2C', b2b: 'B2B', b2g: 'B2G', mixed: 'Karışık' };
 const revenueLabels = { '0': 'Gelir yok', '0-10k': '0-10K', '10k-50k': '10-50K', '50k-200k': '50-200K', '200k+': '200K+' };
 const budgetLabels = { '0': 'Yok', '0-5k': '0-5K', '5k-20k': '5-20K', '20k-100k': '20-100K', '100k+': '100K+' };
+const langLabels = { tr: '🇹🇷 Türkçe', en: '🇬🇧 English', fr: '🇫🇷 Français', de: '🇩🇪 Deutsch', es: '🇪🇸 Español', pt: '🇧🇷 Português', ar: '🇸🇦 العربية', zh: '🇨🇳 中文', ja: '🇯🇵 日本語', hi: '🇮🇳 हिन्दी' };
 const colors = ['#D78686', '#58a6ff', '#3fb950', '#d29922', '#bc8cff', '#f778ba', '#79c0ff', '#56d364'];
 
 function buildBars(containerId, data, labels) {
@@ -430,6 +452,7 @@ async function loadData() {
     buildBars('chartMarket', countField(rows, 'market'), marketLabels);
     buildBars('chartRevenue', countField(rows, 'revenue'), revenueLabels);
     buildBars('chartBudget', countField(rows, 'ad_budget'), budgetLabels);
+    buildBars('chartLang', countField(rows, 'language'), langLabels);
 
     // Store rows globally for filtering
     window._allRows = rows;
@@ -478,6 +501,7 @@ function renderTable(rows) {
             <td>${r.linkedin ? (r.linkedin.includes('@') ? `<span style="color:#58a6ff;">${r.linkedin}</span>` : `<a href="${r.linkedin}" target="_blank" style="color:#58a6ff;text-decoration:none;">Profil</a>`) : '—'}</td>
             <td>${r.roas || '—'}</td>
             <td class="wrap" title="${(r.extra_notes||'').replace(/"/g,'&quot;')}">${trackInfo}</td>
+            <td>${r.language ? (langLabels[r.language] || r.language) : '—'}</td>
             <td><span class="tag">${r.last_step || '—'}</span></td>
             <td>${r.completed ? '<span style="color:#3fb950;">✓</span>' : '<span style="color:#f85149;">✗</span>'}</td>
         </tr>`;
@@ -516,6 +540,10 @@ function applyFilters() {
     const market = document.getElementById('filterMarket').value;
     if (market) filtered = filtered.filter(r => r.market === market);
 
+    // Language filter
+    const lang = document.getElementById('filterLang').value;
+    if (lang) filtered = filtered.filter(r => r.language === lang);
+
     // Status filter
     const status = document.getElementById('filterStatus').value;
     if (status === 'completed') filtered = filtered.filter(r => r.completed);
@@ -530,6 +558,7 @@ function clearFilters() {
     document.getElementById('filterSource').value = '';
     document.getElementById('filterBudget').value = '';
     document.getElementById('filterMarket').value = '';
+    document.getElementById('filterLang').value = '';
     document.getElementById('filterStatus').value = '';
     document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
     applyFilters();
