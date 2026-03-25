@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,32 +14,29 @@
         }
         .container { max-width: 560px; width: 100%; padding: 20px; }
 
-        /* ===== LANGUAGE SELECTOR ===== */
-        .lang-selector {
-            position: fixed; top: 16px; right: 16px; z-index: 100;
+        /* ===== LANGUAGE SPLASH SCREEN ===== */
+        .lang-splash {
+            position: fixed; inset: 0; z-index: 1000;
+            background: #fafafa;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 1; transition: opacity 0.4s ease;
         }
-        .lang-btn {
-            display: flex; align-items: center; gap: 6px;
-            padding: 8px 14px; background: #fff; border: 1.5px solid #e5e5e5;
-            border-radius: 10px; cursor: pointer; font-size: 14px; font-family: inherit;
-            color: #333; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        .lang-splash.hidden { opacity: 0; pointer-events: none; }
+        .lang-splash h2 { font-size: 24px; font-weight: 600; margin-bottom: 6px; }
+        .lang-splash p { font-size: 14px; color: #888; margin-bottom: 28px; }
+        .lang-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+            max-width: 400px; width: 100%; padding: 0 20px;
         }
-        .lang-btn:hover { border-color: #ccc; background: #f9f9f9; }
-        .lang-btn .lang-flag { font-size: 18px; line-height: 1; }
-        .lang-btn .lang-arrow { font-size: 10px; color: #999; transition: transform 0.2s; }
-        .lang-dropdown {
-            display: none; position: absolute; top: calc(100% + 6px); right: 0;
-            background: #fff; border: 1.5px solid #e5e5e5; border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.12); overflow: hidden; min-width: 180px;
-        }
-        .lang-dropdown.open { display: block; }
-        .lang-option {
+        .lang-grid-item {
             display: flex; align-items: center; gap: 10px;
-            padding: 10px 16px; cursor: pointer; font-size: 14px; transition: background 0.15s;
+            padding: 14px 18px; background: #fff; border: 2px solid #e5e5e5;
+            border-radius: 12px; cursor: pointer; font-size: 15px; font-family: inherit;
+            transition: all 0.15s;
         }
-        .lang-option:hover { background: #f5f5f5; }
-        .lang-option.active { background: #f0f0f0; font-weight: 600; }
-        .lang-option .lang-flag { font-size: 18px; }
+        .lang-grid-item:hover { border-color: #ccc; background: #f9f9f9; }
+        .lang-grid-item .lang-flag { font-size: 22px; line-height: 1; }
+        @media (max-width: 420px) { .lang-grid { grid-template-columns: 1fr; } }
 
         /* ===== LIVE TERMINAL (persistent top) ===== */
         #liveTerminal {
@@ -106,9 +103,14 @@
         .btn-whatsapp:hover { background: #20bd5a; }
 
         .hero-badge { display: inline-block; background: #f0f0f0; border-radius: 100px; padding: 6px 16px; font-size: 13px; color: #666; margin-bottom: 16px; }
-        .phone-input-wrapper { display: flex; gap: 10px; align-items: center; }
-        .phone-prefix { padding: 14px 12px; font-size: 16px; border: 2px solid #e5e5e5; border-radius: 12px; background: #f5f5f5; color: #666; white-space: nowrap; }
-        .phone-input-wrapper input { flex: 1; }
+        .phone-input-wrapper { display: flex; gap: 8px; align-items: center; }
+        .phone-prefix-input {
+            width: 72px; padding: 14px 8px; font-size: 16px; text-align: center;
+            border: 2px solid #e5e5e5; border-radius: 12px; background: #f5f5f5;
+            color: #333; font-family: inherit; outline: none; transition: border-color 0.2s;
+        }
+        .phone-prefix-input:focus { border-color: #1a1a1a; background: #fff; }
+        .phone-input-wrapper input[type="tel"] { flex: 1; }
 
         /* ===== ANALYSIS ===== */
         .analysis-phase {
@@ -159,8 +161,6 @@
         .footer-note { text-align: center; font-size: 12px; color: #bbb; margin-top: 40px; }
 
         /* RTL support */
-        [dir="rtl"] .lang-selector { right: auto; left: 16px; }
-        [dir="rtl"] .lang-dropdown { right: auto; left: 0; }
         [dir="rtl"] .phone-input-wrapper { flex-direction: row-reverse; }
         [dir="rtl"] .phase-header { flex-direction: row-reverse; }
         [dir="rtl"] .option-card { text-align: right; }
@@ -173,14 +173,11 @@
 </head>
 <body>
 
-<!-- LANGUAGE SELECTOR -->
-<div class="lang-selector">
-    <button class="lang-btn" onclick="toggleLangDropdown()">
-        <span class="lang-flag" id="currentLangFlag"></span>
-        <span id="currentLangName"></span>
-        <span class="lang-arrow">&#9660;</span>
-    </button>
-    <div class="lang-dropdown" id="langDropdown"></div>
+<!-- LANGUAGE SPLASH SCREEN -->
+<div class="lang-splash" id="langSplash">
+    <h2>Select Language</h2>
+    <p>Choose your preferred language</p>
+    <div class="lang-grid" id="langGrid"></div>
 </div>
 
 <div class="container">
@@ -336,8 +333,8 @@
                 </div>
                 <div class="input-group" style="margin-bottom:16px;">
                     <div class="phone-input-wrapper">
-                        <span class="phone-prefix" id="phonePrefix" data-i18n="phone_prefix">+90</span>
-                        <input type="tel" id="userPhone" data-i18n-placeholder="placeholder_phone" placeholder="5XX XXX XX XX" maxlength="13" />
+                        <input type="tel" class="phone-prefix-input" id="phonePrefix" value="" maxlength="5" inputmode="tel" />
+                        <input type="tel" id="userPhone" data-i18n-placeholder="placeholder_phone" placeholder="555 123 4567" inputmode="tel" />
                     </div>
                 </div>
                 <button class="btn btn-whatsapp" id="btnSend" onclick="submitFunnel()" disabled>
@@ -391,7 +388,7 @@ const LANGS = {
     hi: { flag: '🇮🇳', name: 'हिन्दी', dir: 'ltr' }
 };
 
-let currentLang = 'tr';
+let currentLang = 'en';
 let translations = {};
 
 function detectLang() {
@@ -405,7 +402,7 @@ function detectLang() {
     const browserLang = (navigator.language || '').split('-')[0];
     if (LANGS[browserLang]) return browserLang;
 
-    return 'tr';
+    return 'en';
 }
 
 async function loadLang(lang) {
@@ -425,7 +422,7 @@ async function loadLang(lang) {
         updateLangSelector();
     } catch (e) {
         console.error('i18n load error:', e);
-        if (lang !== 'tr') loadLang('tr');
+        if (lang !== 'en') loadLang('en');
     }
 }
 
@@ -461,37 +458,62 @@ function applyTranslations() {
     });
 }
 
+// Phone prefix map per language (empty for English — many nationalities)
+const LANG_PREFIXES = {
+    tr: '+90', fr: '+33', de: '+49', es: '+34', pt: '+55',
+    ar: '+966', zh: '+86', ja: '+81', hi: '+91', en: ''
+};
+
+function updatePhonePrefix() {
+    const prefixInput = document.getElementById('phonePrefix');
+    if (prefixInput) {
+        prefixInput.value = LANG_PREFIXES[currentLang] || '';
+    }
+}
+
 function updateLangSelector() {
-    const info = LANGS[currentLang];
-    document.getElementById('currentLangFlag').textContent = info.flag;
-    document.getElementById('currentLangName').textContent = info.name;
+    // No persistent selector — splash only
+}
 
-    const dropdown = document.getElementById('langDropdown');
-    dropdown.innerHTML = '';
+// Build and show splash screen
+function buildLangSplash() {
+    const grid = document.getElementById('langGrid');
+    grid.innerHTML = '';
     for (const [code, lang] of Object.entries(LANGS)) {
-        const opt = document.createElement('div');
-        opt.className = 'lang-option' + (code === currentLang ? ' active' : '');
-        opt.innerHTML = `<span class="lang-flag">${lang.flag}</span><span>${lang.name}</span>`;
-        opt.onclick = () => { loadLang(code); dropdown.classList.remove('open'); };
-        dropdown.appendChild(opt);
+        const item = document.createElement('div');
+        item.className = 'lang-grid-item';
+        item.innerHTML = `<span class="lang-flag">${lang.flag}</span><span>${lang.name}</span>`;
+        item.onclick = async () => {
+            await loadLang(code);
+            updatePhonePrefix();
+            closeSplash();
+        };
+        grid.appendChild(item);
     }
 }
 
-function toggleLangDropdown() {
-    document.getElementById('langDropdown').classList.toggle('open');
+function closeSplash() {
+    const splash = document.getElementById('langSplash');
+    splash.classList.add('hidden');
+    setTimeout(() => splash.remove(), 400);
 }
-
-// Close dropdown on outside click
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.lang-selector')) {
-        document.getElementById('langDropdown').classList.remove('open');
-    }
-});
 
 // Init i18n
 (async () => {
-    const lang = detectLang();
-    await loadLang(lang);
+    const params = new URLSearchParams(window.location.search);
+    const urlLang = params.get('lang');
+    const storedLang = localStorage.getItem('lang');
+
+    // Skip splash if language already known
+    if ((urlLang && LANGS[urlLang]) || (storedLang && LANGS[storedLang])) {
+        const lang = (urlLang && LANGS[urlLang]) ? urlLang : storedLang;
+        await loadLang(lang);
+        updatePhonePrefix();
+        document.getElementById('langSplash').remove();
+    } else {
+        // Show splash — load English in background but don't set localStorage
+        buildLangSplash();
+    }
 })();
 </script>
 
@@ -793,7 +815,9 @@ async function runAnalysis() {
 
 // ==================== SUBMIT ====================
 async function submitFunnel() {
-    D.phone = document.getElementById('userPhone').value;
+    const prefix = document.getElementById('phonePrefix').value.trim();
+    const number = document.getElementById('userPhone').value.trim();
+    D.phone = prefix ? prefix + ' ' + number : number;
     const btn = document.getElementById('btnSend');
     btn.disabled = true;
     btn.querySelector('[data-i18n="btn_submit"]').textContent = t('btn_sending');
