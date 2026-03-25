@@ -69,20 +69,6 @@
   <div class="cover-footer">Bu rapor funnel verilerine ve web arastirmasina dayanarak Claude Code Opus 4.6 ile hazirlanmistir.</div>
 </div>
 
-<!-- BEGENDIM -->
-<div class="liked-section">
-  <h3>Bu rapor isinize yaradiysa</h3>
-  <p>Stratejileri birlikte uygulayalim. 15 dakikalik ucretsiz gorusme icin tiklayin.</p>
-  <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Begendim, Goruselim</button>
-</div>
-
-<!-- COPY -->
-<div class="copy-section">
-  <h3>Iyilestirme Onerilerini Kopyala</h3>
-  <p>Rapordaki tum onerileri kopyalayarak ekibinize iletebilirsiniz.</p>
-  <button class="copy-btn" id="copyBtn" onclick="copyImprovements()">Iyilestirmeleri Kopyala</button>
-  <div class="copy-status" id="copyStatus"></div>
-</div>
 <script>
 function copyImprovements(){var b=document.getElementById('copyBtn'),s=document.getElementById('copyStatus');
 var t=`OYUNMU - IYILESTIRME ONERILERI
@@ -343,6 +329,21 @@ setTimeout(function(){showCalPopup('tr')},500)}
 <div class="alert alert-success">
   <strong>Bir Sonraki Adim</strong>
   Bu rapordaki stratejinin uygulanmasi icin sizinle calisabiliriz. Kullanici edinme funnel'i, onboarding akisi, referans programi, icerik stratejisi, sosyal medya plani ve kurumsal satis kanali konularinda destek sunabiliriz. 15 dakikalik ucretsiz gorusme icin: <a href="https://cal.com/ahmetcagatay/15min" target="_blank" style="color:#257D41;font-weight:600">cal.com/ahmetcagatay/15min</a>
+</div>
+
+<!-- BEGENDIM -->
+<div class="liked-section">
+  <h3>Bu rapor isinize yaradiysa</h3>
+  <p>Stratejileri birlikte uygulayalim. 15 dakikalik ucretsiz gorusme icin tiklayin.</p>
+  <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Begendim, Goruselim</button>
+</div>
+
+<!-- COPY -->
+<div class="copy-section">
+  <h3>Iyilestirme Onerilerini Kopyala</h3>
+  <p>Rapordaki tum onerileri kopyalayarak ekibinize iletebilirsiniz.</p>
+  <button class="copy-btn" id="copyBtn" onclick="copyImprovements()">Iyilestirmeleri Kopyala</button>
+  <div class="copy-status" id="copyStatus"></div>
 </div>
 
 <p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web arastirmasina dayanarak Claude Code Opus 4.6 ile hazirlanmistir. &copy; 2026</p>

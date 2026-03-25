@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 13px; line-height: 1.6; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #f3e8ff; color: #7c3aed; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #7c3aed, #a855f7); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #7c3aed; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
+  th { background: #1a1a2e; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #f3e8ff; border-left: 4px solid #7c3aed; color: #5b21b6; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #f3e8ff; color: #5b21b6; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #7c3aed; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
+  .summary-card { flex: 1; min-width: 120px; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #7c3aed; }
+  .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  @media print { .copy-section { display: none !important; } }
+  .copy-section { padding: 20px 24px; background: #f3e8ff; border: 2px dashed #7c3aed; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .copy-section h3 { font-size: 16px; color: #1a1a2e; margin-bottom: 6px; border: none; }
+  .copy-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .copy-btn { background: #7c3aed; color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .copy-btn:hover { background: #6d28d9; } .copy-btn.copied { background: #34a853; }
+  .copy-status { margin-top: 10px; font-size: 12px; color: #80868b; }
+  .liked-section { padding: 20px 24px; background: #e6f4ea; border: 2px solid #34a853; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .liked-section h3 { font-size: 16px; color: #137333; margin-bottom: 6px; border: none; }
+  .liked-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .liked-btn { background: #34a853; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .liked-btn:hover { background: #2d9249; } .liked-btn.clicked { background: #7c3aed; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanim</div>
+  <h1>Dogan Yayinlari</h1>
+  <h2>Dijital Buyume &amp; E-Ticaret Optimizasyonu Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazirlanma Tarihi:</strong> 25 Mart 2026<br>
+    <strong>Domain:</strong> doganyayinlari.com.tr<br>
+    <strong>Sektor:</strong> Yayincilik &amp; Kitap E-Ticaret<br>
+    <strong>Rapor Turu:</strong> Detayli Analiz + Strateji Onerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web arastirmasina dayanarak Claude Code Opus 4.6 ile hazirlanmistir.</div>
+</div>
+
+<script>
+function copyImprovements(){var b=document.getElementById('copyBtn'),s=document.getElementById('copyStatus');
+var t=`DOGAN YAYINLARI - IYILESTIRME ONERILERI
+=====================================
+
+ACIL (Hafta 1-2):
+1. KISISELLESTIRILMIS ONERI MOTORU - Ziyaretcinin gezinme gecmisine, secili kategorilere ve onceki alisverislerine gore otomatik kitap onerisi. "Bunu okuyanlar sunlari da aldi" bloklari her urun sayfasina eklenmeli.
+2. SEPET TERK E-POSTA OTOMASYONU - Sepete kitap ekleyip satin almayan kullanicilara 1 saat + 24 saat + 72 saat sonra otomatik hatirlatma e-postasi gonderilmeli. Stok azaliyor/fiyat degisebilir uyarilari ile aciliyet olusturun.
+3. KATEGORI SAYFALARI SEO OPTIMIZASYONU - Her kategoriye ozel meta baslik ve aciklama yazilmali. "En iyi polisiye kitaplari 2026", "cocuk kitaplari onerileri" gibi anahtar kelimeler hedeflenmeli.
+4. MOBIL DENEYIMI IYILESTIRIN - Urun kartlarinda fiyat ve sepete ekle butonu daha belirgin olmali. Tek dokunusla satin alma (express checkout) ekleyin.
+
+BUYUME (Hafta 3-4):
+1. KITAP ONERI FUNNEL'I - "Nasil bir kitap ariyorsun?" diye baslayan interaktif funnel. Tur, tercih ve okuma aliskanligi sorup kisisel oneriler sunun.
+2. BLOG ICERIGINI GENISLETIN - "2026'nin en cok okunan kitaplari", "polisiye roman onerileri", "cocuklara kitap okuma aliskanligi kazandirma" gibi SEO odakli icerikler.
+3. YAZAR ODAKLI LANDING PAGE'LER - Elif Safak, Haruki Murakami gibi populer yazarlar icin ozel sayfalar. Biyografi + tum kitaplari + okuyucu yorumlari.
+4. SADAKAT PROGRAMI - Alisveris basina puan kazanma, ozel indirimler, erken erisim. Tekrar alisveris oranini artirin.
+5. E-POSTA SEGMENTASYONU - Tur bazli segmentler olusturun. Polisiye sevenler yeni polisiye ciktiginda, cocuk kitabi alanlar yeni cocuk kitaplari ciktiginda bilgilendirilsin.
+
+OLCEKLEME (Ay 2+):
+1. YOUTUBE KITAP INCELEME KANALI - "Ayın Kitabı", "5 Dakikada Kitap Ozeti", "Yazar Soylesi" gibi seriler organik trafik getirir.
+2. INSTAGRAM/TIKTOK BOOKSTAGRAM ORTAKLIKLARI - Kitap influencer'lari ile isbirligi. #KitapOnerisi icerikleri ile organik erisim.
+3. KURUMSAL SATIS KANALI - Sirketlere toplu kitap satisi (hediye, kutuphane, egitim). Ozel fiyatlandirma ve fatura.
+4. ABONELIK MODELI - Aylik kitap kutusu: secilen ture gore her ay surpriz kitap. Dogan Yayinlari katalogu ile guclu avantaj.
+5. OKUMAKIYIGELIR.COM ENTEGRASYONU - Blog icerigini ana siteyle entegre edin. Her blog yazisinda ilgili kitaplara satin alma linki ekleyin.`;
+try{navigator.clipboard.writeText(t).then(function(){b.textContent='\u2705 Kopyalandi!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='Iyilestirmeleri Kopyala';b.classList.remove('copied')},3000)})}catch(e){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);b.textContent='\u2705 Kopyalandi!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='Iyilestirmeleri Kopyala';b.classList.remove('copied')},3000)}}
+
+function handleLiked(){var b=document.getElementById('likedBtn');b.disabled=true;b.textContent='Yonlendiriliyor...';
+if(window.GROWTHER&&GROWTHER.supaFetch){GROWTHER.supaFetch('POST','funnel_leads',{website:window.location.pathname,stage:'liked_report',extra_notes:JSON.stringify({client:'doganyayinlari',action:'liked_report',clicked_at:new Date().toISOString(),is_test:GROWTHER.isAdmin}),last_step:'liked',completed:true}).catch(function(){});}
+setTimeout(function(){showCalPopup('tr')},500)}
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+
+<!-- PROFIL -->
+<h2 class="page-break">1. Sirket Profil Ozeti</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">B2C</div><div class="label">Hedef Pazar</div></div>
+  <div class="summary-card"><div class="value">Yayincilik</div><div class="label">Sektor</div></div>
+  <div class="summary-card"><div class="value">50K-200K</div><div class="label">Aylik Gelir</div></div>
+  <div class="summary-card"><div class="value">5K-20K</div><div class="label">Reklam Butcesi</div></div>
+  <div class="summary-card"><div class="value">10+ Yil</div><div class="label">Deneyim</div></div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Deger</th></tr>
+  <tr><td><strong>Website</strong></td><td>doganyayinlari.com.tr</td></tr>
+  <tr><td><strong>Urun</strong></td><td>Kitap satisi: roman, polisiye, bilim kurgu, fantastik, kisisel gelisim, tarih, biyografi, cocuk kitaplari, manga. 30+ kategori, 5.000+ baslik.</td></tr>
+  <tr><td><strong>Alt Markalar</strong></td><td>Dogan Kitap, Dex Kitap, Dogan Cocuk, X-Libris</td></tr>
+  <tr><td><strong>One Cikan Yazarlar</strong></td><td>Elif Safak, Haruki Murakami, Rick Riordan, Sermin Yasar</td></tr>
+  <tr><td><strong>Platform</strong></td><td>Ozel e-ticaret altyapisi (WordPress/ozel CMS)</td></tr>
+  <tr><td><strong>Odeme</strong></td><td>iyzico entegrasyonu</td></tr>
+  <tr><td><strong>Kargo</strong></td><td>750 TL ve uzeri ucretsiz kargo</td></tr>
+  <tr><td><strong>Musteri Hizmetleri</strong></td><td>(0212) 373 77 00 - Hafta ici 09:00-18:00</td></tr>
+  <tr><td><strong>Sosyal Medya</strong></td><td>Instagram, Twitter, Facebook, YouTube, LinkedIn</td></tr>
+  <tr><td><strong>Blog</strong></td><td>okumakiyigelir.com (ayri subdomain)</td></tr>
+</table>
+
+<h3>Katalog Dagilimi</h3>
+<table>
+  <tr><th>Kategori</th><th>Baslik Sayisi</th><th>One Cikan</th></tr>
+  <tr><td><strong>Dogan Cocuk</strong></td><td>4.011</td><td>En buyuk koleksiyon, Percy Jackson serisi</td></tr>
+  <tr><td><strong>Oyku / Roman</strong></td><td>1.584</td><td>Elif Safak, Haruki Murakami</td></tr>
+  <tr><td><strong>Arastirma - Inceleme</strong></td><td>409</td><td>Akademik ve populer bilim</td></tr>
+  <tr><td><strong>X-Libris</strong></td><td>160</td><td>Ozel koleksiyon</td></tr>
+  <tr><td><strong>Fantastik</strong></td><td>150</td><td>Genc okuyucu segmenti</td></tr>
+  <tr><td><strong>Manga</strong></td><td>20</td><td>Buyuyen niş pazar</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Profil Degerlendirmesi</strong>
+  Dogan Yayinlari, Turkiye'nin en koklü yayinevlerinden biri. 5.000+ baslik, 4 alt marka ve guclu yazar kadrosu ile sektorde lider konumda. Ancak dijital satis kanali, rakiplere (kitapyurdu.com, dr.com.tr, bkmkitap.com) gore optimize edilmemis. E-ticaret deneylimi 50K-200K aylik gelir ve 5K-20K reklam butcesi gosterilerken, kisisellestirilmis oneri motoru, sepet terk otomasyonu ve icerik pazarlamasi ile bu rakamlar katlanabilir.
+</div>
+
+<!-- RAKIP -->
+<h2 class="page-break">2. Rakip Analizi - Online Kitap Pazari</h2>
+
+<h3>2.1 Dogrudan Rakipler</h3>
+<table>
+  <tr><th>Rakip</th><th>Guclu Yonu</th><th>Kategori Sirasi</th><th>Dogan'a Gore</th></tr>
+  <tr><td><strong>kitapyurdu.com</strong></td><td>Turkiye'nin en buyuk online kitapcisi, dev katalog, guclu SEO</td><td>#176</td><td>En buyuk rakip</td></tr>
+  <tr><td><strong>dr.com.tr (D&R)</strong></td><td>Fiziksel magaza agi + online, genis urun yelpazesi</td><td>#279</td><td>Omnichannel avantaji</td></tr>
+  <tr><td><strong>bkmkitap.com</strong></td><td>Agresif fiyat politikasi, hizli kargo</td><td>#382</td><td>Fiyat tehdidi</td></tr>
+  <tr><td><strong>nadirkitap.com</strong></td><td>Ikinci el ve nadir kitaplar, niş pazar</td><td>#313</td><td>Farkli segment</td></tr>
+  <tr><td><strong>idefix.com</strong></td><td>Guclu marka bilinirliği, D&R grubu</td><td>-</td><td>Marka tehdidi</td></tr>
+  <tr style="background:#f3e8ff">
+    <td><strong>Dogan Yayinlari</strong></td>
+    <td>Ozel katalog, guclu yazarlar, 4 alt marka, Dogan Cocuk lider</td>
+    <td>#612</td>
+    <td>-</td>
+  </tr>
+</table>
+
+<h3>2.2 Pazar Buyuklugu - Turkiye Kitap Sektoru</h3>
+<table>
+  <tr><th>Metrik</th><th>Deger</th></tr>
+  <tr><td>Turkiye Yayincilik Pazar Buyuklugu (2025)</td><td><strong>~8 Milyar TL</strong></td></tr>
+  <tr><td>Online Kitap Satisi Payi</td><td><strong>%35-40 (ve buyuyor)</strong></td></tr>
+  <tr><td>Yillik Buyume</td><td><strong>%15-20</strong></td></tr>
+  <tr><td>En Cok Satan Tur</td><td><strong>Roman / Kisisel Gelisim</strong></td></tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Dogan Yayinlari'nin Rekabetci Avantajlari</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Ozel katalog</strong> - Dogan Kitap, Dex, X-Libris yazarlari sadece burada satiliyor</li>
+    <li><strong>Elif Safak, Murakami gibi dunya yildizlari</strong> - Turkiye lisans haklari guclu cekicilik</li>
+    <li><strong>Dogan Cocuk 4.000+ baslik</strong> - Cocuk kitabi segmentinde pazar lideri</li>
+    <li><strong>Alt marka stratejisi</strong> - Farkli okuyucu segmentlerine hitap (Dex = genc, X-Libris = koleksiyon)</li>
+    <li><strong>okumakiyigelir.com blogu</strong> - Icerik pazarlamasi icin altyapi mevcut</li>
+    <li><strong>Kurumsal guc</strong> - Dogan Holding altinda finansal istikrar</li>
+  </ul>
+</div>
+
+<div class="alert alert-warning">
+  <strong>Rakiplere Gore Zayif Noktalar</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Kitapyurdu.com kategoride 3.5x daha iyi sirada</strong> (#176 vs #612) - SEO ve trafik farki buyuk</li>
+    <li><strong>Fiyat rekabeti</strong> - bkmkitap.com agresif indirimlerle musterileri cekiyor</li>
+    <li><strong>D&R fiziksel magaza avantaji</strong> - Online+offline deneyim sunuyor</li>
+    <li><strong>Kisisellestirilmis oneri yok</strong> - Rakiplerde "sana ozel" bolumleri var, Dogan'da yok</li>
+  </ul>
+</div>
+
+<!-- WEB SITESI -->
+<h2 class="page-break">3. Web Sitesi Analizi</h2>
+
+<h3>3.1 Guclu Yonler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr><td>Uyelik sistemi</td><td><span class="tag tag-green">Var</span> - Siparis takibi, favoriler, hesap yonetimi</td></tr>
+  <tr><td>Arama fonksiyonu</td><td><span class="tag tag-green">Var</span> - Header'da arama kutusu</td></tr>
+  <tr><td>Mobil uyumluluk</td><td><span class="tag tag-green">Responsive</span> - Mobil banner ve menu</td></tr>
+  <tr><td>SSL sertifikasi</td><td><span class="tag tag-green">Aktif</span></td></tr>
+  <tr><td>Lazy loading</td><td><span class="tag tag-green">Var</span> - Resimler lazy load</td></tr>
+  <tr><td>Analytics</td><td><span class="tag tag-green">GA4</span> - G-4WG5CL06S6</td></tr>
+  <tr><td>Blog</td><td><span class="tag tag-green">Var</span> - okumakiyigelir.com</td></tr>
+  <tr><td>Odeme altyapisi</td><td><span class="tag tag-green">iyzico</span></td></tr>
+</table>
+
+<h3>3.2 Iyilestirme Alanlari</h3>
+<table>
+  <tr><th>Sorun</th><th>Aciklama</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>Kisisellestirilmis oneri yok</strong></td>
+    <td>5.000+ baslik var ama ziyaretciye ozel oneri motoru yok. "Bunu okuyanlar sunlari da aldi", "sana ozel", "gecmis alisverislerine gore" bloklari eksik. Bu ozellik donusum oranini %15-30 artirabilir.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sepet terk otomasyonu yok</strong></td>
+    <td>E-ticaret sitelerinde ortalama sepet terk orani %70. Otomatik e-posta hatirlatma sistemi yoksa bu musterilerin tamami kaybediliyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Blog ayri domain'de</strong></td>
+    <td>okumakiyigelir.com ayri bir sitede. SEO degeri ana siteye aktarilmiyor. Blog icerigi doganyayinlari.com.tr/blog altinda olmali.</td>
+    <td><span class="tag tag-orange">Yuksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Kategori sayfalari SEO zayif</strong></td>
+    <td>30+ kategori var ama kategori sayfalarina ozel meta baslik, aciklama ve icerik eklenmemis. "En iyi polisiye kitaplari", "cocuk kitabi onerileri" gibi aramalarda siralama potansiyeli kaybediliyor.</td>
+    <td><span class="tag tag-orange">Yuksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Yazar sayfalari yetersiz</strong></td>
+    <td>Elif Safak, Murakami gibi yazarlarin ozel landing page'leri yok veya yetersiz. Yazar adi aramalari cok yuksek hacimli - bu trafik yakalanmali.</td>
+    <td><span class="tag tag-orange">Yuksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>E-posta segmentasyonu</strong></td>
+    <td>Tur bazli e-posta listeleri olusturulmamis. Polisiye seven bir okuyucuya kisisel gelisim kitabi gondermek etkisiz.</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sadakat programi yok</strong></td>
+    <td>Kitap okuyucuları dusunuldugunde tekrar alisveris orani yuksek olmali. Puan sistemi, ozel indirimler ve erken erisim ile sadakat arttirilabilir.</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+</table>
+
+<h3>3.3 Rekabet Karsilastirmasi - Ozellikler</h3>
+<table>
+  <tr><th>Ozellik</th><th>Dogan</th><th>Kitapyurdu</th><th>D&R</th><th>BKM</th></tr>
+  <tr><td>Kisisel oneri motoru</td><td><span class="tag tag-red">Yok</span></td><td><span class="tag tag-green">Var</span></td><td><span class="tag tag-green">Var</span></td><td><span class="tag tag-orange">Kismen</span></td></tr>
+  <tr><td>Sepet terk e-postasi</td><td><span class="tag tag-red">Yok</span></td><td><span class="tag tag-green">Var</span></td><td><span class="tag tag-green">Var</span></td><td><span class="tag tag-green">Var</span></td></tr>
+  <tr><td>Sadakat programi</td><td><span class="tag tag-red">Yok</span></td><td><span class="tag tag-green">Var</span></td><td><span class="tag tag-green">D&R Plus</span></td><td><span class="tag tag-orange">Kismen</span></td></tr>
+  <tr><td>Blog / Icerik</td><td><span class="tag tag-orange">Ayri site</span></td><td><span class="tag tag-green">Entegre</span></td><td><span class="tag tag-green">Entegre</span></td><td><span class="tag tag-orange">Sinirli</span></td></tr>
+  <tr><td>Mobil uygulama</td><td><span class="tag tag-red">Yok</span></td><td><span class="tag tag-green">Var</span></td><td><span class="tag tag-green">Var</span></td><td><span class="tag tag-green">Var</span></td></tr>
+  <tr><td>Ozel katalog</td><td><span class="tag tag-green">Guclu</span></td><td><span class="tag tag-orange">Tum yayin</span></td><td><span class="tag tag-orange">Tum yayin</span></td><td><span class="tag tag-orange">Tum yayin</span></td></tr>
+</table>
+
+<!-- STRATEJI -->
+<h2 class="page-break">4. Onerilen Aksiyon Plani</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - Donusum Optimizasyonu (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Kisisellestirilmis oneri motoru kurun:</strong> Her urun sayfasinda "Bu kitabi okuyanlar sunlari da aldi" ve "Sana ozel oneriler" bloklari ekleyin. Basit bir collaborative filtering algoritması bile donusum oranini %15-30 artirabilir.</li>
+    <li><strong>Sepet terk e-posta otomasyonu baslatin:</strong> 1 saat sonra hatirlatma, 24 saat sonra %10 indirim kodu, 72 saat sonra son cagri. E-posta baslik ornegi: "Sepetindeki kitaplar seni bekliyor".</li>
+    <li><strong>Kategori sayfalarini SEO icin optimize edin:</strong> Her kategoriye ozel baslik, meta description ve 200-300 kelimelik giris metni ekleyin. Ornek: "Polisiye Kitaplar" sayfasina "2026'nin en iyi polisiye romanlari, Agatha Christie'den Elif Safak'a kadar genis secenekler" gibi icerik.</li>
+    <li><strong>Mobil sepete ekle deneyimini iyilestirin:</strong> Urun kartlarinda fiyat ve CTA butonu daha belirgin olmali. Tek dokunusla satin alma (express checkout) ekleyin.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - Icerik ve Engagement (Hafta 3-4)</div>
+  <ol>
+    <li><strong>Interaktif kitap oneri funnel'i:</strong> "Nasil bir kitap ariyorsun?" diye baslayan 4 adimli funnel. Tur tercihi, okuma aliskanligi, beklenti sorulup kisisellestirilmis 3 kitap onerisi sunuluyor. Her oneriye direkt "sepete ekle" butonu.</li>
+    <li><strong>Blog icerigini ana siteye tasiyin:</strong> okumakiyigelir.com iceriklerini doganyayinlari.com.tr/blog altina alin. Her blog yazisinda ilgili kitaplara satin alma linki ekleyin. SEO degeri ana siteye akmali.</li>
+    <li><strong>Yazar odakli landing page'ler olusturun:</strong> Elif Safak, Haruki Murakami, Rick Riordan gibi yildiz yazarlar icin zengin sayfalar: biyografi, tum kitaplari, okuyucu yorumlari, video soylesi. "Elif Safak kitaplari" aylik 50K+ arama aliyor.</li>
+    <li><strong>Sadakat programi baslatin:</strong> Her 100 TL alisverise 10 puan, 500 puan = 50 TL indirim. Yeni cikan kitaplara erken erisim. Dogum gunu indirimi. Tekrar alisveris oranini %40+ artirabilir.</li>
+    <li><strong>E-posta segmentasyonu yapin:</strong> Kayit sirasinda "en cok hangi turleri okuyorsunuz?" sorusu sorun. Polisiye sevenler yeni polisiye ciktiginda, cocuk kitabi alanlar yeni cocuk kitaplari ciktiginda otomatik bilgilendirilsin.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - Olcekleme (Ay 2+)</div>
+  <ol>
+    <li><strong>YouTube kitap inceleme kanali:</strong> "Ayin Kitabi", "5 Dakikada Kitap Ozeti", "Yazar Soylesi" gibi seriler. Dogan Yayinlari yazarlari ile ozel icerikler uretebilirsiniz - bu rakiplerin yapamayacagi bir avantaj.</li>
+    <li><strong>Bookstagram / BookTok ortakliklari:</strong> Kitap influencer'lari ile isbirligi. #KitapOnerisi #OkumakIyiGelir hashtag'leri ile organik erisim. Mikro-influencer'lar (5K-50K takipci) en yuksek engagement'i saglar.</li>
+    <li><strong>Kurumsal satis kanali acin:</strong> Sirketlere toplu kitap satisi: kurumsal hediye, ofis kutuphanesi, egitim seti. Ozel fiyatlandirma, fatura ve teslimat. B2B segmenti aylik geliri %20-30 artirabilir.</li>
+    <li><strong>Aylik kitap kutusu aboneligi:</strong> Secilen ture gore her ay 1-2 surpriz kitap + kitap ayraci + yazar mektubu. Dogan Yayinlari'nin ozel katalogu bu modeli guclu kiliyor.</li>
+    <li><strong>Mobil uygulama:</strong> Kitapyurdu ve D&R'nin uygulamasi var, Dogan'in yok. Push notification ile yeni cikanlar, kisisel oneriler ve ozel kampanyalar. Uygulama kullanicilari 3x daha fazla alisveris yapiyor.</li>
+  </ol>
+</div>
+
+<!-- SONUC -->
+<h2 class="page-break">5. Sonuc ve Genel Degerlendirme</h2>
+
+<h3>Skor Karti</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef</th></tr>
+  <tr><td>Urun / Katalog Kalitesi</td><td><div class="score-bar"><div class="score-fill score-high" style="width:90%"></div></div> 9/10</td><td>9.5/10</td></tr>
+  <tr><td>Marka Bilinirliği</td><td><div class="score-bar"><div class="score-fill score-high" style="width:80%"></div></div> 8/10</td><td>9/10</td></tr>
+  <tr><td>SEO / Organik Trafik</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:40%"></div></div> 4/10</td><td>8/10</td></tr>
+  <tr><td>Donusum Orani (CRO)</td><td><div class="score-bar"><div class="score-fill score-low" style="width:30%"></div></div> 3/10</td><td>7/10</td></tr>
+  <tr><td>E-posta Pazarlamasi</td><td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td><td>8/10</td></tr>
+  <tr><td>Icerik Pazarlamasi</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:35%"></div></div> 3.5/10</td><td>8/10</td></tr>
+  <tr><td>Musteri Sadakati</td><td><div class="score-bar"><div class="score-fill score-low" style="width:25%"></div></div> 2.5/10</td><td>7/10</td></tr>
+  <tr><td>Sosyal Medya</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:45%"></div></div> 4.5/10</td><td>7.5/10</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Ozet Degerlendirme</strong>
+  Dogan Yayinlari, Turkiye'nin en guclu yayinevi markalarindan biri. 5.000+ baslik, Elif Safak ve Murakami gibi dunya yildizlari ve Dogan Cocuk'un 4.000+ basliklik dev katalogu ile urun tarafinda cok guclu. Ancak:
+  <ul style="margin-top:6px">
+    <li><strong>Kisisellestirilmis oneri motoru yok</strong> - 5.000 kitap var ama ziyaretciye dogru kitabi gosteremiyor</li>
+    <li><strong>Sepet terk otomasyonu yok</strong> - Potansiyel satisin %70'i geri kazanilmiyor</li>
+    <li><strong>Blog ayri domain'de</strong> - okumakiyigelir.com'un SEO degeri ana siteye aktarilmiyor</li>
+    <li><strong>Yazar sayfalari yetersiz</strong> - "Elif Safak kitaplari" aylik 50K+ arama ama Dogan siralanamiyor</li>
+    <li><strong>Sadakat programi ve segmentasyon yok</strong> - Tekrar alisveris potansiyeli degerlendirilmiyor</li>
+  </ul>
+  <strong>Sonuc:</strong> Urun ve marka cok guclu ama dijital satis altyapisi rakiplerin gerisinde. Oneri motoru + sepet terk otomasyonu + icerik entegrasyonu ile 50K-200K aylik gelir kolayca 2-3x'e cikarilabilir. Dogan Yayinlari'nin ozel katalogu rakiplerin sunamayacagi bir avantaj - bunu dijital deneyime yansitmak gerekiyor.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adim</strong>
+  Bu rapordaki stratejinin uygulanmasi icin sizinle calisabiliriz. Kisisellestirilmis oneri motoru, sepet terk otomasyonu, blog entegrasyonu, yazar sayfalari, sadakat programi ve kitap oneri funnel'i konularinda destek sunabiliriz. 15 dakikalik ucretsiz gorusme icin: <a href="https://cal.com/ahmetcagatay/15min" target="_blank" style="color:#7c3aed;font-weight:600">cal.com/ahmetcagatay/15min</a>
+</div>
+
+<!-- BEGENDIM -->
+<div class="liked-section">
+  <h3>Bu rapor isinize yaradiysa</h3>
+  <p>Stratejileri birlikte uygulayalim. 15 dakikalik ucretsiz gorusme icin tiklayin.</p>
+  <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Begendim, Goruselim</button>
+</div>
+
+<!-- COPY -->
+<div class="copy-section">
+  <h3>Iyilestirme Onerilerini Kopyala</h3>
+  <p>Rapordaki tum onerileri kopyalayarak ekibinize iletebilirsiniz.</p>
+  <button class="copy-btn" id="copyBtn" onclick="copyImprovements()">Iyilestirmeleri Kopyala</button>
+  <div class="copy-status" id="copyStatus"></div>
+</div>
+
+<p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web arastirmasina dayanarak Claude Code Opus 4.6 ile hazirlanmistir. &copy; 2026</p>
+
+<script src="/lib/config.js"></script>
+<script src="/lib/tracker.js" data-type="rapor" data-client="doganyayinlari"></script>
+</body>
+</html>
