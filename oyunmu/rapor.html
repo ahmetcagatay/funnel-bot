@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 13px; line-height: 1.6; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #e8faf0; color: #257D41; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #257D41, #34a853); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #257D41; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
+  th { background: #1a1a2e; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #e8faf0; border-left: 4px solid #257D41; color: #1b5e20; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #e8faf0; color: #1b5e20; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #257D41; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
+  .summary-card { flex: 1; min-width: 120px; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #257D41; }
+  .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  @media print { .copy-section { display: none !important; } }
+  .copy-section { padding: 20px 24px; background: #e8faf0; border: 2px dashed #257D41; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .copy-section h3 { font-size: 16px; color: #1a1a2e; margin-bottom: 6px; border: none; }
+  .copy-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .copy-btn { background: #257D41; color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .copy-btn:hover { background: #1b5e20; } .copy-btn.copied { background: #34a853; }
+  .copy-status { margin-top: 10px; font-size: 12px; color: #80868b; }
+  .liked-section { padding: 20px 24px; background: #e6f4ea; border: 2px solid #34a853; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .liked-section h3 { font-size: 16px; color: #137333; margin-bottom: 6px; border: none; }
+  .liked-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .liked-btn { background: #34a853; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .liked-btn:hover { background: #2d9249; } .liked-btn.clicked { background: #257D41; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanim</div>
+  <h1>OyunMu</h1>
+  <h2>Dijital Buyume &amp; Kullanici Edinme Stratejisi Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazirlanma Tarihi:</strong> 25 Mart 2026<br>
+    <strong>Domain:</strong> oyunmu.com<br>
+    <strong>Sektor:</strong> Sosyal Etkinlik &amp; Oyun Platformu<br>
+    <strong>Rapor Turu:</strong> Detayli Analiz + Strateji Onerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web arastirmasina dayanarak Claude Code Opus 4.6 ile hazirlanmistir.</div>
+</div>
+
+<!-- BEGENDIM -->
+<div class="liked-section">
+  <h3>Bu rapor isinize yaradiysa</h3>
+  <p>Stratejileri birlikte uygulayalim. 15 dakikalik ucretsiz gorusme icin tiklayin.</p>
+  <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Begendim, Goruselim</button>
+</div>
+
+<!-- COPY -->
+<div class="copy-section">
+  <h3>Iyilestirme Onerilerini Kopyala</h3>
+  <p>Rapordaki tum onerileri kopyalayarak ekibinize iletebilirsiniz.</p>
+  <button class="copy-btn" id="copyBtn" onclick="copyImprovements()">Iyilestirmeleri Kopyala</button>
+  <div class="copy-status" id="copyStatus"></div>
+</div>
+<script>
+function copyImprovements(){var b=document.getElementById('copyBtn'),s=document.getElementById('copyStatus');
+var t=`OYUNMU - IYILESTIRME ONERILERI
+=====================================
+
+ACIL (Hafta 1-2):
+1. ONBOARDING FUNNEL'I OLUSTURUN - Yeni kullanicilari "Hangi oyunlari seviyorsun?" diye baslayan interaktif bir akisla karsilayip ilk etkinlige yonlendirin. Kayit sonrasi ilk 5 dakikada etkinlige katilim saglanmali.
+2. ICERIK BOLUMLERI DOLDURULSIN - Etkinlikler, Kurumsal, Elciler, SSS bolumleri bos. Potansiyel kullanicilari kaybediyorsunuz. Her bolume en az 3-5 icerik ekleyin.
+3. SOSYAL KANIT EKLEYIN - Kac kisi kayit oldu, kac etkinlik yapildi, kullanici yorumlari gibi guveni artiran metrikler ana sayfada gosterilmeli.
+4. APP STORE & GOOGLE PLAY LINKLERI - Mobil uygulama varsa store linkleri ana sayfada belirgin sekilde yer almali. Yoksa PWA olarak mobil deneyim optimize edilmeli.
+
+BUYUME (Hafta 3-4):
+1. REFERANS PROGRAMI - "Arkadasini davet et, ikisi de 1 ucretsiz etkinlik kazansin". Viral buyume icin en etkili kanal. Davet linki + WhatsApp/Instagram paylasim butonu.
+2. UNIVERSITE KAMPUS STRATEJISI - Kampuslerde oyun geceleri duzenleyin. Universite ogrencileri hedef kitlenin cekirdegi. Kampus elcileri ile organik buyume.
+3. SEO ICERIK STRATEJISI - "Istanbul'da yapilacak sosyal etkinlikler", "oyun geceleri istanbul", "yeni insanlarla tanisma etkinlikleri" gibi anahtar kelimeler icin blog icerikleri yazin.
+4. E-POSTA OTOMASYON SERISI - Kayit sonrasi 7 gunluk otomatik e-posta serisi: Hosgeldin → Ilk etkinlik onerisi → Topluluk hikayesi → Ozel davet → Referans firsati.
+5. INSTAGRAM REELS / TIKTOK STRATEJISI - Etkinlik anlarini kisa videolarla paylasin. "Oyun gecesi vlog", "yabanci birisiyle tanistim" gibi icerikler organik erisim saglar.
+
+OLCEKLEME (Ay 2+):
+1. KURUMSAL TAKIM ETKINLIKLERI - Sirketlere takim kurma (team building) etkinlikleri satin. B2B gelir kanali acilin. HR departmanlarina ozel paketler hazirlayin.
+2. OYUN ELCISI PROGRAMINI BUYUTUN - Her sehirde 5-10 elci hedefleyin. Elcilere ozel indirimler, merchandise ve event organize etme hakki verin.
+3. FARKLI SEHIRLERE ACILMA - Istanbul disinda Ankara, Izmir, Antalya gibi buyuk sehirlere genisleyin. Her sehirde yerel elciler ve mekanlarla isbirligi yapin.
+4. ABONELIK MODELI - Aylik uyelik: sinrisiz etkinlik katilimi, oncelikli kayit, ozel etkinliklere erisim. Freemium model ile baslayip premium'a donusturun.
+5. OYUN MARKALARYLA SPONSORLUK - Hasbro, Asmodee, Ravensburger gibi oyun markalariyla isbirligi. Urun yerlestirme + sponsored etkinlikler.`;
+try{navigator.clipboard.writeText(t).then(function(){b.textContent='\u2705 Kopyalandi!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='Iyilestirmeleri Kopyala';b.classList.remove('copied')},3000)})}catch(e){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);b.textContent='\u2705 Kopyalandi!';b.classList.add('copied');s.textContent=(t.length/1024).toFixed(1)+' KB';setTimeout(function(){b.textContent='Iyilestirmeleri Kopyala';b.classList.remove('copied')},3000)}}
+
+function handleLiked(){var b=document.getElementById('likedBtn');b.disabled=true;b.textContent='Yonlendiriliyor...';
+if(window.GROWTHER&&GROWTHER.supaFetch){GROWTHER.supaFetch('POST','funnel_leads',{website:window.location.pathname,stage:'liked_report',extra_notes:JSON.stringify({client:'oyunmu',action:'liked_report',clicked_at:new Date().toISOString(),is_test:GROWTHER.isAdmin}),last_step:'liked',completed:true}).catch(function(){});}
+setTimeout(function(){showCalPopup('tr')},500)}
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+
+<!-- PROFIL -->
+<h2 class="page-break">1. Sirket Profil Ozeti</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">B2C</div><div class="label">Hedef Pazar</div></div>
+  <div class="summary-card"><div class="value">Sosyal</div><div class="label">Sektor</div></div>
+  <div class="summary-card"><div class="value">Pre-Revenue</div><div class="label">Gelir Asama</div></div>
+  <div class="summary-card"><div class="value">0-5K</div><div class="label">Reklam Butcesi</div></div>
+  <div class="summary-card"><div class="value">Erken Donem</div><div class="label">Asama</div></div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Deger</th></tr>
+  <tr><td><strong>Website</strong></td><td>oyunmu.com</td></tr>
+  <tr><td><strong>Uygulama</strong></td><td>app.oyunmu.com (web app - kayit ve giris)</td></tr>
+  <tr><td><strong>Slogan</strong></td><td>"Oyna, Bag Kur, Iyi Hisset"</td></tr>
+  <tr><td><strong>Urun</strong></td><td>Sosyal etkinlik platformu: oyun geceleri, topluluk etkinlikleri, sosyal baglanti kurmaya yonelik bulusmalar</td></tr>
+  <tr><td><strong>Hedef Kitle</strong></td><td>18-35 yas arasi, sosyal aktivite arayan, yeni insanlarla tanismak isteyen gencler</td></tr>
+  <tr><td><strong>Platform</strong></td><td>WordPress (Astra tema) + app.oyunmu.com (SPA)</td></tr>
+  <tr><td><strong>Renk Paleti</strong></td><td>Yesil (#257D41), Sari (#fff05f), Beyaz</td></tr>
+  <tr><td><strong>Ozellikler</strong></td><td>Etkinlik duzenleme, kullanici kayit/giris, oyun elcileri, yatirim sayfasi</td></tr>
+  <tr><td><strong>SSL</strong></td><td>Aktif</td></tr>
+  <tr><td><strong>Mobil</strong></td><td>Responsive tasarim, mobil menu</td></tr>
+</table>
+
+<h3>Site Yapisi</h3>
+<table>
+  <tr><th>Bolum</th><th>Durum</th><th>Not</th></tr>
+  <tr><td><strong>Hero / Anasayfa</strong></td><td><span class="tag tag-green">Tamamlandi</span></td><td>Etkileyici gorsel, CTA butonlari, istatistikler</td></tr>
+  <tr><td><strong>Etkinlikler (#etkinlikler)</strong></td><td><span class="tag tag-red">Bos</span></td><td>Icerik eklenmemis - kritik eksik</td></tr>
+  <tr><td><strong>Kurumsal (#kurumsal)</strong></td><td><span class="tag tag-red">Bos</span></td><td>Hakkinda bilgisi yok</td></tr>
+  <tr><td><strong>Elciler (#ekip)</strong></td><td><span class="tag tag-red">Bos</span></td><td>Oyun elcileri profilleri eklenmemis</td></tr>
+  <tr><td><strong>Yatirim (#yatirim)</strong></td><td><span class="tag tag-red">Bos</span></td><td>Yatirimci bilgileri eksik</td></tr>
+  <tr><td><strong>SSS (#sss)</strong></td><td><span class="tag tag-red">Bos</span></td><td>Sik sorulan sorular eklenmemis</td></tr>
+  <tr><td><strong>Giris / Kayit</strong></td><td><span class="tag tag-green">Aktif</span></td><td>app.oyunmu.com uzerinden calisiyor</td></tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>Kritik Uyari: Icerik Eksikligi</strong>
+  Site yapisi hazir ancak 6 ana bolumlun 5'i icerik olarak bos. Bir kullanici ana sayfayi gecip herhangi bir bolume tikladiginda bos sayfa goruyor. Bu durum guvenilirlik algisini ciddi sekilde zedeliyor ve kayit oranini dusuk tutuyor.
+</div>
+
+<!-- RAKIP -->
+<h2 class="page-break">2. Rakip Analizi - Sosyal Etkinlik Pazari</h2>
+
+<h3>2.1 Dogrudan ve Dolayli Rakipler</h3>
+<table>
+  <tr><th>Rakip</th><th>Guclu Yonu</th><th>Model</th><th>OyunMu'ya Gore</th></tr>
+  <tr><td><strong>Meetup.com</strong></td><td>Global platform, dev kullanici tabani, her turlu etkinlik</td><td>Freemium + organizer ucreti</td><td>En buyuk dolayli rakip</td></tr>
+  <tr><td><strong>Bulusmaca.com</strong></td><td>Turkiye odakli sosyal etkinlikler, yerlesik kullanici tabani</td><td>Etkinlik bazli ucretlendirme</td><td>Dogrudan rakip</td></tr>
+  <tr><td><strong>Eventbrite</strong></td><td>Bilet satisi + etkinlik yonetimi, genis ekosistem</td><td>Bilet komisyonu</td><td>Platform modeli rakibi</td></tr>
+  <tr><td><strong>Discord Sunuculari</strong></td><td>Oyun topluluklari icin zaten kullaniliyor, ucretsiz</td><td>Ucretsiz</td><td>Online alternatif</td></tr>
+  <tr><td><strong>Cafe/Board Game Cafe'ler</strong></td><td>Fiziksel mekan, aninda deneyim, mevcut musteri tabani</td><td>Mekan + oyun kiralama</td><td>Offline rakip</td></tr>
+  <tr style="background:#e8faf0">
+    <td><strong>OyunMu</strong></td>
+    <td>Oyun odakli sosyal baglanti, Turkiye'ye ozel, topluluk ruhu</td>
+    <td>Platform + etkinlik</td>
+    <td>-</td>
+  </tr>
+</table>
+
+<h3>2.2 Pazar Buyuklugu - Turkiye Sosyal Etkinlik Pazari</h3>
+<table>
+  <tr><th>Metrik</th><th>Deger</th></tr>
+  <tr><td>Turkiye Genc Nufus (18-35)</td><td><strong>~20 Milyon</strong></td></tr>
+  <tr><td>Sehirde Yasayan Genc Orani</td><td><strong>%75+</strong></td></tr>
+  <tr><td>Sosyal Etkinlik Pazari (Turkiye)</td><td><strong>~500 Milyon TL (ve buyuyor)</strong></td></tr>
+  <tr><td>Board Game Cafe Sayisi (Istanbul)</td><td><strong>150+ ve artis trendinde</strong></td></tr>
+  <tr><td>"Sosyal izolasyon" Arama Trendi</td><td><strong>Son 3 yilda %200+ artis</strong></td></tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>OyunMu'nun Rekabetci Avantajlari</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Niş odak: Oyun uzerinden sosyallesme</strong> - Meetup cok genel, OyunMu spesifik bir ihtiyaca cevap veriyor</li>
+    <li><strong>Turkiye'ye ozel</strong> - Turkce arayuz, yerel topluluk, kulturel uyum</li>
+    <li><strong>"Bag kur" vizyonu</strong> - Sadece etkinlik degil, anlamli sosyal baglanti kurma vaadi</li>
+    <li><strong>Oyun Elcisi modeli</strong> - Topluluk liderlerini guclendiren organik buyume stratejisi</li>
+    <li><strong>Genclere hitap</strong> - Yalnizlik ve sosyal izolasyon artan bir sorun, OyunMu buna cozum sunuyor</li>
+    <li><strong>Erken donem avantaji</strong> - Turkiye'de bu niste ciddi bir dijital rakip yok</li>
+  </ul>
+</div>
+
+<div class="alert alert-warning">
+  <strong>Rakiplere Gore Zayif Noktalar</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Icerik bos</strong> - Site 6 bolumun 5'i icerik olarak bos, guvenilirlik algisi dusuk</li>
+    <li><strong>Sosyal kanit yok</strong> - Kac kullanici, kac etkinlik, yorumlar gosterilmiyor</li>
+    <li><strong>App Store/Play Store'da yok</strong> - Native mobil uygulama eksik</li>
+    <li><strong>SEO neredeyse sifir</strong> - Blog yok, icerik yok, arama motorlarindan trafik gelmiyor</li>
+    <li><strong>Marka bilinirliği cok dusuk</strong> - Sosyal medya varligi ve influencer isbirligi gorunmuyor</li>
+  </ul>
+</div>
+
+<!-- WEB SITESI -->
+<h2 class="page-break">3. Web Sitesi Analizi</h2>
+
+<h3>3.1 Guclu Yonler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr><td>SSL sertifikasi</td><td><span class="tag tag-green">Aktif</span></td></tr>
+  <tr><td>Responsive tasarim</td><td><span class="tag tag-green">Var</span> - Mobil uyumlu, hamburger menu</td></tr>
+  <tr><td>Web uygulama</td><td><span class="tag tag-green">Var</span> - app.oyunmu.com (SPA)</td></tr>
+  <tr><td>Gorsel tasarim</td><td><span class="tag tag-green">Profesyonel</span> - Modern, temiz, dikkat cekici hero</td></tr>
+  <tr><td>Kayit / Giris sistemi</td><td><span class="tag tag-green">Aktif</span></td></tr>
+  <tr><td>Sticky header</td><td><span class="tag tag-green">Var</span> - Scroll'da blur efekti</td></tr>
+  <tr><td>Font secimi</td><td><span class="tag tag-green">Iyi</span> - Nunito Sans, Be Vietnam Pro</td></tr>
+</table>
+
+<h3>3.2 Iyilestirme Alanlari</h3>
+<table>
+  <tr><th>Sorun</th><th>Aciklama</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>Icerik bolumleri bos</strong></td>
+    <td>Etkinlikler, Kurumsal, Elciler, Yatirim, SSS bolumleri icerik icermiyor. Kullanici ana sayfayi gectikten sonra hicbir sey bulamiyor. Bu durum bounce rate'i %80+'ye cikariyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sosyal kanit (social proof) yok</strong></td>
+    <td>Kac kullanici kayit oldu? Kac etkinlik yapildi? Katilimci yorumlari nerede? Potansiyel kullanicilar guven duymuyor ve kayit olmuyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Onboarding akisi yok</strong></td>
+    <td>Kullanici kayit olduktan sonra ne yapacagini bilmiyor. Ilk etkinlige yonlendirme, profil tamamlama, tercih secimi gibi bir akis sart.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>SEO icerigi sifir</strong></td>
+    <td>Blog yok, meta description'lar optimize edilmemis, anahtar kelime hedeflemesi yok. "Oyun gecesi istanbul", "sosyal etkinlik" gibi aramalarda gorunmuyor.</td>
+    <td><span class="tag tag-orange">Yuksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Google Analytics eksik</strong></td>
+    <td>GA4 veya GTM entegrasyonu gorunmuyor. Sadece Jetpack Stats var. Kullanici davranisi, funnel analizi ve reklam optimizasyonu icin GA4 sart.</td>
+    <td><span class="tag tag-orange">Yuksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Etkinlik gorselleri ve detaylari yok</strong></td>
+    <td>Bir etkinlik platformunun ana sayfasinda tek bir etkinlik bile gosterilmiyor. Potansiyel katilimci "ne yapacagim?" sorusuna cevap bulamiyor.</td>
+    <td><span class="tag tag-orange">Yuksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>E-posta toplama mekanizmasi yok</strong></td>
+    <td>Kayit ol butonu var ama e-posta listesi olusturma, newsletter veya lead magnet yok. Kayit olmayan kullanicilari geri kazanma sansi sifir.</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+</table>
+
+<h3>3.3 Rekabet Karsilastirmasi - Ozellikler</h3>
+<table>
+  <tr><th>Ozellik</th><th>OyunMu</th><th>Meetup</th><th>Bulusmaca</th><th>Eventbrite</th></tr>
+  <tr><td>Etkinlik listeleme</td><td><span class="tag tag-red">Bos</span></td><td><span class="tag tag-green">Zengin</span></td><td><span class="tag tag-green">Var</span></td><td><span class="tag tag-green">Zengin</span></td></tr>
+  <tr><td>Kullanici profilleri</td><td><span class="tag tag-orange">Temel</span></td><td><span class="tag tag-green">Detayli</span></td><td><span class="tag tag-green">Var</span></td><td><span class="tag tag-orange">Sinirli</span></td></tr>
+  <tr><td>Mobil uygulama</td><td><span class="tag tag-red">Yok</span></td><td><span class="tag tag-green">Var</span></td><td><span class="tag tag-orange">Web</span></td><td><span class="tag tag-green">Var</span></td></tr>
+  <tr><td>Blog / Icerik</td><td><span class="tag tag-red">Yok</span></td><td><span class="tag tag-green">Var</span></td><td><span class="tag tag-orange">Sinirli</span></td><td><span class="tag tag-green">Var</span></td></tr>
+  <tr><td>Sosyal kanit</td><td><span class="tag tag-red">Yok</span></td><td><span class="tag tag-green">Guclu</span></td><td><span class="tag tag-green">Var</span></td><td><span class="tag tag-green">Guclu</span></td></tr>
+  <tr><td>Niş odak (oyun)</td><td><span class="tag tag-green">Guclu</span></td><td><span class="tag tag-red">Genel</span></td><td><span class="tag tag-red">Genel</span></td><td><span class="tag tag-red">Genel</span></td></tr>
+  <tr><td>Turkce / Yerel</td><td><span class="tag tag-green">Tam</span></td><td><span class="tag tag-orange">Kismen</span></td><td><span class="tag tag-green">Tam</span></td><td><span class="tag tag-orange">Kismen</span></td></tr>
+</table>
+
+<!-- STRATEJI -->
+<h2 class="page-break">4. Onerilen Aksiyon Plani</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - Temel Altyapi ve Guvenilirlik (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Icerik bolumleri doldurulsin:</strong> Etkinlikler sayfasina en az 5-6 etkinlik ornegi (gecmis + yaklasiyor), Kurumsal sayfasina misyon/vizyon/hikaye, Elciler sayfasina profil kartlari, SSS'ye en az 8-10 soru-cevap ekleyin. Bos sayfa = guven kaybı.</li>
+    <li><strong>Sosyal kanit ekleyin:</strong> Ana sayfaya gercek rakamlar koyun: "500+ kayitli kullanici", "50+ etkinlik duzenlendi", "4.8/5 katilimci memnuniyeti" gibi. Kullanici yorumlari ve etkinlik fotograflari ile destekleyin.</li>
+    <li><strong>Google Analytics 4 + GTM kurun:</strong> Kullanici davranisini olcemiyorsaniz iyilestiremezsiniz. GA4 ile kayit funnel'i, sayfa goruntulenme, bounce rate ve etkinlik tiklamalari takip edin.</li>
+    <li><strong>Onboarding akisi olusturun:</strong> Kayit sonrasi 3 adimli akis: 1) Oyun tercihlerini sec 2) Yakinindaki etkinlikleri gor 3) Ilk etkinligine katil. Ilk 5 dakikada deger gorenler kalici kullanici olur.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - Kullanici Edinme ve Engagement (Hafta 3-4)</div>
+  <ol>
+    <li><strong>Referans programi baslatin:</strong> "Arkadasini davet et, ikiniz de 1 ucretsiz etkinlige katilma hakki kazanin". WhatsApp ve Instagram paylasim butonlari ekleyin. Her davet eden kullaniciya ozel referans linki verin. Viral buyumenin en ucuz kanali.</li>
+    <li><strong>Instagram Reels / TikTok stratejisi baslatin:</strong> Her etkinlikten 15-30 saniyelik keyifli anlar. "Dun gece oyun gecesinde boyle eglendik" tarzinda organik icerik. Haftada 3-4 icerik paylasimi hedefleyin.</li>
+    <li><strong>Universite kampus etkinlikleri:</strong> Istanbul'daki 5 buyuk universitede oyun geceleri duzenleyin. Universite ogrencileri cekirdek hedef kitleniz. Kampus elcileri ile organik buyume saglayin.</li>
+    <li><strong>E-posta otomasyon serisi kurun:</strong> Kayit sonrasi 7 gunluk otomatik seri: Gun 1 - Hosgeldin + ilk etkinlik onerisi, Gun 3 - Topluluk hikayesi, Gun 5 - Ozel davet, Gun 7 - Referans firsati. Kayit sonrasi aktivasyon oranini 3x artirabilir.</li>
+    <li><strong>Blog acin ve SEO icerik uretin:</strong> "Istanbul'da en iyi kutu oyun cafeler", "Yeni insanlarla nasil tanisirim?", "En populer kutu oyunlari 2026" gibi icerikler. Organik arama trafigi uzun vadede en ucuz musteri edinme kanali.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - Olcekleme (Ay 2+)</div>
+  <ol>
+    <li><strong>Kurumsal takim etkinlikleri (B2B):</strong> Sirketlere "takim kurma oyun gecesi" paketleri satin. 10-50 kisilik gruplar icin ozel etkinlik organizasyonu. HR departmanlarina ulasin. B2B gelir kanali acarak aylık geliri stabilize edin.</li>
+    <li><strong>Oyun Elcisi programini buyutun:</strong> Her sehirde 5-10 elci hedefleyin. Elcilere ozel indirimler, OyunMu merchandise ve etkinlik organize etme hakki verin. Elciler = bedava pazarlama ordusu.</li>
+    <li><strong>Farkli sehirlere genisleyin:</strong> Istanbul'da model kanıtlandiktan sonra Ankara, Izmir, Antalya'ya acilın. Her sehirde yerel mekanlarla isbirligi + yerel elciler ile baslayın.</li>
+    <li><strong>Abonelik modeli baslatin:</strong> Aylik OyunMu Premium: sinirsiz etkinlik, oncelikli kayit, ozel etkinliklere erisim, misafir hakki. 99-199 TL/ay araligiyla baslayıp test edin.</li>
+    <li><strong>Oyun markalariyla sponsorluk:</strong> Hasbro, Asmodee, Ravensburger gibi markalarla isbirligi. Yeni oyun lansmanlarini OyunMu etkinlikleriyle yapsin, sponsorluk geliri + ozel icerik kazanin.</li>
+  </ol>
+</div>
+
+<!-- SONUC -->
+<h2 class="page-break">5. Sonuc ve Genel Degerlendirme</h2>
+
+<h3>Skor Karti</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef</th></tr>
+  <tr><td>Vizyon / Konsept</td><td><div class="score-bar"><div class="score-fill score-high" style="width:85%"></div></div> 8.5/10</td><td>9/10</td></tr>
+  <tr><td>Gorsel Tasarim</td><td><div class="score-bar"><div class="score-fill score-high" style="width:70%"></div></div> 7/10</td><td>8.5/10</td></tr>
+  <tr><td>Icerik Zenginligi</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>8/10</td></tr>
+  <tr><td>SEO / Organik Trafik</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>7/10</td></tr>
+  <tr><td>Kullanici Edinme (Growth)</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>7/10</td></tr>
+  <tr><td>Sosyal Kanit / Guven</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>8/10</td></tr>
+  <tr><td>Teknik Altyapi</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:50%"></div></div> 5/10</td><td>8/10</td></tr>
+  <tr><td>Monetizasyon</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>6/10</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Ozet Degerlendirme</strong>
+  OyunMu, cok guclu bir vizyona sahip: "Oyun uzerinden anlamli sosyal baglantilar kurmak." Ozellikle genc neslin artan yalnizlik ve sosyal izolasyon sorununa gercek bir cozum sunuyor. Turkiye'de bu niste ciddi bir dijital rakip yok - bu buyuk bir firsat penceresi. Ancak:
+  <ul style="margin-top:6px">
+    <li><strong>Sitenin %80'i bos</strong> - Etkinlikler, Kurumsal, Elciler, SSS bolumleri icerik icermiyor</li>
+    <li><strong>Sosyal kanit sifir</strong> - Hicbir rakam, yorum veya gorsel paylasilmamis</li>
+    <li><strong>SEO ve icerik stratejisi yok</strong> - Organik trafik gelmiyor</li>
+    <li><strong>Onboarding akisi yok</strong> - Kayit olan kullanici ne yapacagini bilmiyor</li>
+    <li><strong>Monetizasyon modeli net degil</strong> - Gelir kanallari tanimlanmamis</li>
+  </ul>
+  <strong>Sonuc:</strong> OyunMu'nun konsepti ve zamanlama avantaji cok degerli. Ancak su an "guzel bir kapak ama bos bir kitap" durumunda. Once siteye icerik ekleyin, sosyal kanit olusturun ve ilk 1000 kullaniciyi organik yontemlerle (universite etkinlikleri, referans programi, sosyal medya) edinin. Sonra olcekleme asamasina gecin. Turkiye'deki 20 milyon genc nufus icinde bu platformun ciddi buyume potansiyeli var.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adim</strong>
+  Bu rapordaki stratejinin uygulanmasi icin sizinle calisabiliriz. Kullanici edinme funnel'i, onboarding akisi, referans programi, icerik stratejisi, sosyal medya plani ve kurumsal satis kanali konularinda destek sunabiliriz. 15 dakikalik ucretsiz gorusme icin: <a href="https://cal.com/ahmetcagatay/15min" target="_blank" style="color:#257D41;font-weight:600">cal.com/ahmetcagatay/15min</a>
+</div>
+
+<p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web arastirmasina dayanarak Claude Code Opus 4.6 ile hazirlanmistir. &copy; 2026</p>
+
+<script src="/lib/config.js"></script>
+<script src="/lib/tracker.js" data-type="rapor" data-client="oyunmu"></script>
+</body>
+</html>

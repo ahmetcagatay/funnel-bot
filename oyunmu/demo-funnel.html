@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0a1f12">
+<title>Sana Uygun Etkinligi Bul - OyunMu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a1f12;--bg-card:#1a3a24;--bg-card-hover:#244a30;--bg-option:rgba(26,58,36,0.8);--bg-option-selected:rgba(37,125,65,0.15);--border-option:rgba(37,125,65,0.5);--border-selected:rgba(37,125,65,0.6);--text-primary:#f0faf3;--text-secondary:#a5d4b3;--text-muted:#7aaa8b;--accent:#257D41;--accent-hover:#1b5e20;--accent-glow:rgba(37,125,65,0.3);--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--safe-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text-primary);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;touch-action:pan-y}
+.funnel-container{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}
+.step{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;padding:0 24px;padding-bottom:calc(16px + var(--safe-bottom));transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .4s ease;will-change:transform,opacity;opacity:0;pointer-events:none}
+.step[data-position="center"]{transform:translateX(0);opacity:1;pointer-events:auto}
+.step[data-position="left"]{transform:translateX(-100%);opacity:0}
+.step[data-position="right"]{transform:translateX(100%);opacity:0}
+.step-header{display:flex;align-items:center;justify-content:center;position:relative;padding:16px 0 8px;flex-shrink:0}
+.back-btn{position:absolute;left:0;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-secondary);cursor:pointer;padding:8px;border-radius:12px;display:flex;align-items:center;justify-content:center;width:44px;height:44px}
+.back-btn:hover{background:var(--bg-card);color:var(--text-primary)}
+.back-btn svg{width:22px;height:22px}
+.progress-dots{display:flex;gap:6px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);transition:all .35s ease}
+.dot.active{background:var(--accent);width:24px;border-radius:4px}
+.dot.completed{background:var(--accent)}
+.step-content{flex:1;display:flex;flex-direction:column;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;min-height:0}
+.step-content::-webkit-scrollbar{display:none}
+.question-area{text-align:center;margin-bottom:28px;flex-shrink:0}
+.question-title{font-size:26px;font-weight:700;line-height:1.3;margin-bottom:8px;letter-spacing:-.02em}
+.question-subtitle{font-size:14px;color:var(--text-secondary)}
+.options-area{display:flex;flex-direction:column;gap:12px;width:100%;max-width:480px;margin:0 auto}
+.option-btn{display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:14px 18px;background:var(--bg-option);border:1.5px solid var(--border-option);border-radius:16px;color:var(--text-primary);font-family:inherit;font-size:16px;font-weight:500;text-align:left;cursor:pointer;transition:all .2s;user-select:none}
+.option-btn:hover{background:var(--bg-card-hover);border-color:var(--text-muted)}
+.option-btn:active{transform:scale(.98)}
+.option-btn.selected{background:var(--bg-option-selected);border-color:var(--border-selected);box-shadow:0 0 0 1px var(--border-selected),0 0 20px var(--accent-glow)}
+.option-btn .emoji{font-size:28px;flex-shrink:0;line-height:1}
+.option-btn .option-label{flex:1}
+.option-btn .check-indicator{width:22px;height:22px;border-radius:50%;border:2px solid var(--text-muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.option-btn.selected .check-indicator{background:var(--accent);border-color:var(--accent)}
+.option-btn.selected .check-indicator::after{content:'\2713';color:#fff;font-size:13px;font-weight:700}
+.option-btn.multi .check-indicator{border-radius:6px}
+.step-footer{flex-shrink:0;padding-top:16px;max-width:480px;width:100%;margin:0 auto}
+.cta-btn{display:flex;align-items:center;justify-content:center;width:100%;height:56px;background:var(--accent);color:#fff;border:none;border-radius:16px;font-family:inherit;font-size:17px;font-weight:600;cursor:pointer;transition:all .2s}
+.cta-btn:hover:not(:disabled){background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}
+.cta-btn:disabled{opacity:.35;cursor:not-allowed}
+.input-group{width:100%;max-width:480px;margin:0 auto}
+.text-input{width:100%;height:56px;padding:0 18px;background:var(--bg-card);border:1.5px solid var(--border-option);border-radius:16px;color:var(--text-primary);font-family:inherit;font-size:16px;outline:none}
+.text-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.text-input::placeholder{color:var(--text-muted)}
+.input-note{font-size:13px;color:var(--text-muted);text-align:center;margin-top:10px}
+.social-proof{display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;color:var(--text-secondary);margin-top:14px}
+.social-proof .pulse{width:8px;height:8px;background:var(--success);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.analysis-card{background:var(--bg-card);border-radius:20px;padding:24px;width:100%;max-width:480px;margin:0 auto}
+.analysis-header{text-align:center;margin-bottom:20px}
+.analysis-header h2{font-size:22px;font-weight:700;margin-bottom:4px}
+.analysis-header p{font-size:13px;color:var(--text-secondary)}
+.analysis-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(37,125,65,.3)}
+.analysis-row:last-child{border-bottom:none}
+.analysis-label{font-size:14px;color:var(--text-secondary)}
+.analysis-value{font-size:16px;font-weight:600}
+.event-recommendation{margin-top:16px;display:flex;flex-direction:column;gap:12px}
+.event-item{display:flex;gap:12px;align-items:flex-start;padding:14px;background:rgba(37,125,65,0.08);border:1px solid rgba(37,125,65,0.2);border-radius:14px}
+.event-item .event-emoji{font-size:32px;flex-shrink:0}
+.event-item .event-info{flex:1}
+.event-item .event-title{font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:2px}
+.event-item .event-detail{font-size:13px;color:var(--text-secondary)}
+.event-item .event-reason{font-size:13px;color:var(--text-muted);margin-top:4px;font-style:italic}
+.priority-box{margin-top:16px;padding:14px 16px;background:rgba(37,125,65,.1);border:1px solid rgba(37,125,65,.25);border-radius:14px}
+.priority-box .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:4px}
+.priority-box .text{font-size:14px;color:var(--text-primary);line-height:1.5}
+.free-trial-banner{margin-top:20px;text-align:center;padding:16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:14px}
+.free-trial-banner .emoji{font-size:28px;display:block;margin-bottom:6px}
+.free-trial-banner .text{font-size:15px;font-weight:600;color:var(--text-primary)}
+.free-trial-banner .sub{font-size:13px;color:var(--text-secondary);margin-top:2px}
+.thank-you-icon{width:72px;height:72px;border-radius:50%;background:rgba(34,197,94,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:36px;animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes scaleIn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+.loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .3s}
+.loading-overlay.active{opacity:1;pointer-events:auto}
+.loading-spinner{width:48px;height:48px;border:3px solid var(--bg-card);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{margin-top:20px;font-size:16px;color:var(--text-secondary);text-align:center}
+.loading-text .changing{display:block;margin-top:6px;font-size:14px;color:var(--text-muted);min-height:21px}
+.skip-link{display:block;text-align:center;margin-top:12px;color:var(--text-muted);font-size:13px;text-decoration:underline;cursor:pointer;padding:8px}
+.skip-link:hover{color:var(--text-secondary)}
+@media(max-height:680px){.question-title{font-size:22px}.option-btn{min-height:48px;padding:10px 14px}.option-btn .emoji{font-size:24px}.options-area{gap:8px}.analysis-card{padding:16px}}
+@media(min-width:640px){.step{padding:0 40px;padding-bottom:calc(24px + var(--safe-bottom))}.question-title{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="funnel-container" id="funnel">
+
+  <!-- STEP 1: Hosgeldin -->
+  <div class="step" id="step-1" data-position="center">
+    <div class="step-header"><div class="progress-dots" id="dots-1"></div></div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">Merhaba! Nasil bir etkinlik ariyorsun?</h1>
+        <p class="question-subtitle">Sana en uygun deneyimi bulalim</p>
+      </div>
+      <div class="options-area" data-step="1" data-key="goal">
+        <button class="option-btn" data-value="meet"><span class="emoji">&#x1F91D;</span><span class="option-label">Yeni insanlarla tanismak istiyorum</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="play"><span class="emoji">&#x1F3B2;</span><span class="option-label">Oyun oynamak istiyorum</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="team"><span class="emoji">&#x1F465;</span><span class="option-label">Takim etkinligi ariyorum</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="explore"><span class="emoji">&#x2728;</span><span class="option-label">Surpriz! Beni sasirt</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-1" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- STEP 2: Hangi oyun turleri? -->
+  <div class="step" id="step-2" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-2"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Hangi tur oyunlari seviyorsun?</h1><p class="question-subtitle">Birden fazla secebilirsin</p></div>
+      <div class="options-area multi" data-step="2" data-key="game_types" data-multi="true">
+        <button class="option-btn multi" data-value="board"><span class="emoji">&#x265F;&#xFE0F;</span><span class="option-label">Kutu Oyunlari</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="card"><span class="emoji">&#x1F0CF;</span><span class="option-label">Kart Oyunlari</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="party"><span class="emoji">&#x1F389;</span><span class="option-label">Parti Oyunlari</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="strategy"><span class="emoji">&#x1F9E0;</span><span class="option-label">Strateji Oyunlari</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="rpg"><span class="emoji">&#x1F9D9;</span><span class="option-label">Rol Yapma (D&amp;D, vb.)</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="video"><span class="emoji">&#x1F3AE;</span><span class="option-label">Video Oyunlari</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-2" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- STEP 3: Grup buyuklugu -->
+  <div class="step" id="step-3" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-3"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Nasil bir ortam tercih edersin?</h1></div>
+      <div class="options-area" data-step="3" data-key="group_size">
+        <button class="option-btn" data-value="small"><span class="emoji">&#x1F46B;</span><span class="option-label">Kucuk ve samimi (4-8 kisi)</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="medium"><span class="emoji">&#x1F46C;</span><span class="option-label">Orta grup (8-15 kisi)</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="large"><span class="emoji">&#x1F3C6;</span><span class="option-label">Buyuk etkinlik (15+ kisi)</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="any"><span class="emoji">&#x1F30D;</span><span class="option-label">Farketmez, hepsi olur!</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-3" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- STEP 4: Deneyim seviyesi -->
+  <div class="step" id="step-4" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-4"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Oyun deneyimin nasil?</h1></div>
+      <div class="options-area" data-step="4" data-key="experience">
+        <button class="option-btn" data-value="newbie"><span class="emoji">&#x1F331;</span><span class="option-label">Yeni basladim, ogretirseniz sevinirim</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="casual"><span class="emoji">&#x1F60A;</span><span class="option-label">Ara sira oynarim, eglence icin</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="regular"><span class="emoji">&#x1F525;</span><span class="option-label">Duzenli oynarim, bircok oyunu bilirim</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="hardcore"><span class="emoji">&#x1F3AF;</span><span class="option-label">Ciddi oyuncuyum, turnuva isterim</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-4" disabled>Etkinligimi Bul</button></div>
+  </div>
+
+  <!-- STEP 5: Analiz / Oneri -->
+  <div class="step" id="step-5" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-5"></div></div>
+    <div class="step-content">
+      <div class="analysis-card">
+        <div class="analysis-header"><h2>&#x1F3B2; Sana Ozel Etkinlikler</h2><p>Secimlerine gore hazirladik</p></div>
+        <div class="analysis-row"><span class="analysis-label">Oyuncu Profili</span><span class="analysis-value" id="a-profile">Maceraci</span></div>
+        <div class="analysis-row"><span class="analysis-label">Oneri Sayisi</span><span class="analysis-value" id="a-count">3 Etkinlik</span></div>
+        <div class="analysis-row"><span class="analysis-label">Uygunluk</span><span class="analysis-value" id="a-match">%95</span></div>
+        <div class="event-recommendation" id="event-list"></div>
+        <div class="priority-box"><div class="label">&#x1F389; Ilk Etkinlik Ucretsiz</div><div class="text" id="priority-text">Ilk kez katiliyorsan tamamen ucretsiz! OyunMu topluluguyla tanisin, oyunlarin keyfini cikar.</div></div>
+        <div class="free-trial-banner"><span class="emoji">&#x1F680;</span><div class="text">Bu funnel sizin platformunuz icin de calisir</div><div class="sub">Her kullaniciya ozel etkinlik onerisi sunarak katilimi 3x artirin</div></div>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-5">&#x1F3AF; Etkinlige Katil</button></div>
+  </div>
+
+  <!-- STEP 6: Thank You / CTA -->
+  <div class="step" id="step-6" data-position="right">
+    <div class="step-header"><div class="progress-dots" id="dots-6"></div></div>
+    <div class="step-content">
+      <div style="text-align:center;margin-bottom:20px">
+        <div class="thank-you-icon">&#x1F3B2;</div>
+        <h1 class="question-title" style="font-size:22px">Bu deneyimi platformunuza da eklemek ister misiniz?</h1>
+        <p style="color:var(--text-secondary);font-size:15px;margin-top:8px;line-height:1.6">Her kullaniciya ozel etkinlik onerisi, akilli eslestirme ve otomatik bildirim sistemi. Kullanici aktivasyonunu ve tekrar katilimi 3 kata kadar artirin.</p>
+      </div>
+      <div style="text-align:center;margin-top:20px">
+        <div style="display:flex;flex-direction:column;gap:12px;max-width:320px;margin:0 auto">
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-secondary)"><span style="font-size:20px">&#x2705;</span> Kisisellestirilmis etkinlik onerisi</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-secondary)"><span style="font-size:20px">&#x2705;</span> Otomatik onboarding akisi</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-secondary)"><span style="font-size:20px">&#x2705;</span> Referans & viral buyume sistemi</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-secondary)"><span style="font-size:20px">&#x2705;</span> Kullanici segmentasyonu</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-6" onclick="sendInterest()" style="background:#22c55e">&#x1F4DE; 15 Dakika Goruselim</button>
+      <span class="skip-link" id="skip-explore" onclick="window.open('https://oyunmu.com','_blank')">Siteyi gezmeye devam et &rarr;</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Etkinlikleri tariyoruz<span class="changing" id="loading-changing"></span></div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  var TOTAL_STEPS = 6;
+  var currentStep = 1;
+  var answers = {};
+
+  // Init dots
+  for (var s = 1; s <= TOTAL_STEPS; s++) {
+    var dotsContainer = document.getElementById('dots-' + s);
+    if (!dotsContainer) continue;
+    for (var d = 1; d <= TOTAL_STEPS; d++) {
+      var dot = document.createElement('span');
+      dot.className = 'dot';
+      if (d < s) dot.className += ' completed';
+      if (d === s) dot.className += ' active';
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  // Option click handlers
+  var optionAreas = document.querySelectorAll('.options-area');
+  for (var i = 0; i < optionAreas.length; i++) {
+    (function(area) {
+      var isMulti = area.dataset.multi === 'true';
+      var key = area.dataset.key;
+      var step = parseInt(area.dataset.step, 10);
+      var btns = area.querySelectorAll('.option-btn');
+      for (var j = 0; j < btns.length; j++) {
+        (function(btn) {
+          btn.addEventListener('click', function() {
+            if (isMulti) {
+              btn.classList.toggle('selected');
+              var selected = area.querySelectorAll('.option-btn.selected');
+              var vals = [];
+              for (var k = 0; k < selected.length; k++) vals.push(selected[k].dataset.value);
+              answers[key] = vals;
+              document.getElementById('cta-' + step).disabled = vals.length === 0;
+            } else {
+              var allBtns = area.querySelectorAll('.option-btn');
+              for (var k = 0; k < allBtns.length; k++) allBtns[k].classList.remove('selected');
+              btn.classList.add('selected');
+              answers[key] = btn.dataset.value;
+              document.getElementById('cta-' + step).disabled = false;
+            }
+          });
+        })(btns[j]);
+      }
+    })(optionAreas[i]);
+  }
+
+  // CTA handlers
+  document.getElementById('cta-1').addEventListener('click', function() { goToStep(2); });
+  for (var s = 2; s <= 3; s++) {
+    (function(step) {
+      document.getElementById('cta-' + step).addEventListener('click', function() { goToStep(step + 1); });
+    })(s);
+  }
+
+  document.getElementById('cta-4').addEventListener('click', function() {
+    showLoading(function() { buildRecommendations(); goToStep(5); });
+  });
+
+  document.getElementById('cta-5').addEventListener('click', function() { goToStep(6); });
+
+  function goToStep(target) {
+    if (target < 1 || target > TOTAL_STEPS) return;
+    document.getElementById('step-' + currentStep).dataset.position = target > currentStep ? 'left' : 'right';
+    document.getElementById('step-' + target).dataset.position = 'center';
+    currentStep = target;
+    if (window.GROWTHER_TRACKER) GROWTHER_TRACKER.onStepChange(target);
+  }
+  window.goBack = function() { goToStep(currentStep - 1); };
+
+  // Bridge to tracker
+  window.GROWTHER_FUNNEL = { getCurrentStep: function() { return currentStep; }, getAnswers: function() { return answers; } };
+
+  function showLoading(callback) {
+    var overlay = document.getElementById('loading-overlay');
+    var changing = document.getElementById('loading-changing');
+    overlay.classList.add('active');
+    var messages = ['Tercihlerini analiz ediyoruz...', 'En uygun etkinlikleri seciyoruz...', 'Sana ozel onerileri hazirliyoruz...'];
+    var idx = 0; changing.textContent = messages[0];
+    var interval = setInterval(function() { idx++; if (idx < messages.length) changing.textContent = messages[idx]; }, 700);
+    setTimeout(function() { clearInterval(interval); overlay.classList.remove('active'); callback(); }, 2400);
+  }
+
+  // Event database
+  var eventDB = {
+    board: {
+      meet: { title: 'Kutu Oyunu Geceleri', detail: 'Her Cuma 20:00 - Karakoy', reason: 'Yeni insanlarla tanismak icin en rahat ortam' },
+      play: { title: 'Catan Turnuvasi', detail: 'Cumartesi 15:00 - Besiktas', reason: 'Stratejini test et, sampiyonlugu kazan' },
+      team: { title: 'Takim Kutu Oyunu Macerasi', detail: 'Pazar 14:00 - Kadikoy', reason: 'Takim ruhunu guclendiren isbirlikci oyunlar' },
+      explore: { title: 'Yeni Oyun Kesif Gecesi', detail: 'Carsamba 19:00 - Sisli', reason: 'Her hafta farkli bir oyun, her hafta yeni bir deneyim' }
+    },
+    card: {
+      meet: { title: 'Kart Oyunu Bulusmasi', detail: 'Persembe 19:30 - Besiktas', reason: 'Rahat sohbet esliginde kart oyunlari' },
+      play: { title: 'Magic: The Gathering Gecesi', detail: 'Cumartesi 16:00 - Karakoy', reason: 'Koleksiyonunu goster, yeni kartlar kesfet' },
+      team: { title: 'Takim Kart Turnuvasi', detail: 'Pazar 15:00 - Kadikoy', reason: 'Ikili takimlarla stratejik mucadele' },
+      explore: { title: 'Kart Oyunu Atölyesi', detail: 'Sali 19:00 - Sisli', reason: 'Yeni kart oyunlarini ogren ve dene' }
+    },
+    party: {
+      meet: { title: 'Parti Oyunu Gecesi', detail: 'Cuma 21:00 - Besiktas', reason: 'Gulme garantili, tanisma kolayligi' },
+      play: { title: 'Codenames & Dixit Gecesi', detail: 'Cumartesi 20:00 - Karakoy', reason: 'En eglenceli parti oyunlari bir arada' },
+      team: { title: 'Mega Parti Turnuvasi', detail: 'Pazar 16:00 - Kadikoy', reason: 'Buyuk gruplarla rekabetci eglence' },
+      explore: { title: 'Surpriz Oyun Gecesi', detail: 'Carsamba 20:00 - Sisli', reason: 'Her hafta beklenmedik bir oyun' }
+    },
+    strategy: {
+      meet: { title: 'Strateji Oyunculari Bulusmasi', detail: 'Cumartesi 14:00 - Besiktas', reason: 'Ayni tutkuyu paylasan insanlarla tanisin' },
+      play: { title: 'Terraforming Mars Maratonu', detail: 'Pazar 12:00 - Karakoy', reason: 'Derin strateji, uzun oyun, buyuk keyif' },
+      team: { title: 'Takim Strateji Savasi', detail: 'Cumartesi 15:00 - Kadikoy', reason: 'Takimini kur, strateji gelistir, kazan' },
+      explore: { title: 'Strateji Oyunu Kesif Kulubu', detail: 'Persembe 19:00 - Sisli', reason: 'Her hafta yeni bir strateji oyunu kesfet' }
+    },
+    rpg: {
+      meet: { title: 'D&D Baslangic Masasi', detail: 'Pazar 13:00 - Besiktas', reason: 'Yeni oyuncularla birlikte maceraya basla' },
+      play: { title: 'Haftalik D&D Kampanyasi', detail: 'Cumartesi 14:00 - Karakoy', reason: 'Devam eden bir hikayeye katil' },
+      team: { title: 'One-Shot RPG Gecesi', detail: 'Cuma 19:00 - Kadikoy', reason: 'Tek gecede tamamlanan epik maceralar' },
+      explore: { title: 'RPG Tur Rehberi', detail: 'Carsamba 19:00 - Sisli', reason: 'D&D, Call of Cthulhu, Fate - hepsini dene' }
+    },
+    video: {
+      meet: { title: 'LAN Party Bulusmasi', detail: 'Cumartesi 18:00 - Besiktas', reason: 'Yuz yuze oynamanin keyfini cikar' },
+      play: { title: 'Turnuva Gecesi', detail: 'Cuma 20:00 - Karakoy', reason: 'Rekabetci maclarda yeteneklerini goster' },
+      team: { title: 'Takim FPS/MOBA Gecesi', detail: 'Cumartesi 19:00 - Kadikoy', reason: 'Takiminla birlikte sahaya in' },
+      explore: { title: 'Indie Oyun Kesif Gecesi', detail: 'Persembe 19:00 - Sisli', reason: 'Bilinmeyen muhtesem oyunlari kesfet' }
+    }
+  };
+
+  function buildRecommendations() {
+    var types = answers.game_types || ['board'];
+    var goal = answers.goal || 'meet';
+    var exp = answers.experience || 'casual';
+    var size = answers.group_size || 'medium';
+
+    // Profile name
+    var profileMap = {
+      newbie: 'Merakli Kesifci',
+      casual: 'Sosyal Oyuncu',
+      regular: 'Deneyimli Stratejist',
+      hardcore: 'Rekabetci Sampiyon'
+    };
+    document.getElementById('a-profile').textContent = profileMap[exp] || 'Oyun Sever';
+    document.getElementById('a-count').textContent = Math.min(types.length, 3) + ' Etkinlik';
+
+    var matchMap = { newbie: '%92', casual: '%95', regular: '%97', hardcore: '%99' };
+    document.getElementById('a-match').textContent = matchMap[exp] || '%95';
+
+    // Build event list
+    var eventList = document.getElementById('event-list');
+    eventList.innerHTML = '';
+    var shown = 0;
+    var emojis = ['\uD83C\uDFB2', '\uD83C\uDFAF', '\uD83C\uDFC6'];
+
+    for (var i = 0; i < types.length && shown < 3; i++) {
+      var type = types[i];
+      var typeEvents = eventDB[type];
+      if (!typeEvents) continue;
+      var evt = typeEvents[goal] || typeEvents['meet'];
+      if (!evt) continue;
+
+      var div = document.createElement('div');
+      div.className = 'event-item';
+      div.innerHTML = '<span class="event-emoji">' + emojis[shown] + '</span>' +
+        '<div class="event-info">' +
+        '<div class="event-title">' + evt.title + '</div>' +
+        '<div class="event-detail">' + evt.detail + '</div>' +
+        '<div class="event-reason">' + evt.reason + '</div>' +
+        '</div>';
+      eventList.appendChild(div);
+      shown++;
+    }
+
+    // Priority text based on experience
+    var priText = 'Ilk kez katiliyorsan tamamen ucretsiz! OyunMu topluluguyla tanisin, oyunlarin keyfini cikar.';
+    if (exp === 'newbie') {
+      priText = 'Hic endiselenme! Her etkinlikte deneyimli oyuncular kurallari ogretir. Ilk etkinlik senden tamamen ucretsiz.';
+    } else if (exp === 'hardcore') {
+      priText = 'Turnuva odullu etkinliklerimiz seni bekliyor! Ilk turnuva kaydin ucretsiz, sampiyona ozel oduller var.';
+    } else if (exp === 'regular') {
+      priText = 'Deneyimli oyuncular icin ozel masalar ve ileri seviye etkinlikler mevcut. Ilk katilim ucretsiz!';
+    }
+    document.getElementById('priority-text').textContent = priText;
+  }
+
+  // Send interest
+  window.sendInterest = function() {
+    if (window.GROWTHER_TRACKER) GROWTHER_TRACKER.onInterested();
+    var btn = document.getElementById('cta-6');
+    btn.disabled = true;
+    btn.textContent = 'Yonlendiriliyor...';
+
+    var SUPA_URL = window.GROWTHER ? GROWTHER.SUPABASE_URL : '';
+    var SUPA_KEY = window.GROWTHER ? GROWTHER.SUPABASE_ANON : '';
+
+    fetch(SUPA_URL + '/rest/v1/funnel_leads', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        website: window.location.pathname,
+        stage: 'cal_click',
+        extra_notes: JSON.stringify({ client: 'oyunmu', action: 'booking_clicked', answers: answers, clicked_at: new Date().toISOString() }),
+        last_step: 'cal_booking',
+        completed: true
+      })
+    }).catch(function() {});
+
+    setTimeout(function() { showCalPopup('tr'); }, 500);
+  };
+
+  // Touch swipe back
+  var touchStartX = 0, touchStartY = 0;
+  document.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].clientX; touchStartY = e.changedTouches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', function(e) { var dx = e.changedTouches[0].clientX - touchStartX, dy = e.changedTouches[0].clientY - touchStartY; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && dx > 0 && currentStep > 1) goBack(); }, { passive: true });
+
+})();
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+<script src="/lib/tracker.js" data-type="demo-funnel" data-client="oyunmu" data-total-steps="6"></script>
+</body>
+</html>
