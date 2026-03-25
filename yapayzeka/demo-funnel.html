@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0a0f1e">
+<title>Sana Uygun AI &#199;&#246;z&#252;m&#252;n&#252; Bul - YapayZeka.Link</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0f1e;--bg-card:#1a2040;--bg-card-hover:#242c52;--bg-option:rgba(26,32,64,0.8);--bg-option-selected:rgba(59,91,219,0.15);--border-option:rgba(59,91,219,0.4);--border-selected:rgba(59,91,219,0.6);--text-primary:#e8ecf4;--text-secondary:#a0aec0;--text-muted:#718096;--accent:#3b5bdb;--accent-hover:#364fc7;--accent-glow:rgba(59,91,219,0.3);--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--safe-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text-primary);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;touch-action:pan-y}
+.funnel-container{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}
+.step{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;padding:0 24px;padding-bottom:calc(16px + var(--safe-bottom));transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .4s ease;will-change:transform,opacity;opacity:0;pointer-events:none}
+.step[data-position="center"]{transform:translateX(0);opacity:1;pointer-events:auto}
+.step[data-position="left"]{transform:translateX(-100%);opacity:0}
+.step[data-position="right"]{transform:translateX(100%);opacity:0}
+.step-header{display:flex;align-items:center;justify-content:center;position:relative;padding:16px 0 8px;flex-shrink:0}
+.back-btn{position:absolute;left:0;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-secondary);cursor:pointer;padding:8px;border-radius:12px;display:flex;align-items:center;justify-content:center;width:44px;height:44px}
+.back-btn:hover{background:var(--bg-card);color:var(--text-primary)}
+.back-btn svg{width:22px;height:22px}
+.progress-dots{display:flex;gap:6px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);transition:all .35s ease}
+.dot.active{background:var(--accent);width:24px;border-radius:4px}
+.dot.completed{background:var(--accent)}
+.step-content{flex:1;display:flex;flex-direction:column;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;min-height:0}
+.step-content::-webkit-scrollbar{display:none}
+.question-area{text-align:center;margin-bottom:28px;flex-shrink:0}
+.question-title{font-size:26px;font-weight:700;line-height:1.3;margin-bottom:8px;letter-spacing:-.02em}
+.question-subtitle{font-size:14px;color:var(--text-secondary)}
+.options-area{display:flex;flex-direction:column;gap:12px;width:100%;max-width:480px;margin:0 auto}
+.option-btn{display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:14px 18px;background:var(--bg-option);border:1.5px solid var(--border-option);border-radius:16px;color:var(--text-primary);font-family:inherit;font-size:16px;font-weight:500;text-align:left;cursor:pointer;transition:all .2s;user-select:none}
+.option-btn:hover{background:var(--bg-card-hover);border-color:var(--text-muted)}
+.option-btn:active{transform:scale(.98)}
+.option-btn.selected{background:var(--bg-option-selected);border-color:var(--border-selected);box-shadow:0 0 0 1px var(--border-selected),0 0 20px var(--accent-glow)}
+.option-btn .emoji{font-size:28px;flex-shrink:0;line-height:1}
+.option-btn .option-label{flex:1}
+.option-btn .check-indicator{width:22px;height:22px;border-radius:50%;border:2px solid var(--text-muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.option-btn.selected .check-indicator{background:var(--accent);border-color:var(--accent)}
+.option-btn.selected .check-indicator::after{content:'\2713';color:#fff;font-size:13px;font-weight:700}
+.option-btn.multi .check-indicator{border-radius:6px}
+.step-footer{flex-shrink:0;padding-top:16px;max-width:480px;width:100%;margin:0 auto}
+.cta-btn{display:flex;align-items:center;justify-content:center;width:100%;height:56px;background:var(--accent);color:#fff;border:none;border-radius:16px;font-family:inherit;font-size:17px;font-weight:600;cursor:pointer;transition:all .2s}
+.cta-btn:hover:not(:disabled){background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}
+.cta-btn:disabled{opacity:.35;cursor:not-allowed}
+.analysis-card{background:var(--bg-card);border-radius:20px;padding:24px;width:100%;max-width:480px;margin:0 auto}
+.analysis-header{text-align:center;margin-bottom:20px}
+.analysis-header h2{font-size:22px;font-weight:700;margin-bottom:4px}
+.analysis-header p{font-size:13px;color:var(--text-secondary)}
+.analysis-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(59,91,219,.3)}
+.analysis-row:last-child{border-bottom:none}
+.analysis-label{font-size:14px;color:var(--text-secondary)}
+.analysis-value{font-size:16px;font-weight:600}
+.rec-list{margin-top:16px;display:flex;flex-direction:column;gap:12px}
+.rec-item{display:flex;gap:12px;align-items:flex-start;padding:14px;background:rgba(59,91,219,0.08);border:1px solid rgba(59,91,219,0.2);border-radius:14px}
+.rec-item .rec-emoji{font-size:32px;flex-shrink:0}
+.rec-item .rec-info{flex:1}
+.rec-item .rec-title{font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:2px}
+.rec-item .rec-detail{font-size:13px;color:var(--text-secondary)}
+.rec-item .rec-reason{font-size:13px;color:var(--text-muted);margin-top:4px;font-style:italic}
+.priority-box{margin-top:16px;padding:14px 16px;background:rgba(59,91,219,.1);border:1px solid rgba(59,91,219,.25);border-radius:14px}
+.priority-box .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:4px}
+.priority-box .text{font-size:14px;color:var(--text-primary);line-height:1.5}
+.free-trial-banner{margin-top:20px;text-align:center;padding:16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:14px}
+.free-trial-banner .emoji{font-size:28px;display:block;margin-bottom:6px}
+.free-trial-banner .text{font-size:15px;font-weight:600;color:var(--text-primary)}
+.free-trial-banner .sub{font-size:13px;color:var(--text-secondary);margin-top:2px}
+.thank-you-icon{width:72px;height:72px;border-radius:50%;background:rgba(34,197,94,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:36px;animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes scaleIn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+.loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .3s}
+.loading-overlay.active{opacity:1;pointer-events:auto}
+.loading-spinner{width:48px;height:48px;border:3px solid var(--bg-card);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{margin-top:20px;font-size:16px;color:var(--text-secondary);text-align:center}
+.loading-text .changing{display:block;margin-top:6px;font-size:14px;color:var(--text-muted);min-height:21px}
+.skip-link{display:block;text-align:center;margin-top:12px;color:var(--text-muted);font-size:13px;text-decoration:underline;cursor:pointer;padding:8px}
+.skip-link:hover{color:var(--text-secondary)}
+@media(max-height:680px){.question-title{font-size:22px}.option-btn{min-height:48px;padding:10px 14px}.option-btn .emoji{font-size:24px}.options-area{gap:8px}.analysis-card{padding:16px}}
+@media(min-width:640px){.step{padding:0 40px;padding-bottom:calc(24px + var(--safe-bottom))}.question-title{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="funnel-container" id="funnel">
+
+  <!-- STEP 1 -->
+  <div class="step" id="step-1" data-position="center">
+    <div class="step-header"><div class="progress-dots" id="dots-1"></div></div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">AI i&#351;inizi nas&#305;l b&#252;y&#252;tebilir?</h1>
+        <p class="question-subtitle">Size &#246;zel AI &#231;&#246;z&#252;m&#252;n&#252;z&#252; bulal&#305;m</p>
+      </div>
+      <div class="options-area" data-step="1" data-key="need">
+        <button class="option-btn" data-value="automate"><span class="emoji">&#x2699;&#xFE0F;</span><span class="option-label">&#304;&#351; s&#252;re&#231;lerimi otomatikle&#351;tirmek istiyorum</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="product"><span class="emoji">&#x1F680;</span><span class="option-label">AI destekli &#252;r&#252;n geli&#351;tirmek istiyorum</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="content"><span class="emoji">&#x270D;&#xFE0F;</span><span class="option-label">&#304;&#231;erik &#252;retimi ve pazarlamada AI kullanmak istiyorum</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="learn"><span class="emoji">&#x1F393;</span><span class="option-label">Ekibime AI e&#287;itimi vermek istiyorum</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-1" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step" id="step-2" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-2"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Hangi alanlarda destek ar&#305;yorsunuz?</h1><p class="question-subtitle">Birden fazla se&#231;ebilirsiniz</p></div>
+      <div class="options-area multi" data-step="2" data-key="areas" data-multi="true">
+        <button class="option-btn multi" data-value="chatbot"><span class="emoji">&#x1F916;</span><span class="option-label">Chatbot / AI Asistan</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="workflow"><span class="emoji">&#x1F504;</span><span class="option-label">Otomasyon / Workflow</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="data"><span class="emoji">&#x1F4CA;</span><span class="option-label">Veri Analizi / Raporlama</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="social"><span class="emoji">&#x1F4F1;</span><span class="option-label">Sosyal Medya / &#304;&#231;erik</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="mvp"><span class="emoji">&#x1F6E0;&#xFE0F;</span><span class="option-label">MVP / Prototip Geli&#351;tirme</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="strategy"><span class="emoji">&#x1F9E0;</span><span class="option-label">AI Strateji Dan&#305;&#351;manl&#305;&#287;&#305;</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-2" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step" id="step-3" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-3"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">&#304;&#351;letmenizin b&#252;y&#252;kl&#252;&#287;&#252; ne?</h1></div>
+      <div class="options-area" data-step="3" data-key="size">
+        <button class="option-btn" data-value="solo"><span class="emoji">&#x1F9D1;&#x200D;&#x1F4BB;</span><span class="option-label">Bireysel / Freelancer</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="startup"><span class="emoji">&#x1F31F;</span><span class="option-label">Startup (1-10 ki&#351;i)</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="sme"><span class="emoji">&#x1F3E2;</span><span class="option-label">KOB&#304; (10-100 ki&#351;i)</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="enterprise"><span class="emoji">&#x1F3D7;&#xFE0F;</span><span class="option-label">Kurumsal (100+ ki&#351;i)</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-3" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step" id="step-4" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-4"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">AI deneyiminiz nas&#305;l?</h1></div>
+      <div class="options-area" data-step="4" data-key="experience">
+        <button class="option-btn" data-value="beginner"><span class="emoji">&#x1F331;</span><span class="option-label">Yeni ba&#351;l&#305;yorum, rehberlik laz&#305;m</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="basic"><span class="emoji">&#x1F4AC;</span><span class="option-label">ChatGPT kullan&#305;yorum ama daha fazlas&#305;n&#305; istiyorum</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="intermediate"><span class="emoji">&#x1F527;</span><span class="option-label">Baz&#305; ara&#231;lar kullan&#305;yorum, entegrasyon istiyorum</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="advanced"><span class="emoji">&#x1F525;</span><span class="option-label">&#304;leri seviye, &#246;zel &#231;&#246;z&#252;mler ar&#305;yorum</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-4" disabled>&#199;&#246;z&#252;m&#252;m&#252; G&#246;ster</button></div>
+  </div>
+
+  <!-- STEP 5: Analiz -->
+  <div class="step" id="step-5" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-5"></div></div>
+    <div class="step-content">
+      <div class="analysis-card">
+        <div class="analysis-header"><h2>&#x1F916; Size &#214;zel AI Plan&#305;</h2><p>Se&#231;imlerinize g&#246;re haz&#305;rlad&#305;k</p></div>
+        <div class="analysis-row"><span class="analysis-label">Profil</span><span class="analysis-value" id="a-profile">AI Explorer</span></div>
+        <div class="analysis-row"><span class="analysis-label">&#214;neri Say&#305;s&#305;</span><span class="analysis-value" id="a-count">3 &#199;&#246;z&#252;m</span></div>
+        <div class="analysis-row"><span class="analysis-label">Tahmini ROI</span><span class="analysis-value" id="a-roi">3-5x</span></div>
+        <div class="rec-list" id="rec-list"></div>
+        <div class="priority-box"><div class="label">&#x1F3AF; &#304;lk Ad&#305;m</div><div class="text" id="priority-text">&#220;cretsiz 15 dakikal&#305;k ke&#351;if g&#246;r&#252;&#351;mesi ile ihtiya&#231;lar&#305;n&#305;z&#305; birlikte belirleyelim.</div></div>
+        <div class="free-trial-banner"><span class="emoji">&#x1F680;</span><div class="text">Bu funnel m&#252;&#351;terileriniz i&#231;in de &#231;al&#305;&#351;&#305;r</div><div class="sub">Ziyaret&#231;ilerinizi otomatik olarak do&#287;ru hizmete y&#246;nlendirin</div></div>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-5">&#x1F4DE; &#220;cretsiz G&#246;r&#252;&#351;me Planla</button></div>
+  </div>
+
+  <!-- STEP 6: Thank You -->
+  <div class="step" id="step-6" data-position="right">
+    <div class="step-header"><div class="progress-dots" id="dots-6"></div></div>
+    <div class="step-content">
+      <div style="text-align:center;margin-bottom:20px">
+        <div class="thank-you-icon">&#x1F916;</div>
+        <h1 class="question-title" style="font-size:22px">Bu deneyimi m&#252;&#351;terilerinize de sunmak ister misiniz?</h1>
+        <p style="color:var(--text-secondary);font-size:15px;margin-top:8px;line-height:1.6">Ziyaret&#231;ilerinizi otomatik olarak do&#287;ru hizmete y&#246;nlendiren, ki&#351;iselle&#351;tirilmi&#351; bir funnel. D&#246;n&#252;&#351;&#252;m oran&#305;n&#305;z&#305; 3 kata kadar art&#305;r&#305;n.</p>
+      </div>
+      <div style="text-align:center;margin-top:20px">
+        <div style="display:flex;flex-direction:column;gap:12px;max-width:320px;margin:0 auto">
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-secondary)"><span style="font-size:20px">&#x2705;</span> Ki&#351;iselle&#351;tirilmi&#351; hizmet y&#246;nlendirme</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-secondary)"><span style="font-size:20px">&#x2705;</span> Otomatik lead toplama</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-secondary)"><span style="font-size:20px">&#x2705;</span> Randevu entegrasyonu</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-secondary)"><span style="font-size:20px">&#x2705;</span> Analytics ve d&#246;n&#252;&#351;&#252;m takibi</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-6" onclick="sendInterest()" style="background:#22c55e">&#x1F4DE; 15 Dakika G&#246;r&#252;&#351;elim</button>
+      <span class="skip-link" id="skip-explore" onclick="window.open('https://yapayzeka.link','_blank')">Siteyi gezmeye devam et &rarr;</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">AI &#231;&#246;z&#252;m&#252;n&#252;z&#252; haz&#305;rl&#305;yoruz<span class="changing" id="loading-changing"></span></div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  var TOTAL_STEPS = 6;
+  var currentStep = 1;
+  var answers = {};
+
+  for (var s = 1; s <= TOTAL_STEPS; s++) {
+    var dotsContainer = document.getElementById('dots-' + s);
+    if (!dotsContainer) continue;
+    for (var d = 1; d <= TOTAL_STEPS; d++) {
+      var dot = document.createElement('span');
+      dot.className = 'dot';
+      if (d < s) dot.className += ' completed';
+      if (d === s) dot.className += ' active';
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  var optionAreas = document.querySelectorAll('.options-area');
+  for (var i = 0; i < optionAreas.length; i++) {
+    (function(area) {
+      var isMulti = area.dataset.multi === 'true';
+      var key = area.dataset.key;
+      var step = parseInt(area.dataset.step, 10);
+      var btns = area.querySelectorAll('.option-btn');
+      for (var j = 0; j < btns.length; j++) {
+        (function(btn) {
+          btn.addEventListener('click', function() {
+            if (isMulti) {
+              btn.classList.toggle('selected');
+              var selected = area.querySelectorAll('.option-btn.selected');
+              var vals = [];
+              for (var k = 0; k < selected.length; k++) vals.push(selected[k].dataset.value);
+              answers[key] = vals;
+              document.getElementById('cta-' + step).disabled = vals.length === 0;
+            } else {
+              var allBtns = area.querySelectorAll('.option-btn');
+              for (var k = 0; k < allBtns.length; k++) allBtns[k].classList.remove('selected');
+              btn.classList.add('selected');
+              answers[key] = btn.dataset.value;
+              document.getElementById('cta-' + step).disabled = false;
+            }
+          });
+        })(btns[j]);
+      }
+    })(optionAreas[i]);
+  }
+
+  document.getElementById('cta-1').addEventListener('click', function() { goToStep(2); });
+  for (var s = 2; s <= 3; s++) {
+    (function(step) {
+      document.getElementById('cta-' + step).addEventListener('click', function() { goToStep(step + 1); });
+    })(s);
+  }
+  document.getElementById('cta-4').addEventListener('click', function() {
+    showLoading(function() { buildRecommendations(); goToStep(5); });
+  });
+  document.getElementById('cta-5').addEventListener('click', function() { goToStep(6); });
+
+  function goToStep(target) {
+    if (target < 1 || target > TOTAL_STEPS) return;
+    document.getElementById('step-' + currentStep).dataset.position = target > currentStep ? 'left' : 'right';
+    document.getElementById('step-' + target).dataset.position = 'center';
+    currentStep = target;
+    if (window.GROWTHER_TRACKER) GROWTHER_TRACKER.onStepChange(target);
+  }
+  window.goBack = function() { goToStep(currentStep - 1); };
+  window.GROWTHER_FUNNEL = { getCurrentStep: function() { return currentStep; }, getAnswers: function() { return answers; } };
+
+  function showLoading(callback) {
+    var overlay = document.getElementById('loading-overlay');
+    var changing = document.getElementById('loading-changing');
+    overlay.classList.add('active');
+    var messages = ['\u0130htiya\u00e7lar\u0131n\u0131z\u0131 analiz ediyoruz...', 'En uygun \u00e7\u00f6z\u00fcmleri se\u00e7iyoruz...', 'Ki\u015fiselle\u015ftirilmi\u015f plan\u0131n\u0131z\u0131 haz\u0131rl\u0131yoruz...'];
+    var idx = 0; changing.textContent = messages[0];
+    var interval = setInterval(function() { idx++; if (idx < messages.length) changing.textContent = messages[idx]; }, 700);
+    setTimeout(function() { clearInterval(interval); overlay.classList.remove('active'); callback(); }, 2400);
+  }
+
+  var solDB = {
+    chatbot: { title: 'AI Chatbot / Asistan Kurulumu', detail: 'Web sitenize veya uygulamanza entegre AI asistan', reason: 'M\u00fc\u015fteri hizmetleri maliyetini %60 azalt\u0131r' },
+    workflow: { title: 'n8n / Make Otomasyon Kurulumu', detail: 'Tekrarlayan i\u015f s\u00fcre\u00e7lerini otomatikle\u015ftirme', reason: 'Haftal\u0131k 10-20 saat tasarruf sa\u011flar' },
+    data: { title: 'AI Veri Analizi & Dashboard', detail: 'Verilerinizden otomatik i\u00e7g\u00f6r\u00fc \u00e7\u0131karan sistem', reason: 'Veri tabanl\u0131 kararlar %40 daha isabetli' },
+    social: { title: 'AI \u0130\u00e7erik \u00dcretim Sistemi', detail: 'Sosyal medya ve blog i\u00e7erikleri i\u00e7in AI workflow', reason: '\u0130\u00e7erik \u00fcretim h\u0131z\u0131n\u0131 5x art\u0131r\u0131r' },
+    mvp: { title: 'AI Destekli MVP Geli\u015ftirme', detail: 'Fikrinizi 2-4 haftada \u00e7al\u0131\u015fan \u00fcr\u00fcne d\u00f6n\u00fc\u015ft\u00fcrme', reason: 'Geli\u015ftirme s\u00fcresini %70 k\u0131salt\u0131r' },
+    strategy: { title: 'AI Strateji Dan\u0131\u015fmanl\u0131\u011f\u0131', detail: 'Organizasyonunuz i\u00e7in kapsaml\u0131 AI yol haritas\u0131', reason: 'Do\u011fru ad\u0131mlarla 6 ay\u0131 1 aya s\u0131\u011fd\u0131r\u0131n' }
+  };
+
+  function buildRecommendations() {
+    var areas = answers.areas || ['strategy'];
+    var need = answers.need || 'automate';
+    var exp = answers.experience || 'basic';
+    var size = answers.size || 'startup';
+
+    var profileMap = {
+      beginner: 'AI Ke\u015fif\u00e7isi',
+      basic: 'AI Kullan\u0131c\u0131s\u0131',
+      intermediate: 'AI Entegrat\u00f6r\u00fc',
+      advanced: 'AI Stratejisti'
+    };
+    document.getElementById('a-profile').textContent = profileMap[exp] || 'AI Explorer';
+    document.getElementById('a-count').textContent = Math.min(areas.length, 3) + ' \u00c7\u00f6z\u00fcm';
+
+    var roiMap = { beginner: '2-3x', basic: '3-5x', intermediate: '5-8x', advanced: '8-12x' };
+    document.getElementById('a-roi').textContent = roiMap[exp] || '3-5x';
+
+    var recList = document.getElementById('rec-list');
+    recList.innerHTML = '';
+    var shown = 0;
+    var emojis = ['\uD83E\uDD16', '\u2699\uFE0F', '\uD83D\uDE80'];
+
+    for (var i = 0; i < areas.length && shown < 3; i++) {
+      var area = areas[i];
+      var sol = solDB[area];
+      if (!sol) continue;
+      var div = document.createElement('div');
+      div.className = 'rec-item';
+      div.innerHTML = '<span class="rec-emoji">' + emojis[shown] + '</span>' +
+        '<div class="rec-info">' +
+        '<div class="rec-title">' + sol.title + '</div>' +
+        '<div class="rec-detail">' + sol.detail + '</div>' +
+        '<div class="rec-reason">' + sol.reason + '</div>' +
+        '</div>';
+      recList.appendChild(div);
+      shown++;
+    }
+
+    var priText = '\u00dccretsiz 15 dakikal\u0131k ke\u015fif g\u00f6r\u00fc\u015fmesi ile ihtiya\u00e7lar\u0131n\u0131z\u0131 birlikte belirleyelim.';
+    if (exp === 'beginner') {
+      priText = 'AI yolculu\u011funuza ba\u015flamak i\u00e7in m\u00fckemmel bir zaman! \u00dccretsiz ke\u015fif g\u00f6r\u00fc\u015fmesinde size \u00f6zel bir ba\u015flang\u0131\u00e7 plan\u0131 \u00e7\u0131karal\u0131m.';
+    } else if (exp === 'advanced') {
+      priText = '\u0130leri seviye ihtiya\u00e7lar\u0131n\u0131z i\u00e7in \u00f6zel \u00e7\u00f6z\u00fcmler tasarlayal\u0131m. Ke\u015fif g\u00f6r\u00fc\u015fmesinde teknik detaylar\u0131 konu\u015fabiliriz.';
+    } else if (size === 'enterprise') {
+      priText = 'Kurumsal \u00f6l\u00e7ekte AI d\u00f6n\u00fc\u015f\u00fcm\u00fc i\u00e7in kapsaml\u0131 bir yol haritas\u0131 \u00e7\u0131karal\u0131m. TRT ve Tar\u0131m Kredi deneyimimiz ile kurumsal ihtiya\u00e7lar\u0131n\u0131z\u0131 anl\u0131yoruz.';
+    }
+    document.getElementById('priority-text').textContent = priText;
+  }
+
+  window.sendInterest = function() {
+    if (window.GROWTHER_TRACKER) GROWTHER_TRACKER.onInterested();
+    var btn = document.getElementById('cta-6');
+    btn.disabled = true;
+    btn.textContent = 'Y\u00f6nlendiriliyor...';
+
+    var SUPA_URL = window.GROWTHER ? GROWTHER.SUPABASE_URL : '';
+    var SUPA_KEY = window.GROWTHER ? GROWTHER.SUPABASE_ANON : '';
+
+    fetch(SUPA_URL + '/rest/v1/funnel_leads', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        website: window.location.pathname,
+        stage: 'cal_click',
+        extra_notes: JSON.stringify({ client: 'yapayzeka', action: 'booking_clicked', answers: answers, clicked_at: new Date().toISOString() }),
+        last_step: 'cal_booking',
+        completed: true
+      })
+    }).catch(function() {});
+
+    setTimeout(function() { showCalPopup('tr'); }, 500);
+  };
+
+  var touchStartX = 0, touchStartY = 0;
+  document.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].clientX; touchStartY = e.changedTouches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', function(e) { var dx = e.changedTouches[0].clientX - touchStartX, dy = e.changedTouches[0].clientY - touchStartY; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && dx > 0 && currentStep > 1) goBack(); }, { passive: true });
+
+})();
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+<script src="/lib/tracker.js" data-type="demo-funnel" data-client="yapayzeka" data-total-steps="6"></script>
+</body>
+</html>

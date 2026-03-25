@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 13px; line-height: 1.6; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #f0f4ff; color: #3b5bdb; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #3b5bdb, #5c7cfa); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #3b5bdb; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
+  th { background: #1a1a2e; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #f0f4ff; border-left: 4px solid #3b5bdb; color: #364fc7; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #f0f4ff; color: #364fc7; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #3b5bdb; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
+  .summary-card { flex: 1; min-width: 120px; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #3b5bdb; }
+  .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  .liked-section { padding: 20px 24px; background: #e6f4ea; border: 2px solid #34a853; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .liked-section h3 { font-size: 16px; color: #137333; margin-bottom: 6px; border: none; }
+  .liked-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .liked-btn { background: #34a853; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .liked-btn:hover { background: #2d9249; } .liked-btn.clicked { background: #3b5bdb; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullan&#305;m</div>
+  <h1>YapayZeka.Link</h1>
+  <h2>Ki&#351;isel Marka B&#252;y&#252;tme &amp; Dijital Strateji Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Haz&#305;rlanma Tarihi:</strong> 25 Mart 2026<br>
+    <strong>Domain:</strong> yapayzeka.link<br>
+    <strong>Sekt&#246;r:</strong> AI Dan&#305;&#351;manl&#305;k &amp; &#220;r&#252;n Geli&#351;tirme<br>
+    <strong>Rapor T&#252;r&#252;:</strong> Detayl&#305; Analiz + Strateji &#214;nerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web ara&#351;t&#305;rmas&#305;na dayanarak Claude Code Opus 4.6 ile haz&#305;rlanm&#305;&#351;t&#305;r.</div>
+</div>
+
+<script>
+function handleLiked(){var b=document.getElementById('likedBtn');b.disabled=true;b.textContent='Y\u00f6nlendiriliyor...';
+if(window.GROWTHER&&GROWTHER.supaFetch){GROWTHER.supaFetch('POST','funnel_leads',{website:window.location.pathname,stage:'liked_report',extra_notes:JSON.stringify({client:'yapayzeka',action:'liked_report',clicked_at:new Date().toISOString(),is_test:GROWTHER.isAdmin}),last_step:'liked',completed:true}).catch(function(){});}
+setTimeout(function(){showCalPopup('tr')},500)}
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+
+<!-- PROFIL -->
+<h2 class="page-break">1. Profil &#214;zeti - Mustafa Alkan</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">B2B/B2C</div><div class="label">Hedef Pazar</div></div>
+  <div class="summary-card"><div class="value">AI &amp; &#220;r&#252;n</div><div class="label">Sekt&#246;r</div></div>
+  <div class="summary-card"><div class="value">10+ Y&#305;l</div><div class="label">Deneyim</div></div>
+  <div class="summary-card"><div class="value">13</div><div class="label">Proje</div></div>
+  <div class="summary-card"><div class="value">Ankara</div><div class="label">Lokasyon</div></div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>De&#287;er</th></tr>
+  <tr><td><strong>Website</strong></td><td>yapayzeka.link</td></tr>
+  <tr><td><strong>Blog</strong></td><td>mustafaalkan.com.tr</td></tr>
+  <tr><td><strong>Unvan</strong></td><td>Product Developer with AI</td></tr>
+  <tr><td><strong>Uzmanl&#305;k Alanlar&#305;</strong></td><td>Yapay zeka destekli &#252;r&#252;n geli&#351;tirme, dijital d&#246;n&#252;&#351;&#252;m, sosyal medya stratejisi, i&#231;erik &#252;retimi, e&#287;itim &amp; at&#246;lye</td></tr>
+  <tr><td><strong>Teknoloji Stack</strong></td><td>ChatGPT/Claude (%95), AI Agent/Workflow (%92), n8n/Make/Zapier (%90), Astro/React (%88), Cloudflare (%86), Notion (%92)</td></tr>
+  <tr><td><strong>Ge&#231;mi&#351; Deneyim</strong></td><td>TRT (2014-2018, sosyal medya uzman&#305;), Tar&#305;m Kredi Teknoloji (2019, dijital medya y&#246;neticisi), E&#287;itimciler Birli&#287;i Sendikas&#305; (2024, bas&#305;n dan&#305;&#351;man&#305;)</td></tr>
+  <tr><td><strong>Aktif Projeler</strong></td><td>Kollektif Zeka (kurucu, 2025), Oltaya Gelme, Risk Sermayesi, Mobbing Score ve 9 proje daha</td></tr>
+  <tr><td><strong>Sosyal Medya</strong></td><td>GitHub, X (Twitter), LinkedIn, Blog, Buy Me A Coffee</td></tr>
+  <tr><td><strong>Diller</strong></td><td>T&#252;rk&#231;e (ana dil), &#304;ngilizce (profesyonel)</td></tr>
+  <tr><td><strong>Platform</strong></td><td>Astro.js (statik site), Cloudflare Pages, modern SPA</td></tr>
+</table>
+
+<h3>Proje Portf&#246;y&#252; (13 Proje)</h3>
+<table>
+  <tr><th>Proje</th><th>Kategori</th><th>A&#231;&#305;klama</th></tr>
+  <tr><td><strong>Kollektif Zeka</strong></td><td><span class="tag tag-blue">AI</span></td><td>Birlikte hayal edip yapay zeka ile geli&#351;tirme toplulu&#287;u - kurucu</td></tr>
+  <tr><td><strong>Oltaya Gelme</strong></td><td><span class="tag tag-red">G&#252;venlik</span></td><td>Doland&#305;r&#305;c&#305;l&#305;k uyar&#305; sistemi - &#351;&#252;pheli link ve mesaj sorgulama</td></tr>
+  <tr><td><strong>Risk Sermayesi</strong></td><td><span class="tag tag-blue">Startup</span></td><td>T&#252;rkiye giri&#351;im ekosistemi bilgi ve kaynak platformu</td></tr>
+  <tr><td><strong>Mobbing Score</strong></td><td><span class="tag tag-orange">HR</span></td><td>20 soruluk mobbing testi ile i&#351; yeri fark&#305;ndal&#305;k arac&#305;</td></tr>
+  <tr><td><strong>&#304;&#351; Modeli Analiz Arac&#305;</strong></td><td><span class="tag tag-green">&#304;&#351;letme</span></td><td>Hacim-K&#226;r-Sermaye denge sim&#252;lat&#246;r&#252;</td></tr>
+  <tr><td><strong>R&#252;zgar Telefonu</strong></td><td><span class="tag tag-blue">Ruh Sa&#287;l&#305;&#287;&#305;</span></td><td>Bast&#305;r&#305;lm&#305;&#351; duygular&#305; anonim yazma platformu</td></tr>
+  <tr><td><strong>Asperger Rehberi</strong></td><td><span class="tag tag-green">Sa&#287;l&#305;k</span></td><td>Asperger sendromu hakk&#305;nda kapsaml&#305; kaynak rehberi</td></tr>
+  <tr><td><strong>Gassal | Beni Y&#305;ka</strong></td><td><span class="tag tag-orange">K&#252;lt&#252;r</span></td><td>&#214;l&#252;m, cenaze rit&#252;elleri ve yas s&#252;reci rehberi</td></tr>
+  <tr><td><strong>Karpal T&#252;nel Rehberi</strong></td><td><span class="tag tag-green">Sa&#287;l&#305;k</span></td><td>Belirtiler, tan&#305; ve tedavi bilgi portal&#305;</td></tr>
+  <tr><td><strong>Free Domain Monitor</strong></td><td><span class="tag tag-blue">Ara&#231;</span></td><td>Alan ad&#305; ve yenileme s&#252;resi takip servisi</td></tr>
+  <tr><td><strong>Sahur Vakti</strong></td><td><span class="tag tag-orange">Ara&#231;</span></td><td>Ramazan geri say&#305;m arac&#305;</td></tr>
+  <tr><td><strong>&#199;arp&#305;m Tablosu</strong></td><td><span class="tag tag-green">E&#287;itim</span></td><td>Farkl&#305; zorluk seviyeli e&#287;itim oyunu</td></tr>
+  <tr><td><strong>Not Ortalamas&#305;</strong></td><td><span class="tag tag-green">E&#287;itim</span></td><td>D&#246;nem sonu not ortalamas&#305; hesaplama arac&#305;</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Profil De&#287;erlendirmesi</strong>
+  Mustafa Alkan, T&#252;rkiye'deki AI ve dijital d&#246;n&#252;&#351;&#252;m alan&#305;nda &#231;ok nadir bulunan bir profil. 10+ y&#305;l&#305; a&#351;an kurumsal deneyim (TRT, Tar&#305;m Kredi), 13 canl&#305; proje, g&#252;&#231;l&#252; teknik stack (AI, otomasyon, no-code, web) ve topluluk kurma vizyonu bir arada. &#214;zellikle "Kollektif Zeka" projesi ile AI toplulu&#287;u olu&#351;turma giri&#351;imi ve "Oltaya Gelme" gibi toplumsal fayda projeleri, ki&#351;isel markay&#305; sadece teknik yetkinlikten &#246;teye ta&#351;&#305;yor. Astro.js ile yap&#305;lm&#305;&#351; site teknik a&#231;&#305;dan &#231;ok temiz, h&#305;zl&#305; ve modern. Chatbot entegrasyonu farkl&#305;la&#351;t&#305;r&#305;c&#305; bir unsur.
+</div>
+
+<!-- RAKIP -->
+<h2 class="page-break">2. Rekabet Analizi - AI Dan&#305;&#351;manl&#305;k &amp; Ki&#351;isel Marka</h2>
+
+<h3>2.1 Pazar Konumland&#305;rma</h3>
+<table>
+  <tr><th>Oyuncu</th><th>G&#252;&#231;l&#252; Y&#246;n&#252;</th><th>Fark</th></tr>
+  <tr><td><strong>Ba&#287;&#305;ms&#305;z AI Dan&#305;&#351;manlar</strong></td><td>Ki&#351;isel ili&#351;ki, esneklik, ni&#351; uzmanl&#305;k</td><td>Mustafa'n&#305;n 13 canl&#305; projesi ile "yapt&#305;m, g&#246;steririm" avantaj&#305;</td></tr>
+  <tr><td><strong>Dijital Ajanslar</strong></td><td>Geni&#351; ekip, &#231;oklu hizmet, kurumsal referanslar</td><td>Mustafa daha &#231;evik ve maliyet etkin, AI ile &#231;arpan etkisi</td></tr>
+  <tr><td><strong>AI E&#287;itim Platformlar&#305;</strong></td><td>&#214;l&#231;eklenebilir i&#231;erik, geni&#351; kitle</td><td>Mustafa uygulama odakl&#305;, teori de&#287;il pratik</td></tr>
+  <tr><td><strong>Teknoloji Bloggerlar&#305;</strong></td><td>&#304;&#231;erik hacmi, SEO trafi&#287;i, sosyal takip&#231;i</td><td>Mustafa sadece yazan de&#287;il, &#252;reten - 13 canl&#305; proje ispat&#305;</td></tr>
+  <tr style="background:#f0f4ff">
+    <td><strong>Mustafa Alkan</strong></td>
+    <td>AI + &#252;r&#252;n + strateji + topluluk - hepsi bir arada, 13 canl&#305; proje ile kan&#305;tlanm&#305;&#351;</td>
+    <td>-</td>
+  </tr>
+</table>
+
+<h3>2.2 Pazar B&#252;y&#252;kl&#252;&#287;&#252; - T&#252;rkiye AI Dan&#305;&#351;manl&#305;k Pazar&#305;</h3>
+<table>
+  <tr><th>Metrik</th><th>De&#287;er</th></tr>
+  <tr><td>T&#252;rkiye AI pazar b&#252;y&#252;kl&#252;&#287;&#252; (2025)</td><td><strong>~5 Milyar TL</strong></td></tr>
+  <tr><td>Y&#305;ll&#305;k b&#252;y&#252;me</td><td><strong>%35-40</strong></td></tr>
+  <tr><td>"Yapay zeka dan&#305;&#351;manl&#305;k" arama hacmi</td><td><strong>Ayl&#305;k 12K+ ve art&#305;yor</strong></td></tr>
+  <tr><td>"AI ile &#252;r&#252;n geli&#351;tirme" arama trendi</td><td><strong>Son 2 y&#305;lda %500+ art&#305;&#351;</strong></td></tr>
+  <tr><td>KOB&#304; dijital d&#246;n&#252;&#351;&#252;m ihtiyac&#305;</td><td><strong>~3 Milyon KOB&#304; potansiyel</strong></td></tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Rekabet&#231;i Avantajlar</strong>
+  <ul style="margin-top:6px">
+    <li><strong>13 canl&#305; proje = "yapt&#305;m, g&#246;steririm" g&#252;venilirli&#287;i</strong> - Rakiplerin &#231;o&#287;u konu&#351;uyor, Mustafa yap&#305;yor ve g&#246;steriyor</li>
+    <li><strong>Kurumsal ge&#231;mi&#351; + giri&#351;imci ruh</strong> - TRT ve Tar&#305;m Kredi deneyimi kurumsal g&#252;ven veriyor, 13 proje giri&#351;imci yetkinli&#287;i kan&#305;tl&#305;yor</li>
+    <li><strong>Topluluk vizyonu (Kollektif Zeka)</strong> - Sadece bireysel de&#287;il, ekosistem olu&#351;turan bir yakla&#351;&#305;m</li>
+    <li><strong>Toplumsal fayda projeleri</strong> - Oltaya Gelme, Asperger Rehberi, R&#252;zgar Telefonu gibi projeler ki&#351;isel markaya derinlik kat&#305;yor</li>
+    <li><strong>G&#252;&#231;l&#252; teknik stack</strong> - ChatGPT/Claude %95, n8n/Make %90, Astro/React %88 - full-stack AI yetkinli&#287;i</li>
+    <li><strong>Astro.js ile yap&#305;lm&#305;&#351; profesyonel site</strong> - H&#305;zl&#305;, modern, interaktif chatbot ile farkl&#305;la&#351;an portfolio</li>
+    <li><strong>Yapayzeka.link domain'i</strong> - AI alan&#305;nda &#231;ok g&#252;&#231;l&#252; ve ak&#305;lda kal&#305;c&#305; bir domain</li>
+  </ul>
+</div>
+
+<div class="alert alert-warning">
+  <strong>B&#252;y&#252;me F&#305;rsatlar&#305;</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Lead toplama mekanizmas&#305; eksik</strong> - 13 proje ve g&#252;&#231;l&#252; trafik potansiyeli var ama ziyaret&#231;iden e-posta/ileti&#351;im bilgisi toplayan bir sistem yok</li>
+    <li><strong>Sat&#305;&#351; funnel'&#305; yok</strong> - Ziyaret&#231;i siteye geliyor ama "bir sonraki ad&#305;m" net de&#287;il. Dan&#305;&#351;manl&#305;k, e&#287;itim, proje ortakl&#305;&#287;&#305; - hangisine y&#246;nlendirilecek?</li>
+    <li><strong>SEO i&#231;eri&#287;i geli&#351;tirilebilir</strong> - Blog ayr&#305; domain'de (mustafaalkan.com.tr), SEO de&#287;eri ana siteye akm&#305;yor</li>
+    <li><strong>Hizmet paketleri tan&#305;ml&#305; de&#287;il</strong> - Fiyatland&#305;rma, paket ve kapsam net olursa d&#246;n&#252;&#351;&#252;m artar</li>
+    <li><strong>Sosyal medya i&#231;erik stratejisi</strong> - 13 projelik bir portf&#246;yle her hafta payla&#351;&#305;lacak tonla i&#231;erik var ama sistematik de&#287;il</li>
+  </ul>
+</div>
+
+<!-- WEB SITESI -->
+<h2 class="page-break">3. Web Sitesi Analizi</h2>
+
+<h3>3.1 G&#252;&#231;l&#252; Y&#246;nler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr><td>SSL sertifikas&#305;</td><td><span class="tag tag-green">Aktif</span> - G&#252;venli ba&#287;lant&#305;</td></tr>
+  <tr><td>Performans</td><td><span class="tag tag-green">M&#252;kemmel</span> - Astro.js statik site = y&#305;ld&#305;r&#305;m h&#305;z&#305;nda y&#252;klenme</td></tr>
+  <tr><td>Responsive tasar&#305;m</td><td><span class="tag tag-green">Var</span> - Mobil uyumlu, hamburger men&#252;</td></tr>
+  <tr><td>G&#246;rsel tasar&#305;m</td><td><span class="tag tag-green">&#199;ok iyi</span> - Minimalist, modern, terminal esteti&#287;i ile farkl&#305;la&#351;an kimlik</td></tr>
+  <tr><td>&#304;nteraktif chatbot</td><td><span class="tag tag-green">Var</span> - "Son projelerini g&#246;ster" gibi prompt'larla etkileyici demo</td></tr>
+  <tr><td>Proje portf&#246;y&#252;</td><td><span class="tag tag-green">Zengin</span> - 13 canl&#305; proje detayl&#305; &#351;ekilde listeleniyor</td></tr>
+  <tr><td>Teknoloji stack sayfas&#305;</td><td><span class="tag tag-green">Detayl&#305;</span> - Yetkinlik seviyeleri y&#252;zdelik olarak g&#246;sterilmi&#351;</td></tr>
+  <tr><td>Hosting</td><td><span class="tag tag-green">Cloudflare</span> - Global CDN, DDoS koruma, h&#305;zl&#305; da&#287;&#305;t&#305;m</td></tr>
+  <tr><td>Domain</td><td><span class="tag tag-green">M&#252;kemmel</span> - yapayzeka.link = AI alan&#305;nda ak&#305;lda kal&#305;c&#305; ve g&#252;&#231;l&#252;</td></tr>
+  <tr><td>Eri&#351;ilebilirlik</td><td><span class="tag tag-green">Var</span> - Screen reader deste&#287;i, focus states</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Teknik De&#287;erlendirme</strong>
+  Site teknik a&#231;&#305;dan sekt&#246;r&#252;n &#231;ok &#252;zerinde. Astro.js + Cloudflare kombinasyonu, T&#252;rkiye'deki AI dan&#305;&#351;manlar&#305;n&#305;n %99'undan daha h&#305;zl&#305; ve modern bir site sa&#287;l&#305;yor. Terminal tarz&#305; chatbot, ziyaret&#231;iye an&#305;nda "bu ki&#351;i teknolojiyi bilir" mesaj&#305; veriyor. Proje portf&#246;y&#252; sayfas&#305; 13 canl&#305; projeyle dolu - bu &#231;o&#287;u ajans&#305;n bile sahip olamayaca&#287;&#305; bir referans listesi. Domain se&#231;imi de m&#252;kemmel: yapayzeka.link = ak&#305;lda kal&#305;c&#305;, sekt&#246;re &#246;zg&#252; ve profesyonel.
+</div>
+
+<h3>3.2 Sat&#305;&#351; ve Pazarlama Taraf&#305;nda &#304;yile&#351;tirme F&#305;rsatlar&#305;</h3>
+<table>
+  <tr><th>Alan</th><th>A&#231;&#305;klama</th><th>&#214;ncelik</th></tr>
+  <tr>
+    <td><strong>Lead toplama sistemi</strong></td>
+    <td>13 projeden gelen trafik &#231;ok de&#287;erli ama ziyaret&#231;iden e-posta toplamak i&#231;in bir mekanizma yok. Basit bir "AI ipuçlar&#305; b&#252;lteni" bile ayl&#305;k y&#252;zlerce lead toplayabilir. Her proje sayfas&#305;na newsletter formu eklenebilir.</td>
+    <td><span class="tag tag-orange">Y&#252;ksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sat&#305;&#351; funnel'&#305;</strong></td>
+    <td>Ziyaret&#231;i siteye geldi&#287;inde "ne yapabilirim senin i&#231;in?" sorusunun cevab&#305; net de&#287;il. "AI dan&#305;&#351;manl&#305;k m&#305; ar&#305;yorsun? &#220;r&#252;n geli&#351;tirme mi? E&#287;itim mi?" &#351;eklinde bir y&#246;nlendirme funnel'&#305; d&#246;n&#252;&#351;&#252;m&#252; 3-5x art&#305;rabilir.</td>
+    <td><span class="tag tag-orange">Y&#252;ksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Hizmet paketleri sayfas&#305;</strong></td>
+    <td>Dan&#305;&#351;manl&#305;k, e&#287;itim, &#252;r&#252;n geli&#351;tirme, otomasyon gibi hizmetler ve fiyatlar&#305; net &#351;ekilde g&#246;sterilirse ziyaret&#231;i karar vermesi kolayla&#351;&#305;r. "Ne kadar?" sorusuna cevap olmal&#305;.</td>
+    <td><span class="tag tag-orange">Y&#252;ksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Blog entegrasyonu</strong></td>
+    <td>mustafaalkan.com.tr'deki blog i&#231;eri&#287;i ayr&#305; domain'de. SEO de&#287;eri yapayzeka.link'e aktarm&#305;yor. Blog i&#231;erikleri yapayzeka.link/blog alt&#305;na ta&#351;&#305;nabilir veya canonical link ile y&#246;nlendirilebilir.</td>
+    <td><span class="tag tag-blue">Orta</span></td>
+  </tr>
+  <tr>
+    <td><strong>Vaka &#231;al&#305;&#351;malar&#305; (case study)</strong></td>
+    <td>13 proje var ama "bu projeyle &#351;u sonucu elde ettim" format&#305;nda vaka &#231;al&#305;&#351;malar&#305; yaz&#305;lsa &#231;ok g&#252;&#231;l&#252; bir sat&#305;&#351; materyali olur. &#214;rne&#287;in: "Oltaya Gelme ile X ki&#351;i doland&#305;r&#305;c&#305;l&#305;ktan korundu".</td>
+    <td><span class="tag tag-blue">Orta</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sosyal medya i&#231;erik takvimi</strong></td>
+    <td>13 proje + teknik stack + deneyimlerle her hafta 3-4 i&#231;erik rahatl&#305;kla &#252;retilebilir. LinkedIn ve X'te d&#252;zenli payla&#351;&#305;m ki&#351;isel markay&#305; katl&#305;yor.</td>
+    <td><span class="tag tag-blue">Orta</span></td>
+  </tr>
+  <tr>
+    <td><strong>Testimonial / referanslar</strong></td>
+    <td>TRT, Tar&#305;m Kredi gibi kurumsal ge&#231;mi&#351;ten ve mevcut projelerden referans yorumlar&#305; eklenirse g&#252;ven alg&#305;s&#305; &#231;ok artar.</td>
+    <td><span class="tag tag-blue">Orta</span></td>
+  </tr>
+</table>
+
+<h3>3.3 Proje Portf&#246;y&#252; Analizi</h3>
+<table>
+  <tr><th>Kategori</th><th>Proje Say&#305;s&#305;</th><th>Trafik Potansiyeli</th><th>Lead Potansiyeli</th></tr>
+  <tr><td><strong>Sa&#287;l&#305;k / Fark&#305;ndal&#305;k</strong></td><td>3 (Asperger, Karpal T&#252;nel, R&#252;zgar Telefonu)</td><td><span class="tag tag-green">Y&#252;ksek</span> - Arama hacmi y&#252;ksek konular</td><td><span class="tag tag-orange">Orta</span></td></tr>
+  <tr><td><strong>AI / Teknoloji</strong></td><td>2 (Kollektif Zeka, Domain Monitor)</td><td><span class="tag tag-green">Y&#252;ksek</span> - AI trend konusu</td><td><span class="tag tag-green">Y&#252;ksek</span></td></tr>
+  <tr><td><strong>&#304;&#351;letme / Giri&#351;im</strong></td><td>3 (Risk Sermayesi, &#304;&#351; Modeli, Mobbing)</td><td><span class="tag tag-green">Y&#252;ksek</span> - B2B hedef kitle</td><td><span class="tag tag-green">Y&#252;ksek</span></td></tr>
+  <tr><td><strong>G&#252;venlik</strong></td><td>1 (Oltaya Gelme)</td><td><span class="tag tag-green">&#199;ok y&#252;ksek</span> - Viral potansiyel</td><td><span class="tag tag-orange">Orta</span></td></tr>
+  <tr><td><strong>E&#287;itim / Ara&#231;</strong></td><td>3 (&#199;arp&#305;m, Not, Sahur)</td><td><span class="tag tag-green">Y&#252;ksek</span> - Sezonluk spike'lar</td><td><span class="tag tag-orange">D&#252;&#351;&#252;k</span></td></tr>
+  <tr><td><strong>K&#252;lt&#252;r</strong></td><td>1 (Gassal)</td><td><span class="tag tag-orange">Orta</span> - Ni&#351; ama derin</td><td><span class="tag tag-orange">D&#252;&#351;&#252;k</span></td></tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Portf&#246;y G&#252;c&#252;</strong>
+  13 canl&#305; proje = 13 ayr&#305; trafik kayna&#287;&#305;. &#214;zellikle "Oltaya Gelme" (viral potansiyel y&#252;ksek), "Risk Sermayesi" (B2B hedef kitle) ve "Kollektif Zeka" (AI toplulu&#287;u) projeleri hem trafik hem lead a&#231;&#305;s&#305;ndan &#231;ok de&#287;erli. Bu projelerin her birine basit bir e-posta toplama formu ve "Mustafa Alkan ile &#231;al&#305;&#351;mak ister misiniz?" CTA's&#305; eklense, organik lead ak&#305;&#351;&#305; ba&#351;lar.
+</div>
+
+<!-- STRATEJI -->
+<h2 class="page-break">4. &#214;nerilen Aksiyon Plan&#305;</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - Sat&#305;&#351; Altyap&#305;s&#305; (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Hizmet sayfas&#305; olu&#351;turun:</strong> Dan&#305;&#351;manl&#305;k, e&#287;itim, &#252;r&#252;n geli&#351;tirme, otomasyon kurulumu gibi hizmetleri net paketler halinde g&#246;sterin. Her paketin kapsam&#305;, s&#252;resi ve fiyat aral&#305;&#287;&#305; belli olsun. Ziyaret&#231;i "ne kadar, ne al&#305;r&#305;m?" sorusuna an&#305;nda cevap bulsun.</li>
+    <li><strong>Lead toplama sistemi kurun:</strong> Her proje sayfas&#305;na ve ana sayfaya "AI &#304;pu&#231;lar&#305; B&#252;lteni - Haftal&#305;k AI trendleri ve pratik ipuçlar&#305;" &#351;eklinde e-posta formu ekleyin. 13 projeden gelen trafi&#287;i lead'e d&#246;n&#252;&#351;t&#252;r&#252;n.</li>
+    <li><strong>Sat&#305;&#351; funnel'&#305; ekleyin:</strong> "Ne ar&#305;yorsun?" &#351;eklinde ba&#351;layan interaktif bir ak&#305;&#351;: AI dan&#305;&#351;manl&#305;k → &#252;r&#252;n geli&#351;tirme → otomasyon → e&#287;itim. Ki&#351;iye &#246;zel &#246;neri ve randevu y&#246;nlendirmesi.</li>
+    <li><strong>Google Analytics 4 kurun:</strong> Hangi projeden ne kadar trafik geliyor, ziyaret&#231;iler ne yap&#305;yor, d&#246;n&#252;&#351;&#252;m nerede kopuyor - bunlar&#305; &#246;l&#231;meden optimize edemezsiniz.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - Ki&#351;isel Marka B&#252;y&#252;tme (Hafta 3-4)</div>
+  <ol>
+    <li><strong>LinkedIn i&#231;erik stratejisi ba&#351;lat&#305;n:</strong> Haftada 3 payla&#351;&#305;m: 1) Proje hikayesi ("Oltaya Gelme'yi neden yapt&#305;m"), 2) AI ipucu/trend, 3) Ki&#351;isel deneyim/g&#246;r&#252;&#351;. 13 proje = 13 haftal&#305;k haz&#305;r i&#231;erik serisi. LinkedIn'de AI konusunda T&#252;rkiye'deki en g&#246;r&#252;n&#252;r isimlerden biri olunabilir.</li>
+    <li><strong>Vaka &#231;al&#305;&#351;malar&#305; yaz&#305;n:</strong> Her projenin "sorun → &#231;&#246;z&#252;m → sonu&#231;" format&#305;nda k&#305;sa bir hikayesi olsun. &#214;rnek: "Kollektif Zeka: 0'dan X kullan&#305;c&#305;ya nas&#305;l ula&#351;t&#305;k?" Bu i&#231;erikler hem SEO hem sat&#305;&#351; materyali olarak &#231;al&#305;&#351;&#305;r.</li>
+    <li><strong>Blog i&#231;eri&#287;ini SEO i&#231;in optimize edin:</strong> "Yapay zeka ile &#252;r&#252;n geli&#351;tirme", "n8n otomasyon &#246;rnekleri", "AI dan&#305;&#351;manl&#305;k nedir?" gibi anahtar kelimeler hedeflenebilir. yapayzeka.link/blog alt&#305;na ta&#351;&#305;ma veya canonical link d&#252;zenlemesi yap&#305;labilir.</li>
+    <li><strong>Referans ve testimonial toplay&#305;n:</strong> TRT, Tar&#305;m Kredi d&#246;nemlerinden ve mevcut projelerden 5-10 referans yorumu al&#305;n. Siteye "Ba&#351;kalar&#305; Ne Diyor?" b&#246;l&#252;m&#252; ekleyin.</li>
+    <li><strong>X (Twitter) i&#231;erik serisi:</strong> "13 Projede 13 Ders" gibi thread serileri, AI tool inceleme ve g&#252;nl&#252;k AI haberleri payla&#351;&#305;m&#305;. K&#305;sa ve etkileyici format.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - &#214;l&#231;ekleme (Ay 2+)</div>
+  <ol>
+    <li><strong>Online e&#287;itim programlar&#305;:</strong> "AI ile &#220;r&#252;n Geli&#351;tirme 101", "n8n Otomasyon Masterclass", "Prompt M&#252;hendisli&#287;i At&#246;lyesi" gibi &#246;l&#231;eklenebilir e&#287;itim &#252;r&#252;nleri. Canl&#305; at&#246;lye + kay&#305;tl&#305; kurs modeli. Pasif gelir kanal&#305;.</li>
+    <li><strong>Kollektif Zeka'y&#305; monetize edin:</strong> Topluluk &#252;yeli&#287;i (freemium + premium), &#246;zel AI at&#246;lyeleri, i&#351;birli&#287;i projeleri. Topluluk = uzun vadeli ve s&#252;rd&#252;r&#252;lebilir gelir.</li>
+    <li><strong>Kurumsal AI dan&#305;&#351;manl&#305;k paketleri:</strong> KOB&#304;'lere "AI D&#246;n&#252;&#351;&#252;m Paketi" sat&#305;n: mevcut i&#351; s&#252;re&#231;lerini analiz, otomasyon f&#305;rsatlar&#305;n&#305; tespit, uygulama ve e&#287;itim. Ayl&#305;k retainer model. B2B en y&#252;ksek gelir kanal&#305;.</li>
+    <li><strong>YouTube / Podcast kanal&#305;:</strong> "AI ile Yapt&#305;m" serisi - her b&#246;l&#252;mde bir projenin hikayesi. "Yapay Zeka Sohbetleri" podcast - sekt&#246;r liderleri ile r&#246;portajlar. Uzun vadede organik b&#252;y&#252;me.</li>
+    <li><strong>AI ara&#231; marketplace:</strong> Geli&#351;tirdi&#287;iniz n8n workflow'lar&#305;, prompt &#351;ablonlar&#305; ve otomasyon tariflerini sat&#305;&#351;a sunun. Tek seferlik &#252;r&#252;nler + ayl&#305;k abonelik modeli.</li>
+  </ol>
+</div>
+
+<!-- SONUC -->
+<h2 class="page-break">5. Sonu&#231; ve Genel De&#287;erlendirme</h2>
+
+<h3>Skor Kart&#305;</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef</th></tr>
+  <tr><td>Teknik Altyap&#305;</td><td><div class="score-bar"><div class="score-fill score-high" style="width:90%"></div></div> 9/10</td><td>9.5/10</td></tr>
+  <tr><td>Portf&#246;y Zenginli&#287;i</td><td><div class="score-bar"><div class="score-fill score-high" style="width:90%"></div></div> 9/10</td><td>9.5/10</td></tr>
+  <tr><td>G&#246;rsel Tasar&#305;m</td><td><div class="score-bar"><div class="score-fill score-high" style="width:85%"></div></div> 8.5/10</td><td>9/10</td></tr>
+  <tr><td>Ki&#351;isel Marka G&#252;c&#252;</td><td><div class="score-bar"><div class="score-fill score-high" style="width:70%"></div></div> 7/10</td><td>9/10</td></tr>
+  <tr><td>Sat&#305;&#351; Funnel'&#305;</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>8/10</td></tr>
+  <tr><td>SEO / Organik Trafik</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:30%"></div></div> 3/10</td><td>8/10</td></tr>
+  <tr><td>Lead Toplama</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>8/10</td></tr>
+  <tr><td>&#304;&#231;erik Pazarlamas&#305;</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:35%"></div></div> 3.5/10</td><td>8/10</td></tr>
+  <tr><td>Monetizasyon</td><td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td><td>7/10</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>&#214;zet De&#287;erlendirme</strong>
+  Mustafa Alkan ve yapayzeka.link, T&#252;rkiye'nin AI alan&#305;ndaki en etkileyici ki&#351;isel marka potansiyellerinden biri. 10+ y&#305;l kurumsal deneyim, 13 canl&#305; proje, g&#252;&#231;l&#252; teknik stack ve topluluk kurma vizyonu bir arada - bu kombinasyon &#231;ok nadir.
+  <br><br>
+  Site teknik a&#231;&#305;dan m&#252;kemmel: Astro.js + Cloudflare = y&#305;ld&#305;r&#305;m h&#305;z&#305;, interaktif chatbot = "wow" etkisi, 13 proje = kan&#305;tlanm&#305;&#351; yetkinlik. As&#305;l b&#252;y&#252;me f&#305;rsat&#305; <strong>sat&#305;&#351; ve pazarlama taraf&#305;nda</strong>:
+  <ul style="margin-top:6px">
+    <li><strong>Lead toplama sistemi eklenirse</strong> 13 projeden gelen organik trafik de&#287;ere d&#246;n&#252;&#351;&#252;r</li>
+    <li><strong>Hizmet paketleri tan&#305;mlan&#305;rsa</strong> ziyaret&#231;i m&#252;&#351;teriye d&#246;n&#252;&#351;&#252;r</li>
+    <li><strong>LinkedIn i&#231;erik stratejisi ile</strong> ki&#351;isel marka T&#252;rkiye'de AI'&#305;n y&#252;z&#252; olabilir</li>
+    <li><strong>Online e&#287;itim &#252;r&#252;nleri ile</strong> &#246;l&#231;eklenebilir ve pasif gelir kanal&#305; a&#231;&#305;l&#305;r</li>
+    <li><strong>Kurumsal AI dan&#305;&#351;manl&#305;k ile</strong> y&#252;ksek de&#287;erli B2B gelir elde edilir</li>
+  </ul>
+  <strong>Sonu&#231;:</strong> &#220;r&#252;n ve altyap&#305; &#231;ok g&#252;&#231;l&#252;, &#351;imdi b&#252;y&#252;me zaman&#305;. Do&#287;ru sat&#305;&#351; stratejileri ile Mustafa Alkan, T&#252;rkiye'nin AI alan&#305;nda en &#231;ok aranan isimlerden biri olabilir. 13 canl&#305; proje + Kollektif Zeka toplulu&#287;u + kurumsal ge&#231;mi&#351; = ki&#351;isel marka i&#231;in alt&#305;n &#252;&#231;gen.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Ad&#305;m</strong>
+  Bu rapordaki stratejinin uygulanmas&#305; i&#231;in sizinle &#231;al&#305;&#351;abiliriz. Sat&#305;&#351; funnel'&#305;, lead toplama sistemi, hizmet paketleri sayfas&#305;, LinkedIn i&#231;erik stratejisi, SEO optimizasyonu ve e&#287;itim &#252;r&#252;nleri konular&#305;nda destek sunabiliriz. 15 dakikal&#305;k &#252;cretsiz g&#246;r&#252;&#351;me i&#231;in: <a href="https://cal.com/ahmetcagatay/15min" target="_blank" style="color:#3b5bdb;font-weight:600">cal.com/ahmetcagatay/15min</a>
+</div>
+
+<!-- BEGENDIM -->
+<div class="liked-section">
+  <h3>Bu rapor i&#351;inize yarad&#305;ysa</h3>
+  <p>Stratejileri birlikte uygulayal&#305;m. 15 dakikal&#305;k &#252;cretsiz g&#246;r&#252;&#351;me i&#231;in t&#305;klay&#305;n.</p>
+  <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Be&#287;endim, G&#246;r&#252;&#351;elim</button>
+</div>
+
+<p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web ara&#351;t&#305;rmas&#305;na dayanarak Claude Code Opus 4.6 ile haz&#305;rlanm&#305;&#351;t&#305;r. &copy; 2026</p>
+
+<script src="/lib/config.js"></script>
+<script src="/lib/tracker.js" data-type="rapor" data-client="yapayzeka"></script>
+</body>
+</html>
