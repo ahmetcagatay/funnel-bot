@@ -6,14 +6,14 @@
   @page { size: A4; margin: 25mm 20mm; }
   body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 13px; line-height: 1.6; }
   .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
-  .cover-badge { background: #fff0f0; color: #d63031; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover-badge { background: #e8f0fe; color: #1a3a8a; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
   .cover h1 { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px; line-height: 1.2; }
   .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
   .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
   .cover-meta strong { color: #5f6368; }
-  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #d63031, #e17055); margin: 30px auto; border-radius: 2px; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #1a3a8a, #4ade80); margin: 30px auto; border-radius: 2px; }
   .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
-  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #d63031; padding-bottom: 6px; margin: 30px 0 16px; }
+  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #1a3a8a; padding-bottom: 6px; margin: 30px 0 16px; }
   h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
   table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
   th { background: #1a1a2e; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
@@ -22,7 +22,7 @@
   .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
   .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
   .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
-  .alert-info { background: #fff0f0; border-left: 4px solid #d63031; color: #c0392b; }
+  .alert-info { background: #e8f0fe; border-left: 4px solid #1a3a8a; color: #0f2a6e; }
   .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
   .alert strong { display: block; margin-bottom: 4px; }
   ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
@@ -30,11 +30,11 @@
   .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
   .tag-blue { background: #e8f0fe; color: #1a73e8; } .tag-orange { background: #fef7e0; color: #e37400; }
   .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
-  .phase-title { font-weight: 700; font-size: 15px; color: #d63031; margin-bottom: 8px; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #1a3a8a; margin-bottom: 8px; }
   .page-break { page-break-before: always; } p { margin: 6px 0; }
   .summary-grid { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
   .summary-card { flex: 1; min-width: 120px; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
-  .summary-card .value { font-size: 22px; font-weight: 700; color: #d63031; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #1a3a8a; }
   .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
   .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
   .score-fill { height: 100%; border-radius: 4px; }
@@ -43,12 +43,13 @@
   .liked-section h3 { font-size: 16px; color: #137333; margin-bottom: 6px; border: none; }
   .liked-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
   .liked-btn { background: #34a853; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
-  .liked-btn:hover { background: #2d9249; } .liked-btn.clicked { background: #d63031; }
-  .synergy-box { background: linear-gradient(135deg, #fff0f0 0%, #fef7e0 100%); border: 2px solid #d63031; border-radius: 12px; padding: 20px 24px; margin: 20px 0; }
-  .synergy-box h3 { color: #d63031; font-size: 16px; margin-bottom: 10px; border: none; }
+  .liked-btn:hover { background: #2d9249; } .liked-btn.clicked { background: #1a3a8a; }
+
+  .synergy-box { background: linear-gradient(135deg, #e8f0fe 0%, #e6f4ea 100%); border: 2px solid #1a3a8a; border-radius: 12px; padding: 20px 24px; margin: 20px 0; }
+  .synergy-box h3 { color: #1a3a8a; font-size: 16px; margin-bottom: 10px; border: none; }
   .synergy-flow { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
   .synergy-step { background: #fff; border: 1px solid #e8eaed; border-radius: 8px; padding: 10px 14px; text-align: center; font-size: 12px; font-weight: 600; min-width: 100px; }
-  .synergy-arrow { color: #d63031; font-size: 18px; font-weight: 700; }
+  .synergy-arrow { color: #1a3a8a; font-size: 18px; font-weight: 700; }
 </style>
 </head>
 <body>
@@ -133,7 +134,7 @@ setTimeout(function(){showCalPopup('tr')},500)}
   <tr><td><strong>Lokad</strong></td><td>Stok optimizasyonu</td><td>Kantitatif tedarik zinciri</td><td>Teknik, programlama bilgisi gerektirir</td></tr>
   <tr><td><strong>Inventoro / Cin7</strong></td><td>Stok y&#246;netimi</td><td>Kullan&#305;m kolayl&#305;&#287;&#305;</td><td>AI tahmin yetene&#287;i s&#305;n&#305;rl&#305;</td></tr>
   <tr><td><strong>Excel / Manuel</strong></td><td>-</td><td>Bedava, al&#305;&#351;kanl&#305;k</td><td>&#214;l&#231;eklenmez, hata pay&#305; y&#252;ksek, zaman kayb&#305;</td></tr>
-  <tr style="background:#fff0f0">
+  <tr style="background:#e8f0fe">
     <td><strong>Ravelos</strong></td>
     <td>AI destekli stok + tedarik</td>
     <td>ERP entegrasyonu, AI ajan, T&#252;rk&#231;e, KOB&#304; odakl&#305;, konu&#351;ma asistan&#305;</td>
@@ -187,7 +188,7 @@ setTimeout(function(){showCalPopup('tr')},500)}
     <li><strong>Demo &#246;ncesi de&#287;er g&#246;sterme:</strong> M&#252;&#351;teri daha ilk g&#246;r&#252;&#351;meye gelmeden &#246;nce kendi verilerine dayal&#305; bir &#246;n analiz g&#246;r&#252;yor - "wow" etkisi ve g&#252;ven</li>
     <li><strong>Sat&#305;&#351; d&#246;ng&#252;s&#252; k&#305;salmas&#305;:</strong> &#214;n veri + AI analiz + ki&#351;isel rapor = sat&#305;&#351; g&#246;r&#252;&#351;mesine haz&#305;r gelen m&#252;&#351;teri = daha k&#305;sa kapan&#305;&#351; s&#252;resi</li>
   </ul>
-  <p style="font-size:13px;color:#d63031;font-weight:600;margin-top:12px">
+  <p style="font-size:13px;color:#1a3a8a;font-weight:600;margin-top:12px">
     Ravelos'un AI yetene&#287;i + Funnel'&#305;n veri toplama g&#252;c&#252; = U&#231;tan uca ki&#351;iselle&#351;tirilmi&#351; sat&#305;&#351; deneyimi
   </p>
 </div>
@@ -347,7 +348,7 @@ setTimeout(function(){showCalPopup('tr')},500)}
 
 <div class="alert alert-success">
   <strong>Bir Sonraki Ad&#305;m</strong>
-  Bu rapordaki stratejinin uygulanmas&#305; i&#231;in sizinle &#231;al&#305;&#351;abiliriz. Sat&#305;&#351; funnel'&#305;, AI destekli &#246;n analiz raporu, fiyatland&#305;rma stratejisi, i&#231;erik pazarlamas&#305; ve LinkedIn stratejisi konular&#305;nda destek sunabiliriz. 15 dakikal&#305;k &#252;cretsiz g&#246;r&#252;&#351;me i&#231;in: <a href="https://cal.com/ahmetcagatay/15min" target="_blank" style="color:#d63031;font-weight:600">cal.com/ahmetcagatay/15min</a>
+  Bu rapordaki stratejinin uygulanmas&#305; i&#231;in sizinle &#231;al&#305;&#351;abiliriz. Sat&#305;&#351; funnel'&#305;, AI destekli &#246;n analiz raporu, fiyatland&#305;rma stratejisi, i&#231;erik pazarlamas&#305; ve LinkedIn stratejisi konular&#305;nda destek sunabiliriz. 15 dakikal&#305;k &#252;cretsiz g&#246;r&#252;&#351;me i&#231;in: <a href="https://cal.com/ahmetcagatay/15min" target="_blank" style="color:#1a3a8a;font-weight:600">cal.com/ahmetcagatay/15min</a>
 </div>
 
 <!-- BEGENDIM -->
