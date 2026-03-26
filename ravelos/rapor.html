@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 13px; line-height: 1.6; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #fff0f0; color: #d63031; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #d63031, #e17055); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #d63031; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
+  th { background: #1a1a2e; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #fff0f0; border-left: 4px solid #d63031; color: #c0392b; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #e8f0fe; color: #1a73e8; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #d63031; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
+  .summary-card { flex: 1; min-width: 120px; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #d63031; }
+  .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  .liked-section { padding: 20px 24px; background: #e6f4ea; border: 2px solid #34a853; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .liked-section h3 { font-size: 16px; color: #137333; margin-bottom: 6px; border: none; }
+  .liked-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .liked-btn { background: #34a853; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .liked-btn:hover { background: #2d9249; } .liked-btn.clicked { background: #d63031; }
+  .synergy-box { background: linear-gradient(135deg, #fff0f0 0%, #fef7e0 100%); border: 2px solid #d63031; border-radius: 12px; padding: 20px 24px; margin: 20px 0; }
+  .synergy-box h3 { color: #d63031; font-size: 16px; margin-bottom: 10px; border: none; }
+  .synergy-flow { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
+  .synergy-step { background: #fff; border: 1px solid #e8eaed; border-radius: 8px; padding: 10px 14px; text-align: center; font-size: 12px; font-weight: 600; min-width: 100px; }
+  .synergy-arrow { color: #d63031; font-size: 18px; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullan&#305;m</div>
+  <h1>Ravelos</h1>
+  <h2>Web Sitesi Analizi &amp; B&#252;y&#252;me Stratejisi Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Haz&#305;rlanma Tarihi:</strong> 26 Mart 2026<br>
+    <strong>Domain:</strong> ravelos.com<br>
+    <strong>Sekt&#246;r:</strong> AI SaaS - Stok &amp; Tedarik Y&#246;netimi<br>
+    <strong>Rapor T&#252;r&#252;:</strong> Detayl&#305; Analiz + Strateji &#214;nerisi
+  </div>
+  <div class="cover-footer">Bu rapor web analizi ve sekt&#246;r ara&#351;t&#305;rmas&#305;na dayanarak Growther AI taraf&#305;ndan haz&#305;rlanm&#305;&#351;t&#305;r.</div>
+</div>
+
+<script>
+function handleLiked(){var b=document.getElementById('likedBtn');b.disabled=true;b.textContent='Y\u00f6nlendiriliyor...';
+if(window.GROWTHER&&GROWTHER.supaFetch){GROWTHER.supaFetch('POST','funnel_leads',{website:window.location.pathname,stage:'liked_report',extra_notes:JSON.stringify({client:'ravelos',action:'liked_report',clicked_at:new Date().toISOString(),is_test:GROWTHER.isAdmin}),last_step:'liked',completed:true}).catch(function(){});}
+setTimeout(function(){showCalPopup('tr')},500)}
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+
+<!-- PROFIL -->
+<h2 class="page-break">1. &#350;irket Profil &#214;zeti</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">B2B</div><div class="label">Hedef Pazar</div></div>
+  <div class="summary-card"><div class="value">AI SaaS</div><div class="label">&#304;&#351; Modeli</div></div>
+  <div class="summary-card"><div class="value">10</div><div class="label">Ekip</div></div>
+  <div class="summary-card"><div class="value">KOB&#304;+</div><div class="label">Hedef Segment</div></div>
+  <div class="summary-card"><div class="value">B&#252;y&#252;me</div><div class="label">A&#351;ama</div></div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>De&#287;er</th></tr>
+  <tr><td><strong>Website</strong></td><td>ravelos.com</td></tr>
+  <tr><td><strong>&#350;irket</strong></td><td>Ravelos Yaz&#305;l&#305;m A.&#350;.</td></tr>
+  <tr><td><strong>Slogan</strong></td><td>"Daha H&#305;zl&#305; Kararlar, Daha Az &#304;&#351; Y&#252;k&#252;"</td></tr>
+  <tr><td><strong>&#220;r&#252;n</strong></td><td>Yapay zeka destekli stok, sipari&#351; ve tedarik y&#246;netim platformu</td></tr>
+  <tr><td><strong>Temel &#214;zellikler</strong></td><td>Talep tahmini, stok optimizasyonu, AI tedarik ajan&#305;, konu&#351;ma asistan&#305;, otomatik sipari&#351; planlama</td></tr>
+  <tr><td><strong>Hedef Kitle</strong></td><td>KOB&#304;'ler, perakende, e-ticaret, stok/tedarik y&#246;netimi yapan &#351;irketler</td></tr>
+  <tr><td><strong>Entegrasyon</strong></td><td>Mevcut ERP sistemlerine entegre &#231;al&#305;&#351;&#305;yor</td></tr>
+  <tr><td><strong>Kurucu Ekip</strong></td><td>Sergin Namo&#287;lu (CEO), Cem G&#252;rso (CRO), Dr. Berk &#214;zt&#252;rk (AI &amp; Veri Bilimi Direkt&#246;r&#252;)</td></tr>
+  <tr><td><strong>Ekip B&#252;y&#252;kl&#252;&#287;&#252;</strong></td><td>10 ki&#351;i - &#231;&#246;z&#252;m mimarl&#305;&#287;&#305;, AI m&#252;hendisli&#287;i, veri bilimi, i&#351; geli&#351;tirme, partnerlik</td></tr>
+  <tr><td><strong>Sosyal Medya</strong></td><td>LinkedIn, Instagram, X (Twitter)</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>&#304;lk &#304;zlenim</strong>
+  Ravelos, yapay zeka ile sat&#305;&#351; ve operasyon optimizasyonu vizyonuyla &#231;ok g&#252;&#231;l&#252; bir konumland&#305;rmaya sahip. 10 ki&#351;ilik uzman ekip (AI direkt&#246;r&#252;, &#231;&#246;z&#252;m mimar&#305;, veri bilimciler) ciddi bir teknik derinlik g&#246;steriyor. "Belirsizli&#287;i &#246;ng&#246;r&#252;ye &#231;evir" mesaj&#305; ile sekt&#246;rdeki ger&#231;ek bir a&#287;r&#305; noktas&#305;na hitap ediyorsunuz. B2B SaaS modeli, ERP entegrasyonu ve AI ajan yap&#305;s&#305; ile &#246;l&#231;eklenebilir bir &#252;r&#252;n in&#351;a etmi&#351;siniz.
+</div>
+
+<h3>Ekip Yap&#305;s&#305;</h3>
+<table>
+  <tr><th>&#304;sim</th><th>Rol</th><th>Katk&#305; Alan&#305;</th></tr>
+  <tr><td><strong>Sergin Namo&#287;lu</strong></td><td>CEO &amp; Kurucu Ortak</td><td>Vizyon, strateji, genel y&#246;netim</td></tr>
+  <tr><td><strong>Cem G&#252;rso</strong></td><td>CRO &amp; Kurucu Ortak</td><td>Gelir stratejisi, sat&#305;&#351;, i&#351; geli&#351;tirme</td></tr>
+  <tr><td><strong>Engin Namo&#287;lu</strong></td><td>&#304;&#351; Geli&#351;tirme Direkt&#246;r&#252;</td><td>Pazar geni&#351;letme, partnerlikler</td></tr>
+  <tr><td><strong>Dr. Berk &#214;zt&#252;rk</strong></td><td>AI &amp; Veri Bilimi Direkt&#246;r&#252;</td><td>AI modelleri, tahmin algoritmalar&#305;</td></tr>
+  <tr><td><strong>Cihan Nalbant</strong></td><td>&#199;&#246;z&#252;m Mimar&#305;</td><td>Sistem mimarisi, ERP entegrasyonlar&#305;</td></tr>
+  <tr><td><strong>&#214;yk&#252; At&#305;lgan</strong></td><td>AI &#199;&#246;z&#252;m M&#252;hendisi</td><td>AI &#231;&#246;z&#252;m geli&#351;tirme, implementasyon</td></tr>
+  <tr><td><strong>Almila Emre</strong></td><td>Stratejik Partnerlik ve &#304;leti&#351;im</td><td>Marka, ileti&#351;im, partnerlikler</td></tr>
+  <tr><td><strong>Mehmet &#220;nl&#252; &amp; Seval Sorak</strong></td><td>Veri Bilimi Uzman Yard&#305;mc&#305;lar&#305;</td><td>Veri analizi, model e&#287;itimi</td></tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Ekip De&#287;erlendirmesi</strong>
+  10 ki&#351;ilik ekipte CEO + CRO + AI Direkt&#246;r&#252; (Dr.) + &#199;&#246;z&#252;m Mimar&#305; + 2 veri bilimci + i&#351; geli&#351;tirme + partnerlik rolleri mevcut. Bu yap&#305;, hem teknik derinlik hem de sat&#305;&#351;/b&#252;y&#252;me kapasitesi a&#231;&#305;s&#305;ndan dengeli ve g&#252;&#231;l&#252;. &#214;zellikle ayr&#305; bir CRO pozisyonu, gelir odakl&#305; d&#252;&#351;&#252;nceyi g&#246;steriyor - bu erken a&#351;ama SaaS &#351;irketlerinde nadir g&#246;r&#252;len ve &#231;ok de&#287;erli bir yap&#305;.
+</div>
+
+<!-- RAKIP -->
+<h2 class="page-break">2. Pazar ve Rekabet Analizi</h2>
+
+<h3>2.1 Pazar Konumland&#305;rma</h3>
+<table>
+  <tr><th>Rakip/Alternatif</th><th>Odak</th><th>G&#252;&#231;l&#252; Y&#246;n&#252;</th><th>Ravelos'a G&#246;re</th></tr>
+  <tr><td><strong>SAP IBP</strong></td><td>Enterprise tedarik zinciri</td><td>Global marka, derin entegrasyon</td><td>&#199;ok pahal&#305; ve karma&#351;&#305;k, KOB&#304;'ler i&#231;in uygun de&#287;il</td></tr>
+  <tr><td><strong>Oracle SCM</strong></td><td>Enterprise operasyon</td><td>Kapsaml&#305; &#246;zellik seti</td><td>Kurulum aylar s&#252;rer, maliyet y&#252;ksek</td></tr>
+  <tr><td><strong>Lokad</strong></td><td>Stok optimizasyonu</td><td>Kantitatif tedarik zinciri</td><td>Teknik, programlama bilgisi gerektirir</td></tr>
+  <tr><td><strong>Inventoro / Cin7</strong></td><td>Stok y&#246;netimi</td><td>Kullan&#305;m kolayl&#305;&#287;&#305;</td><td>AI tahmin yetene&#287;i s&#305;n&#305;rl&#305;</td></tr>
+  <tr><td><strong>Excel / Manuel</strong></td><td>-</td><td>Bedava, al&#305;&#351;kanl&#305;k</td><td>&#214;l&#231;eklenmez, hata pay&#305; y&#252;ksek, zaman kayb&#305;</td></tr>
+  <tr style="background:#fff0f0">
+    <td><strong>Ravelos</strong></td>
+    <td>AI destekli stok + tedarik</td>
+    <td>ERP entegrasyonu, AI ajan, T&#252;rk&#231;e, KOB&#304; odakl&#305;, konu&#351;ma asistan&#305;</td>
+    <td>-</td>
+  </tr>
+</table>
+
+<h3>2.2 Pazar B&#252;y&#252;kl&#252;&#287;&#252;</h3>
+<table>
+  <tr><th>Metrik</th><th>De&#287;er</th></tr>
+  <tr><td>Global AI tedarik zinciri pazar&#305; (2025)</td><td><strong>~$7.5 Milyar</strong></td></tr>
+  <tr><td>Y&#305;ll&#305;k b&#252;y&#252;me (CAGR)</td><td><strong>%25-30</strong></td></tr>
+  <tr><td>T&#252;rkiye KOB&#304; say&#305;s&#305;</td><td><strong>~3.5 Milyon</strong></td></tr>
+  <tr><td>Stok y&#246;netimi yaz&#305;l&#305;m&#305; kullanan KOB&#304; oran&#305;</td><td><strong>%15-20 (&#231;ok d&#252;&#351;&#252;k = f&#305;rsat)</strong></td></tr>
+  <tr><td>"Stok y&#246;netim program&#305;" ayl&#305;k arama</td><td><strong>12K+ ve art&#305;yor</strong></td></tr>
+  <tr><td>T&#252;rkiye e-ticaret pazar&#305; (2025)</td><td><strong>~1.2 Trilyon TL</strong></td></tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Ravelos'un Rekabet&#231;i Avantajlar&#305;</strong>
+  <ul style="margin-top:6px">
+    <li><strong>AI-first yakla&#351;&#305;m:</strong> Tahmin, otomasyon ve ak&#305;ll&#305; ajan yap&#305;s&#305; - rakiplerin &#231;o&#287;u hala kural tabanl&#305;</li>
+    <li><strong>ERP entegrasyonu:</strong> "Yeni sistem kurmay&#305;n, mevcut sisteminize entegre oluyoruz" - en b&#252;y&#252;k sat&#305;&#351; engeli olan "ge&#231;i&#351; maliyeti"ni ortadan kald&#305;r&#305;yor</li>
+    <li><strong>Konu&#351;ma asistan&#305;:</strong> "Aray&#252;zle u&#287;ra&#351;madan i&#351;inizi konu&#351;arak y&#246;netin" - farkl&#305;la&#351;t&#305;r&#305;c&#305; ve etkileyici &#246;zellik</li>
+    <li><strong>AI tedarik ajan&#305;:</strong> Otomatik teklif toplama ve kar&#351;&#305;la&#351;t&#305;rma - operasyonel y&#252;k&#252; ciddi azalt&#305;r</li>
+    <li><strong>T&#252;rkiye odakl&#305;:</strong> T&#252;rk&#231;e aray&#252;z, yerel destek, T&#252;rk ERP'lerine entegrasyon</li>
+    <li><strong>G&#252;&#231;l&#252; ekip:</strong> AI direkt&#246;r&#252; (Dr.), CRO, &#231;&#246;z&#252;m mimar&#305; - teknik ve ticari derinlik bir arada</li>
+    <li><strong>4 a&#351;amal&#305; implementasyon:</strong> Entegrasyon &#8594; Analiz &#8594; Tahmin &#8594; Otomasyon - net ve g&#252;ven verici yol haritas&#305;</li>
+  </ul>
+</div>
+
+<!-- SINERJI -->
+<div class="synergy-box">
+  <h3>&#x1F91D; Funnel + AI Sat&#305;&#351; Sinerjisi: Neden Bu Kombinasyon &#199;ok G&#252;&#231;l&#252;?</h3>
+  <p style="font-size:13px;color:#333;margin-bottom:12px">
+    Ravelos'un "yapay zeka ile sat&#305;&#351; ve operasyon" vizyonu, funnel tabanl&#305; veri toplama stratejisiyle birle&#351;ti&#287;inde ola&#287;an&#252;st&#252; bir sinerji ortaya &#231;&#305;k&#305;yor:
+  </p>
+  <div class="synergy-flow">
+    <div class="synergy-step">&#x1F3AF;<br>Funnel<br><span style="font-size:10px;color:#666">Veri toplama</span></div>
+    <span class="synergy-arrow">&#8594;</span>
+    <div class="synergy-step">&#x1F9E0;<br>AI Analiz<br><span style="font-size:10px;color:#666">Ravelos motoru</span></div>
+    <span class="synergy-arrow">&#8594;</span>
+    <div class="synergy-step">&#x1F4CB;<br>Ki&#351;isel Plan<br><span style="font-size:10px;color:#666">&#214;zel strateji</span></div>
+    <span class="synergy-arrow">&#8594;</span>
+    <div class="synergy-step">&#x1F4B0;<br>D&#246;n&#252;&#351;&#252;m<br><span style="font-size:10px;color:#666">Sat&#305;&#351;</span></div>
+  </div>
+  <ul style="font-size:12px;color:#333;margin-top:10px">
+    <li><strong>Funnel ile &#246;n veri toplama:</strong> M&#252;&#351;teri henüz ilk temas&#305;nda sekt&#246;r, gelir, b&#252;t&#231;e, a&#287;r&#305; noktalar&#305; gibi de&#287;erli veriler payla&#351;&#305;yor</li>
+    <li><strong>AI ile ki&#351;iselle&#351;tirme:</strong> Toplanan veriler Ravelos'un AI motoru ile i&#351;lenerek her m&#252;&#351;teriye &#246;zel stok analizi, tahmin raporu ve aksiyon plan&#305; &#252;retilebilir</li>
+    <li><strong>Otomatik rapor ve site &#252;retimi:</strong> Funnel verileriyle ki&#351;iselle&#351;tirilmi&#351; raporlar, landing page'ler ve hatta demo ortamlar&#305; otomatik haz&#305;rlanabilir</li>
+    <li><strong>Demo &#246;ncesi de&#287;er g&#246;sterme:</strong> M&#252;&#351;teri daha ilk g&#246;r&#252;&#351;meye gelmeden &#246;nce kendi verilerine dayal&#305; bir &#246;n analiz g&#246;r&#252;yor - "wow" etkisi ve g&#252;ven</li>
+    <li><strong>Sat&#305;&#351; d&#246;ng&#252;s&#252; k&#305;salmas&#305;:</strong> &#214;n veri + AI analiz + ki&#351;isel rapor = sat&#305;&#351; g&#246;r&#252;&#351;mesine haz&#305;r gelen m&#252;&#351;teri = daha k&#305;sa kapan&#305;&#351; s&#252;resi</li>
+  </ul>
+  <p style="font-size:13px;color:#d63031;font-weight:600;margin-top:12px">
+    Ravelos'un AI yetene&#287;i + Funnel'&#305;n veri toplama g&#252;c&#252; = U&#231;tan uca ki&#351;iselle&#351;tirilmi&#351; sat&#305;&#351; deneyimi
+  </p>
+</div>
+
+<!-- WEB SITESI -->
+<h2 class="page-break">3. Web Sitesi Analizi</h2>
+
+<h3>3.1 G&#252;&#231;l&#252; Y&#246;nler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr><td>SSL sertifikas&#305;</td><td><span class="tag tag-green">Aktif</span> - G&#252;venli ba&#287;lant&#305;</td></tr>
+  <tr><td>G&#246;rsel tasar&#305;m</td><td><span class="tag tag-green">Profesyonel</span> - Minimalist, temiz, kurumsal</td></tr>
+  <tr><td>De&#287;er &#246;nerisi</td><td><span class="tag tag-green">Net</span> - "Daha H&#305;zl&#305; Kararlar, Daha Az &#304;&#351; Y&#252;k&#252;" anla&#351;&#305;l&#305;r ve etkileyici</td></tr>
+  <tr><td>&#214;zellik sunumu</td><td><span class="tag tag-green">&#304;yi</span> - Veri analizi &#8594; tahmin &#8594; stok &#8594; otomasyon ak&#305;&#351;&#305; mant&#305;kl&#305;</td></tr>
+  <tr><td>Ekip sayfas&#305;</td><td><span class="tag tag-green">Var</span> - LinkedIn ba&#287;lant&#305;l&#305;, g&#252;ven art&#305;r&#305;c&#305;</td></tr>
+  <tr><td>A&#287;r&#305; noktalar&#305;</td><td><span class="tag tag-green">Etkili</span> - "Sipari&#351; g&#252;nler al&#305;yorsa", "Depodakiler art&#305;yorsa", "Talep varken &#252;r&#252;n yoksa"</td></tr>
+  <tr><td>&#304;mplementasyon ak&#305;&#351;&#305;</td><td><span class="tag tag-green">Net</span> - 4 ad&#305;ml&#305; s&#252;re&#231; g&#252;ven verici</td></tr>
+  <tr><td>KVKK uyumu</td><td><span class="tag tag-green">Tam</span> - Gizlilik, KVKK, &#231;erez, kullan&#305;m &#351;artlar&#305; hepsi mevcut</td></tr>
+  <tr><td>Dashboard g&#246;rselleri</td><td><span class="tag tag-green">Var</span> - Ger&#231;ek UI g&#246;rselleri ile &#252;r&#252;n somutla&#351;t&#305;r&#305;lm&#305;&#351;</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Genel De&#287;erlendirme</strong>
+  Site profesyonel ve kurumsal bir izlenim b&#305;rak&#305;yor. &#214;zellikle a&#287;r&#305; noktalar&#305;n&#305;n net ifade edilmesi ("sipari&#351; haz&#305;rlamak g&#252;nler al&#305;yorsa"), 4 a&#351;amal&#305; implementasyon ak&#305;&#351;&#305; ve ger&#231;ek dashboard g&#246;rselleri g&#252;ven art&#305;r&#305;yor. Ekip sayfas&#305;ndaki LinkedIn ba&#287;lant&#305;lar&#305; da &#351;effafl&#305;k mesaj&#305; veriyor. Site, &#252;r&#252;n&#252; ve ekibi ba&#351;ar&#305;yla tan&#305;t&#305;yor - &#351;imdi s&#305;ra ziyaret&#231;iyi m&#252;&#351;teriye d&#246;n&#252;&#351;t&#252;rme taraf&#305;n&#305; g&#252;&#231;lendirmeye geldi.
+</div>
+
+<h3>3.2 &#304;yile&#351;tirme &#214;nerileri</h3>
+<table>
+  <tr><th>Alan</th><th>Mevcut</th><th>&#214;neri</th><th>&#214;ncelik</th></tr>
+  <tr>
+    <td><strong>Fiyatland&#305;rma sayfas&#305;</strong></td>
+    <td>Yok</td>
+    <td>En az 2-3 paket (Starter, Growth, Enterprise) ile fiyatland&#305;rma g&#246;sterilmeli. B2B SaaS'ta "fiyat g&#246;r&#252;nm&#252;yor" = "%60 ziyaret&#231;i sayfay&#305; terk ediyor" demek. En az&#305;ndan "&#8230;'dan ba&#351;layan fiyatlarla" g&#246;sterilebilir.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sat&#305;&#351; funnel'&#305;</strong></td>
+    <td>Sadece "&#304;leti&#351;im" butonu</td>
+    <td>Ziyaret&#231;inin sekt&#246;r, stok hacmi ve a&#287;r&#305; noktalar&#305;n&#305; ad&#305;m ad&#305;m sorarak ki&#351;iselle&#351;tirilmi&#351; &#246;neri g&#246;steren interaktif bir funnel. Toplanan veriyle AI taraf&#305;ndan &#246;zel analiz raporu &#252;retilebilir - bu Ravelos'un "AI ile sat&#305;&#351;" vizyonunun en g&#252;&#231;l&#252; uygulamas&#305; olur.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Ba&#351;ar&#305; hikayeleri</strong></td>
+    <td>S&#305;n&#305;rl&#305;</td>
+    <td>"X &#351;irketi Ravelos ile stok maliyetini %30 azaltt&#305;" gibi somut case study'ler. Rakamlarla desteklenmi&#351; m&#252;&#351;teri hikayeleri B2B sat&#305;&#351;ta en etkili i&#231;erik t&#252;r&#252;.</td>
+    <td><span class="tag tag-orange">Y&#252;ksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Blog / &#304;&#231;erik pazarlamas&#305;</strong></td>
+    <td>Yok</td>
+    <td>"Stok y&#246;netiminde yapay zeka", "Talep tahmin y&#246;ntemleri", "ERP entegrasyonu rehberi" gibi SEO i&#231;erikleri. Organik trafik B2B SaaS i&#231;in en d&#252;&#351;&#252;k CAC kanal&#305;.</td>
+    <td><span class="tag tag-orange">Y&#252;ksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Demo / Free trial</strong></td>
+    <td>Belli de&#287;il</td>
+    <td>Ana sayfada belirgin bir "&#220;cretsiz Demo Al" veya "14 G&#252;n &#220;cretsiz Dene" CTA's&#305;. B2B SaaS'ta demo talebi = en kaliteli lead. &#350;u an sadece "&#304;leti&#351;im" var, bu &#231;ok genel.</td>
+    <td><span class="tag tag-orange">Y&#252;ksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sosyal kan&#305;t</strong></td>
+    <td>S&#305;n&#305;rl&#305;</td>
+    <td>Ka&#231; m&#252;&#351;teri, ka&#231; sipari&#351; i&#351;lendi, ne kadar tasarruf sa&#287;land&#305; gibi metrikler ana sayfaya eklenirse d&#246;n&#252;&#351;&#252;m oran&#305; artar. Logo bar&#305; (m&#252;&#351;teri logolar&#305;) da &#231;ok etkili.</td>
+    <td><span class="tag tag-blue">Orta</span></td>
+  </tr>
+  <tr>
+    <td><strong>ROI hesaplay&#305;c&#305;</strong></td>
+    <td>Yok</td>
+    <td>"Ayl&#305;k sipari&#351; say&#305;n&#305;z&#305; girin, Ravelos ile ne kadar tasarruf edece&#287;inizi g&#246;r&#252;n" &#351;eklinde interaktif hesaplay&#305;c&#305;. Somut rakam g&#246;stermek karar vermeyi h&#305;zland&#305;r&#305;r.</td>
+    <td><span class="tag tag-blue">Orta</span></td>
+  </tr>
+  <tr>
+    <td><strong>Webinar / E&#287;itim i&#231;erikleri</strong></td>
+    <td>Yok</td>
+    <td>"AI ile Stok Y&#246;netimi 101" webinar serisi. B2B'de e&#287;itim i&#231;eri&#287;i = g&#252;ven + lead. Kay&#305;t formu ile e-posta listesi olu&#351;turma.</td>
+    <td><span class="tag tag-blue">Orta</span></td>
+  </tr>
+</table>
+
+<h3>3.3 Rakiplerle &#214;zellik Kar&#351;&#305;la&#351;t&#305;rmas&#305;</h3>
+<table>
+  <tr><th>&#214;zellik</th><th>Ravelos</th><th>SAP IBP</th><th>Inventoro</th><th>Excel/Manuel</th></tr>
+  <tr><td>AI talep tahmini</td><td><span class="tag tag-green">Var</span></td><td><span class="tag tag-green">Var</span></td><td><span class="tag tag-orange">S&#305;n&#305;rl&#305;</span></td><td><span class="tag tag-red">Yok</span></td></tr>
+  <tr><td>AI tedarik ajan&#305;</td><td><span class="tag tag-green">Var</span></td><td><span class="tag tag-red">Yok</span></td><td><span class="tag tag-red">Yok</span></td><td><span class="tag tag-red">Yok</span></td></tr>
+  <tr><td>Konu&#351;ma asistan&#305;</td><td><span class="tag tag-green">Var</span></td><td><span class="tag tag-red">Yok</span></td><td><span class="tag tag-red">Yok</span></td><td><span class="tag tag-red">Yok</span></td></tr>
+  <tr><td>ERP entegrasyonu</td><td><span class="tag tag-green">Kolay</span></td><td><span class="tag tag-green">Derin</span></td><td><span class="tag tag-orange">S&#305;n&#305;rl&#305;</span></td><td><span class="tag tag-red">Yok</span></td></tr>
+  <tr><td>KOB&#304; uygunlu&#287;u</td><td><span class="tag tag-green">Y&#252;ksek</span></td><td><span class="tag tag-red">D&#252;&#351;&#252;k</span></td><td><span class="tag tag-green">Y&#252;ksek</span></td><td><span class="tag tag-green">Y&#252;ksek</span></td></tr>
+  <tr><td>T&#252;rk&#231;e destek</td><td><span class="tag tag-green">Tam</span></td><td><span class="tag tag-orange">K&#305;smen</span></td><td><span class="tag tag-red">Yok</span></td><td><span class="tag tag-green">-</span></td></tr>
+  <tr><td>Fiyat eri&#351;ilebilirli&#287;i</td><td><span class="tag tag-green">Uygun</span></td><td><span class="tag tag-red">&#199;ok y&#252;ksek</span></td><td><span class="tag tag-green">Uygun</span></td><td><span class="tag tag-green">&#220;cretsiz</span></td></tr>
+</table>
+
+<!-- STRATEJI -->
+<h2 class="page-break">4. &#214;nerilen Aksiyon Plan&#305;</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - Sat&#305;&#351; D&#246;n&#252;&#351;&#252;m&#252; Optimize Etme (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Interaktif sat&#305;&#351; funnel'&#305; ekleyin:</strong> Ziyaret&#231;inin sekt&#246;r&#252;n&#252;, stok hacmini, a&#287;r&#305; noktalar&#305;n&#305; ve b&#252;t&#231;esini ad&#305;m ad&#305;m sorarak ki&#351;iselle&#351;tirilmi&#351; &#246;neri g&#246;steren bir ak&#305;&#351;. Toplanan verilerle Ravelos AI motoru taraf&#305;ndan otomatik &#246;n analiz raporu &#252;retilebilir. M&#252;&#351;teri daha ilk g&#246;r&#252;&#351;meye gelmeden kendi verilerine dayal&#305; bir de&#287;er g&#246;r&#252;r.</li>
+    <li><strong>Fiyatland&#305;rma sayfas&#305; olu&#351;turun:</strong> En az 3 paket: Starter (k&#252;&#231;&#252;k i&#351;letme), Growth (b&#252;y&#252;yen KOB&#304;), Enterprise (&#246;zel). Her pakette &#246;zellik listesi + "Demo Al" CTA's&#305;. Fiyat g&#246;stermek istemiyorsan&#305;z bile "...TL'den ba&#351;layan fiyatlarla" veya "Fiyat teklifi al&#305;n" daha etkili.</li>
+    <li><strong>"&#220;cretsiz Demo" CTA's&#305; ekleyin:</strong> Ana sayfada ve her &#246;zellik b&#246;l&#252;m&#252;nde belirgin "&#220;cretsiz Demo Al" veya "14 G&#252;n &#220;cretsiz Dene" butonu. "&#304;leti&#351;im" &#231;ok genel - "Demo" daha spesifik ve d&#246;n&#252;&#351;t&#252;r&#252;c&#252;.</li>
+    <li><strong>ROI hesaplay&#305;c&#305;:</strong> "Ayl&#305;k sipari&#351; say&#305;n&#305;z&#305;, stok de&#287;erinizi ve ka&#231; ki&#351;i sipari&#351; haz&#305;rl&#305;yor girin - Ravelos ile ne kadar tasarruf edece&#287;inizi g&#246;r&#252;n." Somut TL tasarrufu g&#246;stermek karar&#305; h&#305;zland&#305;r&#305;r.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - G&#252;ven &amp; &#304;&#231;erik (Hafta 3-4)</div>
+  <ol>
+    <li><strong>Ba&#351;ar&#305; hikayeleri yay&#305;nlay&#305;n:</strong> En az 3 case study: "&#350;irket X, Ravelos ile stok maliyetini %Y azaltt&#305;, sipari&#351; s&#252;resini Z'den A'ya d&#252;&#351;&#252;rd&#252;." Rakamlar, m&#252;&#351;teri logosu ve yorum ile destekleyin. B2B sat&#305;&#351;ta en etkili i&#231;erik.</li>
+    <li><strong>Blog a&#231;&#305;n ve SEO stratejisi ba&#351;lat&#305;n:</strong> "Stok y&#246;netiminde yapay zeka kullan&#305;m&#305;", "Talep tahmin y&#246;ntemleri 2026", "ERP entegrasyonu rehberi", "Fazla stok maliyeti nas&#305;l azalt&#305;l&#305;r?" gibi i&#231;erikler. Organik trafik B2B SaaS'ta en d&#252;&#351;&#252;k m&#252;&#351;teri edinme maliyeti kanal&#305;.</li>
+    <li><strong>Sosyal kan&#305;t ekleyin:</strong> Ana sayfaya: ka&#231; &#351;irket kullan&#305;yor, toplam ka&#231; sipari&#351; optimize edildi, ortalama ne kadar tasarruf sa&#287;land&#305;. M&#252;&#351;teri logolar&#305; bar&#305; (trusted by) ekleyin.</li>
+    <li><strong>LinkedIn i&#231;erik stratejisi:</strong> CRO ve CEO hesaplar&#305;ndan haftada 2-3 payla&#351;&#305;m: sekt&#246;r i&#231;g&#246;r&#252;leri, m&#252;&#351;teri hikayeleri, AI trendleri. B2B SaaS'ta LinkedIn = en etkili organik kanal.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - &#214;l&#231;ekleme (Ay 2+)</div>
+  <ol>
+    <li><strong>AI destekli &#246;n analiz raporu (funnel + AI):</strong> Funnel'dan toplanan verilerle her potansiyel m&#252;&#351;teriye &#246;zel "Stok Sa&#287;l&#305;&#287;&#305; Raporu" &#252;retin. M&#252;&#351;teri sekt&#246;r&#252;n&#252;, stok hacmini ve sorunlar&#305;n&#305; girdikten sonra AI taraf&#305;ndan ki&#351;iselle&#351;tirilmi&#351; bir analiz raporu otomatik haz&#305;rlanabilir. Bu, sat&#305;&#351; g&#246;r&#252;&#351;mesinden &#214;NCE de&#287;er g&#246;stermenin en g&#252;&#231;l&#252; yolu.</li>
+    <li><strong>Webinar serisi:</strong> "AI ile Stok Y&#246;netimi 101", "Tedarik Zincirinde AI: Ba&#351;lang&#305;&#231; Rehberi" gibi ayl&#305;k webinarlar. Kay&#305;t formu ile e-posta listesi olu&#351;turun. Her webinar = 50-100 kaliteli B2B lead.</li>
+    <li><strong>Partner program&#305;:</strong> ERP ve e-ticaret dan&#305;&#351;manlar&#305;yla referans ortakl&#305;&#287;&#305;. "M&#252;&#351;terinize Ravelos &#246;nerin, komisyon kazan&#305;n." Partner kanal&#305; B2B SaaS'ta en &#246;l&#231;eklenebilir b&#252;y&#252;me motorlar&#305;ndan biri.</li>
+    <li><strong>Sekt&#246;rel dikey geni&#351;leme:</strong> Perakende, e-ticaret, &#252;retim, g&#305;da gibi sekt&#246;rlere &#246;zel landing page ve i&#231;erikler. Her sekt&#246;re &#246;zel a&#287;r&#305; noktalar&#305; ve &#231;&#246;z&#252;mler.</li>
+    <li><strong>Uluslararas&#305; a&#231;&#305;l&#305;m:</strong> T&#252;rkiye'de model kan&#305;tland&#305;ktan sonra Orta Do&#287;u ve Kuzey Afrika pazarlar&#305;na geni&#351;leme. T&#252;rk yaz&#305;l&#305;m &#351;irketleri i&#231;in MENA b&#246;lgesi do&#287;al bir b&#252;y&#252;me pazar&#305;.</li>
+  </ol>
+</div>
+
+<!-- SONUC -->
+<h2 class="page-break">5. Sonu&#231; ve Genel De&#287;erlendirme</h2>
+
+<h3>Skor Kart&#305;</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef</th></tr>
+  <tr><td>&#220;r&#252;n / Vizyon</td><td><div class="score-bar"><div class="score-fill score-high" style="width:90%"></div></div> 9/10</td><td>9.5/10</td></tr>
+  <tr><td>Ekip Yap&#305;s&#305;</td><td><div class="score-bar"><div class="score-fill score-high" style="width:85%"></div></div> 8.5/10</td><td>9/10</td></tr>
+  <tr><td>G&#246;rsel Tasar&#305;m</td><td><div class="score-bar"><div class="score-fill score-high" style="width:80%"></div></div> 8/10</td><td>9/10</td></tr>
+  <tr><td>Teknik Altyap&#305;</td><td><div class="score-bar"><div class="score-fill score-high" style="width:80%"></div></div> 8/10</td><td>9/10</td></tr>
+  <tr><td>De&#287;er &#214;nerisi Netligi</td><td><div class="score-bar"><div class="score-fill score-high" style="width:85%"></div></div> 8.5/10</td><td>9/10</td></tr>
+  <tr><td>Sat&#305;&#351; D&#246;n&#252;&#351;&#252;m&#252; (CRO)</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:35%"></div></div> 3.5/10</td><td>8/10</td></tr>
+  <tr><td>Sosyal Kan&#305;t / G&#252;ven</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:30%"></div></div> 3/10</td><td>8/10</td></tr>
+  <tr><td>&#304;&#231;erik Pazarlamas&#305; (SEO)</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>7/10</td></tr>
+  <tr><td>Lead Toplama Mekanizmas&#305;</td><td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td><td>8/10</td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>&#214;zet De&#287;erlendirme</strong>
+  Ravelos, &#231;ok g&#252;&#231;l&#252; temeller &#252;zerine kurulmu&#351; bir B2B SaaS: do&#287;ru vizyon, do&#287;ru pazar, g&#252;&#231;l&#252; ekip ve farkl&#305;la&#351;t&#305;r&#305;c&#305; &#246;zellikler (AI tedarik ajan&#305;, konu&#351;ma asistan&#305;). &#220;r&#252;n taraf&#305; 9/10 seviyesinde.
+  <br><br>
+  As&#305;l b&#252;y&#252;me f&#305;rsat&#305; <strong>sat&#305;&#351; d&#246;n&#252;&#351;&#252;m&#252; ve i&#231;erik pazarlamas&#305;</strong> taraf&#305;nda:
+  <ul style="margin-top:6px">
+    <li><strong>Funnel + AI kombinasyonu:</strong> Ravelos'un AI motoru, funnel'dan toplanan &#246;n verilerle birle&#351;ti&#287;inde her m&#252;&#351;teriye &#246;zel analiz raporu &#252;retebilir - bu sat&#305;&#351; d&#246;ng&#252;s&#252;n&#252; radikal k&#305;salt&#305;r</li>
+    <li><strong>Fiyatland&#305;rma ve demo:</strong> Net paketler ve belirgin "Demo Al" CTA's&#305; d&#246;n&#252;&#351;&#252;m&#252; 2-3x art&#305;rabilir</li>
+    <li><strong>Ba&#351;ar&#305; hikayeleri:</strong> Somut rakamlarla case study'ler B2B g&#252;venini in&#351;a eder</li>
+    <li><strong>&#304;&#231;erik + SEO:</strong> "Stok y&#246;netiminde AI" gibi i&#231;erikler organik trafik ve thought leadership getirir</li>
+    <li><strong>LinkedIn stratejisi:</strong> CEO ve CRO hesaplar&#305;ndan d&#252;zenli payla&#351;&#305;m B2B'de en etkili organik kanal</li>
+  </ul>
+  <strong>Sonu&#231;:</strong> &#220;r&#252;n ve ekip haz&#305;r, &#351;imdi b&#252;y&#252;me zaman&#305;. Funnel tabanl&#305; veri toplama + Ravelos AI motoru kombinasyonu, T&#252;rkiye'de hen&#252;z hi&#231;bir B2B SaaS'&#305;n yapmad&#305;&#287;&#305; bir sat&#305;&#351; deneyimi yaratabilir. Bu sinerji do&#287;ru kurguland&#305;&#287;&#305;nda sat&#305;&#351; d&#246;ng&#252;s&#252; k&#305;sal&#305;r, d&#246;n&#252;&#351;&#252;m oran&#305; artar ve m&#252;&#351;teri deneyimi farkl&#305;la&#351;&#305;r.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Ad&#305;m</strong>
+  Bu rapordaki stratejinin uygulanmas&#305; i&#231;in sizinle &#231;al&#305;&#351;abiliriz. Sat&#305;&#351; funnel'&#305;, AI destekli &#246;n analiz raporu, fiyatland&#305;rma stratejisi, i&#231;erik pazarlamas&#305; ve LinkedIn stratejisi konular&#305;nda destek sunabiliriz. 15 dakikal&#305;k &#252;cretsiz g&#246;r&#252;&#351;me i&#231;in: <a href="https://cal.com/ahmetcagatay/15min" target="_blank" style="color:#d63031;font-weight:600">cal.com/ahmetcagatay/15min</a>
+</div>
+
+<!-- BEGENDIM -->
+<div class="liked-section">
+  <h3>Bu rapor i&#351;inize yarad&#305;ysa</h3>
+  <p>Stratejileri birlikte uygulayal&#305;m. 15 dakikal&#305;k &#252;cretsiz g&#246;r&#252;&#351;me i&#231;in t&#305;klay&#305;n.</p>
+  <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Be&#287;endim, G&#246;r&#252;&#351;elim</button>
+</div>
+
+<p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor web analizi ve sekt&#246;r ara&#351;t&#305;rmas&#305;na dayanarak Growther AI taraf&#305;ndan haz&#305;rlanm&#305;&#351;t&#305;r. &copy; 2026</p>
+
+<script src="/lib/config.js"></script>
+<script src="/lib/tracker.js" data-type="rapor" data-client="ravelos"></script>
+</body>
+</html>

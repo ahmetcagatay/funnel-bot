@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0a0a">
+<title>&#220;cretsiz Stok Sa&#287;l&#305;&#287;&#305; Analizi - Ravelos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f0a0a;--bg-card:#1f1515;--bg-card-hover:#2a1e1e;--bg-option:rgba(31,21,21,0.8);--bg-option-selected:rgba(214,48,49,0.12);--border-option:rgba(214,48,49,0.35);--border-selected:rgba(214,48,49,0.6);--text-primary:#f5eaea;--text-secondary:#c4a8a8;--text-muted:#8a7070;--accent:#d63031;--accent-hover:#c0392b;--accent-glow:rgba(214,48,49,0.25);--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--safe-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text-primary);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;touch-action:pan-y}
+.funnel-container{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}
+.step{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;padding:0 24px;padding-bottom:calc(16px + var(--safe-bottom));transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .4s ease;will-change:transform,opacity;opacity:0;pointer-events:none}
+.step[data-position="center"]{transform:translateX(0);opacity:1;pointer-events:auto}
+.step[data-position="left"]{transform:translateX(-100%);opacity:0}
+.step[data-position="right"]{transform:translateX(100%);opacity:0}
+.step-header{display:flex;align-items:center;justify-content:center;position:relative;padding:16px 0 8px;flex-shrink:0}
+.back-btn{position:absolute;left:0;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-secondary);cursor:pointer;padding:8px;border-radius:12px;display:flex;align-items:center;justify-content:center;width:44px;height:44px}
+.back-btn:hover{background:var(--bg-card);color:var(--text-primary)}
+.back-btn svg{width:22px;height:22px}
+.progress-dots{display:flex;gap:6px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);transition:all .35s ease}
+.dot.active{background:var(--accent);width:24px;border-radius:4px}
+.dot.completed{background:var(--accent)}
+.step-content{flex:1;display:flex;flex-direction:column;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;min-height:0}
+.step-content::-webkit-scrollbar{display:none}
+.question-area{text-align:center;margin-bottom:28px;flex-shrink:0}
+.question-title{font-size:26px;font-weight:700;line-height:1.3;margin-bottom:8px;letter-spacing:-.02em}
+.question-subtitle{font-size:14px;color:var(--text-secondary)}
+.options-area{display:flex;flex-direction:column;gap:12px;width:100%;max-width:480px;margin:0 auto}
+.option-btn{display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:14px 18px;background:var(--bg-option);border:1.5px solid var(--border-option);border-radius:16px;color:var(--text-primary);font-family:inherit;font-size:16px;font-weight:500;text-align:left;cursor:pointer;transition:all .2s;user-select:none}
+.option-btn:hover{background:var(--bg-card-hover);border-color:var(--text-muted)}
+.option-btn:active{transform:scale(.98)}
+.option-btn.selected{background:var(--bg-option-selected);border-color:var(--border-selected);box-shadow:0 0 0 1px var(--border-selected),0 0 20px var(--accent-glow)}
+.option-btn .emoji{font-size:28px;flex-shrink:0;line-height:1}
+.option-btn .option-label{flex:1}
+.option-btn .check-indicator{width:22px;height:22px;border-radius:50%;border:2px solid var(--text-muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.option-btn.selected .check-indicator{background:var(--accent);border-color:var(--accent)}
+.option-btn.selected .check-indicator::after{content:'\2713';color:#fff;font-size:13px;font-weight:700}
+.step-footer{flex-shrink:0;padding-top:16px;max-width:480px;width:100%;margin:0 auto}
+.cta-btn{display:flex;align-items:center;justify-content:center;width:100%;height:56px;background:var(--accent);color:#fff;border:none;border-radius:16px;font-family:inherit;font-size:17px;font-weight:600;cursor:pointer;transition:all .2s}
+.cta-btn:hover:not(:disabled){background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}
+.cta-btn:disabled{opacity:.35;cursor:not-allowed}
+.analysis-card{background:var(--bg-card);border-radius:20px;padding:24px;width:100%;max-width:480px;margin:0 auto}
+.analysis-header{text-align:center;margin-bottom:20px}
+.analysis-header h2{font-size:22px;font-weight:700;margin-bottom:4px}
+.analysis-header p{font-size:13px;color:var(--text-secondary)}
+.analysis-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(214,48,49,.2)}
+.analysis-row:last-child{border-bottom:none}
+.analysis-label{font-size:14px;color:var(--text-secondary)}
+.analysis-value{font-size:16px;font-weight:600}
+.rec-list{margin-top:16px;display:flex;flex-direction:column;gap:12px}
+.rec-item{display:flex;gap:12px;align-items:flex-start;padding:14px;background:rgba(214,48,49,0.06);border:1px solid rgba(214,48,49,0.15);border-radius:14px}
+.rec-item .rec-emoji{font-size:32px;flex-shrink:0}
+.rec-item .rec-info{flex:1}
+.rec-item .rec-title{font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:2px}
+.rec-item .rec-detail{font-size:13px;color:var(--text-secondary)}
+.rec-item .rec-reason{font-size:13px;color:var(--text-muted);margin-top:4px;font-style:italic}
+.priority-box{margin-top:16px;padding:14px 16px;background:rgba(214,48,49,.08);border:1px solid rgba(214,48,49,.2);border-radius:14px}
+.priority-box .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:4px}
+.priority-box .text{font-size:14px;color:var(--text-primary);line-height:1.5}
+.free-trial-banner{margin-top:20px;text-align:center;padding:16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:14px}
+.free-trial-banner .emoji{font-size:28px;display:block;margin-bottom:6px}
+.free-trial-banner .text{font-size:15px;font-weight:600;color:var(--text-primary)}
+.free-trial-banner .sub{font-size:13px;color:var(--text-secondary);margin-top:2px}
+.thank-you-icon{width:72px;height:72px;border-radius:50%;background:rgba(34,197,94,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:36px;animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes scaleIn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+.loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .3s}
+.loading-overlay.active{opacity:1;pointer-events:auto}
+.loading-spinner{width:48px;height:48px;border:3px solid var(--bg-card);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{margin-top:20px;font-size:16px;color:var(--text-secondary);text-align:center}
+.loading-text .changing{display:block;margin-top:6px;font-size:14px;color:var(--text-muted);min-height:21px}
+.skip-link{display:block;text-align:center;margin-top:12px;color:var(--text-muted);font-size:13px;text-decoration:underline;cursor:pointer;padding:8px}
+.skip-link:hover{color:var(--text-secondary)}
+@media(max-height:680px){.question-title{font-size:22px}.option-btn{min-height:48px;padding:10px 14px}.option-btn .emoji{font-size:24px}.options-area{gap:8px}.analysis-card{padding:16px}}
+@media(min-width:640px){.step{padding:0 40px;padding-bottom:calc(24px + var(--safe-bottom))}.question-title{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="funnel-container" id="funnel">
+
+  <!-- STEP 1: Ana sorun -->
+  <div class="step" id="step-1" data-position="center">
+    <div class="step-header"><div class="progress-dots" id="dots-1"></div></div>
+    <div class="step-content">
+      <div class="question-area">
+        <h1 class="question-title">En b&#252;y&#252;k operasyonel sorununuz ne?</h1>
+        <p class="question-subtitle">Size &#246;zel AI &#231;&#246;z&#252;m plan&#305; haz&#305;rlayal&#305;m</p>
+      </div>
+      <div class="options-area" data-step="1" data-key="pain">
+        <button class="option-btn" data-value="stock_excess"><span class="emoji">&#x1F4E6;</span><span class="option-label">Fazla stok birikiyor, nakit depoda kal&#305;yor</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="stock_out"><span class="emoji">&#x26A0;&#xFE0F;</span><span class="option-label">Stok yetersiz kal&#305;yor, sat&#305;&#351; ka&#231;&#305;r&#305;yoruz</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="slow_orders"><span class="emoji">&#x23F3;</span><span class="option-label">Sipari&#351; haz&#305;rlama &#231;ok uzun s&#252;r&#252;yor</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="supply"><span class="emoji">&#x1F69A;</span><span class="option-label">Tedarik&#231;i y&#246;netimi karma&#351;&#305;k</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="forecast"><span class="emoji">&#x1F52E;</span><span class="option-label">Talep tahmin edemiyoruz</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-1" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- STEP 2: Sektör -->
+  <div class="step" id="step-2" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-2"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Hangi sekt&#246;rdesiniz?</h1></div>
+      <div class="options-area" data-step="2" data-key="sector">
+        <button class="option-btn" data-value="ecommerce"><span class="emoji">&#x1F6D2;</span><span class="option-label">E-ticaret</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="retail"><span class="emoji">&#x1F3EA;</span><span class="option-label">Perakende / Ma&#287;azac&#305;l&#305;k</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="manufacturing"><span class="emoji">&#x1F3ED;</span><span class="option-label">&#220;retim / &#304;malat</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="food"><span class="emoji">&#x1F35E;</span><span class="option-label">G&#305;da / FMCG</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="wholesale"><span class="emoji">&#x1F4E6;</span><span class="option-label">Toptan Ticaret / Distribisyon</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="other"><span class="emoji">&#x1F4BC;</span><span class="option-label">Di&#287;er</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-2" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- STEP 3: İşletme büyüklüğü -->
+  <div class="step" id="step-3" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-3"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Ayl&#305;k sipari&#351; hacminiz ne kadar?</h1></div>
+      <div class="options-area" data-step="3" data-key="volume">
+        <button class="option-btn" data-value="small"><span class="emoji">&#x1F4CA;</span><span class="option-label">0-500 sipari&#351;/ay</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="medium"><span class="emoji">&#x1F4C8;</span><span class="option-label">500-5.000 sipari&#351;/ay</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="large"><span class="emoji">&#x1F680;</span><span class="option-label">5.000-50.000 sipari&#351;/ay</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="enterprise"><span class="emoji">&#x1F3D7;&#xFE0F;</span><span class="option-label">50.000+ sipari&#351;/ay</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-3" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- STEP 4: Mevcut sistem -->
+  <div class="step" id="step-4" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-4"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">&#350;u an hangi sistemi kullan&#305;yorsunuz?</h1></div>
+      <div class="options-area" data-step="4" data-key="current_system">
+        <button class="option-btn" data-value="excel"><span class="emoji">&#x1F4DD;</span><span class="option-label">Excel / Google Sheets</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="erp"><span class="emoji">&#x1F5A5;&#xFE0F;</span><span class="option-label">ERP (Logo, Mikro, Netsis vb.)</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="ecom_panel"><span class="emoji">&#x1F6D2;</span><span class="option-label">E-ticaret paneli (Trendyol, Hepsiburada vb.)</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="custom"><span class="emoji">&#x2699;&#xFE0F;</span><span class="option-label">&#214;zel yaz&#305;l&#305;m</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="nothing"><span class="emoji">&#x1F937;</span><span class="option-label">Hen&#252;z bir sistem yok</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-4" disabled>Analizi Ba&#351;lat</button></div>
+  </div>
+
+  <!-- STEP 5: Analiz Sonucu -->
+  <div class="step" id="step-5" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-5"></div></div>
+    <div class="step-content">
+      <div class="analysis-card">
+        <div class="analysis-header"><h2>&#x1F4CA; Stok Sa&#287;l&#305;&#287;&#305; &#214;n Analizi</h2><p>Verilerinize g&#246;re haz&#305;rland&#305;</p></div>
+        <div class="analysis-row"><span class="analysis-label">Risk Seviyesi</span><span class="analysis-value" id="a-risk">Orta</span></div>
+        <div class="analysis-row"><span class="analysis-label">Tahmini Tasarruf</span><span class="analysis-value" id="a-saving">%20-30</span></div>
+        <div class="analysis-row"><span class="analysis-label">&#214;ncelikli Alan</span><span class="analysis-value" id="a-priority">Stok Optimizasyonu</span></div>
+        <div class="rec-list" id="rec-list"></div>
+        <div class="priority-box"><div class="label">&#x1F3AF; &#304;lk Ad&#305;m</div><div class="text" id="priority-text">15 dakikal&#305;k &#252;cretsiz ke&#351;if g&#246;r&#252;&#351;mesinde verilerinizi birlikte analiz edelim.</div></div>
+        <div class="free-trial-banner"><span class="emoji">&#x1F50D;</span><div class="text">Bu t&#252;r ki&#351;iselle&#351;tirilmi&#351; &#246;n analizler<br>sat&#305;&#351; d&#246;n&#252;&#351;&#252;m&#252;n&#252; 3x art&#305;r&#305;yor</div><div class="sub">Funnel + AI = M&#252;&#351;teri daha g&#246;r&#252;&#351;meye gelmeden de&#287;er g&#246;r&#252;yor</div></div>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-5">&#x1F4DE; &#220;cretsiz Analiz G&#246;r&#252;&#351;mesi</button></div>
+  </div>
+
+  <!-- STEP 6: CTA -->
+  <div class="step" id="step-6" data-position="right">
+    <div class="step-header"><div class="progress-dots" id="dots-6"></div></div>
+    <div class="step-content">
+      <div style="text-align:center;margin-bottom:20px">
+        <div class="thank-you-icon">&#x1F4CA;</div>
+        <h1 class="question-title" style="font-size:22px">Bu deneyimi m&#252;&#351;terilerinize de sunmak ister misiniz?</h1>
+        <p style="color:var(--text-secondary);font-size:15px;margin-top:8px;line-height:1.6">Ziyaret&#231;iden ad&#305;m ad&#305;m veri toplay&#305;n, AI ile ki&#351;iselle&#351;tirilmi&#351; analiz raporlar&#305; &#252;retin, sat&#305;&#351; g&#246;r&#252;&#351;mesinden &#246;nce de&#287;er g&#246;sterin. Sat&#305;&#351; d&#246;ng&#252;s&#252;n&#252; %40 k&#305;salt&#305;n.</p>
+      </div>
+      <div style="text-align:center;margin-top:20px">
+        <div style="display:flex;flex-direction:column;gap:12px;max-width:320px;margin:0 auto">
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-secondary)"><span style="font-size:20px">&#x2705;</span> Funnel ile &#246;n veri toplama</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-secondary)"><span style="font-size:20px">&#x2705;</span> AI ile ki&#351;isel analiz raporu</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-secondary)"><span style="font-size:20px">&#x2705;</span> Otomatik lead segmentasyonu</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-secondary)"><span style="font-size:20px">&#x2705;</span> Randevu &amp; CRM entegrasyonu</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-6" onclick="sendInterest()" style="background:#22c55e">&#x1F4DE; 15 Dakika G&#246;r&#252;&#351;elim</button>
+      <span class="skip-link" onclick="window.open('https://ravelos.com','_blank')">Ravelos.com'u gezmeye devam et &rarr;</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Verilerinizi analiz ediyoruz<span class="changing" id="loading-changing"></span></div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  var TOTAL_STEPS = 6;
+  var currentStep = 1;
+  var answers = {};
+
+  for (var s = 1; s <= TOTAL_STEPS; s++) {
+    var dc = document.getElementById('dots-' + s);
+    if (!dc) continue;
+    for (var d = 1; d <= TOTAL_STEPS; d++) {
+      var dot = document.createElement('span');
+      dot.className = 'dot' + (d < s ? ' completed' : '') + (d === s ? ' active' : '');
+      dc.appendChild(dot);
+    }
+  }
+
+  var areas = document.querySelectorAll('.options-area');
+  for (var i = 0; i < areas.length; i++) {
+    (function(area) {
+      var key = area.dataset.key;
+      var step = parseInt(area.dataset.step, 10);
+      var btns = area.querySelectorAll('.option-btn');
+      for (var j = 0; j < btns.length; j++) {
+        (function(btn) {
+          btn.addEventListener('click', function() {
+            var all = area.querySelectorAll('.option-btn');
+            for (var k = 0; k < all.length; k++) all[k].classList.remove('selected');
+            btn.classList.add('selected');
+            answers[key] = btn.dataset.value;
+            document.getElementById('cta-' + step).disabled = false;
+          });
+        })(btns[j]);
+      }
+    })(areas[i]);
+  }
+
+  document.getElementById('cta-1').addEventListener('click', function() { goToStep(2); });
+  document.getElementById('cta-2').addEventListener('click', function() { goToStep(3); });
+  document.getElementById('cta-3').addEventListener('click', function() { goToStep(4); });
+  document.getElementById('cta-4').addEventListener('click', function() {
+    showLoading(function() { buildAnalysis(); goToStep(5); });
+  });
+  document.getElementById('cta-5').addEventListener('click', function() { goToStep(6); });
+
+  function goToStep(target) {
+    if (target < 1 || target > TOTAL_STEPS) return;
+    document.getElementById('step-' + currentStep).dataset.position = target > currentStep ? 'left' : 'right';
+    document.getElementById('step-' + target).dataset.position = 'center';
+    currentStep = target;
+    if (window.GROWTHER_TRACKER) GROWTHER_TRACKER.onStepChange(target);
+  }
+  window.goBack = function() { goToStep(currentStep - 1); };
+  window.GROWTHER_FUNNEL = { getCurrentStep: function() { return currentStep; }, getAnswers: function() { return answers; } };
+
+  function showLoading(cb) {
+    var o = document.getElementById('loading-overlay');
+    var c = document.getElementById('loading-changing');
+    o.classList.add('active');
+    var msgs = ['Sekt\u00f6r verilerini kontrol ediyoruz...', 'Stok risk analizi yap\u0131l\u0131yor...', 'Ki\u015fiselle\u015ftirilmi\u015f \u00f6neriler haz\u0131rlan\u0131yor...'];
+    var idx = 0; c.textContent = msgs[0];
+    var iv = setInterval(function() { idx++; if (idx < msgs.length) c.textContent = msgs[idx]; }, 700);
+    setTimeout(function() { clearInterval(iv); o.classList.remove('active'); cb(); }, 2400);
+  }
+
+  var painMap = {
+    stock_excess: { risk: 'Y\u00fcksek', saving: '%25-35', priority: 'Stok Optimizasyonu', recs: [
+      { e: '\uD83D\uDCE6', t: 'Stok Seviye Optimizasyonu', d: 'AI ile ideal stok seviyelerini belirleyin', r: 'Fazla sto\u011fu %30 azalt\u0131r, nakdi serbest b\u0131rak\u0131r' },
+      { e: '\uD83D\uDD2E', t: 'Talep Tahmin Motoru', d: 'Mevsimsellik ve trendleri \u00f6nceden g\u00f6r\u00fcn', r: 'Sto\u011fa ba\u011flanan sermayeyi %25 azalt\u0131r' },
+      { e: '\u26A0\uFE0F', t: 'Stok Risk Uyar\u0131 Sistemi', d: 'Kritik stok seviyeleri i\u00e7in proaktif uyar\u0131lar', r: 'Stok fazlas\u0131 ve eksikli\u011fini %80 \u00f6nler' }
+    ]},
+    stock_out: { risk: 'Y\u00fcksek', saving: '%20-30', priority: 'Talep Tahmini', recs: [
+      { e: '\uD83D\uDD2E', t: 'AI Talep Tahmin Motoru', d: 'Ge\u00e7mi\u015f verilerden gelecek sat\u0131\u015f\u0131 tahmin edin', r: 'Stok yetersizli\u011fini %70 azalt\u0131r' },
+      { e: '\uD83D\uDCCB', t: 'Otomatik Sipari\u015f Planlama', d: 'Tahminlere dayal\u0131 otomatik sipari\u015f \u00f6nerileri', r: 'Ka\u00e7an sat\u0131\u015flar\u0131 %60 geri kazan\u0131r' },
+      { e: '\uD83D\uDEA8', t: 'Erken Uyar\u0131 Sistemi', d: 'Kritik stok seviyesine d\u00fc\u015fmeden uyar\u0131', r: 'M\u00fc\u015fteri memnuniyetini %40 art\u0131r\u0131r' }
+    ]},
+    slow_orders: { risk: 'Orta', saving: '%30-50', priority: 'Sipari\u015f Otomasyonu', recs: [
+      { e: '\u2699\uFE0F', t: 'Sipari\u015f Otomasyon Sistemi', d: 'Tekrarlayan sipari\u015f s\u00fcre\u00e7lerini otomatikle\u015ftirin', r: 'Sipari\u015f haz\u0131rlama s\u00fcresini %60 k\u0131salt\u0131r' },
+      { e: '\uD83E\uDD16', t: 'AI Tedarik Ajan\u0131', d: 'Tedarik\u00e7ilerden otomatik teklif toplama ve kar\u015f\u0131la\u015ft\u0131rma', r: '\u0130\u015f y\u00fck\u00fcn\u00fc haftal\u0131k 10+ saat azalt\u0131r' },
+      { e: '\uD83D\uDDE3\uFE0F', t: 'Konu\u015fma Asistan\u0131', d: 'Sesli komutlarla sipari\u015f y\u00f6netimi', r: 'Aray\u00fcz e\u011fitim s\u00fcresini s\u0131f\u0131ra indirir' }
+    ]},
+    supply: { risk: 'Orta-Y\u00fcksek', saving: '%15-25', priority: 'Tedarik Y\u00f6netimi', recs: [
+      { e: '\uD83E\uDD16', t: 'AI Tedarik Ajan\u0131', d: 'Tedarik\u00e7ilerle otomatik teklif ve kar\u015f\u0131la\u015ft\u0131rma', r: 'Tedarik maliyetini %15 d\u00fc\u015f\u00fcr\u00fcr' },
+      { e: '\uD83D\uDCCA', t: 'Tedarik\u00e7i Performans Analizi', d: 'Hangi tedarik\u00e7i ne kadar g\u00fcvenilir, AI ile \u00f6l\u00e7\u00fcn', r: 'Teslimat gecikmelerini %50 azalt\u0131r' },
+      { e: '\uD83D\uDD04', t: 'Otomatik Yeniden Sipari\u015f', d: 'Stok e\u015fi\u011fi d\u00fc\u015ft\u00fc\u011f\u00fcnde otomatik sipari\u015f', r: 'Manuel takip ihtiyac\u0131n\u0131 ortadan kald\u0131r\u0131r' }
+    ]},
+    forecast: { risk: 'Y\u00fcksek', saving: '%25-40', priority: 'Talep Tahmini', recs: [
+      { e: '\uD83D\uDD2E', t: 'AI Talep Tahmin Motoru', d: 'Ge\u00e7mi\u015f veri + mevsimsellik + trend analizi', r: 'Tahmin do\u011frulu\u011funu %85+ seviyeye \u00e7\u0131kar\u0131r' },
+      { e: '\uD83D\uDCC8', t: 'Sat\u0131\u015f E\u011filim Analizi', d: 'Korelasyon ve pattern tespiti', r: 'Karar alma s\u00fcresini %70 h\u0131zland\u0131r\u0131r' },
+      { e: '\uD83D\uDCCB', t: 'Otomatik Aksiyon Planlar\u0131', d: 'Tahminlere dayal\u0131 otomatik \u00f6neriler', r: '\u201cNe yapmal\u0131y\u0131m?\u201d sorusuna AI cevap verir' }
+    ]}
+  };
+
+  function buildAnalysis() {
+    var pain = answers.pain || 'stock_excess';
+    var data = painMap[pain] || painMap.stock_excess;
+
+    document.getElementById('a-risk').textContent = data.risk;
+    document.getElementById('a-saving').textContent = data.saving;
+    document.getElementById('a-priority').textContent = data.priority;
+
+    var list = document.getElementById('rec-list');
+    list.innerHTML = '';
+    for (var i = 0; i < data.recs.length; i++) {
+      var r = data.recs[i];
+      var div = document.createElement('div');
+      div.className = 'rec-item';
+      div.innerHTML = '<span class="rec-emoji">' + r.e + '</span><div class="rec-info"><div class="rec-title">' + r.t + '</div><div class="rec-detail">' + r.d + '</div><div class="rec-reason">' + r.r + '</div></div>';
+      list.appendChild(div);
+    }
+
+    var vol = answers.volume || 'medium';
+    var sys = answers.current_system || 'excel';
+    var priText = '15 dakikal\u0131k \u00fccretsiz ke\u015fif g\u00f6r\u00fc\u015fmesinde verilerinizi birlikte analiz edelim.';
+    if (sys === 'excel' || sys === 'nothing') {
+      priText = '\u015eu an ' + (sys === 'excel' ? 'Excel' : 'sistemsiz') + ' \u00e7al\u0131\u015f\u0131yorsunuz - AI ile ge\u00e7i\u015f yapmak i\u00e7in en do\u011fru zamandas\u0131n\u0131z. 15 dakikal\u0131k g\u00f6r\u00fc\u015fmede ge\u00e7i\u015f plan\u0131n\u0131z\u0131 birlikte \u00e7\u0131karal\u0131m.';
+    } else if (vol === 'large' || vol === 'enterprise') {
+      priText = 'Y\u00fcksek sipari\u015f hacminiz AI optimizasyonundan en \u00e7ok fayda g\u00f6recek segmentte. 15 dakikal\u0131k g\u00f6r\u00fc\u015fmede potansiyel tasarrufunuzu hesaplayal\u0131m.';
+    }
+    document.getElementById('priority-text').textContent = priText;
+  }
+
+  window.sendInterest = function() {
+    if (window.GROWTHER_TRACKER) GROWTHER_TRACKER.onInterested();
+    var btn = document.getElementById('cta-6');
+    btn.disabled = true;
+    btn.textContent = 'Y\u00f6nlendiriliyor...';
+
+    var SUPA_URL = window.GROWTHER ? GROWTHER.SUPABASE_URL : '';
+    var SUPA_KEY = window.GROWTHER ? GROWTHER.SUPABASE_ANON : '';
+
+    fetch(SUPA_URL + '/rest/v1/funnel_leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ website: window.location.pathname, stage: 'cal_click', extra_notes: JSON.stringify({ client: 'ravelos', action: 'booking_clicked', answers: answers, clicked_at: new Date().toISOString() }), last_step: 'cal_booking', completed: true })
+    }).catch(function() {});
+
+    setTimeout(function() { showCalPopup('tr'); }, 500);
+  };
+
+  var tx = 0, ty = 0;
+  document.addEventListener('touchstart', function(e) { tx = e.changedTouches[0].clientX; ty = e.changedTouches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', function(e) { var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && dx > 0 && currentStep > 1) goBack(); }, { passive: true });
+})();
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+<script src="/lib/tracker.js" data-type="demo-funnel" data-client="ravelos" data-total-steps="6"></script>
+</body>
+</html>
