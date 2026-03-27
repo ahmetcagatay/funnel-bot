@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 13px; line-height: 1.6; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #d1fae5; color: #065f46; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #10b981, #34d399); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #10b981; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
+  h4 { font-size: 12px; font-weight: 600; color: #555; margin: 14px 0 6px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
+  th { background: #1a1a2e; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #d1fae5; border-left: 4px solid #10b981; color: #065f46; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #d1fae5; color: #065f46; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #10b981; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
+  .summary-card { flex: 1; min-width: 120px; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #10b981; }
+  .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  .liked-section { padding: 20px 24px; background: #d1fae5; border: 2px solid #10b981; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .liked-section h3 { font-size: 16px; color: #065f46; margin-bottom: 6px; border: none; }
+  .liked-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .liked-btn { background: #10b981; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .liked-btn:hover { background: #059669; } .liked-btn.clicked { background: #10b981; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanım</div>
+  <h1>Queenida Honey</h1>
+  <h2>Büyüme Stratejisi &amp; Dijital Pazarlama Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazırlanma Tarihi:</strong> 26 Mart 2026<br>
+    <strong>Domain:</strong> queenida.com<br>
+    <strong>Sektör:</strong> E-ticaret - Doğal Bal &amp; Arı Ürünleri<br>
+    <strong>Rapor Türü:</strong> Detaylı Analiz + Strateji Önerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır.</div>
+</div>
+
+<script>
+function handleLiked(){var b=document.getElementById('likedBtn');b.disabled=true;b.textContent='Yönlendiriliyor...';
+if(window.GROWTHER&&GROWTHER.supaFetch){GROWTHER.supaFetch('POST','funnel_leads',{website:window.location.pathname,stage:'liked_report',extra_notes:JSON.stringify({client:'queenida',action:'liked_report',clicked_at:new Date().toISOString(),is_test:GROWTHER.isAdmin}),last_step:'liked',completed:true}).catch(function(){});}
+setTimeout(function(){showCalPopup('tr')},500)}
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+
+<!-- PROFIL -->
+<h2 class="page-break">1. Şirket Profil Özeti</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">B2C</div><div class="label">Hedef Pazar</div></div>
+  <div class="summary-card"><div class="value">E-ticaret</div><div class="label">Sektör</div></div>
+  <div class="summary-card"><div class="value">630-2.925 TL</div><div class="label">Fiyat Aralığı</div></div>
+  <div class="summary-card"><div class="value">Premium</div><div class="label">Segment</div></div>
+  <div class="summary-card"><div class="value">Kazdağları</div><div class="label">Kaynak Bölge</div></div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Değer</th></tr>
+  <tr><td><strong>Website</strong></td><td>queenida.com</td></tr>
+  <tr><td><strong>Ürün Kategorisi</strong></td><td>Kazdağları kaynaklı ham bal, propolis ekstraktı, kolajen takviyeli bal, taurin takviyeli bal, zerdeçallı bal, kahvaltılık paketler. Yüksek prolin ve antioksidan değerleriyle konumlanmış premium doğal arı ürünleri.</td></tr>
+  <tr><td><strong>Markalar</strong></td><td>QUEENIDA (ana marka), PROPIDA SPORTS (spor serisi - taurin, kolajen), PROPIDA DAMLALIK (propolis ekstrakt), KOMBİDA (zerdeçal serisi), QUEENIDA KAHVALTIM (kahvaltılık paket)</td></tr>
+  <tr><td><strong>Fiyatlandırma</strong></td><td>Kahvaltım 275gr: 665 TL | Collagen 275gr: 765 TL | Goat Horn 275gr: 630 TL | Prolin 500 360gr: 945 TL | Prolin 1500 360gr: 2.925 TL</td></tr>
+  <tr><td><strong>E-ticaret Altyapısı</strong></td><td>Tam işlevli sepet ve ödeme sistemi, responsive tasarım</td></tr>
+  <tr><td><strong>Kargo Politikası</strong></td><td>Aynı gün kargo, 1.000 TL üzeri ücretsiz kargo</td></tr>
+  <tr><td><strong>Sosyal Medya</strong></td><td>Instagram (@queenida.honey)</td></tr>
+  <tr><td><strong>Blog</strong></td><td>Menüde var ancak aktif içerik üretilmiyor</td></tr>
+  <tr><td><strong>Marka Hikayesi</strong></td><td>"Kanat çırparak özenle" sloganı, Kazdağları'nın 800+ bitki çeşidi ve yüksek oksijen yoğunluğu vurgusu, Homeros alıntısıyla prestij</td></tr>
+</table>
+
+<h3>Ürün Portföyü Detayı</h3>
+<table>
+  <tr><th>Ürün</th><th>Fiyat</th><th>Öne Çıkan Özellik</th><th>Değerlendirme</th></tr>
+  <tr><td><strong>Prolin 1500 (360gr)</strong></td><td>2.925 TL</td><td>En yüksek prolin değeri, premium segment</td><td><span class="tag tag-blue">Amiral Gemisi</span></td></tr>
+  <tr><td><strong>Prolin 500 (360gr)</strong></td><td>945 TL</td><td>Giriş seviyesi prolin balı</td><td><span class="tag tag-green">Erişilebilir</span></td></tr>
+  <tr><td><strong>Collagen (275gr)</strong></td><td>765 TL</td><td>Kolajen takviyeli, güzellik segmenti</td><td><span class="tag tag-blue">Niş</span></td></tr>
+  <tr><td><strong>Kahvaltım (275gr)</strong></td><td>665 TL</td><td>Kahvaltılık karışım paketi</td><td><span class="tag tag-green">Giriş Ürünü</span></td></tr>
+  <tr><td><strong>Goat Horn (275gr)</strong></td><td>630 TL</td><td>En düşük fiyatlı ürün</td><td><span class="tag tag-green">Giriş Ürünü</span></td></tr>
+  <tr><td><strong>Propida Sports (Taurine)</strong></td><td>Premium</td><td>Sporcu odaklı takviye</td><td><span class="tag tag-blue">Niş</span></td></tr>
+  <tr><td><strong>Propida Damlalık (30gr)</strong></td><td>Premium</td><td>Propolis ekstraktı, yoğun form</td><td><span class="tag tag-blue">Niş</span></td></tr>
+  <tr><td><strong>Kombida (Zerdeçal)</strong></td><td>Premium</td><td>Zerdeçal + bal kombinasyonu</td><td><span class="tag tag-green">Trend</span></td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Profil Değerlendirmesi</strong>
+  Queenida, Kazdağları'nın eşsiz florasından elde edilen premium bal ve arı ürünleri ile güçlü bir marka hikayesine sahip. Prolin değeri üzerinden farklılaşma stratejisi bilimsel ve inandırıcı. Ancak 630-2.925 TL fiyat aralığı pazardaki ortalama balın 5-10 katı - bu fiyatı haklı çıkarmak için mevcut içerik ve güven altyapısı yetersiz. Blog aktif değil, sosyal kanıt zayıf ve dijital trafik düşük. Premium fiyata premium pazarlama şart.
+</div>
+
+
+<!-- RAKIP -->
+<h2 class="page-break">2. Rakip Analizi - Premium Bal &amp; Arı Ürünleri Pazarı</h2>
+
+<h3>2.1 Doğrudan ve Dolaylı Rakipler</h3>
+<table>
+  <tr><th>Rakip</th><th>Fiyat Aralığı</th><th>Güçlü Yönü</th><th>Zayıf Yönü</th></tr>
+  <tr>
+    <td><strong>Balparmak</strong></td>
+    <td>50-500 TL</td>
+    <td>Türkiye'nin en bilinen bal markası, süpermarket dağıtımı, güçlü reklam bütçesi, geniş ürün yelpazesi</td>
+    <td>Endüstriyel algı, "gerçek bal mı?" tartışmaları, premium segmentte zayıf</td>
+  </tr>
+  <tr>
+    <td><strong>Macahel Balı</strong></td>
+    <td>300-1.500 TL</td>
+    <td>Artvin/Macahel bölge markası, organik sertifika, sadık müşteri tabanı</td>
+    <td>Sınırlı ürün çeşidi, dijital pazarlaması zayıf, sadece bal</td>
+  </tr>
+  <tr>
+    <td><strong>Bee&You (BeeO)</strong></td>
+    <td>200-800 TL</td>
+    <td>Propolis odaklı, bilimsel araştırma (İTÜ Arı Ürünleri), ihracat başarısı, modern marka</td>
+    <td>Bal segmentinde zayıf, propolis nişi dışında bilinirlik düşük</td>
+  </tr>
+  <tr>
+    <td><strong>Anzer Balı (Çeşitli üreticiler)</strong></td>
+    <td>1.000-5.000 TL</td>
+    <td>Coğrafi işaret tescilli, ultra premium konumlandırma, medyada sürekli gündem</td>
+    <td>Sahte ürün sorunu, tek ürün, standart kalite kontrolü zor</td>
+  </tr>
+  <tr>
+    <td><strong>Manuka Bal (İthal markalar)</strong></td>
+    <td>500-3.000 TL</td>
+    <td>Global bilinirlik, MGO sertifikası ile ölçülebilir kalite, sağlık etkisi kanıtlı</td>
+    <td>İthal olma dezavantajı, Türk tüketicide "yabancı bal" direnci</td>
+  </tr>
+  <tr style="background:#d1fae5">
+    <td><strong>Queenida</strong></td>
+    <td>630-2.925 TL</td>
+    <td>Kazdağları hikayesi, prolin değeri ile bilimsel farklılaşma, çoklu ürün serisi (spor, güzellik, takviye), modern site tasarımı</td>
+    <td>Bilinirlik çok düşük, sosyal kanıt yok, blog/içerik üretimi yok, trafik yetersiz</td>
+  </tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Queenida'nın Rekabetçi Avantajları</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Prolin değeri ile ölçülebilir farklılaşma</strong> - Balparmak ve genel market ballarında prolin değeri vurgusu yok. Queenida bunu Manuka'nın MGO'su gibi bir kalite standardı haline getirebilir.</li>
+    <li><strong>Çoklu ürün serisi</strong> - Sadece bal değil; kolajen, taurin, zerdeçal, propolis ile farklı hedef kitlelere ulaşabilir (sporcular, güzellik, sağlık). Macahel/Anzer bunu yapamıyor.</li>
+    <li><strong>Kazdağları marka hikayesi</strong> - 800+ bitki çeşidi, 1.774m rakım, Homeros referansı. Anzer'in coğrafi işareti gibi güçlü bir bölge markası oluşturma potansiyeli var.</li>
+    <li><strong>Modern e-ticaret altyapısı</strong> - Birçok yerel bal üreticisinin hala Instagram DM ile satış yaptığı bir pazarda profesyonel e-ticaret sitesi avantaj.</li>
+    <li><strong>Fiyat-değer konumlandırması</strong> - Anzer Balı'ndan daha erişilebilir, Balparmak'tan çok daha premium. Orta-üst segment boşluğu doğru nokta.</li>
+  </ul>
+</div>
+
+<h3>2.2 Pazar Fırsat Değerlendirmesi</h3>
+<table>
+  <tr><th>Metrik</th><th>Değer / Yorum</th></tr>
+  <tr><td>Türkiye bal pazarı büyüklüğü</td><td><strong>~4 milyar TL+</strong> - Türkiye dünya 2. büyük bal üreticisi</td></tr>
+  <tr><td>Premium bal segmenti büyümesi</td><td><strong>Hızla artıyor</strong> - Sağlıklı yaşam trendi, doğal ürün talebi her yıl yükseliyor</td></tr>
+  <tr><td>"ham bal" arama hacmi</td><td><strong>Yüksek ve artan</strong> - Tüketici bilinçleniyor, endüstriyel baldan kaçıyor</td></tr>
+  <tr><td>"propolis faydaları" arama hacmi</td><td><strong>Çok yüksek</strong> - COVID sonrası bağışıklık ilgisi kalıcı oldu</td></tr>
+  <tr><td>"kazdağları balı" arama hacmi</td><td><strong>Düşük rekabet</strong> - Bölge markası henüz sahiplenilmemiş</td></tr>
+  <tr><td>"kolajenli bal" arama hacmi</td><td><strong>Yeni ve büyüyen</strong> - Güzellik + doğal takviye kesişimi trend</td></tr>
+  <tr><td>Online bal satış penetrasyonu</td><td><strong>Düşük ama hızlanıyor</strong> - Trendyol, Hepsiburada'da bal kategorisi patlıyor</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Kritik Bulgu: "Kazdağları Balı" Markası Boş</strong>
+  "Anzer Balı" nasıl Rize ile özdeşleştiyse, "Kazdağları Balı" henüz hiçbir marka tarafından sahiplenilmemiş. Google'da "kazdağları balı" aramasında baskın bir marka yok. Queenida bu boşluğu doldurup "Kazdağları = Queenida" algısını oluşturabilir. Bu fırsat penceresi sınırlı - bölgedeki diğer üreticiler de dijitalleşiyor.
+</div>
+
+
+<!-- WEB SITESI -->
+<h2 class="page-break">3. Web Sitesi Analizi</h2>
+
+<h3>3.1 Güçlü Yönler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr><td>E-ticaret Altyapısı</td><td><span class="tag tag-green">İyi</span> - Tam işlevli sepet, ödeme, kargo entegrasyonu çalışıyor</td></tr>
+  <tr><td>Tasarım Kalitesi</td><td><span class="tag tag-green">Modern</span> - Görsel ağırlıklı, temiz tasarım, premium hissi veriyor</td></tr>
+  <tr><td>Mobil Uyumluluk</td><td><span class="tag tag-green">Var</span> - Responsive tasarım mevcut</td></tr>
+  <tr><td>Ürün Fotoğrafları</td><td><span class="tag tag-green">Güçlü</span> - Premium ambalaj tasarımı, profesyonel görseller</td></tr>
+  <tr><td>Kargo Politikası</td><td><span class="tag tag-green">Avantajlı</span> - Aynı gün kargo + 1.000 TL üzeri ücretsiz kargo</td></tr>
+  <tr><td>Marka Hikayesi</td><td><span class="tag tag-green">Güçlü</span> - Kazdağları, Homeros alıntısı, prolin bilimi birleşimi etkileyici</td></tr>
+</table>
+
+<h3>3.2 Kritik Sorunlar</h3>
+<table>
+  <tr><th>Sorun</th><th>Açıklama</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>Blog İçeriği Yok</strong></td>
+    <td>Blog sayfası menüde var ama aktif içerik üretilmiyor. "Prolin nedir?", "ham bal faydaları", "propolis nasıl kullanılır?" gibi yüksek hacimli aramalarda Queenida görünmüyor. Potansiyel müşteriler Google'da araştırma yaparken sizi bulamıyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sosyal Kanıt Yetersiz</strong></td>
+    <td>Müşteri yorumları, kullanıcı fotoğrafları veya "X kişi bu ürünü satın aldı" gibi sosyal kanıt unsurları eksik. 2.925 TL'lik bir bal satın almadan önce tüketici güvenilir yorumlar görmek istiyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Prolin Eğitimi Yetersiz</strong></td>
+    <td>Prolin değeri Queenida'nın en büyük farklılaşma noktası ama sitede bu kavram yeterince açıklanmıyor. Çoğu tüketici "prolin" kelimesini bilmiyor. Bu değerin ne anlama geldiğini, neden önemli olduğunu ve Queenida'nın değerlerinin neden yüksek olduğunu anlatan detaylı bir içerik sayfası şart.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>FAQ Bölümü Boş</strong></td>
+    <td>Sıkça sorulan sorular bölümü mevcut ama içerik yok. "Bu bal neden bu kadar pahalı?", "Prolin nedir?", "Nasıl saklanır?" gibi soruların yanıtlanması alıcı direncini kırar.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sosyal Medya Bağlantıları Zayıf</strong></td>
+    <td>Instagram hesabı var ama sitedeki sosyal medya linkleri tam işlevsel değil. Sosyal medya, premium gıda markaları için güven oluşturmanın birincil kanalı.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Karşılaştırma İçeriği Yok</strong></td>
+    <td>"Queenida vs Market Balı", "Ham Bal vs İşlenmiş Bal", "Prolin 500 vs 1500 Farkı" gibi sayfalar hem SEO hem dönüşüm için kritik. Müşteri neden 2.925 TL ödeyeceğini anlamak istiyor.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+</table>
+
+<h3>3.3 Sosyal Medya Varlığı</h3>
+<table>
+  <tr><th>Platform</th><th>Durum</th><th>Öneri</th></tr>
+  <tr><td>Instagram (@queenida.honey)</td><td><span class="tag tag-green">Var</span></td><td>Premium gıda markaları için birincil kanal - profesyonel içerik üretimi, reels, influencer işbirlikleri ile büyütülmeli</td></tr>
+  <tr><td>TikTok</td><td><span class="tag tag-red">Yok</span></td><td>Bal üretim süreci, arıcılık videoları, "market balı vs gerçek bal" karşılaştırmaları viral potansiyeli taşıyor</td></tr>
+  <tr><td>YouTube</td><td><span class="tag tag-red">Yok</span></td><td>Kazdağları'ndan üretim videoları, prolin analiz süreçleri, marka hikayesi belgeseli</td></tr>
+  <tr><td>Facebook</td><td><span class="tag tag-red">Yok</span></td><td>35+ yaş hedef kitle için önemli, Marketplace satışı için düşünülebilir</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Sosyal Medya Değerlendirmesi</strong>
+  Premium gıda markalarında Instagram ve TikTok birincil satış kanalları. Bal üretim süreci (arı kovanı, süzme, ambalajlama), Kazdağları doğası ve "gerçek bal nasıl anlaşılır?" içerikleri yüksek etkileşim alır. Bee&You'nun Instagram stratejisi bu konuda iyi bir örnek - laboratuvar testleri, üretim süreçleri ve müşteri yorumlarını paylaşıyorlar. Queenida'nın Kazdağları hikayesi video içerik için mükemmel bir malzeme.
+</div>
+
+
+<!-- STRATEJI -->
+<h2 class="page-break">4. Önerilen Aksiyon Planı</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - İçerik ve Güven Altyapısı (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Blog başlatın - acil:</strong> "Prolin Nedir ve Neden Önemlidir?", "Ham Bal ile İşlenmiş Bal Arasındaki 7 Fark", "Propolis Faydaları: Bilimsel Kanıtlar", "Kazdağları Balı Neden Özel?", "Kolajenli Bal Ne İşe Yarar?" konularında 5-6 makale yazın. Bu kelimeler yüksek arama hacmine sahip ve rekabet düşük.</li>
+    <li><strong>FAQ sayfasını doldurun:</strong> "Bu bal neden 2.925 TL?", "Prolin değeri ne anlama gelir?", "Ham bal nasıl saklanır?", "Propolis damlalık nasıl kullanılır?", "Kargo sırasında bozulur mu?" gibi en az 15-20 soru yanıtlayın. Her soru bir SEO fırsatı.</li>
+    <li><strong>Müşteri yorumları toplayın:</strong> Mevcut müşterilerinizden ürün yorumu ve fotoğraf isteyin. WhatsApp'tan gelen teşekkür mesajlarını (izinle) siteye ekleyin. Yorum sayısı direkt satışı etkiler.</li>
+    <li><strong>"Neden Bu Kadar Pahalı?" sayfası oluşturun:</strong> Prolin analiz sertifikası, üretim süreci fotoğrafları, Kazdağları'nın özelliklerini gösteren, fiyatı haklı çıkaran detaylı bir sayfa. Bu sayfa en çok sorulan soruyu cevaplayacak ve dönüşümü artıracak.</li>
+    <li><strong>Instagram içerik takvimi:</strong> Haftada 3-4 post + 2-3 reels. Arı kovanlarından canlı çekimler, bal süzme süreci, prolin testi laboratuvar görüntüleri, müşteri kutu açılışları, Kazdağları manzaraları.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - Organik Büyüme ve Marka İnşası (Hafta 3-4)</div>
+  <ol>
+    <li><strong>"Kazdağları Balı" markasını sahiplenin:</strong> Google'da "kazdağları balı" aramasında 1. sırada çıkmak için SEO odaklı içerik üretin. "Kazdağları Bal Rehberi", "Kazdağları Flora Haritası", "Kazdağları'nda Arıcılık" gibi kapsamlı içeriklerle bölge otoritesi olun.</li>
+    <li><strong>TikTok kanalı açın:</strong> "Market balı ile Queenida balını karşılaştırdık", "2.925 TL'lik balın içinde ne var?", "Kazdağları'nda bir gün" gibi videolar çekin. Bal/doğal gıda içerikleri TikTok'ta milyonlarca izlenme alıyor.</li>
+    <li><strong>Influencer işbirlikleri:</strong> Sağlıklı yaşam, fitness, doğal beslenme alanında 10K-100K takipçili mikro influencer'larla ürün gönderimi yapın. Nano influencer'lar (1K-10K) premium gıda markalarında en yüksek dönüşüm oranına sahip.</li>
+    <li><strong>E-posta listesi oluşturun:</strong> Sitede "Bal Rehberi" indirmek için e-posta toplama pop-up'ı ekleyin. Ardından haftalık içerik + aylık kampanya e-postaları gönderin. Premium gıdada tekrar satış oranı çok yüksek.</li>
+    <li><strong>Karşılaştırma sayfaları:</strong> "Queenida vs Balparmak", "Queenida vs Anzer Balı", "Prolin 500 vs 1500: Hangisi Size Uygun?" sayfaları oluşturun. Karar aşamasındaki müşteriyi yakalayın.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - Ölçekleme ve Reklam (Ay 2+)</div>
+  <ol>
+    <li><strong>Google Ads başlatın:</strong> "ham bal satın al", "doğal bal sipariş", "propolis damlalık", "kazdağları balı" kelimelerinde reklam verin. Premium gıda alıcıları Google'da aktif arama yapıyor. 3.000-5.000 TL aylık bütçeyle başlayın.</li>
+    <li><strong>Instagram/Facebook Ads:</strong> "Gerçek bal mı tüketiyorsunuz?" mesajıyla farkındalık kampanyası. Prolin testi sonuçlarını görsele dönüştürüp reklam olarak kullanın. Hedefleme: 30-55 yaş, sağlık/fitness ilgisi, yüksek gelir.</li>
+    <li><strong>Trendyol/Hepsiburada mağaza açın:</strong> Pazaryerleri organik trafiği çok yüksek. "Premium bal" aramasında Trendyol'da görünmek yeni müşteri kazanımını hızlandırır. Komisyon oranı yüksek olsa da marka bilinirliği için değerli.</li>
+    <li><strong>Abonelik modeli:</strong> "Aylık Bal Paketi" abonelik sistemi kurun. Premium gıda markalarında abonelik modeli müşteri yaşam boyu değerini 3-5x artırıyor. İlk ay %20 indirimle başlatın.</li>
+    <li><strong>Hediye paketi / kurumsal satış:</strong> Bayram, yeni yıl, kurumsal hediye paketleri oluşturun. Premium bal hediye olarak çok popüler. Kurumsal satış kanalı tek seferde yüksek hacim getirir.</li>
+    <li><strong>Laboratuvar sertifikası vurgusu:</strong> Her ürün için bağımsız laboratuvar prolin analiz sonucunu PDF olarak indirilebilir yapın. Manuka'nın MGO sertifikası gibi, Queenida'nın "Prolin Sertifikası" güven oluşturur.</li>
+  </ol>
+</div>
+
+
+<!-- SONUC -->
+<h2 class="page-break">5. Sonuç ve Skor Kartı</h2>
+
+<h3>Skor Kartı</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef (3 Ay)</th></tr>
+  <tr><td>Ürün / Ambalaj Kalitesi</td><td><div class="score-bar"><div class="score-fill score-high" style="width:85%"></div></div> 8.5/10</td><td>9/10</td></tr>
+  <tr><td>Marka Hikayesi</td><td><div class="score-bar"><div class="score-fill score-high" style="width:75%"></div></div> 7.5/10</td><td>9/10</td></tr>
+  <tr><td>Web Sitesi Tasarımı</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:70%"></div></div> 7/10</td><td>8/10</td></tr>
+  <tr><td>İçerik Pazarlaması (Blog/SEO)</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>6/10</td></tr>
+  <tr><td>Sosyal Kanıt (Yorumlar)</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>6/10</td></tr>
+  <tr><td>Sosyal Medya</td><td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td><td>6/10</td></tr>
+  <tr><td>Organik Trafik</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>5/10</td></tr>
+  <tr><td>Ücretli Reklamlar</td><td><div class="score-bar"><div class="score-fill score-low" style="width:5%"></div></div> 0.5/10</td><td>5/10</td></tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>Acil Müdahale Gerektiren 3 Alan</strong>
+  <ul style="margin-top:6px">
+    <li><strong>İçerik Pazarlaması: 1/10</strong> - Blog boş, "prolin nedir", "ham bal faydaları", "kazdağları balı" gibi yüksek hacimli aramalarda görünmüyorsunuz. Rakipler bu kelimeleri doldurmadan Queenida'nın bu alanı sahiplenmesi gerekiyor.</li>
+    <li><strong>Sosyal Kanıt: 1/10</strong> - 2.925 TL'lik bir bal için müşteri yorumu, kullanıcı fotoğrafı veya sertifika görünürlüğü yok. Premium fiyatlı ürünlerde sosyal kanıt satın alma kararının en büyük tetikleyicisi.</li>
+    <li><strong>Organik Trafik: 1.5/10</strong> - Site trafiği çok düşük. "Kazdağları balı" markası henüz sahiplenilmemiş ama bu fırsat penceresi kapanıyor. İçerik üretimi + SEO ile 3 ay içinde trafik 5-10x artırılabilir.</li>
+  </ul>
+</div>
+
+<div class="alert alert-info">
+  <strong>Özet Değerlendirme</strong>
+  Queenida güçlü bir ürüne ve hikayeye sahip. Kazdağları'nın eşsiz florası, prolin değeri ile bilimsel farklılaşma, çoklu ürün serisi (spor, güzellik, takviye) ve modern ambalaj tasarımı ciddi bir potansiyele işaret ediyor. Ancak mevcut durumda ürün var, pazarlama yok.
+  <br><br>
+  En büyük fırsat "Kazdağları Balı" markasını sahiplenmek. Anzer nasıl Rize ile özdeşleştirildi, Manuka nasıl Yeni Zelanda ile anılıyorsa, "Kazdağları Balı = Queenida" algısını oluşturmak mümkün ve pazar şu an boş. Blog içeriği + sosyal medya + müşteri yorumları üçlüsü ile 3 ay içinde görünürlük ciddi şekilde artırılabilir. Premium fiyatlı bir ürünün premium pazarlamaya ihtiyacı var.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adım</strong>
+  Bu rapordaki stratejinin uygulanması için sizinle çalışabiliriz. İçerik stratejisi ve blog yazıları, Instagram/TikTok içerik planlaması, Google ve Meta Ads kurulumu, SEO optimizasyonu, influencer iş birliği koordinasyonu ve dönüşüm optimizasyonu konularında somut ve ölçülebilir büyüme planı hazırlayabiliriz. 15 dakikalık ücretsiz görüşme için aşağıdaki butona tıklayın.
+</div>
+
+<div class="liked-section">
+  <h3>Bu rapor işinize yaradıysa</h3>
+  <p>Stratejileri birlikte uygulayalım. 15 dakikalık ücretsiz görüşme için tıklayın.</p>
+  <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Beğendim, Görüşelim</button>
+</div>
+
+<p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır. &copy; 2026</p>
+
+<script src="/lib/config.js"></script>
+<script src="/lib/tracker.js" data-type="rapor" data-client="queenida"></script>
+</body>
+</html>

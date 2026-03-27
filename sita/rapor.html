@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 13px; line-height: 1.6; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #d1fae5; color: #065f46; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #10b981, #34d399); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #10b981; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
+  h4 { font-size: 12px; font-weight: 600; color: #555; margin: 14px 0 6px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
+  th { background: #1a1a2e; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #d1fae5; border-left: 4px solid #10b981; color: #065f46; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #d1fae5; color: #065f46; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #10b981; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
+  .summary-card { flex: 1; min-width: 120px; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #10b981; }
+  .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  .liked-section { padding: 20px 24px; background: #d1fae5; border: 2px solid #10b981; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .liked-section h3 { font-size: 16px; color: #065f46; margin-bottom: 6px; border: none; }
+  .liked-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .liked-btn { background: #10b981; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .liked-btn:hover { background: #059669; } .liked-btn.clicked { background: #10b981; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanım</div>
+  <h1>Sita</h1>
+  <h2>Büyüme Stratejisi &amp; Dijital Pazarlama Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazırlanma Tarihi:</strong> 26 Mart 2026<br>
+    <strong>Domain:</strong> sita.live<br>
+    <strong>Sektör:</strong> Pazaryeri - Eğitim, Sağlık ve Spor Profesyonelleri<br>
+    <strong>Rapor Türü:</strong> Detaylı Analiz + Strateji Önerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır.</div>
+</div>
+
+<script>
+function handleLiked(){var b=document.getElementById('likedBtn');b.disabled=true;b.textContent='Yönlendiriliyor...';
+if(window.GROWTHER&&GROWTHER.supaFetch){GROWTHER.supaFetch('POST','funnel_leads',{website:window.location.pathname,stage:'liked_report',extra_notes:JSON.stringify({client:'sita',action:'liked_report',clicked_at:new Date().toISOString(),is_test:GROWTHER.isAdmin}),last_step:'liked',completed:true}).catch(function(){});}
+setTimeout(function(){showCalPopup('tr')},500)}
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+
+<!-- PROFİL -->
+<h2 class="page-break">1. Şirket Profil Özeti</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">B2C/B2B2C</div><div class="label">Hedef Pazar</div></div>
+  <div class="summary-card"><div class="value">Pazaryeri</div><div class="label">İş Modeli</div></div>
+  <div class="summary-card"><div class="value">Komisyonsuz</div><div class="label">Gelir Modeli</div></div>
+  <div class="summary-card"><div class="value">Mobil App</div><div class="label">Platform</div></div>
+  <div class="summary-card"><div class="value">Erken Aşama</div><div class="label">Olgunluk</div></div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Değer</th></tr>
+  <tr><td><strong>Website</strong></td><td>sita.live</td></tr>
+  <tr><td><strong>Ürün</strong></td><td>Eğitim, sağlık ve spor profesyonellerini kullanıcılarla buluşturan dijital pazaryeri. Profesyoneller profil oluşturur, takvim yönetir, mesajlaşır; kullanıcılar onaylı profesyonelleri keşfeder ve ücretsiz iletişime geçer.</td></tr>
+  <tr><td><strong>Fiyatlandırma</strong></td><td>Komisyonsuz model - sitede spesifik fiyat tablosu yok. Gelir modeli belirsiz (freemium, abonelik veya premium listing olabilir).</td></tr>
+  <tr><td><strong>Sektörler</strong></td><td>Eğitim (özel ders, koçluk), Sağlık (diyetisyen, psikolog, fizyoterapist), Spor (personal trainer, pilates eğitmeni)</td></tr>
+  <tr><td><strong>Teknoloji</strong></td><td>Mobil uygulama (iOS + Android), responsive web sitesi, Google Analytics entegrasyonu</td></tr>
+  <tr><td><strong>App Store</strong></td><td>Apple App Store + Google Play Store'da mevcut</td></tr>
+  <tr><td><strong>Sosyal Medya</strong></td><td>Instagram (@sita.origin), YouTube (@SitaApp)</td></tr>
+  <tr><td><strong>İletişim</strong></td><td>contact@sita.live</td></tr>
+  <tr><td><strong>Referans / Kullanıcı Sayısı</strong></td><td>Sitede belirtilmemiş - sosyal kanıt eksik</td></tr>
+</table>
+
+<h3>Platform Özellikleri</h3>
+<table>
+  <tr><th>Özellik</th><th>Açıklama</th><th>Değerlendirme</th></tr>
+  <tr><td><strong>Profesyonel Profili</strong></td><td>Eğitim, sağlık, spor uzmanlarının profil oluşturma ve kendini tanıtma alanı</td><td><span class="tag tag-green">Temel</span></td></tr>
+  <tr><td><strong>Kişi ve Ekip Yönetimi</strong></td><td>Profesyonellerin müşteri ve ekip üyelerini yönetmesi</td><td><span class="tag tag-blue">Fark Yaratıcı</span></td></tr>
+  <tr><td><strong>Takvim Yönetimi</strong></td><td>Randevu ve ders planlaması için merkezi takvim</td><td><span class="tag tag-green">Temel</span></td></tr>
+  <tr><td><strong>Merkezi Mesajlaşma</strong></td><td>Platform içi mesajlaşma - kullanıcı ve profesyonel arasında</td><td><span class="tag tag-green">Temel</span></td></tr>
+  <tr><td><strong>Onaylı Profesyonel Sistemi</strong></td><td>Kullanıcılara güven veren doğrulama mekanizması</td><td><span class="tag tag-blue">Fark Yaratıcı</span></td></tr>
+  <tr><td><strong>Komisyonsuz Model</strong></td><td>Profesyonellerden komisyon alınmadığı belirtiliyor</td><td><span class="tag tag-blue">Fark Yaratıcı</span></td></tr>
+  <tr><td><strong>Ücretsiz İletişim</strong></td><td>Kullanıcılar profesyonellere ücretsiz ulaşabiliyor</td><td><span class="tag tag-green">Temel</span></td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Profil Değerlendirmesi</strong>
+  Sita, eğitim-sağlık-spor üçgeninde profesyonelleri ve kullanıcıları buluşturan bir pazaryeri modeli. Komisyonsuz yaklaşım profesyonelleri çekmek için güçlü bir değer önerisi. Ancak siteye bakıldığında ciddi eksiklikler göze çarpıyor: gelir modeli belirsiz, kullanıcı sayısı paylaşılmamış, web sitesi son derece minimal ve dönüşüm odaklı değil. Pazaryeri modelinde "tavuk-yumurta" problemini çözmek için her iki tarafı da aynı anda çekmek gerekiyor - bu rapordaki stratejiler bu soruna odaklanıyor.
+</div>
+
+
+<!-- RAKİP -->
+<h2 class="page-break">2. Rakip Analizi - Profesyonel Pazaryeri Sektörü</h2>
+
+<h3>2.1 Doğrudan ve Dolaylı Rakipler</h3>
+<table>
+  <tr><th>Rakip</th><th>Model</th><th>Güçlü Yönü</th><th>Zayıf Yönü</th></tr>
+  <tr>
+    <td><strong>Armut.com</strong></td>
+    <td>Komisyonlu pazaryeri</td>
+    <td>Türkiye'nin en büyük hizmet pazaryeri, yüksek trafik, güçlü SEO, marka bilinirliği</td>
+    <td>Profesyonellerden komisyon alıyor, kategoriler çok geniş (eğitim/sağlık/spor odaklı değil), kalite kontrolü zayıf</td>
+  </tr>
+  <tr>
+    <td><strong>Bionluk</strong></td>
+    <td>Freelancer pazaryeri</td>
+    <td>Türkiye'de bilinen marka, ödeme güvencesi, değerlendirme sistemi</td>
+    <td>Dijital hizmetlere odaklı, yüz yüze eğitim/sağlık/spor için uygun değil</td>
+  </tr>
+  <tr>
+    <td><strong>Özel Ders platformları</strong></td>
+    <td>Dikey pazaryeri</td>
+    <td>ozelders.com, dersimiz.com gibi platformlar eğitim segmentinde kurulu</td>
+    <td>Sadece eğitim, sağlık/spor yok, teknoloji eski</td>
+  </tr>
+  <tr>
+    <td><strong>DocPlanner (DoktorTakvimi)</strong></td>
+    <td>Sağlık randevu</td>
+    <td>Sağlık sektöründe güçlü, global ölçek, güçlü SEO</td>
+    <td>Sadece sağlık, eğitim/spor yok, doktor odaklı (diyetisyen/psikolog ikincil)</td>
+  </tr>
+  <tr>
+    <td><strong>Superprof</strong></td>
+    <td>Öğretmen pazaryeri</td>
+    <td>Global platform, spor ve müzik dahil geniş kategori, güçlü SEO</td>
+    <td>Türkiye'de düşük penetrasyon, komisyonlu model</td>
+  </tr>
+  <tr>
+    <td><strong>Instagram DM / WhatsApp</strong></td>
+    <td>Doğrudan iletişim</td>
+    <td>Profesyonellerin %80+'ı zaten Instagram üzerinden müşteri buluyor, sıfır maliyet</td>
+    <td>Ölçeklenemiyor, takvim/ödeme/değerlendirme yok, profesyonel görünüm zayıf</td>
+  </tr>
+  <tr style="background:#d1fae5">
+    <td><strong>Sita</strong></td>
+    <td>Komisyonsuz pazaryeri</td>
+    <td>Eğitim+sağlık+spor tek çatı altında, komisyonsuz model profesyonellere cazip, onaylı profil sistemi</td>
+    <td>Bilinirlik sıfır, web sitesi dönüşüm odaklı değil, kullanıcı tabanı belirsiz, gelir modeli belirsiz</td>
+  </tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Sita'nın Rekabetçi Avantajları</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Eğitim + Sağlık + Spor tek çatı altında</strong> - Rakipler ya sadece eğitim ya da sadece sağlık. Sita üç sektörü birleştirerek kullanıcıya tek platform sunuyor.</li>
+    <li><strong>Komisyonsuz model</strong> - Armut.com ve Superprof profesyonellerden komisyon alıyor. Sita'nın komisyonsuz yaklaşımı profesyonel çekmede güçlü bir kaldıraç.</li>
+    <li><strong>Onaylı profesyonel sistemi</strong> - Kalite kontrolü ve güven mekanizması, düşük kaliteli profillerin önüne geçiyor.</li>
+    <li><strong>Mobil-öncelikli yaklaşım</strong> - iOS ve Android uygulaması mevcut, hedef kitlenin mobil kullanım alışkanlıklarına uygun.</li>
+  </ul>
+</div>
+
+<h3>2.2 Pazar Fırsat Değerlendirmesi</h3>
+<table>
+  <tr><th>Metrik</th><th>Değer / Yorum</th></tr>
+  <tr><td>Türkiye'de freelance/hizmet ekonomisi</td><td><strong>Hızla büyüyor</strong> - Pandemi sonrası bireysel hizmet talebi arttı</td></tr>
+  <tr><td>"online eğitim" arama hacmi</td><td><strong>Yüksek</strong> - Aylık binlerce arama, ancak yüksek rekabet</td></tr>
+  <tr><td>"personal trainer bul" arama hacmi</td><td><strong>Düşük rekabet</strong> - Niş ama yüksek dönüşüm niyetli arama</td></tr>
+  <tr><td>"diyetisyen randevu" arama hacmi</td><td><strong>Orta rekabet</strong> - DoktorTakvimi dışında ciddi rakip yok</td></tr>
+  <tr><td>"özel ders" arama hacmi</td><td><strong>Çok yüksek</strong> - En büyük segment, en yüksek hacim</td></tr>
+  <tr><td>Potansiyel profesyonel tabanı</td><td><strong>Yüz binlerce</strong> - Türkiye'de eğitim, sağlık, spor alanında bağımsız çalışan profesyonel sayısı çok yüksek</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Kritik Bulgu: Pazaryeri Tavuk-Yumurta Problemi</strong>
+  Sita'nın en büyük zorluğu klasik pazaryeri problemi: profesyoneller kullanıcı olmadan gelmiyor, kullanıcılar profesyonel olmadan gelmiyor. Bu problemi çözmek için önce bir tarafı (profesyonelleri) komisyonsuz modelle çekip, ardından içerik ve SEO ile kullanıcı trafiği oluşturmak en etkili strateji. Özellikle "personal trainer bul", "online diyetisyen", "özel matematik dersi" gibi niş aramalarda SEO ile organik kullanıcı çekmek düşük maliyetli ve sürdürülebilir bir büyüme kanalı.
+</div>
+
+
+<!-- WEB SİTESİ -->
+<h2 class="page-break">3. Web Sitesi Analizi</h2>
+
+<h3>3.1 Trafik Değerlendirmesi</h3>
+<table>
+  <tr><th>Metrik</th><th>Değer</th><th>Yorum</th></tr>
+  <tr><td>Tahmini Aylık Ziyaret</td><td><strong>Çok düşük</strong></td><td><span class="tag tag-red">Kritik</span> - Yeni domain, organik trafik neredeyse sıfır</td></tr>
+  <tr><td>Domain Yaşı</td><td><strong>Yeni</strong></td><td><span class="tag tag-orange">Dezavantaj</span> - SEO otoritesi düşük</td></tr>
+  <tr><td>Landing Page</td><td><strong>Tek sayfa</strong></td><td><span class="tag tag-red">Kritik</span> - Alt sayfalar yok, SEO için yetersiz</td></tr>
+  <tr><td>App Store Varlığı</td><td><strong>iOS + Android</strong></td><td><span class="tag tag-green">İyi</span> - Her iki platformda mevcut</td></tr>
+</table>
+
+<h3>3.2 Güçlü Yönler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr><td>Mobil Uygulama</td><td><span class="tag tag-green">Mevcut</span> - iOS ve Android'de yayında, temel özellikler çalışıyor</td></tr>
+  <tr><td>Temiz Tasarım</td><td><span class="tag tag-green">İyi</span> - Minimalist ve modern görünüm, IBM Plex Sans fontu profesyonel</td></tr>
+  <tr><td>Komisyonsuz Mesaj</td><td><span class="tag tag-green">Güçlü</span> - Profesyoneller için cazip değer önerisi net şekilde iletiliyor</td></tr>
+  <tr><td>Analytics</td><td><span class="tag tag-green">Var</span> - Google Analytics entegre edilmiş</td></tr>
+</table>
+
+<h3>3.3 Kritik Sorunlar</h3>
+<table>
+  <tr><th>Sorun</th><th>Açıklama</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>Web Sitesi Aşırı Minimal</strong></td>
+    <td>Site neredeyse boş bir landing page. Profesyonel listesi yok, kategori sayfaları yok, arama fonksiyonu yok. Ziyaretçi siteye geldiğinde platformun gerçekten çalıştığını göremiyor - sadece "uygulama indir" mesajı var.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>SEO Altyapısı Yok</strong></td>
+    <td>Alt sayfalar yok, blog yok, profesyonel profil sayfaları web'de indexlenmiyor. "personal trainer istanbul", "online diyetisyen" gibi aramalarda hiçbir şansı yok.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sosyal Kanıt Sıfır</strong></td>
+    <td>Sitede kullanıcı sayısı, profesyonel sayısı, değerlendirme veya referans yok. İlk kez gelen bir ziyaretçi platformun aktif olup olmadığını anlayamıyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Gelir Modeli Belirsiz</strong></td>
+    <td>"Komisyonsuz" deniyor ama gelir nasıl elde edilecek açık değil. Yatırımcı veya profesyonel perspektifinden bakıldığında bu belirsizlik güven sorunu yaratıyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Web'de Dönüşüm Yolu Yok</strong></td>
+    <td>Web sitesinde profesyonel arama, profil görüntüleme veya randevu alma gibi işlemler yapılamıyor. Tek CTA "uygulama indir" - bu, dönüşüm oranını ciddi şekilde düşürüyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Fiyatlandırma Sayfası Yok</strong></td>
+    <td>Profesyoneller için premium özellikler varsa bile bunlar sitede belirtilmiyor. Profesyoneller neye kayıt olduklarını tam anlayamıyor.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+</table>
+
+<h3>3.4 Sosyal Medya Varlığı</h3>
+<table>
+  <tr><th>Platform</th><th>Durum</th><th>Öneri</th></tr>
+  <tr><td>Instagram (@sita.origin)</td><td><span class="tag tag-green">Var</span></td><td>Profesyonel tanıtımları, başarı hikayeleri ve kullanıcı deneyimleri paylaşın - hedef kitleniz burada</td></tr>
+  <tr><td>YouTube (@SitaApp)</td><td><span class="tag tag-orange">Var</span></td><td>Profesyonel röportajları, platform kullanım videoları - güven oluşturma için kritik</td></tr>
+  <tr><td>TikTok</td><td><span class="tag tag-red">Yok</span></td><td>Eğitim/sağlık/spor içerikleri TikTok'ta viral oluyor - organik büyüme için altın fırsat</td></tr>
+  <tr><td>LinkedIn</td><td><span class="tag tag-red">Yok</span></td><td>Profesyonellere ulaşmak ve B2B ortaklıklar için açılmalı</td></tr>
+  <tr><td>Twitter/X</td><td><span class="tag tag-red">Yok</span></td><td>İkincil kanal - sektörel haberler ve güncellemeler için</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Sosyal Medya Değerlendirmesi</strong>
+  Sita'nın hedef kitlesi (bireysel profesyoneller ve hizmet arayan kullanıcılar) en çok Instagram ve TikTok'ta aktif. Instagram'da profesyonel tanıtım reels'leri, TikTok'ta "personal trainer ile bir gün" veya "diyetisyen önerileri" gibi kısa videolar hem marka bilinirliği hem de organik indirme sağlar. YouTube ise uzun vadeli güven oluşturma ve SEO için kullanılmalı. LinkedIn, profesyonellere B2B yaklaşım için açılmalı.
+</div>
+
+
+<!-- STRATEJİ -->
+<h2 class="page-break">4. Önerilen Aksiyon Planı</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - Temel Altyapı ve Güven Oluşturma (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Web sitesini yeniden yapılandırın:</strong> Tek sayfalık landing page'den çıkın. Minimum: kategori sayfaları (eğitim, sağlık, spor), profesyonel listeleme sayfası (web'den görüntülenebilir), nasıl çalışır sayfası, SSS sayfası. Ziyaretçi siteye geldiğinde platformun canlı ve aktif olduğunu görmeli.</li>
+    <li><strong>Profesyonel profillerini web'e açın:</strong> App-only yaklaşım SEO'yu öldürüyor. Profesyonel profillerinin web versiyonları olmalı ki Google indexlesin. "istanbul personal trainer", "online ingilizce öğretmeni" gibi aramalarda profil sayfalarınız çıkmalı.</li>
+    <li><strong>Sosyal kanıt ekleyin - acil:</strong> Sitede profesyonel sayısı, tamamlanan randevu sayısı, kullanıcı değerlendirmeleri görünmeli. Rakamlar küçük olsa bile "500+ onaylı profesyonel" gibi bir başlangıç güven verir.</li>
+    <li><strong>Blog başlatın:</strong> "En iyi personal trainer nasıl seçilir?", "Online diyetisyen ile çalışmanın 5 avantajı", "Çocuğunuza özel ders aldırırken dikkat edilmesi gerekenler" gibi yüksek arama hacimli konularda SEO odaklı içerikler yayınlayın.</li>
+    <li><strong>Gelir modelini netleştirin:</strong> Freemium mu? Premium listing mi? Abonelik mi? Bu belirsizlik hem profesyonelleri hem potansiyel yatırımcıları caydırıyor. Sitede şeffaf bir "Profesyoneller için" fiyat sayfası olmalı.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - Profesyonel Tabanı Büyütme (Hafta 3-4)</div>
+  <ol>
+    <li><strong>Profesyonel onboarding kampanyası:</strong> Eğitim, sağlık ve spor alanındaki bağımsız profesyonellere Instagram DM ve LinkedIn üzerinden doğrudan ulaşın. "Komisyonsuz platform, ücretsiz profil oluştur, müşterilerine ulaş" mesajıyla. İlk 1.000 profesyonel kritik eşik.</li>
+    <li><strong>Sektörel ortaklıklar kurun:</strong> Pilates stüdyoları, dil okulları, spor salonları, diyetisyen dernekleri ile iş birliği. Bu kuruluşların üyelerine Sita'yı önermesi tavuk-yumurta problemini çözer.</li>
+    <li><strong>Instagram Reels stratejisi:</strong> Platformdaki profesyonelleri 30 saniyelik tanıtım videoları ile öne çıkarın. "Sita'da bu hafta: Diyetisyen Ayşe ile tanışın" formatı hem profesyoneli motive eder hem kullanıcıyı çeker.</li>
+    <li><strong>TikTok organik büyüme:</strong> Eğitim, sağlık, spor alanında bilgilendirici kısa videolar yayınlayın. Her videonun sonunda "Sita'da profesyonel bul" CTA'sı ekleyin. Bu formattaki videolar organik olarak yüz binlerce görüntülenme alıyor.</li>
+    <li><strong>Referral programı:</strong> Profesyonellerin birbirini davet etmesi için teşvik mekanizması oluşturun. "Bir profesyonel davet et, profilin 1 ay öne çıksın" gibi.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - Kullanıcı Tabanı ve Ölçekleme (Ay 2+)</div>
+  <ol>
+    <li><strong>Google Ads - niş aramalar:</strong> "personal trainer bul", "online diyetisyen", "özel matematik dersi" gibi yüksek niyet taşıyan aramalarda reklam verin. Bu anahtar kelimelerde tıklama başı maliyet düşük ve dönüşüm oranı yüksek.</li>
+    <li><strong>App Store Optimization (ASO):</strong> App Store ve Google Play'de başlık, açıklama ve anahtar kelimeleri optimize edin. "profesyonel bul", "personal trainer", "özel ders" gibi kelimelerde sıralama yükseltin. Uygulama içi ekran görüntülerini profesyonel tanıtım odaklı güncelleyin.</li>
+    <li><strong>Değerlendirme sistemi güçlendirin:</strong> Kullanıcılardan profesyonelleri değerlendirmesini aktif olarak isteyin. App Store değerlendirmelerini de artırın - 4.5+ puan indirme oranını 2-3x artırır.</li>
+    <li><strong>Şehir bazlı büyüme:</strong> Tüm Türkiye yerine İstanbul, Ankara, İzmir gibi büyük şehirlerde yoğunlaşın. Her şehirde minimum profesyonel yoğunluğu sağlayın ki kullanıcılar gerçekten sonuç bulsun.</li>
+    <li><strong>Influencer işbirlikleri:</strong> Fitness influencer'ları, eğitim YouTuber'ları ve sağlık içerik üreticileri ile sponsorlu içerik anlaşmaları yapın. "Sita'da profilimi oluşturdum" formatı doğal ve etkili.</li>
+    <li><strong>Kurumsal B2B kanalı:</strong> Şirketlerin çalışanlarına sağlık/spor/eğitim hizmeti sunması için kurumsal paket oluşturun. İK departmanlarına "çalışan wellness programı" olarak sunun.</li>
+  </ol>
+</div>
+
+
+<!-- SONUÇ -->
+<h2 class="page-break">5. Sonuç ve Skor Kartı</h2>
+
+<h3>Skor Kartı</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef (3 Ay)</th></tr>
+  <tr><td>Ürün / Uygulama Kalitesi</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:50%"></div></div> 5/10</td><td>7/10</td></tr>
+  <tr><td>Web Sitesi</td><td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td><td>6/10</td></tr>
+  <tr><td>SEO Altyapısı</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>5/10</td></tr>
+  <tr><td>İçerik Pazarlaması</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>5/10</td></tr>
+  <tr><td>Sosyal Kanıt (Referans)</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>5/10</td></tr>
+  <tr><td>Organik Trafik</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>5/10</td></tr>
+  <tr><td>Sosyal Medya</td><td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td><td>6/10</td></tr>
+  <tr><td>App Store Varlığı</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:40%"></div></div> 4/10</td><td>7/10</td></tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>Acil Müdahale Gerektiren 3 Alan</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Web Sitesi: 2/10</strong> - Mevcut site bir landing page'den ibaret. Profesyonel profilleri web'de görünmüyor, kategori sayfaları yok, blog yok. Google'dan organik trafik almanız şu haliyle imkansız. Her geçen gün rakipler bu boşluğu dolduruyor.</li>
+    <li><strong>Sosyal Kanıt: 1/10</strong> - Sitede tek bir rakam, değerlendirme veya referans yok. Bir pazaryeri platformunun güvenilir görünmesi için "X profesyonel, Y kullanıcı, Z tamamlanan randevu" gibi somut veriler şart.</li>
+    <li><strong>SEO: 1/10</strong> - "personal trainer bul", "online diyetisyen", "özel ders" gibi yüksek niyetli aramalarda hiçbir varlığınız yok. Profesyonel profillerini web'e açmak ve blog başlatmak bu skoru kısa sürede 5x artırabilir.</li>
+  </ul>
+</div>
+
+<div class="alert alert-info">
+  <strong>Özet Değerlendirme</strong>
+  Sita'nın iş fikri doğru bir boşluğu hedefliyor: eğitim, sağlık ve spor profesyonellerini tek çatı altında toplayan komisyonsuz bir pazaryeri. Mobil uygulama mevcut, temel özellikler çalışıyor ve komisyonsuz model profesyonelleri çekmek için güçlü bir değer önerisi sunuyor.
+  <br><br>
+  Ancak platformun büyümesinin önündeki en büyük engel, web varlığının neredeyse sıfır olması. Profesyonel profilleri web'de indexlenmiyor, SEO altyapısı yok, sosyal kanıt yok ve gelir modeli belirsiz. Pazaryeri modelinde başarı için her iki tarafı da (profesyonel ve kullanıcı) aynı anda büyütmek gerekiyor. Önce profesyonelleri komisyonsuz modelle çekin, ardından SEO + sosyal medya + ASO ile kullanıcı trafiği oluşturun. Bu stratejiyle 3 ay içinde anlamlı büyüme mümkün.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adım</strong>
+  Bu rapordaki stratejinin uygulanması için sizinle çalışabiliriz. Web sitesi yeniden yapılandırma, SEO ve içerik stratejisi, profesyonel onboarding kampanyası, sosyal medya büyüme planı, Google Ads ve ASO optimizasyonu, kullanıcı edinme funnel'ı oluşturma konularında somut ve ölçülebilir büyüme planı hazırlayabiliriz. Düşük bütçeyle maksimum etki için 15 dakikalık görüşme talep edin.
+</div>
+
+<div class="liked-section">
+  <h3>Bu rapor işinize yaradıysa</h3>
+  <p>Stratejileri birlikte uygulayalım. 15 dakikalık ücretsiz görüşme için tıklayın.</p>
+  <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Beğendim, Görüşelim</button>
+</div>
+
+<p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır. &copy; 2026</p>
+
+<script src="/lib/config.js"></script>
+<script src="/lib/tracker.js" data-type="rapor" data-client="sita"></script>
+</body>
+</html>

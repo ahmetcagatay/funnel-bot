@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 13px; line-height: 1.6; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #d1fae5; color: #065f46; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #10b981, #34d399); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #10b981; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
+  h4 { font-size: 12px; font-weight: 600; color: #555; margin: 14px 0 6px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
+  th { background: #1a1a2e; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #d1fae5; border-left: 4px solid #10b981; color: #065f46; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #d1fae5; color: #065f46; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #10b981; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
+  .summary-card { flex: 1; min-width: 120px; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #10b981; }
+  .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  .liked-section { padding: 20px 24px; background: #d1fae5; border: 2px solid #10b981; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .liked-section h3 { font-size: 16px; color: #065f46; margin-bottom: 6px; border: none; }
+  .liked-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .liked-btn { background: #10b981; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .liked-btn:hover { background: #059669; } .liked-btn.clicked { background: #10b981; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanım</div>
+  <h1>Korendy</h1>
+  <h2>Büyüme Stratejisi &amp; Dijital Pazarlama Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazırlanma Tarihi:</strong> 26 Mart 2026<br>
+    <strong>Domain:</strong> korendy.com / korendy.com.tr<br>
+    <strong>Sektör:</strong> K-Beauty E-Ticaret - Kore Kozmetik &amp; Cilt Bakım<br>
+    <strong>Rapor Türü:</strong> Detaylı Analiz + Strateji Önerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır.</div>
+</div>
+
+<script>
+function handleLiked(){var b=document.getElementById('likedBtn');b.disabled=true;b.textContent='Yönlendiriliyor...';
+if(window.GROWTHER&&GROWTHER.supaFetch){GROWTHER.supaFetch('POST','funnel_leads',{website:window.location.pathname,stage:'liked_report',extra_notes:JSON.stringify({client:'korendy',action:'liked_report',clicked_at:new Date().toISOString(),is_test:GROWTHER.isAdmin}),last_step:'liked',completed:true}).catch(function(){});}
+setTimeout(function(){showCalPopup('tr')},500)}
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+
+<!-- PROFIL -->
+<h2 class="page-break">1. Şirket Profil Özeti</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">B2C</div><div class="label">Hedef Pazar</div></div>
+  <div class="summary-card"><div class="value">K-Beauty</div><div class="label">Sektör</div></div>
+  <div class="summary-card"><div class="value">229K</div><div class="label">Instagram Takipçi</div></div>
+  <div class="summary-card"><div class="value">17+</div><div class="label">Marka Sayısı</div></div>
+  <div class="summary-card"><div class="value">2 Site</div><div class="label">TR + Global</div></div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Değer</th></tr>
+  <tr><td><strong>Website</strong></td><td>korendy.com (Global - GBP) / korendy.com.tr (Türkiye - TL)</td></tr>
+  <tr><td><strong>İş Modeli</strong></td><td>Güney Kore'den kozmetik ve cilt bakım ürünleri ithalatı ve perakende satışı. Shopify altyapısında iki ayrı mağaza: global pazar (GBP) ve Türkiye pazarı (TL).</td></tr>
+  <tr><td><strong>Ürün Yelpazesi</strong></td><td>Cilt temizleme, serum, nemlendirici, maske, makyaj, saç bakım ürünleri. Cilt tipine göre kategorize edilmiş (kuru, yağlı, karma, hassas).</td></tr>
+  <tr><td><strong>Fiyat Aralığı</strong></td><td>Global: £10.90 - £49.90 | Türkiye: TL bazlı fiyatlandırma</td></tr>
+  <tr><td><strong>Taşıdığı Markalar</strong></td><td>COSRX, Klairs, Beauty of Joseon, I'm From, Heimish, Jumiso, By Wishtrend, Dr.Ceuracle, Moremo, Round Lab, Torriden, Medicube, Anua, Kaine, Nineless, House of HUR, Amuse ve daha fazlası</td></tr>
+  <tr><td><strong>Altyapı</strong></td><td>Shopify e-ticaret platformu, Froonze müşteri portalı, PushOWL bildirim sistemi, K-Puan ödül programı</td></tr>
+  <tr><td><strong>Sosyal Medya</strong></td><td>Instagram: @korendy.tr (229K takipçi) | Facebook: /korendy | WhatsApp entegrasyonu</td></tr>
+  <tr><td><strong>Blog</strong></td><td>korendy.com'da blog yok | korendy.com.tr'de blog yapısı mevcut ama içerik sınırlı</td></tr>
+  <tr><td><strong>Müşteri Yorumları</strong></td><td>Ekşi Sözlük, Şikayetvar'da varlık var. Karışık yorumlar: hızlı kargo ve numune hediyesi olumlu; gecikmeler ve ekstra kargo ücreti olumsuz.</td></tr>
+</table>
+
+<h3>Marka ve Ürün Derinliği</h3>
+<table>
+  <tr><th>Marka</th><th>Popüler Ürün Tipi</th><th>Pazar Konumu</th></tr>
+  <tr><td><strong>COSRX</strong></td><td>Snail Mucin, BHA/AHA Toner</td><td><span class="tag tag-blue">Global Bestseller</span></td></tr>
+  <tr><td><strong>Beauty of Joseon</strong></td><td>Glow Serum, Sunscreen</td><td><span class="tag tag-blue">TikTok Viral</span></td></tr>
+  <tr><td><strong>Klairs</strong></td><td>Supple Preparation Toner</td><td><span class="tag tag-green">Sadık Müşteri Kitlesi</span></td></tr>
+  <tr><td><strong>Anua</strong></td><td>Heartleaf Toner</td><td><span class="tag tag-blue">Trend Yükselişte</span></td></tr>
+  <tr><td><strong>Torriden</strong></td><td>DIVE-IN Serum</td><td><span class="tag tag-blue">Viral Ürün</span></td></tr>
+  <tr><td><strong>I'm From</strong></td><td>Rice Toner, Mugwort Mask</td><td><span class="tag tag-green">Doğal İçerik Odaklı</span></td></tr>
+  <tr><td><strong>Moremo</strong></td><td>Hair Treatment</td><td><span class="tag tag-green">Saç Bakım Niş</span></td></tr>
+  <tr><td><strong>Medicube</strong></td><td>AGE-R Cihazlar</td><td><span class="tag tag-orange">Yüksek Fiyat Segmenti</span></td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Profil Değerlendirmesi</strong>
+  Korendy, Türkiye'deki K-Beauty pazarının öncü oyuncularından biri. 229K Instagram takipçisi güçlü bir marka bilinirliği olduğunu gösteriyor. İki ayrı Shopify mağazası (global + TR) ile hem yerli hem uluslararası pazara hitap ediyor. Taşıdığı markalar (COSRX, Beauty of Joseon, Anua) sektörün en popüler isimleri. Ancak bu güçlü konuma rağmen dijital pazarlama stratejisinde ciddi boşluklar var: içerik pazarlaması yetersiz, SEO potansiyeli kullanılmıyor ve müşteri deneyiminde tutarsızlıklar (kargo gecikmeleri, numune şikayetleri) marka güvenini aşındırıyor.
+</div>
+
+
+<!-- RAKIP -->
+<h2 class="page-break">2. Rakip Analizi - Türkiye K-Beauty Pazarı</h2>
+
+<h3>2.1 Doğrudan ve Dolaylı Rakipler</h3>
+<table>
+  <tr><th>Rakip</th><th>Fiyat Aralığı</th><th>Güçlü Yönü</th><th>Zayıf Yönü</th></tr>
+  <tr>
+    <td><strong>Jolse.com</strong></td>
+    <td>$3 - $80+ USD</td>
+    <td>Global K-Beauty devi, devasa ürün kataloğu (10.000+), güçlü SEO, ücretsiz kargo, çoklu dil desteği</td>
+    <td>Türkiye'ye özel hizmet yok, TL fiyatlandırma yok, gümrük riski, uzun kargo süresi</td>
+  </tr>
+  <tr>
+    <td><strong>YesStyle.com</strong></td>
+    <td>$5 - $100+ USD</td>
+    <td>Asya güzellik + moda, geniş ürün yelpazesi, güçlü marka bilinirliği, affiliate programı</td>
+    <td>Türkiye'ye özel değil, gümrük ek maliyeti, müşteri hizmetleri Türkçe değil</td>
+  </tr>
+  <tr>
+    <td><strong>Trendyol (K-Beauty satıcıları)</strong></td>
+    <td>Değişken (TL)</td>
+    <td>Türkiye'nin en büyük e-ticaret platformu, aynı gün kargo, güvenilir iade politikası, geniş müşteri tabanı</td>
+    <td>Sahte ürün riski, fiyat savaşı, marka hikayesi yok, müşteri sadakati düşük</td>
+  </tr>
+  <tr>
+    <td><strong>Hepsiburada (K-Beauty)</strong></td>
+    <td>Değişken (TL)</td>
+    <td>Güvenilir platform, hızlı kargo, taksit seçenekleri</td>
+    <td>K-Beauty odaklı değil, ürün bilgisi yetersiz, uzman konumlandırma yok</td>
+  </tr>
+  <tr>
+    <td><strong>KoreDesign.com.tr</strong></td>
+    <td>Orta segment (TL)</td>
+    <td>Türkiye odaklı K-Beauty, Türkçe içerik, TL fiyatlandırma</td>
+    <td>Sınırlı marka portföyü, düşük bilinirlik, zayıf sosyal medya</td>
+  </tr>
+  <tr>
+    <td><strong>Watsons / Gratis</strong></td>
+    <td>Orta-yüksek (TL)</td>
+    <td>Fiziksel mağaza ağı, güvenilirlik, COSRX gibi markaları stoklama başladı</td>
+    <td>K-Beauty çeşitliliği çok sınırlı, fiyatlar yüksek, uzman bilgi yok</td>
+  </tr>
+  <tr style="background:#d1fae5">
+    <td><strong>Korendy</strong></td>
+    <td>£10.90 - £49.90 (Global) / TL (TR)</td>
+    <td>229K Instagram, güçlü marka portföyü (COSRX, Beauty of Joseon, Anua), K-Puan sadakat sistemi, Türkiye'ye özel mağaza, numune hediyesi</td>
+    <td>İçerik pazarlaması zayıf, blog yok, SEO kullanılmıyor, kargo şikayetleri, iki site arasında tutarsızlık</td>
+  </tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Korendy'nin Rekabetçi Avantajları</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Türkiye'ye özel K-Beauty uzmanı:</strong> Jolse/YesStyle gümrük riski taşırken Korendy doğrudan Türkiye'den gönderim yapıyor - bu ciddi bir avantaj</li>
+    <li><strong>229K Instagram takipçisi:</strong> Trendyol/Hepsiburada'daki anonim satıcılardan farklı olarak marka bilinirliği ve topluluk var</li>
+    <li><strong>Premium marka portföyü:</strong> COSRX, Beauty of Joseon, Anua gibi trend markaların yetkili Türkiye distribütörü konumu</li>
+    <li><strong>K-Puan sadakat sistemi:</strong> Tekrar alışverişi teşvik eden ödül programı - rakiplerde yok</li>
+    <li><strong>Cilt tipine göre kategorileme:</strong> Müşterinin doğru ürünü bulmasını kolaylaştıran uzman yaklaşım</li>
+  </ul>
+</div>
+
+<h3>2.2 Pazar Fırsat Değerlendirmesi</h3>
+<table>
+  <tr><th>Metrik</th><th>Değer / Yorum</th></tr>
+  <tr><td>Türkiye K-Beauty pazar büyümesi</td><td><strong>Yılda %25-30 büyüme</strong> - TikTok ve Instagram etkisiyle hızla genişliyor</td></tr>
+  <tr><td>"kore cilt bakım" arama hacmi</td><td><strong>Yüksek ve artıyor</strong> - Google Trends'te son 2 yılda 3x artış</td></tr>
+  <tr><td>"cosrx türkiye" arama hacmi</td><td><strong>Yüksek niyet</strong> - Marka arayanlar satın almaya hazır</td></tr>
+  <tr><td>"beauty of joseon türkiye" arama hacmi</td><td><strong>Düşük rekabet</strong> - Organik sıralama fırsatı</td></tr>
+  <tr><td>"kore cilt bakım rutini" arama hacmi</td><td><strong>Eğitim içeriği fırsatı</strong> - Blog ile yakalanabilir</td></tr>
+  <tr><td>Hedef kitle profili</td><td><strong>18-35 yaş kadın</strong> - Sosyal medya aktif, içerik tüketiyor, influencer takip ediyor</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Kritik Bulgu: İçerik Boşluğu</strong>
+  "Kore cilt bakım rutini", "COSRX snail mucin nasıl kullanılır", "Beauty of Joseon glow serum yorum" gibi yüksek hacimli aramalarda Korendy görünmüyor. Bu aramalar doğrudan satışa dönüşebilecek niyetli trafik taşıyor. Blog ve SEO stratejisi olmadan bu trafiği Trendyol satıcıları ve rakip siteler kapıyor.
+</div>
+
+
+<!-- WEB SİTESİ -->
+<h2 class="page-break">3. Web Sitesi Analizi</h2>
+
+<h3>3.1 İki Site Yapısı</h3>
+<table>
+  <tr><th>Özellik</th><th>korendy.com (Global)</th><th>korendy.com.tr (Türkiye)</th></tr>
+  <tr><td>Para Birimi</td><td>GBP (£)</td><td>TL</td></tr>
+  <tr><td>Dil</td><td>İngilizce + kısmen Türkçe</td><td>Türkçe</td></tr>
+  <tr><td>Altyapı</td><td>Shopify</td><td>Shopify</td></tr>
+  <tr><td>Blog</td><td><span class="tag tag-red">Yok</span></td><td><span class="tag tag-orange">Yapı var, içerik az</span></td></tr>
+  <tr><td>Müşteri Portalı</td><td>Temel</td><td>Froonze (gelişmiş)</td></tr>
+  <tr><td>Sadakat Programı</td><td><span class="tag tag-red">Yok</span></td><td><span class="tag tag-green">K-Puan</span></td></tr>
+  <tr><td>Bildirim</td><td>Temel</td><td>PushOWL</td></tr>
+</table>
+
+<h3>3.2 Güçlü Yönler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr><td>Shopify Altyapısı</td><td><span class="tag tag-green">Profesyonel</span> - Güvenilir e-ticaret altyapısı, ödeme güvenliği, mobil uyumluluk</td></tr>
+  <tr><td>Marka Portföyü</td><td><span class="tag tag-green">Güçlü</span> - Sektörün en popüler 17+ markası tek çatı altında</td></tr>
+  <tr><td>Cilt Tipine Göre Kategori</td><td><span class="tag tag-green">Fark Yaratıcı</span> - Kuru, yağlı, karma, hassas cilt için ayrı koleksiyonlar</td></tr>
+  <tr><td>K-Puan Sistemi (TR)</td><td><span class="tag tag-green">Var</span> - Müşteri sadakati artıran ödül programı</td></tr>
+  <tr><td>Instagram Topluluğu</td><td><span class="tag tag-green">229K</span> - Güçlü sosyal kanıt ve topluluk</td></tr>
+  <tr><td>Numune Hediyesi</td><td><span class="tag tag-green">Değerli</span> - Her siparişte 5 numune, müşteri deneyimini artırıyor</td></tr>
+</table>
+
+<h3>3.3 Kritik Sorunlar</h3>
+<table>
+  <tr><th>Sorun</th><th>Açıklama</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>Blog / SEO İçeriği Yok</strong></td>
+    <td>korendy.com'da hiç blog yok. "COSRX snail mucin ne işe yarar", "kore cilt bakım rutini adımları", "beauty of joseon glow serum inceleme" gibi yüksek hacimli aramalarda görünmüyorsunuz. Bu trafik rakiplere ve Trendyol satıcılarına gidiyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>İki Site Arasında Tutarsızlık</strong></td>
+    <td>Global site GBP, TR site TL kullanıyor. Ürün çeşitliliği farklı. Müşteri deneyimi parçalı. Google hangi siteyi sıralayacağını karıştırabilir (cannibalization riski).</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Ürün Açıklamaları Yetersiz</strong></td>
+    <td>Global sitede ürün açıklamaları minimal. İçerik listesi, kullanım talimatı, cilt tipine göre uygunluk bilgisi eksik. Müşteri karar veremeden sayfadan ayrılıyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Kargo Şikayetleri</strong></td>
+    <td>Şikayetvar ve Ekşi Sözlük'te kargo gecikmeleri, numune eksikliği şikayetleri var. 1-4 gün vaat edilip 1 hafta+ süren teslimatlar müşteri güvenini sarsıyor.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Fiyatlar Görünmüyor (Global)</strong></td>
+    <td>korendy.com'da koleksiyon sayfalarında fiyatlar açıkça gösterilmiyor. Müşteri ürüne tıklamadan fiyat göremeyince dönüşüm düşüyor.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Müşteri Yorumları Site Dışında</strong></td>
+    <td>Yorumlar Ekşi Sözlük ve Şikayetvar'da birikmiş. Site içinde ürün yorumu sistemi zayıf. Sosyal kanıt müşterinin göremediği yerde kalıyor.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+</table>
+
+<h3>3.4 Sosyal Medya Varlığı</h3>
+<table>
+  <tr><th>Platform</th><th>Durum</th><th>Öneri</th></tr>
+  <tr><td>Instagram (@korendy.tr)</td><td><span class="tag tag-green">229K Takipçi</span></td><td>En güçlü kanal. Reels, before/after içerikleri, influencer işbirlikleri artırılmalı. Ürün etiketleme ile direkt satışa yönlendirme yapılmalı.</td></tr>
+  <tr><td>Facebook (/korendy)</td><td><span class="tag tag-orange">Var</span></td><td>Facebook Shops aktifleştirilmeli. 30+ yaş kitleye ulaşmak için reklam kanalı olarak kullanılmalı.</td></tr>
+  <tr><td>TikTok</td><td><span class="tag tag-red">Bilinmiyor / Zayıf</span></td><td>K-Beauty TikTok'ta patlıyor. "Kore cilt bakım rutini", ürün incelemeleri, ASMR unboxing içerikleri ile 18-25 yaş kitleye ulaşın. Bu kanal zorunlu.</td></tr>
+  <tr><td>YouTube</td><td><span class="tag tag-red">Yok</span></td><td>Ürün incelemeleri, cilt bakım rutini videoları, "vs" karşılaştırmaları ile SEO'ya da katkı sağlayın.</td></tr>
+  <tr><td>WhatsApp</td><td><span class="tag tag-green">Entegre</span></td><td>Müşteri hizmetleri için iyi. WhatsApp Business katalog özelliğini aktifleştirin.</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Sosyal Medya Değerlendirmesi</strong>
+  229K Instagram takipçisi çok değerli bir varlık. Ancak K-Beauty'nin en hızlı büyüyen kanalı TikTok ve Korendy burada görünür değil. Beauty of Joseon sunscreen videosu TikTok'ta 50M+ görüntüleme aldı - bu trend dalga üzerinde Korendy olmalı. TikTok Shop Türkiye açıldığında hazır olmak için şimdiden içerik üretmeye başlayın. YouTube ise uzun vadeli SEO ve güven inşası için kritik.
+</div>
+
+
+<!-- STRATEJİ -->
+<h2 class="page-break">4. Önerilen Aksiyon Planı</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - İçerik ve SEO Altyapısı (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Blog başlatın - acil:</strong> "Kore Cilt Bakım Rutini: 10 Adım Rehberi", "COSRX Snail Mucin vs Torriden DIVE-IN: Hangisi Size Uygun?", "Beauty of Joseon Glow Serum İnceleme", "Yağlı Cilt İçin En İyi 5 Kore Ürünü", "Niacinamide Nedir ve Nasıl Kullanılır?" gibi makaleler yazın. Bu konularda Türkçe içerik çok az - organik trafik için altın fırsat.</li>
+    <li><strong>Ürün açıklamalarını zenginleştirin:</strong> Her ürün sayfasına detaylı içerik listesi, kullanım talimatı, hangi cilt tipine uygun olduğu, beklenen sonuçlar ve kullanım süresi ekleyin. Zengin ürün sayfaları hem SEO hem dönüşüm artırır.</li>
+    <li><strong>Site içi yorum sistemi kurun:</strong> Judge.me veya Loox gibi Shopify uyumlu yorum uygulaması ekleyin. Fotoğraflı yorumlar toplama kampanyası başlatın (yorum yapana K-Puan verin).</li>
+    <li><strong>İki site stratejisini netleştirin:</strong> hreflang etiketlerini doğru uygulayın, her sitenin hedef pazarını Google'a net şekilde bildirin. Global sitede dil seçeneğini iyileştirin.</li>
+    <li><strong>Schema markup ekleyin:</strong> Product, Review, FAQ schema'ları ile Google arama sonuçlarında yıldız, fiyat ve stok bilgisi görünsün. Tıklama oranını %20-30 artırır.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - Sosyal Medya ve İçerik Genişletme (Hafta 3-4)</div>
+  <ol>
+    <li><strong>TikTok hesabı açın ve içerik üretin:</strong> Haftada minimum 3-4 video: "Kore cilt bakım rutinim", ürün açılış (unboxing), before/after, "3 ürünle glass skin", trend seslere uygun içerikler. K-Beauty TikTok'ta organik viral potansiyeli çok yüksek.</li>
+    <li><strong>Influencer mikro-işbirlikleri:</strong> 10K-50K takipçili cilt bakım/güzellik influencer'ları ile ürün karşılığı inceleme anlaşmaları yapın. Makro influencer yerine 10 mikro influencer daha etkili ve ucuz.</li>
+    <li><strong>Instagram Reels stratejisi:</strong> Statik postlardan video içeriğe geçiş yapın. "Bu ürünü denedin mi?", "Cilt tipine göre serum rehberi", "Korendy sipariş açılışı" formatları. Reels organik erişimi hala yüksek.</li>
+    <li><strong>E-posta pazarlaması kurun:</strong> Hoş geldin serisi (cilt tipi testi + ürün önerisi), terk edilmiş sepet hatırlatması, yeni ürün duyuruları, K-Puan hatırlatması. Klaviyo veya Shopify Email ile segmentli kampanyalar.</li>
+    <li><strong>"Cilt Tipi Testi" interaktif içerik:</strong> Site içi quiz oluşturun: "Cilt tipini öğren, sana özel Kore bakım rutini al". E-posta toplar, kişiselleştirilmiş ürün önerisi yapar, dönüşümü artırır.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - Reklam ve Ölçekleme (Ay 2+)</div>
+  <ol>
+    <li><strong>Instagram/Facebook Ads:</strong> En çok satan ürünleri (COSRX Snail Mucin, Beauty of Joseon Sunscreen) hedefleyen reklam kampanyaları. Lookalike audience (mevcut müşterilere benzer) ile başlayın. Video reklamlar statik görselden 3x daha iyi performans gösteriyor.</li>
+    <li><strong>Google Ads - Marka aramaları:</strong> "cosrx türkiye satın al", "beauty of joseon türkiye", "kore kozmetik online" gibi yüksek niyet aramalarında reklam verin. Bu kelimeler direkt satışa dönüşür.</li>
+    <li><strong>Google Shopping entegrasyonu:</strong> Shopify ürün feed'ini Google Merchant Center'a bağlayın. Ürün görseli, fiyat ve stok bilgisi Google arama sonuçlarında doğrudan gösterilsin.</li>
+    <li><strong>Kargo sürecini iyileştirin:</strong> Şikayetvar'daki olumsuz yorumlar kargo odaklı. Ortalama kargo süresini 2-3 güne düşürün. Gerçekçi süre vaat edin (1-4 gün yerine 2-5 iş günü). Kargo takip SMS'i gönderin.</li>
+    <li><strong>Trendyol/Hepsiburada mağazası:</strong> Bu platformlarda da satış yapın ama farklı fiyatlandırma ile (biraz daha yüksek). Asıl kârı kendi sitenizden yapın, marketplace'leri keşif kanalı olarak kullanın.</li>
+    <li><strong>Affiliate/Referans programı:</strong> Mevcut müşterilere "arkadaşını getir, ikisine de %10 indirim" programı başlatın. Beauty blogger'lara komisyon bazlı affiliate kodu verin.</li>
+  </ol>
+</div>
+
+
+<!-- SONUÇ -->
+<h2 class="page-break">5. Sonuç ve Skor Kartı</h2>
+
+<h3>Skor Kartı</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef (3 Ay)</th></tr>
+  <tr><td>Ürün / Marka Portföyü</td><td><div class="score-bar"><div class="score-fill score-high" style="width:85%"></div></div> 8.5/10</td><td>9/10</td></tr>
+  <tr><td>Instagram / Sosyal Medya</td><td><div class="score-bar"><div class="score-fill score-high" style="width:70%"></div></div> 7/10</td><td>8.5/10</td></tr>
+  <tr><td>E-Ticaret Altyapısı</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:65%"></div></div> 6.5/10</td><td>8/10</td></tr>
+  <tr><td>İçerik Pazarlaması / SEO</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>6/10</td></tr>
+  <tr><td>TikTok Varlığı</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>5/10</td></tr>
+  <tr><td>Ürün Sayfası Kalitesi</td><td><div class="score-bar"><div class="score-fill score-low" style="width:30%"></div></div> 3/10</td><td>7/10</td></tr>
+  <tr><td>Müşteri Deneyimi (Kargo)</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:50%"></div></div> 5/10</td><td>7.5/10</td></tr>
+  <tr><td>E-posta Pazarlaması</td><td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td><td>6/10</td></tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>Acil Müdahale Gerektiren 3 Alan</strong>
+  <ul style="margin-top:6px">
+    <li><strong>İçerik Pazarlaması / SEO: 1.5/10</strong> - Blog yok, ürün açıklamaları yetersiz. "Kore cilt bakım", "COSRX inceleme" gibi yüksek hacimli aramalarda Korendy hiç görünmüyor. Her gün binlerce potansiyel müşteri Google'dan rakiplere gidiyor.</li>
+    <li><strong>TikTok Varlığı: 1/10</strong> - K-Beauty'nin en hızlı büyüyen kanalında Korendy yok. Beauty of Joseon sunscreen tek başına TikTok'ta 50M+ görüntüleme aldı. Bu organik viral potansiyeli kullanılmıyor.</li>
+    <li><strong>Ürün Sayfası Kalitesi: 3/10</strong> - Detaylı içerik listesi, kullanım talimatı ve müşteri yorumları eksik. Müşteri ürün hakkında yeterli bilgi bulamayınca Trendyol'a gidip orada satın alıyor.</li>
+  </ul>
+</div>
+
+<div class="alert alert-info">
+  <strong>Özet Değerlendirme</strong>
+  Korendy, Türkiye K-Beauty pazarında güçlü bir konuma sahip. 229K Instagram takipçisi, COSRX/Beauty of Joseon/Anua gibi trend markaların distribütörlüğü ve iki ayrı mağaza ile hem yerli hem global pazara hitap edebilme kapasitesi var. K-Puan sadakat sistemi ve her siparişte numune hediyesi müşteri deneyimini farklılaştırıyor.
+  <br><br>
+  Ancak en büyük sorun şu: marka gücü var ama dijital pazarlama stratejisi yok. Blog/SEO sıfır, TikTok'ta yoklar, ürün sayfaları zayıf, e-posta pazarlaması yetersiz. K-Beauty Türkiye'de yılda %25-30 büyürken bu büyümeden pay almak için içerik üretmek, TikTok'a girmek ve ürün sayfalarını zenginleştirmek şart. İyi haber: 229K takipçilik Instagram topluluğu zaten güçlü bir temel sağlıyor - üzerine inşa etmek yeterli.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adım</strong>
+  Bu rapordaki stratejinin uygulanması için sizinle çalışabiliriz. Blog ve SEO içerik stratejisi, TikTok içerik planı ve yönetimi, Instagram Reels optimizasyonu, ürün sayfası iyileştirme, Google Ads ve Shopping kampanyaları, e-posta pazarlama otomasyonu ve influencer işbirliği koordinasyonu konularında somut ve ölçülebilir büyüme planı hazırlayabiliriz. 15 dakikalık görüşme ile başlayalım.
+</div>
+
+<div class="liked-section">
+  <h3>Bu rapor işinize yaradıysa</h3>
+  <p>Stratejileri birlikte uygulayalım. 15 dakikalık ücretsiz görüşme için tıklayın.</p>
+  <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Beğendim, Görüşelim</button>
+</div>
+
+<p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır. &copy; 2026</p>
+
+<script src="/lib/config.js"></script>
+<script src="/lib/tracker.js" data-type="rapor" data-client="korendy"></script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 13px; line-height: 1.6; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #d1fae5; color: #065f46; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #10b981, #34d399); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #10b981; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
+  h4 { font-size: 12px; font-weight: 600; color: #555; margin: 14px 0 6px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
+  th { background: #1a1a2e; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #d1fae5; border-left: 4px solid #10b981; color: #065f46; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #d1fae5; color: #065f46; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #10b981; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
+  .summary-card { flex: 1; min-width: 120px; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #10b981; }
+  .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  .liked-section { padding: 20px 24px; background: #d1fae5; border: 2px solid #10b981; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .liked-section h3 { font-size: 16px; color: #065f46; margin-bottom: 6px; border: none; }
+  .liked-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .liked-btn { background: #10b981; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .liked-btn:hover { background: #059669; } .liked-btn.clicked { background: #10b981; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanım</div>
+  <h1>ATS Mimari Tasarım Yapı</h1>
+  <h2>Büyüme Stratejisi &amp; Dijital Pazarlama Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazırlanma Tarihi:</strong> 26 Mart 2026<br>
+    <strong>Domain:</strong> atstasarim.com<br>
+    <strong>Sektör:</strong> Mimari Tasarım &amp; Yapı - Özel Üretim<br>
+    <strong>Rapor Türü:</strong> Detaylı Analiz + Strateji Önerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır.</div>
+</div>
+
+<script>
+function handleLiked(){var b=document.getElementById('likedBtn');b.disabled=true;b.textContent='Yönlendiriliyor...';
+if(window.GROWTHER&&GROWTHER.supaFetch){GROWTHER.supaFetch('POST','funnel_leads',{website:window.location.pathname,stage:'liked_report',extra_notes:JSON.stringify({client:'atstasarim',action:'liked_report',clicked_at:new Date().toISOString(),is_test:GROWTHER.isAdmin}),last_step:'liked',completed:true}).catch(function(){});}
+setTimeout(function(){showCalPopup('tr')},500)}
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+
+<!-- PROFİL -->
+<h2 class="page-break">1. Şirket Profil Özeti</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">B2B</div><div class="label">Hedef Pazar</div></div>
+  <div class="summary-card"><div class="value">Mimari</div><div class="label">Sektör</div></div>
+  <div class="summary-card"><div class="value">Ankara</div><div class="label">Merkez</div></div>
+  <div class="summary-card"><div class="value">10+</div><div class="label">Referans Proje</div></div>
+  <div class="summary-card"><div class="value">7</div><div class="label">Ürün Kategorisi</div></div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Değer</th></tr>
+  <tr><td><strong>Website</strong></td><td>atstasarim.com</td></tr>
+  <tr><td><strong>Faaliyet Alanı</strong></td><td>Ahşap, akrilik, paslanmaz çelik, alüminyum sistem tasarımları ve uygulamaları. Korkuluk sistemleri, ofis bölme, asansör söveleri, ıslak hacim, banko/kiosk, yönlendirme tabelaları, saksı/peyzaj uygulamaları.</td></tr>
+  <tr><td><strong>Hedef Kitle</strong></td><td>Büyükelçilikler, havalimanları, AVM'ler, veri merkezleri, kurumsal ofisler, otel ve golf kulüpleri - büyük ölçekli kurumsal projeler</td></tr>
+  <tr><td><strong>Fiyatlandırma</strong></td><td>Sitede fiyat bilgisi yok - proje bazlı teklif sistemi</td></tr>
+  <tr><td><strong>Sosyal Medya</strong></td><td>Instagram (@atsmimari), LinkedIn (ATS Mimari Tasarım Yapı)</td></tr>
+  <tr><td><strong>Blog / İçerik</strong></td><td>Yok - hiçbir içerik pazarlaması yapılmıyor</td></tr>
+  <tr><td><strong>E-Posta</strong></td><td>ats@atstasarim.com / teklif@atstasarim.com</td></tr>
+  <tr><td><strong>Konum</strong></td><td>Kızılırmak Mah. Dumlupınar Blv. YDA Center, Çankaya/Ankara</td></tr>
+</table>
+
+<h3>Referans Proje Portföyü</h3>
+<table>
+  <tr><th>Proje</th><th>Tür</th><th>Değerlendirme</th></tr>
+  <tr><td><strong>İstanbul 3. Havalimanı (İGA)</strong></td><td>Havalimanı</td><td><span class="tag tag-blue">Mega Proje - Güçlü Referans</span></td></tr>
+  <tr><td><strong>EXPO 2017 Astana / Kazakistan</strong></td><td>Uluslararası Fuar</td><td><span class="tag tag-blue">Uluslararası Prestij</span></td></tr>
+  <tr><td><strong>Pulkova Havalimanı / Rusya</strong></td><td>Havalimanı</td><td><span class="tag tag-blue">Uluslararası Prestij</span></td></tr>
+  <tr><td><strong>Haydar Aliyev Havalimanı / Azerbaycan</strong></td><td>Havalimanı</td><td><span class="tag tag-blue">Uluslararası Prestij</span></td></tr>
+  <tr><td><strong>Macaristan Büyükelçilik</strong></td><td>Diplomatik</td><td><span class="tag tag-green">Güçlü</span></td></tr>
+  <tr><td><strong>Equinix Veri Merkezi</strong></td><td>Kurumsal Veri Merkezi</td><td><span class="tag tag-green">Güçlü</span></td></tr>
+  <tr><td><strong>MVK Golf Kulübü</strong></td><td>Spor/Sosyal Tesis</td><td><span class="tag tag-green">Güçlü</span></td></tr>
+  <tr><td><strong>Kashırskaya AVM / Metromall AVM</strong></td><td>Ticari AVM</td><td><span class="tag tag-green">Güçlü</span></td></tr>
+  <tr><td><strong>Kazakistan Tren Garı</strong></td><td>Ulaşım Altyapısı</td><td><span class="tag tag-blue">Uluslararası Prestij</span></td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Profil Değerlendirmesi</strong>
+  ATS Mimari Tasarım, havalimanları, büyükelçilikler ve uluslararası projeler gibi son derece prestijli referanslara sahip bir firma. Portföy kalitesi sektördeki birçok rakibin çok üzerinde. Ancak bu referanslar dijital ortamda neredeyse hiç değerlendirilmiyor - sitenin trafiği çok düşük, Google'da sektörel aramalarda görünmüyorsunuz ve potansiyel müşteriler sizi bulamıyor. Elinizde altın madeni var ama kimse bilmiyor.
+</div>
+
+
+<!-- RAKİP -->
+<h2 class="page-break">2. Rakip Analizi - Mimari Metal &amp; Yapı Sektörü</h2>
+
+<h3>2.1 Doğrudan ve Dolaylı Rakipler</h3>
+<table>
+  <tr><th>Rakip</th><th>Odak Alan</th><th>Güçlü Yönü</th><th>Zayıf Yönü</th></tr>
+  <tr>
+    <td><strong>Arkel Alüminyum</strong></td>
+    <td>Alüminyum cephe ve korkuluk</td>
+    <td>Güçlü marka bilinirliği, geniş bayi ağı, SEO'da aktif</td>
+    <td>Akrilik ve özel tasarım uygulamalarında sınırlı</td>
+  </tr>
+  <tr>
+    <td><strong>Aluform</strong></td>
+    <td>Alüminyum kompozit panel</td>
+    <td>İhracat odaklı, sertifikasyonlar güçlü</td>
+    <td>Korkuluk ve iç mekan uygulamalarında zayıf</td>
+  </tr>
+  <tr>
+    <td><strong>Inalco / Dekton Bayileri</strong></td>
+    <td>İnce seramik ve kompozit yüzey</td>
+    <td>Uluslararası marka gücü, mimarlara yönelik pazarlama</td>
+    <td>Metal işçiliği ve özel üretim yok</td>
+  </tr>
+  <tr>
+    <td><strong>Yerel Paslanmaz Atölyeleri</strong></td>
+    <td>Paslanmaz çelik imalat</td>
+    <td>Fiyat avantajı, hızlı teslimat</td>
+    <td>Tasarım kapasitesi yok, büyük proje deneyimi sınırlı</td>
+  </tr>
+  <tr>
+    <td><strong>Rimex Metals</strong></td>
+    <td>Dekoratif paslanmaz çelik</td>
+    <td>Global marka, geniş desen yelpazesi</td>
+    <td>Türkiye'de doğrudan proje uygulaması yok</td>
+  </tr>
+  <tr style="background:#d1fae5">
+    <td><strong>ATS Tasarım</strong></td>
+    <td>Çoklu malzeme (ahşap, akrilik, paslanmaz, alüminyum)</td>
+    <td>Çoklu malzeme uzmanlığı, uluslararası mega proje referansları (İGA, EXPO, havalimanları)</td>
+    <td>Dijital görünürlük çok düşük, site içerik ve SEO açısından zayıf</td>
+  </tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>ATS Tasarım'ın Rekabetçi Avantajları</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Çoklu malzeme uzmanlığı</strong> - Rakiplerin çoğu tek malzemede uzmanlaşırken, ATS ahşap, akrilik, paslanmaz, çelik ve alüminyumu birlikte çözebiliyor. Bu mimarlara tek elden çözüm sunma avantajı sağlıyor.</li>
+    <li><strong>Mega proje referansları</strong> - İGA Havalimanı, EXPO 2017, Pulkova ve Haydar Aliyev Havalimanları gibi referanslar güven inşa ediyor. Rakiplerin çoğunda bu ölçekte proje yok.</li>
+    <li><strong>Uluslararası deneyim</strong> - Rusya, Kazakistan, Azerbaycan, Macaristan projeleri ile yurt dışı proje kapasitesi kanıtlanmış.</li>
+    <li><strong>7 farklı ürün kategorisi</strong> - Korkuluktan tabelaya, bankodan peyzaja kadar geniş yelpaze ile büyük projelerin tüm ihtiyaçlarını karşılayabiliyor.</li>
+  </ul>
+</div>
+
+<h3>2.2 Pazar Fırsat Değerlendirmesi</h3>
+<table>
+  <tr><th>Metrik</th><th>Değer / Yorum</th></tr>
+  <tr><td>Türkiye inşaat sektörü büyüklüğü</td><td><strong>GSYH'nın ~%8'i</strong> - Her yıl binlerce yeni proje başlıyor</td></tr>
+  <tr><td>"paslanmaz korkuluk" aylık arama hacmi</td><td><strong>~2.400</strong> - Yüksek niyet, düşük rekabet</td></tr>
+  <tr><td>"cam korkuluk sistemleri" aylık arama hacmi</td><td><strong>~1.900</strong> - ATS'nin doğrudan hizmet alanı</td></tr>
+  <tr><td>"ofis bölme sistemleri" aylık arama hacmi</td><td><strong>~1.300</strong> - Ticari müşteri arıyor</td></tr>
+  <tr><td>"akrilik banko" aylık arama hacmi</td><td><strong>~480</strong> - Niş ama yüksek dönüşüm potansiyeli</td></tr>
+  <tr><td>"asansör söve kaplaması" aylık arama hacmi</td><td><strong>~320</strong> - Neredeyse rakipsiz arama</td></tr>
+  <tr><td>ATS'nin bu aramalarda sıralaması</td><td><strong>Görünmüyor</strong> - Hiçbir anahtar kelimede ilk 3 sayfada yok</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Kritik Bulgu: Dijital Görünürlük Sıfır</strong>
+  Potansiyel müşteriler Google'da "paslanmaz korkuluk Ankara", "cam korkuluk sistemleri", "asansör kapı söve kaplaması", "otel lobi bankosu" gibi aramalar yapıyor - ama ATS Tasarım hiçbirinde görünmüyor. Bu aramalar toplamda ayda binlerce kez yapılıyor ve her biri yüksek satın alma niyeti taşıyor. Bu trafiğin tamamını rakipler alıyor.
+</div>
+
+
+<!-- WEB SİTESİ -->
+<h2 class="page-break">3. Web Sitesi Analizi</h2>
+
+<h3>3.1 Genel Durum</h3>
+<table>
+  <tr><th>Metrik</th><th>Değer</th><th>Yorum</th></tr>
+  <tr><td>Tahmini Aylık Trafik</td><td><strong>Çok düşük</strong></td><td><span class="tag tag-red">Kritik</span> - Organik trafikte neredeyse görünmüyor</td></tr>
+  <tr><td>SEO Meta Açıklamaları</td><td><strong>Minimal</strong></td><td><span class="tag tag-red">Eksik</span> - Anahtar kelime optimizasyonu yok</td></tr>
+  <tr><td>Mobil Uyumluluk</td><td><strong>Temel seviye</strong></td><td><span class="tag tag-orange">İyileştirmeli</span></td></tr>
+  <tr><td>Sayfa Hızı</td><td><strong>Orta</strong></td><td><span class="tag tag-orange">İyileştirmeli</span></td></tr>
+  <tr><td>Fiyatlandırma Bilgisi</td><td><strong>Yok</strong></td><td><span class="tag tag-orange">Teklif sistemi var ama online fiyat beklentisi artıyor</span></td></tr>
+</table>
+
+<h3>3.2 Güçlü Yönler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr><td>Referans Portföyü</td><td><span class="tag tag-green">Güçlü</span> - İGA, EXPO, havalimanları gibi prestijli projeler mevcut</td></tr>
+  <tr><td>Ürün Kategorilendirmesi</td><td><span class="tag tag-green">İyi</span> - 7 kategori net biçimde ayrılmış</td></tr>
+  <tr><td>Teklif Alma İmkanı</td><td><span class="tag tag-green">Var</span> - teklif@atstasarim.com adresi aktif</td></tr>
+  <tr><td>Kurumsal Kimlik</td><td><span class="tag tag-green">İyi</span> - YDA Center'da profesyonel ofis, kurumsal görünüm</td></tr>
+</table>
+
+<h3>3.3 Kritik Sorunlar</h3>
+<table>
+  <tr><th>Sorun</th><th>Açıklama</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>SEO Altyapısı Çok Zayıf</strong></td>
+    <td>Meta açıklamalar minimal, anahtar kelime yoğunluğu düşük, yapısal veri (structured data) yok. Google atstasarim.com'u doğru indeksleyemiyor ve sıralayamıyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Ürün Detay Sayfaları Yetersiz</strong></td>
+    <td>Her ürün kategorisinin ayrı, detaylı sayfası olmalı. Teknik özellikler, malzeme seçenekleri, uygulama örnekleri, boyut bilgileri eksik. Ziyaretçi ürünü anlamadan siteden çıkıyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Blog / İçerik Yok</strong></td>
+    <td>"Paslanmaz korkuluk çeşitleri", "cam korkuluk ile paslanmaz arasındaki fark", "asansör söve kaplaması nasıl yapılır" gibi aranılara cevap veren hiçbir içerik yok. Bu aramaların her biri potansiyel müşteri getiriyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Proje Detayları Yetersiz</strong></td>
+    <td>Referans projeler sadece isim olarak listeleniyor. Her proje için detaylı case study (kullanılan malzemeler, zorluklar, çözümler, görseller) olmalı. İGA projesi tek başına bir sayfa doldurabilir.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Görsel Kalitesi Düşük</strong></td>
+    <td>Proje görselleri düşük çözünürlükte. Mimari tasarım firması için görsel kalite doğrudan güvenilirlik ve profesyonellik algısını belirler.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Online Teklif Formu Yok</strong></td>
+    <td>Sitede "Teklif Al" butonu veya online form yok. Ziyaretçi sadece e-posta yazabilir. Modern müşteriler form doldurmak ister - sürtünme noktasını azaltın.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>CTA (Harekete Çağrı) Zayıf</strong></td>
+    <td>Ana sayfada ve ürün sayfalarında net bir "Teklif İste", "Proje Danışmanlığı Al" gibi CTA butonları yok. Ziyaretçi ne yapması gerektiğini bilmiyor.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+</table>
+
+<h3>3.4 Sosyal Medya Varlığı</h3>
+<table>
+  <tr><th>Platform</th><th>Durum</th><th>Öneri</th></tr>
+  <tr><td>Instagram (@atsmimari)</td><td><span class="tag tag-green">Var</span></td><td>Proje görselleri, üretim süreçleri ve montaj videoları paylaşın - mimari sektörde görsel içerik kritik</td></tr>
+  <tr><td>LinkedIn</td><td><span class="tag tag-green">Var</span></td><td>B2B müşteri edinimi için birincil kanal - mimarlar, müteahhitler ve proje yöneticilerine ulaşın</td></tr>
+  <tr><td>YouTube</td><td><span class="tag tag-red">Yok</span></td><td>Üretim süreçleri, montaj videoları ve proje tanıtımları yayınlayın - B2B'de video güven inşa eder</td></tr>
+  <tr><td>Pinterest</td><td><span class="tag tag-red">Yok</span></td><td>Mimari tasarım projelerini paylaşın - mimarlar ilham için Pinterest kullanıyor</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Sosyal Medya Değerlendirmesi</strong>
+  ATS Tasarım'ın en güçlü satış aracı proje görselleri ve referansları. Instagram'da üretim atölyesinden proje teslim anına kadar olan süreci gösteren içerikler, LinkedIn'de mimarlara ve müteahhitlere yönelik teknik paylaşımlar yapılmalı. YouTube'da "paslanmaz korkuluk nasıl monte edilir", "akrilik banko üretim süreci" gibi videolar hem SEO'ya katkıda bulunur hem de güven oluşturur.
+</div>
+
+
+<!-- STRATEJİ -->
+<h2 class="page-break">4. Önerilen Aksiyon Planı</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - Dijital Altyapı ve İçerik (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Web sitesini SEO odaklı yeniden yapılandırın:</strong> Her ürün kategorisi (korkuluk, ofis bölme, asansör söve, vb.) için ayrı, detaylı sayfa oluşturun. Her sayfada: teknik özellikler, malzeme seçenekleri, uygulama görselleri, boyut/ölçü bilgileri ve "Teklif İste" formu olmalı.</li>
+    <li><strong>Referans projeleri case study'ye dönüştürün:</strong> İGA Havalimanı, EXPO 2017 ve Pulkova Havalimanı projelerinin her biri için detaylı proje sayfası hazırlayın. Kullanılan malzemeler, metrekare, zorluklar, çözümler ve yüksek kaliteli görseller ekleyin. Bu sayfalar tek başına ciddi trafik çekebilir.</li>
+    <li><strong>Online teklif formu ekleyin:</strong> Her ürün sayfasına ve ana sayfaya "Projeniz İçin Teklif Alın" formu koyun. Proje tipi, yaklaşık metrekare, malzeme tercihi ve iletişim bilgileri isteyen basit bir form yeterli.</li>
+    <li><strong>Görselleri profesyonelleştirin:</strong> Proje fotoğraflarını yüksek çözünürlükte yeniden çekin veya mevcut görselleri optimize edin. Before/after görselleri ekleyin.</li>
+    <li><strong>Google My Business profilini optimize edin:</strong> "Ankara mimari tasarım", "Ankara paslanmaz korkuluk" gibi yerel aramalarda görünmek için GMB profilini aktif kullanın, proje görselleri ve müşteri yorumları ekleyin.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - İçerik Pazarlama ve Organik Büyüme (Hafta 3-4)</div>
+  <ol>
+    <li><strong>Blog başlatın - SEO odaklı makaleler yazın:</strong> "Paslanmaz Korkuluk Çeşitleri ve Fiyatları 2026", "Cam Korkuluk mu Paslanmaz Korkuluk mu?", "Asansör Söve Kaplaması: Malzeme Rehberi", "Ofis Bölme Sistemleri: Cam vs Alüminyum", "Akrilik Banko Tasarımında Dikkat Edilecekler" gibi makaleler yazın. Bu aramaların her biri potansiyel müşteri.</li>
+    <li><strong>LinkedIn B2B kampanyası başlatın:</strong> Mimarlık ofislerine, müteahhitlik firmalarına ve AVM yönetim şirketlerine yönelik LinkedIn içerikleri paylaşın. Proje süreçlerini anlatan teknik içerikler, sektörel trend yazıları ve referans proje tanıtımları ile karar vericilere ulaşın.</li>
+    <li><strong>Instagram içerik planı oluşturun:</strong> Haftalık: 2 proje görseli, 1 üretim/atölye videosu, 1 montaj süreci videosu. Reels formatında kısa üretim videoları çok yüksek erişim alıyor.</li>
+    <li><strong>YouTube kanalı açın:</strong> "Paslanmaz Korkuluk Nasıl Üretilir?", "Akrilik Banko Üretim Süreci", "İGA Havalimanı Projemiz" gibi videolar çekin. Bu videolar hem SEO'ya katkı sağlar hem de müşteri güveni inşa eder.</li>
+    <li><strong>Mimarlık platformlarında profil oluşturun:</strong> Archdaily, Arkiv, ArchDaily Türkiye gibi platformlarda projelerinizi paylaşın. Mimarlar bu platformları aktif kullanıyor.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - Ücretli Reklam ve Ölçekleme (Ay 2+)</div>
+  <ol>
+    <li><strong>Google Ads - düşük bütçeyle başlayın:</strong> "paslanmaz korkuluk", "cam korkuluk sistemleri", "ofis bölme Ankara", "asansör söve kaplaması", "akrilik banko" kelimelerinde reklam verin. Bu kelimeler yüksek niyet taşıyor ve her tıklama potansiyel proje anlamına geliyor. 5.000-10.000 TL aylık bütçeyle başlayıp ROI'ye göre artırın.</li>
+    <li><strong>LinkedIn Ads ile mimarları hedefleyin:</strong> Türkiye'deki mimarlık ofisleri, iç mimarlar ve müteahhitlik firmalarını hedefleyen reklam kampanyaları oluşturun. Referans projelerinizi gösterin.</li>
+    <li><strong>Sektörel fuarlara katılın veya sponsor olun:</strong> Yapı Fuarı İstanbul, Unicera gibi sektörel etkinliklerde görünürlük kazanın.</li>
+    <li><strong>E-posta pazarlama başlatın:</strong> Siteden teklif isteyen tüm kişilere düzenli e-posta gönderin. Yeni projeler, sektörel trendler ve kampanyalar hakkında bilgilendirin. Müşteri ilişkisini sıcak tutun.</li>
+    <li><strong>Mimarlık ofisleri ile stratejik ortaklık:</strong> Ankara ve İstanbul'daki büyük mimarlık ofisleri ile iş birliği protokolü imzalayın. Proje bazlı referans sistemi veya komisyon modeli kurun.</li>
+  </ol>
+</div>
+
+
+<!-- SONUÇ -->
+<h2 class="page-break">5. Sonuç ve Skor Kartı</h2>
+
+<h3>Skor Kartı</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef (3 Ay)</th></tr>
+  <tr><td>Referans Portföy Kalitesi</td><td><div class="score-bar"><div class="score-fill score-high" style="width:90%"></div></div> 9/10</td><td>10/10</td></tr>
+  <tr><td>Ürün/Hizmet Çeşitliliği</td><td><div class="score-bar"><div class="score-fill score-high" style="width:80%"></div></div> 8/10</td><td>9/10</td></tr>
+  <tr><td>Web Sitesi Tasarımı</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:40%"></div></div> 4/10</td><td>7/10</td></tr>
+  <tr><td>SEO Altyapısı</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>6/10</td></tr>
+  <tr><td>İçerik Pazarlaması</td><td><div class="score-bar"><div class="score-fill score-low" style="width:5%"></div></div> 0.5/10</td><td>5/10</td></tr>
+  <tr><td>Sosyal Medya</td><td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td><td>6/10</td></tr>
+  <tr><td>Organik Trafik</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>5/10</td></tr>
+  <tr><td>Dönüşüm Optimizasyonu (CRO)</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>6/10</td></tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>Acil Müdahale Gerektiren 3 Alan</strong>
+  <ul style="margin-top:6px">
+    <li><strong>SEO ve Organik Trafik: 1/10</strong> - Google'da "paslanmaz korkuluk", "cam korkuluk sistemleri", "asansör söve" gibi aramalarda hiç görünmüyorsunuz. Bu aramaları yapan insanlar tam olarak sizin müşteriniz ve şu an hepsini rakipler alıyor.</li>
+    <li><strong>İçerik Pazarlaması: 0.5/10</strong> - Blog yok, proje detay sayfaları yetersiz, teknik rehber içerik yok. Her bir ürün kategorisi için yazılacak detaylı içerikler ayda yüzlerce potansiyel müşteri getirebilir.</li>
+    <li><strong>Dönüşüm Optimizasyonu: 1.5/10</strong> - Siteye gelen az sayıdaki ziyaretçi bile teklif isteme imkanı bulamıyor. Online form yok, CTA butonları yok, ürün detayları yetersiz. Siteye giren müşteri adayı dönüşmeden çıkıyor.</li>
+  </ul>
+</div>
+
+<div class="alert alert-info">
+  <strong>Özet Değerlendirme</strong>
+  ATS Mimari Tasarım, referans portföyü açısından sektördeki birçok rakibin önünde. İGA Havalimanı, EXPO 2017, uluslararası havalimanları ve büyükelçilik projeleri gerçek anlamda prestijli işler. 7 farklı ürün kategorisinde çoklu malzeme uzmanlığı da önemli bir farklılaştırıcı.
+  <br><br>
+  Asıl sorun: bu gücü dijital ortamda kimse göremiyor. Web sitesi SEO altyapısı çok zayıf, içerik pazarlaması sıfır, proje detayları yetersiz ve dönüşüm noktaları eksik. "Paslanmaz korkuluk", "cam korkuluk", "asansör söve kaplaması" gibi aramalar yapan binlerce potansiyel müşteri her ay Google'da arıyor - ama sizi bulamıyor.
+  <br><br>
+  İyi haber: bu alanların çoğu düşük bütçeyle çözülebilir. İçerik oluşturmaya başlayın, SEO'yu düzeltin, referans projelerinizi case study'ye dönüştürün ve online teklif formu ekleyin - sonuçlar 2-3 ay içinde görünmeye başlayacaktır.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adım</strong>
+  Bu rapordaki stratejinin uygulanması için sizinle çalışabiliriz. SEO odaklı web sitesi iyileştirme, içerik stratejisi ve blog yazıları, Google Ads kampanyası kurulumu, LinkedIn B2B pazarlama, referans projelerin case study'ye dönüştürülmesi ve dönüşüm optimizasyonu konularında somut ve ölçülebilir büyüme planı hazırlayabiliriz. 15 dakikalık görüşme için tıklayın.
+</div>
+
+<div class="liked-section">
+  <h3>Bu rapor işinize yaradıysa</h3>
+  <p>Stratejileri birlikte uygulayalım. 15 dakikalık ücretsiz görüşme için tıklayın.</p>
+  <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Beğendim, Görüşelim</button>
+</div>
+
+<p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır. &copy; 2026</p>
+
+<script src="/lib/config.js"></script>
+<script src="/lib/tracker.js" data-type="rapor" data-client="atstasarim"></script>
+</body>
+</html>

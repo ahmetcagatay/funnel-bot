@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f172a">
+<title>K-Beauty Cilt Analizi - Korendy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--bg:#0f172a;--bg-card:#1e293b;--bg-card-hover:#334155;--bg-option:rgba(30,41,59,0.8);--bg-option-selected:rgba(16,185,129,0.15);--border-option:rgba(71,85,105,0.5);--border-selected:rgba(16,185,129,0.6);--text-primary:#f1f5f9;--text-secondary:#94a3b8;--text-muted:#64748b;--accent:#10b981;--accent-hover:#059669;--accent-glow:rgba(16,185,129,0.3);--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--safe-bottom:env(safe-area-inset-bottom,0px)}html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text-primary);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;touch-action:pan-y}.funnel-container{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}.step{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;padding:0 24px;padding-bottom:calc(16px + var(--safe-bottom));transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .4s ease;will-change:transform,opacity;opacity:0;pointer-events:none}.step[data-position="center"]{transform:translateX(0);opacity:1;pointer-events:auto}.step[data-position="left"]{transform:translateX(-100%);opacity:0}.step[data-position="right"]{transform:translateX(100%);opacity:0}.step-header{display:flex;align-items:center;justify-content:center;position:relative;padding:16px 0 8px;flex-shrink:0}.back-btn{position:absolute;left:0;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-secondary);cursor:pointer;padding:8px;border-radius:12px;display:flex;align-items:center;justify-content:center;width:44px;height:44px}.back-btn:hover{background:var(--bg-card);color:var(--text-primary)}.back-btn svg{width:22px;height:22px}.progress-dots{display:flex;gap:6px;align-items:center}.dot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);transition:all .35s ease}.dot.active{background:var(--accent);width:24px;border-radius:4px}.dot.completed{background:var(--accent)}.step-content{flex:1;display:flex;flex-direction:column;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;min-height:0}.step-content::-webkit-scrollbar{display:none}.question-area{text-align:center;margin-bottom:28px;flex-shrink:0}.question-title{font-size:26px;font-weight:700;line-height:1.3;margin-bottom:8px;letter-spacing:-.02em}.question-subtitle{font-size:14px;color:var(--text-secondary)}.options-area{display:flex;flex-direction:column;gap:12px;width:100%;max-width:480px;margin:0 auto}.option-btn{display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:14px 18px;background:var(--bg-option);border:1.5px solid var(--border-option);border-radius:16px;color:var(--text-primary);font-family:inherit;font-size:16px;font-weight:500;text-align:left;cursor:pointer;transition:all .2s;user-select:none}.option-btn:hover{background:var(--bg-card-hover);border-color:var(--text-muted)}.option-btn:active{transform:scale(.98)}.option-btn.selected{background:var(--bg-option-selected);border-color:var(--border-selected);box-shadow:0 0 0 1px var(--border-selected),0 0 20px var(--accent-glow)}.option-btn .emoji{font-size:28px;flex-shrink:0;line-height:1}.option-btn .option-label{flex:1}.option-btn .check-indicator{width:22px;height:22px;border-radius:50%;border:2px solid var(--text-muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}.option-btn.selected .check-indicator{background:var(--accent);border-color:var(--accent)}.option-btn.selected .check-indicator::after{content:'\2713';color:#fff;font-size:13px;font-weight:700}.option-btn.multi .check-indicator{border-radius:6px}.step-footer{flex-shrink:0;padding-top:16px;max-width:480px;width:100%;margin:0 auto}.cta-btn{display:flex;align-items:center;justify-content:center;width:100%;height:56px;background:var(--accent);color:#fff;border:none;border-radius:16px;font-family:inherit;font-size:17px;font-weight:600;cursor:pointer;transition:all .2s}.cta-btn:hover:not(:disabled){background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}.cta-btn:disabled{opacity:.35;cursor:not-allowed}.analysis-card{background:var(--bg-card);border-radius:20px;padding:24px;width:100%;max-width:480px;margin:0 auto}.analysis-header{text-align:center;margin-bottom:20px}.analysis-header h2{font-size:22px;font-weight:700;margin-bottom:4px}.analysis-header p{font-size:13px;color:var(--text-secondary)}.analysis-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(71,85,105,.3)}.analysis-row:last-child{border-bottom:none}.analysis-label{font-size:14px;color:var(--text-secondary)}.analysis-value{font-size:16px;font-weight:600}.insights-list{margin-top:16px;display:flex;flex-direction:column;gap:10px}.insight-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--text-secondary)}.insight-item .emoji{font-size:20px;flex-shrink:0;line-height:1.3}.priority-box{margin-top:16px;padding:14px 16px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);border-radius:14px}.priority-box .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:4px}.priority-box .text{font-size:14px;color:var(--text-primary);line-height:1.5}.free-trial-banner{margin-top:20px;text-align:center;padding:16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:14px}.free-trial-banner .emoji{font-size:28px;display:block;margin-bottom:6px}.free-trial-banner .text{font-size:15px;font-weight:600;color:var(--text-primary)}.free-trial-banner .sub{font-size:13px;color:var(--text-secondary);margin-top:2px}.thank-you-icon{width:72px;height:72px;border-radius:50%;background:rgba(16,185,129,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:36px;animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1)}@keyframes scaleIn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}.benefits-list{display:flex;flex-direction:column;gap:12px;width:100%;max-width:480px;margin:0 auto 20px}.benefit-item{display:flex;gap:12px;align-items:center;padding:14px 16px;background:var(--bg-card);border-radius:14px;font-size:15px;font-weight:500}.benefit-item .emoji{font-size:24px;flex-shrink:0}.skip-link{text-align:center;margin-top:12px}.skip-link a{color:var(--text-muted);font-size:14px;text-decoration:none;border-bottom:1px solid transparent}.skip-link a:hover{color:var(--text-secondary);border-bottom-color:var(--text-secondary)}.loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .3s}.loading-overlay.active{opacity:1;pointer-events:auto}.loading-spinner{width:48px;height:48px;border:3px solid var(--bg-card);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loading-text{margin-top:20px;font-size:16px;color:var(--text-secondary);text-align:center}.loading-text .changing{display:block;margin-top:6px;font-size:14px;color:var(--text-muted);min-height:21px}.growther-banner{margin-top:16px;padding:14px 16px;background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.15);border-radius:14px;text-align:center}.growther-banner .text{font-size:13px;color:var(--text-muted)}.growther-banner .text strong{color:var(--text-secondary)}@media(max-height:680px){.question-title{font-size:22px}.option-btn{min-height:48px;padding:10px 14px}.option-btn .emoji{font-size:24px}.options-area{gap:8px}.analysis-card{padding:16px}}@media(min-width:640px){.step{padding:0 40px;padding-bottom:calc(24px + var(--safe-bottom))}.question-title{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="funnel-container" id="funnel">
+
+  <!-- Step 1: Cilt tipi -->
+  <div class="step" id="step-1" data-position="center">
+    <div class="step-header"><div class="progress-dots" id="dots-1"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Cilt tipiniz hangisi?</h1></div>
+      <div class="options-area" data-step="1" data-key="cilt_tipi">
+        <button class="option-btn" data-value="kuru"><span class="emoji">&#x1F3DC;&#xFE0F;</span><span class="option-label">Kuru cilt</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="yağlı"><span class="emoji">&#x1F4A7;</span><span class="option-label">Yağlı cilt</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="karma"><span class="emoji">&#x1F300;</span><span class="option-label">Karma cilt</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="hassas"><span class="emoji">&#x1F338;</span><span class="option-label">Hassas cilt</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="bilmiyorum"><span class="emoji">&#x2753;</span><span class="option-label">Emin değilim</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-1" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- Step 2: Cilt sorunları (multi-select) -->
+  <div class="step" id="step-2" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-2"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">En çok hangi cilt sorunlarıyla uğraşıyorsunuz?</h1><p class="question-subtitle">Birden fazla seçebilirsiniz</p></div>
+      <div class="options-area" data-step="2" data-key="sorunlar" data-multi="true">
+        <button class="option-btn multi" data-value="sivilce"><span class="emoji">&#x1F534;</span><span class="option-label">Sivilce / akne</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="leke"><span class="emoji">&#x2600;&#xFE0F;</span><span class="option-label">Leke / hiperpigmentasyon</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="kuruluk"><span class="emoji">&#x1F9F4;</span><span class="option-label">Kuruluk / soyulma</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="kırışıklık"><span class="emoji">&#x2728;</span><span class="option-label">Kırışıklık / yaşlanma belirtileri</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="gözenek"><span class="emoji">&#x1F50D;</span><span class="option-label">Geniş gözenekler</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="ton_eşitsizliği"><span class="emoji">&#x1F308;</span><span class="option-label">Cilt tonu eşitsizliği</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-2" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- Step 3: Mevcut rutin -->
+  <div class="step" id="step-3" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-3"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Şu anki cilt bakım rutininiz nasıl?</h1></div>
+      <div class="options-area" data-step="3" data-key="rutin">
+        <button class="option-btn" data-value="yok"><span class="emoji">&#x274C;</span><span class="option-label">Düzenli bir rutinim yok</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="temel"><span class="emoji">&#x1F9FC;</span><span class="option-label">Temizleyici + nemlendirici</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="orta"><span class="emoji">&#x1F9EA;</span><span class="option-label">Temizleyici + serum + nemlendirici</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="detaylı"><span class="emoji">&#x1F48E;</span><span class="option-label">Çok adımlı Kore bakım rutini</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-3" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- Step 4: Bütçe -->
+  <div class="step" id="step-4" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-4"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Cilt bakımına aylık ne kadar ayırıyorsunuz?</h1></div>
+      <div class="options-area" data-step="4" data-key="bütçe">
+        <button class="option-btn" data-value="0-200"><span class="emoji">&#x1F4B4;</span><span class="option-label">0 - 200 TL</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="200-500"><span class="emoji">&#x1F4B5;</span><span class="option-label">200 - 500 TL</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="500-1000"><span class="emoji">&#x1F4B8;</span><span class="option-label">500 - 1.000 TL</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="1000+"><span class="emoji">&#x1F4B0;</span><span class="option-label">1.000 TL ve üzeri</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-4" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- Step 5: Kore kozmetik deneyimi -->
+  <div class="step" id="step-5" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-5"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Daha önce Kore kozmetik ürünü kullandınız mı?</h1></div>
+      <div class="options-area" data-step="5" data-key="deneyim">
+        <button class="option-btn" data-value="hiç"><span class="emoji">&#x1F331;</span><span class="option-label">Hiç kullanmadım, merak ediyorum</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="birkaç"><span class="emoji">&#x1F33F;</span><span class="option-label">Birkaç ürün denedim</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="düzenli"><span class="emoji">&#x1F33A;</span><span class="option-label">Düzenli kullanıyorum</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="uzman"><span class="emoji">&#x1F490;</span><span class="option-label">K-Beauty tutkunu, çok iyi biliyorum</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-5" disabled>Analizimi Gör</button></div>
+  </div>
+
+  <!-- Step 6: Analiz -->
+  <div class="step" id="step-6" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-6"></div></div>
+    <div class="step-content">
+      <div class="analysis-card">
+        <div class="analysis-header"><h2>Cilt Analiz Sonucunuz</h2><p>Cevaplarınıza göre kişisel önerimiz</p></div>
+        <div class="analysis-row"><span class="analysis-label">Cilt Tipi</span><span class="analysis-value" id="a-cilt-tipi">Karma</span></div>
+        <div class="analysis-row"><span class="analysis-label">Öncelikli Sorun</span><span class="analysis-value" id="a-oncelik">Sivilce</span></div>
+        <div class="analysis-row"><span class="analysis-label">Önerilen Rutin</span><span class="analysis-value" id="a-rutin" style="color:var(--accent)">5 Adım</span></div>
+        <div class="analysis-row"><span class="analysis-label">Tahmini Sonuç Süresi</span><span class="analysis-value" id="a-sure" style="color:var(--success)">4-6 Hafta</span></div>
+        <div class="insights-list" id="insights-list"></div>
+        <div class="priority-box"><div class="label">Kişisel Ürün Önerisi</div><div class="text" id="priority-text">Cilt tipinize ve sorunlarınıza özel ürün seçimi için uzman ekibimizle görüşün.</div></div>
+        <div class="free-trial-banner"><span class="emoji">&#x1F4A1;</span><div class="text">Bu analiz sizin için de çalışabilir</div><div class="sub">Müşterilerinizin ihtiyacını analiz edin, doğru çözümü sunun</div></div>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-6">Kişisel Rutin Önerisi Al</button></div>
+  </div>
+
+  <!-- Step 7: Teşekkür / CTA -->
+  <div class="step" id="step-7" data-position="right">
+    <div class="step-header"><div class="progress-dots" id="dots-7"></div></div>
+    <div class="step-content">
+      <div style="text-align:center;margin-bottom:20px">
+        <div class="thank-you-icon">&#x1F338;</div>
+        <h1 class="question-title" style="font-size:24px">Ücretsiz Cilt Bakım Danışmanlığı</h1>
+        <p style="font-size:15px;color:var(--text-secondary);margin-top:8px">Cilt tipinize özel Kore bakım rutini oluşturalım</p>
+      </div>
+      <div class="benefits-list">
+        <div class="benefit-item"><span class="emoji">&#x1F3AF;</span><span>Cilt tipinize özel ürün önerisi</span></div>
+        <div class="benefit-item"><span class="emoji">&#x1F9D1;&#x200D;&#x1F4BB;</span><span>Kore bakım uzmanıyla birebir görüşme</span></div>
+        <div class="benefit-item"><span class="emoji">&#x1F381;</span><span>İlk siparişinize özel indirim kodu</span></div>
+        <div class="benefit-item"><span class="emoji">&#x1F4E6;</span><span>Her siparişte 5 numune hediye</span></div>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-7" onclick="sendInterest()">15 Dakika Görüşelim</button>
+      <div class="skip-link" style="margin-top:12px"><a href="https://korendy.com.tr" target="_blank">korendy.com.tr'yi incelemeye devam et</a></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Cilt profiliniz analiz ediliyor<span class="changing" id="loading-changing"></span></div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  var TOTAL_STEPS = 7;
+  var currentStep = 1;
+  var answers = {};
+
+  for (var s = 1; s <= TOTAL_STEPS; s++) {
+    var dotsContainer = document.getElementById('dots-' + s);
+    if (!dotsContainer) continue;
+    for (var d = 1; d <= TOTAL_STEPS; d++) {
+      var dot = document.createElement('span');
+      dot.className = 'dot';
+      if (d < s) dot.className += ' completed';
+      if (d === s) dot.className += ' active';
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  var optionAreas = document.querySelectorAll('.options-area');
+  for (var i = 0; i < optionAreas.length; i++) {
+    (function(area) {
+      var isMulti = area.dataset.multi === 'true';
+      var key = area.dataset.key;
+      var step = parseInt(area.dataset.step, 10);
+      var btns = area.querySelectorAll('.option-btn');
+      for (var j = 0; j < btns.length; j++) {
+        (function(btn) {
+          btn.addEventListener('click', function() {
+            if (isMulti) {
+              btn.classList.toggle('selected');
+              var selected = area.querySelectorAll('.option-btn.selected');
+              var vals = [];
+              for (var k = 0; k < selected.length; k++) vals.push(selected[k].dataset.value);
+              answers[key] = vals;
+              document.getElementById('cta-' + step).disabled = vals.length === 0;
+            } else {
+              var allBtns = area.querySelectorAll('.option-btn');
+              for (var k = 0; k < allBtns.length; k++) allBtns[k].classList.remove('selected');
+              btn.classList.add('selected');
+              answers[key] = btn.dataset.value;
+              document.getElementById('cta-' + step).disabled = false;
+            }
+          });
+        })(btns[j]);
+      }
+    })(optionAreas[i]);
+  }
+
+  for (var s2 = 1; s2 <= 4; s2++) {
+    (function(step) {
+      document.getElementById('cta-' + step).addEventListener('click', function() {
+        goToStep(step + 1);
+      });
+    })(s2);
+  }
+  document.getElementById('cta-5').addEventListener('click', function() {
+    showLoading(function() { buildAnalysis(); goToStep(6); });
+  });
+  document.getElementById('cta-6').addEventListener('click', function() { goToStep(7); });
+
+  function goToStep(target) {
+    if (target < 1 || target > TOTAL_STEPS) return;
+    document.getElementById('step-' + currentStep).dataset.position = target > currentStep ? 'left' : 'right';
+    document.getElementById('step-' + target).dataset.position = 'center';
+    currentStep = target;
+    if (window.GROWTHER_TRACKER) GROWTHER_TRACKER.onStepChange(target);
+  }
+  window.goBack = function() { goToStep(currentStep - 1); };
+
+  window.GROWTHER_FUNNEL = { getCurrentStep: function() { return currentStep; }, getAnswers: function() { return answers; } };
+
+  function showLoading(callback) {
+    var overlay = document.getElementById('loading-overlay');
+    var changing = document.getElementById('loading-changing');
+    overlay.classList.add('active');
+    var messages = ['Cilt tipiniz değerlendiriliyor...', 'Sorunlarınız analiz ediliyor...', 'Uygun ürünler belirleniyor...', 'Kişisel rutin hazırlanıyor...'];
+    var idx = 0; changing.textContent = messages[0];
+    var interval = setInterval(function() { idx++; if (idx < messages.length) changing.textContent = messages[idx]; }, 600);
+    setTimeout(function() { clearInterval(interval); overlay.classList.remove('active'); callback(); }, 2600);
+  }
+
+  function buildAnalysis() {
+    var sorunlar = answers.sorunlar || [];
+    var ciltTipi = answers.cilt_tipi || 'karma';
+    var rutin = answers.rutin || 'temel';
+    var bütçe = answers.bütçe || '200-500';
+    var deneyim = answers.deneyim || 'birkaç';
+
+    // Cilt tipi gösterimi
+    var ciltTipiLabel = {kuru:'Kuru Cilt',yağlı:'Yağlı Cilt',karma:'Karma Cilt',hassas:'Hassas Cilt',bilmiyorum:'Belirsiz'}[ciltTipi] || 'Karma Cilt';
+
+    // Öncelikli sorun
+    var oncelik = sorunlar.length > 0 ? sorunLabelOf(sorunlar[0]) : 'Genel Bakım';
+
+    // Önerilen rutin adım sayısı
+    var rutinAdim = '3 Adım';
+    if (rutin === 'yok') rutinAdim = '3 Adım (Başlangıç)';
+    else if (rutin === 'temel') rutinAdim = '5 Adım';
+    else if (rutin === 'orta') rutinAdim = '7 Adım';
+    else if (rutin === 'detaylı') rutinAdim = '10 Adım (K-Beauty)';
+
+    // Tahmini sonuç süresi
+    var sure = '4-6 Hafta';
+    if (sorunlar.indexOf('kırışıklık') !== -1) sure = '8-12 Hafta';
+    else if (sorunlar.indexOf('leke') !== -1) sure = '6-8 Hafta';
+    else if (sorunlar.length >= 3) sure = '6-10 Hafta';
+
+    document.getElementById('a-cilt-tipi').textContent = ciltTipiLabel;
+    document.getElementById('a-oncelik').textContent = oncelik;
+    document.getElementById('a-rutin').textContent = rutinAdim;
+    document.getElementById('a-sure').textContent = sure;
+
+    // Ürün önerileri
+    var insights = [];
+
+    // Cilt tipine göre temel ürünler
+    if (ciltTipi === 'kuru') {
+      insights.push({ emoji: '\uD83E\uDDF4', text: 'I\'m From Rice Toner - Pirinç özlü nemlendirici tonik, kuru cildi derinlemesine besler' });
+    } else if (ciltTipi === 'yağlı') {
+      insights.push({ emoji: '\uD83D\uDCA7', text: 'COSRX BHA Blackhead Power Liquid - Gözenekleri temizler, yağ dengesini sağlar' });
+    } else if (ciltTipi === 'hassas') {
+      insights.push({ emoji: '\uD83C\uDF38', text: 'Klairs Supple Preparation Unscented Toner - Hassas cildi yatıştıran parfümsüz tonik' });
+    } else {
+      insights.push({ emoji: '\uD83C\uDF00', text: 'Anua Heartleaf 77% Soothing Toner - Karma cilt için dengeleyici ve yatıştırıcı tonik' });
+    }
+
+    // Sorunlara göre ürünler
+    if (sorunlar.indexOf('sivilce') !== -1) insights.push({ emoji: '\uD83D\uDD34', text: 'COSRX Acne Pimple Master Patch - Sivilceleri gece boyunca tedavi eden yama' });
+    if (sorunlar.indexOf('leke') !== -1) insights.push({ emoji: '\u2600\uFE0F', text: 'Beauty of Joseon Glow Serum - Niacinamide + propolis ile leke karşıtı aydınlatıcı serum' });
+    if (sorunlar.indexOf('kuruluk') !== -1) insights.push({ emoji: '\uD83D\uDCA6', text: 'COSRX Snail Mucin 96% Essence - Salyangoz özü ile yoğun nemlendirme ve onarım' });
+    if (sorunlar.indexOf('kırışıklık') !== -1) insights.push({ emoji: '\u2728', text: 'By Wishtrend Vitamin C 21.5% Serum - Kırışıklık karşıtı ve aydınlatıcı C vitamini' });
+    if (sorunlar.indexOf('gözenek') !== -1) insights.push({ emoji: '\uD83D\uDD0D', text: 'Torriden DIVE-IN Low Molecular Hyaluronic Acid Serum - Gözenekleri sıkılaştıran hafif serum' });
+    if (sorunlar.indexOf('ton_eşitsizliği') !== -1) insights.push({ emoji: '\uD83C\uDF08', text: 'Dr.Ceuracle Vegan Kombucha Tea Essence - Cilt tonunu eşitleyen fermente özlü esans' });
+
+    // Maksimum 4 ürün göster
+    insights = insights.slice(0, 4);
+
+    // Varsayılan öneriler
+    if (insights.length === 0) {
+      insights.push({ emoji: '\uD83C\uDF38', text: 'COSRX Snail Mucin 96% Essence - En çok satan nemlendirici esans' });
+      insights.push({ emoji: '\u2600\uFE0F', text: 'Beauty of Joseon Relief Sun - SPF50+ hafif güneş koruyucu' });
+      insights.push({ emoji: '\uD83D\uDCA7', text: 'Anua Heartleaf 77% Soothing Toner - Günlük kullanım için yatıştırıcı tonik' });
+    }
+
+    var insightsList = document.getElementById('insights-list');
+    insightsList.innerHTML = '';
+    for (var i = 0; i < insights.length; i++) {
+      var div = document.createElement('div');
+      div.className = 'insight-item';
+      div.innerHTML = '<span class="emoji">' + insights[i].emoji + '</span><span>' + insights[i].text + '</span>';
+      insightsList.appendChild(div);
+    }
+
+    // Bütçeye göre priority text
+    var bütçeText = '';
+    if (bütçe === '0-200') bütçeText = '200 TL altı bütçeyle bile etkili bir başlangıç rutini oluşturabilirsiniz. Size en uygun 2-3 temel ürünü önerelim.';
+    else if (bütçe === '200-500') bütçeText = 'Bu bütçeyle 5 adımlı kapsamlı bir K-Beauty rutini kurabilirsiniz. Her siparişte 5 numune hediye ile yeni ürünleri de keşfedebilirsiniz.';
+    else if (bütçe === '500-1000') bütçeText = 'Premium Kore bakım ürünleriyle tam kapsamlı bir rutin oluşturabilirsiniz. Medicube cihazları da dahil uzman seviye bakım mümkün.';
+    else bütçeText = 'K-Beauty\'nin en premium ürünleriyle profesyonel seviye bir bakım rutini oluşturabiliriz. SK-II ve Medicube AGE-R serisi dahil tüm seçenekler açık.';
+
+    document.getElementById('priority-text').textContent = bütçeText;
+  }
+
+  function sorunLabelOf(key) {
+    var map = { sivilce: 'Sivilce / Akne', leke: 'Leke Tedavisi', kuruluk: 'Kuruluk', kırışıklık: 'Anti-Aging', gözenek: 'Gözenek Sıkılaştırma', ton_eşitsizliği: 'Ton Eşitleme' };
+    return map[key] || key;
+  }
+
+  window.sendInterest = function() {
+    if (window.GROWTHER_TRACKER) GROWTHER_TRACKER.onInterested();
+    var btn = document.getElementById('cta-7');
+    btn.disabled = true;
+    btn.textContent = 'Gönderiliyor...';
+    GROWTHER.supaFetch('/rest/v1/funnel_leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ source: 'demo-funnel', client: 'korendy', status: 'interested', answers: JSON.stringify(answers), created_at: new Date().toISOString() })
+    }).then(function() {
+      btn.textContent = '\u2705 Görüşme talebi alındı!';
+      btn.style.background = '#16a34a';
+      var note = document.createElement('p');
+      note.style.cssText = 'text-align:center;color:var(--text-secondary);font-size:14px;margin-top:12px';
+      note.textContent = 'En kısa sürede sizinle iletişime geçeceğiz.';
+      btn.parentNode.appendChild(note);
+      setTimeout(function() { showCalPopup('tr'); }, 1200);
+    }).catch(function() {
+      btn.textContent = '\u2705 Görüşme talebi alındı!';
+      btn.style.background = '#16a34a';
+      setTimeout(function() { showCalPopup('tr'); }, 1200);
+    });
+  };
+
+  var touchStartX = 0, touchStartY = 0;
+  document.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].clientX; touchStartY = e.changedTouches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', function(e) { var dx = e.changedTouches[0].clientX - touchStartX, dy = e.changedTouches[0].clientY - touchStartY; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && dx > 0 && currentStep > 1) goBack(); }, { passive: true });
+
+})();
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+<script src="/lib/tracker.js" data-type="demo-funnel" data-client="korendy" data-total-steps="7"></script>
+</body>
+</html>
