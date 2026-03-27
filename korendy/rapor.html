@@ -4,16 +4,16 @@
 <meta charset="UTF-8">
 <style>
   @page { size: A4; margin: 25mm 20mm; }
-  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 13px; line-height: 1.6; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 15px; line-height: 1.7; max-width: 860px; margin: 0 auto; padding: 20px 28px; }
   .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
-  .cover-badge { background: #d1fae5; color: #065f46; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover-badge { background: #ffe3e8; color: #ff0564; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
   .cover h1 { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px; line-height: 1.2; }
   .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
   .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
   .cover-meta strong { color: #5f6368; }
-  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #10b981, #34d399); margin: 30px auto; border-radius: 2px; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #ff0564, #ff6b9d); margin: 30px auto; border-radius: 2px; }
   .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
-  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #10b981; padding-bottom: 6px; margin: 30px 0 16px; }
+  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #ff0564; padding-bottom: 6px; margin: 30px 0 16px; }
   h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
   h4 { font-size: 12px; font-weight: 600; color: #555; margin: 14px 0 6px; }
   table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
@@ -23,28 +23,28 @@
   .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
   .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
   .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
-  .alert-info { background: #d1fae5; border-left: 4px solid #10b981; color: #065f46; }
-  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert-info { background: #ffe3e8; border-left: 4px solid #ff0564; color: #9e003e; }
+  .alert-success { background: #fff0f3; border-left: 4px solid #ff6b9d; color: #9e003e; }
   .alert strong { display: block; margin-bottom: 4px; }
   ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
   .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
-  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
-  .tag-blue { background: #d1fae5; color: #065f46; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #fff0f3; color: #ff0564; }
+  .tag-blue { background: #ffe3e8; color: #ff0564; } .tag-orange { background: #fef7e0; color: #e37400; }
   .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
-  .phase-title { font-weight: 700; font-size: 15px; color: #10b981; margin-bottom: 8px; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #ff0564; margin-bottom: 8px; }
   .page-break { page-break-before: always; } p { margin: 6px 0; }
   .summary-grid { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
   .summary-card { flex: 1; min-width: 120px; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
-  .summary-card .value { font-size: 22px; font-weight: 700; color: #10b981; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #ff0564; }
   .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
   .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
   .score-fill { height: 100%; border-radius: 4px; }
-  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
-  .liked-section { padding: 20px 24px; background: #d1fae5; border: 2px solid #10b981; border-radius: 12px; text-align: center; margin-bottom: 24px; }
-  .liked-section h3 { font-size: 16px; color: #065f46; margin-bottom: 6px; border: none; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #ff0564; }
+  .liked-section { padding: 20px 24px; background: #ffe3e8; border: 2px solid #ff0564; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .liked-section h3 { font-size: 16px; color: #9e003e; margin-bottom: 6px; border: none; }
   .liked-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
-  .liked-btn { background: #10b981; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
-  .liked-btn:hover { background: #059669; } .liked-btn.clicked { background: #10b981; }
+  .liked-btn { background: #ff0564; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .liked-btn:hover { background: #d9044f; } .liked-btn.clicked { background: #ff0564; }
 </style>
 </head>
 <body>
@@ -155,7 +155,7 @@ setTimeout(function(){showCalPopup('tr')},500)}
     <td>Fiziksel mağaza ağı, güvenilirlik, COSRX gibi markaları stoklama başladı</td>
     <td>K-Beauty çeşitliliği çok sınırlı, fiyatlar yüksek, uzman bilgi yok</td>
   </tr>
-  <tr style="background:#d1fae5">
+  <tr style="background:#ffe3e8">
     <td><strong>Korendy</strong></td>
     <td>£10.90 - £49.90 (Global) / TL (TR)</td>
     <td>229K Instagram, güçlü marka portföyü (COSRX, Beauty of Joseon, Anua), K-Puan sadakat sistemi, Türkiye'ye özel mağaza, numune hediyesi</td>

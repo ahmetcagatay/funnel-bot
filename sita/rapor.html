@@ -2,49 +2,52 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   @page { size: A4; margin: 25mm 20mm; }
-  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 13px; line-height: 1.6; }
+  body { font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 15px; line-height: 1.7; max-width: 860px; margin: 0 auto; padding: 20px 28px; }
   .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
-  .cover-badge { background: #d1fae5; color: #065f46; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover-badge { background: rgba(91,175,160,0.12); color: #5BAFA0; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 999px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
   .cover h1 { font-size: 36px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px; line-height: 1.2; }
   .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
   .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
   .cover-meta strong { color: #5f6368; }
-  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #10b981, #34d399); margin: 30px auto; border-radius: 2px; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #5BAFA0, #5A6ACF); margin: 30px auto; border-radius: 2px; }
   .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
-  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #10b981; padding-bottom: 6px; margin: 30px 0 16px; }
+  h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; border-bottom: 2px solid #5BAFA0; padding-bottom: 6px; margin: 30px 0 16px; }
   h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
   h4 { font-size: 12px; font-weight: 600; color: #555; margin: 14px 0 6px; }
   table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
-  th { background: #1a1a2e; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  th { background: #11151b; color: #EAEFEC; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
   td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
   tr:nth-child(even) td { background: #f8f9fa; }
-  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert { padding: 14px 18px; border-radius: 14px; margin: 14px 0; font-size: 13px; }
   .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
   .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
-  .alert-info { background: #d1fae5; border-left: 4px solid #10b981; color: #065f46; }
-  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert-info { background: rgba(91,175,160,0.08); border-left: 4px solid #5BAFA0; color: #1a5c53; }
+  .alert-success { background: rgba(90,106,207,0.08); border-left: 4px solid #5A6ACF; color: #3a4a8f; }
   .alert strong { display: block; margin-bottom: 4px; }
   ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
   .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
-  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
-  .tag-blue { background: #d1fae5; color: #065f46; } .tag-orange { background: #fef7e0; color: #e37400; }
-  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
-  .phase-title { font-weight: 700; font-size: 15px; color: #10b981; margin-bottom: 8px; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: rgba(91,175,160,0.1); color: #3d8a7e; }
+  .tag-blue { background: rgba(90,106,207,0.1); color: #5A6ACF; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 14px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #5BAFA0; margin-bottom: 8px; }
   .page-break { page-break-before: always; } p { margin: 6px 0; }
   .summary-grid { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
-  .summary-card { flex: 1; min-width: 120px; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
-  .summary-card .value { font-size: 22px; font-weight: 700; color: #10b981; }
+  .summary-card { flex: 1; min-width: 120px; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 14px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #5BAFA0; }
   .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
   .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
   .score-fill { height: 100%; border-radius: 4px; }
-  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
-  .liked-section { padding: 20px 24px; background: #d1fae5; border: 2px solid #10b981; border-radius: 12px; text-align: center; margin-bottom: 24px; }
-  .liked-section h3 { font-size: 16px; color: #065f46; margin-bottom: 6px; border: none; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #5BAFA0; }
+  .liked-section { padding: 20px 24px; background: rgba(91,175,160,0.08); border: 2px solid #5BAFA0; border-radius: 14px; text-align: center; margin-bottom: 24px; }
+  .liked-section h3 { font-size: 16px; color: #11151b; margin-bottom: 6px; border: none; }
   .liked-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
-  .liked-btn { background: #10b981; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
-  .liked-btn:hover { background: #059669; } .liked-btn.clicked { background: #10b981; }
+  .liked-btn { background: #5BAFA0; color: #fff; border: none; padding: 14px 32px; border-radius: 14px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .2s; }
+  .liked-btn:hover { background: #4a9e8f; box-shadow: 0 6px 24px rgba(91,175,160,0.3); } .liked-btn.clicked { background: #5BAFA0; }
 </style>
 </head>
 <body>
@@ -154,7 +157,7 @@ setTimeout(function(){showCalPopup('tr')},500)}
     <td>Profesyonellerin %80+'ı zaten Instagram üzerinden müşteri buluyor, sıfır maliyet</td>
     <td>Ölçeklenemiyor, takvim/ödeme/değerlendirme yok, profesyonel görünüm zayıf</td>
   </tr>
-  <tr style="background:#d1fae5">
+  <tr style="background:rgba(91,175,160,0.1)">
     <td><strong>Sita</strong></td>
     <td>Komisyonsuz pazaryeri</td>
     <td>Eğitim+sağlık+spor tek çatı altında, komisyonsuz model profesyonellere cazip, onaylı profil sistemi</td>
