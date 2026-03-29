@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f172a">
+<title>Seyahat İhtiyaç Analizi - Vignetim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--bg:#0f172a;--bg-card:#1e293b;--bg-card-hover:#334155;--bg-option:rgba(30,41,59,0.8);--bg-option-selected:rgba(37,99,235,0.15);--border-option:rgba(71,85,105,0.5);--border-selected:rgba(37,99,235,0.6);--text-primary:#f1f5f9;--text-secondary:#94a3b8;--text-muted:#64748b;--accent:#2563eb;--accent-hover:#1d4ed8;--accent-glow:rgba(37,99,235,0.3);--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--safe-bottom:env(safe-area-inset-bottom,0px)}html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text-primary);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;touch-action:pan-y}.funnel-container{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}.step{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;padding:0 24px;padding-bottom:calc(16px + var(--safe-bottom));transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .4s ease;will-change:transform,opacity;opacity:0;pointer-events:none}.step[data-position="center"]{transform:translateX(0);opacity:1;pointer-events:auto}.step[data-position="left"]{transform:translateX(-100%);opacity:0}.step[data-position="right"]{transform:translateX(100%);opacity:0}.step-header{display:flex;align-items:center;justify-content:center;position:relative;padding:16px 0 8px;flex-shrink:0}.back-btn{position:absolute;left:0;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-secondary);cursor:pointer;padding:8px;border-radius:12px;display:flex;align-items:center;justify-content:center;width:44px;height:44px}.back-btn:hover{background:var(--bg-card);color:var(--text-primary)}.back-btn svg{width:22px;height:22px}.progress-dots{display:flex;gap:6px;align-items:center}.dot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);transition:all .35s ease}.dot.active{background:var(--accent);width:24px;border-radius:4px}.dot.completed{background:var(--accent)}.step-content{flex:1;display:flex;flex-direction:column;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;min-height:0}.step-content::-webkit-scrollbar{display:none}.question-area{text-align:center;margin-bottom:28px;flex-shrink:0}.question-title{font-size:26px;font-weight:700;line-height:1.3;margin-bottom:8px;letter-spacing:-.02em}.question-subtitle{font-size:14px;color:var(--text-secondary)}.options-area{display:flex;flex-direction:column;gap:12px;width:100%;max-width:480px;margin:0 auto}.option-btn{display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:14px 18px;background:var(--bg-option);border:1.5px solid var(--border-option);border-radius:16px;color:var(--text-primary);font-family:inherit;font-size:16px;font-weight:500;text-align:left;cursor:pointer;transition:all .2s;user-select:none}.option-btn:hover{background:var(--bg-card-hover);border-color:var(--text-muted)}.option-btn:active{transform:scale(.98)}.option-btn.selected{background:var(--bg-option-selected);border-color:var(--border-selected);box-shadow:0 0 0 1px var(--border-selected),0 0 20px var(--accent-glow)}.option-btn .emoji{font-size:28px;flex-shrink:0;line-height:1}.option-btn .option-label{flex:1}.option-btn .check-indicator{width:22px;height:22px;border-radius:50%;border:2px solid var(--text-muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}.option-btn.selected .check-indicator{background:var(--accent);border-color:var(--accent)}.option-btn.selected .check-indicator::after{content:'\2713';color:#fff;font-size:13px;font-weight:700}.option-btn.multi .check-indicator{border-radius:6px}.step-footer{flex-shrink:0;padding-top:16px;max-width:480px;width:100%;margin:0 auto}.cta-btn{display:flex;align-items:center;justify-content:center;width:100%;height:56px;background:var(--accent);color:#fff;border:none;border-radius:16px;font-family:inherit;font-size:17px;font-weight:600;cursor:pointer;transition:all .2s}.cta-btn:hover:not(:disabled){background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}.cta-btn:disabled{opacity:.35;cursor:not-allowed}.analysis-card{background:var(--bg-card);border-radius:20px;padding:24px;width:100%;max-width:480px;margin:0 auto}.analysis-header{text-align:center;margin-bottom:20px}.analysis-header h2{font-size:22px;font-weight:700;margin-bottom:4px}.analysis-header p{font-size:13px;color:var(--text-secondary)}.analysis-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(71,85,105,.3)}.analysis-row:last-child{border-bottom:none}.analysis-label{font-size:14px;color:var(--text-secondary)}.analysis-value{font-size:16px;font-weight:600}.insights-list{margin-top:16px;display:flex;flex-direction:column;gap:10px}.insight-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--text-secondary)}.insight-item .emoji{font-size:20px;flex-shrink:0;line-height:1.3}.priority-box{margin-top:16px;padding:14px 16px;background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.25);border-radius:14px}.priority-box .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:4px}.priority-box .text{font-size:14px;color:var(--text-primary);line-height:1.5}.free-trial-banner{margin-top:20px;text-align:center;padding:16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:14px}.free-trial-banner .emoji{font-size:28px;display:block;margin-bottom:6px}.free-trial-banner .text{font-size:15px;font-weight:600;color:var(--text-primary)}.free-trial-banner .sub{font-size:13px;color:var(--text-secondary);margin-top:2px}.thank-you-icon{width:72px;height:72px;border-radius:50%;background:rgba(37,99,235,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:36px;animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1)}@keyframes scaleIn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}.benefits-list{display:flex;flex-direction:column;gap:12px;width:100%;max-width:480px;margin:0 auto 20px}.benefit-item{display:flex;gap:12px;align-items:center;padding:14px 16px;background:var(--bg-card);border-radius:14px;font-size:15px;font-weight:500}.benefit-item .emoji{font-size:24px;flex-shrink:0}.skip-link{text-align:center;margin-top:12px}.skip-link a{color:var(--text-muted);font-size:14px;text-decoration:none;border-bottom:1px solid transparent}.skip-link a:hover{color:var(--text-secondary);border-bottom-color:var(--text-secondary)}.loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .3s}.loading-overlay.active{opacity:1;pointer-events:auto}.loading-spinner{width:48px;height:48px;border:3px solid var(--bg-card);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loading-text{margin-top:20px;font-size:16px;color:var(--text-secondary);text-align:center}.loading-text .changing{display:block;margin-top:6px;font-size:14px;color:var(--text-muted);min-height:21px}.growther-banner{margin-top:16px;padding:14px 16px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.15);border-radius:14px;text-align:center}.growther-banner .text{font-size:13px;color:var(--text-muted)}.growther-banner .text strong{color:var(--text-secondary)}@media(max-height:680px){.question-title{font-size:22px}.option-btn{min-height:48px;padding:10px 14px}.option-btn .emoji{font-size:24px}.options-area{gap:8px}.analysis-card{padding:16px}}@media(min-width:640px){.step{padding:0 40px;padding-bottom:calc(24px + var(--safe-bottom))}.question-title{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="funnel-container" id="funnel">
+
+  <!-- Step 1: Seyahat hedefi -->
+  <div class="step" id="step-1" data-position="center">
+    <div class="step-header"><div class="progress-dots" id="dots-1"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Avrupa seyahatinizde hangi ülkelerden geçeceksiniz?</h1><p class="question-subtitle">Birden fazla seçebilirsiniz</p></div>
+      <div class="options-area" data-step="1" data-key="ülkeler" data-multi="true">
+        <button class="option-btn multi" data-value="bulgaristan">&#x1F1E7;&#x1F1EC;<span class="emoji"></span><span class="option-label">Bulgaristan</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="romanya">&#x1F1F7;&#x1F1F4;<span class="emoji"></span><span class="option-label">Romanya</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="macaristan">&#x1F1ED;&#x1F1FA;<span class="emoji"></span><span class="option-label">Macaristan</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="avusturya">&#x1F1E6;&#x1F1F9;<span class="emoji"></span><span class="option-label">Avusturya</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="slovakya">&#x1F1F8;&#x1F1F0;<span class="emoji"></span><span class="option-label">Slovakya / Slovenya / Çekya</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="diger">&#x1F30D;<span class="emoji"></span><span class="option-label">Diğer Avrupa ülkeleri</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-1" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- Step 2: Araç tipi -->
+  <div class="step" id="step-2" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-2"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Araç tipiniz nedir?</h1></div>
+      <div class="options-area" data-step="2" data-key="araç_tipi">
+        <button class="option-btn" data-value="otomobil"><span class="emoji">&#x1F697;</span><span class="option-label">Otomobil (3.5 ton altı)</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="minibus"><span class="emoji">&#x1F690;</span><span class="option-label">Minibüs / Van</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="karavan"><span class="emoji">&#x1F3D5;&#xFE0F;</span><span class="option-label">Karavan / Çekme karavan</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="tir"><span class="emoji">&#x1F69B;</span><span class="option-label">TIR / Kamyon (3.5 ton üstü)</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-2" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- Step 3: Seyahat süresi -->
+  <div class="step" id="step-3" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-3"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Seyahat süreniz ne kadar?</h1></div>
+      <div class="options-area" data-step="3" data-key="süre">
+        <button class="option-btn" data-value="transit"><span class="emoji">&#x27A1;&#xFE0F;</span><span class="option-label">Transit geçiş (1-2 gün)</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="hafta"><span class="emoji">&#x1F4C5;</span><span class="option-label">1 hafta</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="ay"><span class="emoji">&#x1F5D3;&#xFE0F;</span><span class="option-label">1 ay</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="uzun"><span class="emoji">&#x1F30D;</span><span class="option-label">1 ay üzeri / Süresiz</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-3" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- Step 4: Mevcut belgeler -->
+  <div class="step" id="step-4" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-4"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Hangi belgelere sahipsiniz?</h1><p class="question-subtitle">Birden fazla seçebilirsiniz</p></div>
+      <div class="options-area" data-step="4" data-key="belgeler" data-multi="true">
+        <button class="option-btn multi" data-value="yesil_kart"><span class="emoji">&#x1F4B3;</span><span class="option-label">Yeşil kart sigortam var</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="seyahat_sigorta"><span class="emoji">&#x1F3E5;</span><span class="option-label">Seyahat sağlık sigortam var</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="vinyet"><span class="emoji">&#x1F6E3;&#xFE0F;</span><span class="option-label">Vinyet(lerim) hazır</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="hicbiri"><span class="emoji">&#x274C;</span><span class="option-label">Hiçbiri / Emin değilim</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-4" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- Step 5: İnternet ihtiyacı -->
+  <div class="step" id="step-5" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-5"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Yurtdışında internet erişimine ihtiyacınız var mı?</h1></div>
+      <div class="options-area" data-step="5" data-key="internet">
+        <button class="option-btn" data-value="evet_cok"><span class="emoji">&#x1F4F6;</span><span class="option-label">Evet, sürekli bağlı olmam lazım</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="evet_az"><span class="emoji">&#x1F4F1;</span><span class="option-label">Navigasyon ve mesajlaşma yeterli</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="hayir"><span class="emoji">&#x1F6AB;</span><span class="option-label">Hayır, Wi-Fi yeterli</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-5" disabled>Analizimi Gör</button></div>
+  </div>
+
+  <!-- Step 6: Analiz -->
+  <div class="step" id="step-6" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-6"></div></div>
+    <div class="step-content">
+      <div class="analysis-card">
+        <div class="analysis-header"><h2>Seyahat Analiziniz</h2><p>Cevaplarınıza göre kişisel analiz</p></div>
+        <div class="analysis-row"><span class="analysis-label">Geçeceğiniz Ülke</span><span class="analysis-value" id="a-ulke-sayisi">3 Ülke</span></div>
+        <div class="analysis-row"><span class="analysis-label">Gerekli Vinyet</span><span class="analysis-value" id="a-vinyet" style="color:var(--accent)">3 Vinyet</span></div>
+        <div class="analysis-row"><span class="analysis-label">Eksik Belge</span><span class="analysis-value" id="a-eksik" style="color:var(--danger)">2 Belge</span></div>
+        <div class="analysis-row"><span class="analysis-label">Tahmini Toplam</span><span class="analysis-value" id="a-toplam" style="color:var(--success)">Hesaplanıyor</span></div>
+        <div class="insights-list" id="insights-list"></div>
+        <div class="priority-box"><div class="label">Önemli Uyarı</div><div class="text" id="priority-text">Vinyetsiz yakalanma cezası vinyet ücretinin 10-50 katı olabilir. Online satın alarak sınırda bekleme ve ceza riskinden kurtulun.</div></div>
+        <div class="free-trial-banner"><span class="emoji">&#x1F4A1;</span><div class="text">Bu funnel sizin için de çalışabilir</div><div class="sub">Müşterilerinizin ihtiyacını analiz edin, doğru çözümü sunun</div></div>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-6">Hepsini Tek Seferde Al</button></div>
+  </div>
+
+  <!-- Step 7: Teşekkür / CTA -->
+  <div class="step" id="step-7" data-position="right">
+    <div class="step-header"><div class="progress-dots" id="dots-7"></div></div>
+    <div class="step-content">
+      <div style="text-align:center;margin-bottom:20px">
+        <div class="thank-you-icon">&#x1F6E3;&#xFE0F;</div>
+        <h1 class="question-title" style="font-size:24px">Seyahat Hazırlığınızı Tamamlayın</h1>
+        <p style="font-size:15px;color:var(--text-secondary);margin-top:8px">Vinyet, sigorta ve eSIM ihtiyaçlarınız için size yardımcı olalım</p>
+      </div>
+      <div class="benefits-list">
+        <div class="benefit-item"><span class="emoji">&#x26A1;</span><span>Anında dijital teslimat - dakikalar içinde hazır</span></div>
+        <div class="benefit-item"><span class="emoji">&#x1F30D;</span><span>13 Avrupa ülkesi tek platformda</span></div>
+        <div class="benefit-item"><span class="emoji">&#x1F4B3;</span><span>Güvenli ödeme - SSL şifreli</span></div>
+        <div class="benefit-item"><span class="emoji">&#x1F4DE;</span><span>7/24 müşteri desteği</span></div>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-7" onclick="sendInterest()">15 Dakika Görüşelim</button>
+      <div class="skip-link" style="margin-top:12px"><a href="https://vignetim.com" target="_blank">vignetim.com'u incelemeye devam et</a></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Seyahat ihtiyaçlarınız analiz ediliyor<span class="changing" id="loading-changing"></span></div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  var TOTAL_STEPS = 7;
+  var currentStep = 1;
+  var answers = {};
+
+  for (var s = 1; s <= TOTAL_STEPS; s++) {
+    var dotsContainer = document.getElementById('dots-' + s);
+    if (!dotsContainer) continue;
+    for (var d = 1; d <= TOTAL_STEPS; d++) {
+      var dot = document.createElement('span');
+      dot.className = 'dot';
+      if (d < s) dot.className += ' completed';
+      if (d === s) dot.className += ' active';
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  var optionAreas = document.querySelectorAll('.options-area');
+  for (var i = 0; i < optionAreas.length; i++) {
+    (function(area) {
+      var isMulti = area.dataset.multi === 'true';
+      var key = area.dataset.key;
+      var step = parseInt(area.dataset.step, 10);
+      var btns = area.querySelectorAll('.option-btn');
+      for (var j = 0; j < btns.length; j++) {
+        (function(btn) {
+          btn.addEventListener('click', function() {
+            if (isMulti) {
+              btn.classList.toggle('selected');
+              var selected = area.querySelectorAll('.option-btn.selected');
+              var vals = [];
+              for (var k = 0; k < selected.length; k++) vals.push(selected[k].dataset.value);
+              answers[key] = vals;
+              document.getElementById('cta-' + step).disabled = vals.length === 0;
+            } else {
+              var allBtns = area.querySelectorAll('.option-btn');
+              for (var k = 0; k < allBtns.length; k++) allBtns[k].classList.remove('selected');
+              btn.classList.add('selected');
+              answers[key] = btn.dataset.value;
+              document.getElementById('cta-' + step).disabled = false;
+            }
+          });
+        })(btns[j]);
+      }
+    })(optionAreas[i]);
+  }
+
+  for (var s2 = 1; s2 <= 4; s2++) {
+    (function(step) {
+      document.getElementById('cta-' + step).addEventListener('click', function() {
+        goToStep(step + 1);
+      });
+    })(s2);
+  }
+  document.getElementById('cta-5').addEventListener('click', function() {
+    showLoading(function() { buildAnalysis(); goToStep(6); });
+  });
+  document.getElementById('cta-6').addEventListener('click', function() { goToStep(7); });
+
+  function goToStep(target) {
+    if (target < 1 || target > TOTAL_STEPS) return;
+    document.getElementById('step-' + currentStep).dataset.position = target > currentStep ? 'left' : 'right';
+    document.getElementById('step-' + target).dataset.position = 'center';
+    currentStep = target;
+    if (window.GROWTHER_TRACKER) GROWTHER_TRACKER.onStepChange(target);
+  }
+  window.goBack = function() { goToStep(currentStep - 1); };
+
+  window.GROWTHER_FUNNEL = { getCurrentStep: function() { return currentStep; }, getAnswers: function() { return answers; } };
+
+  function showLoading(callback) {
+    var overlay = document.getElementById('loading-overlay');
+    var changing = document.getElementById('loading-changing');
+    overlay.classList.add('active');
+    var messages = ['Güzergah analiz ediliyor...', 'Vinyet gereksinimleri hesaplanıyor...', 'Sigorta ihtiyaçları kontrol ediliyor...', 'Kişisel öneriniz hazırlanıyor...'];
+    var idx = 0; changing.textContent = messages[0];
+    var interval = setInterval(function() { idx++; if (idx < messages.length) changing.textContent = messages[idx]; }, 600);
+    setTimeout(function() { clearInterval(interval); overlay.classList.remove('active'); callback(); }, 2600);
+  }
+
+  function buildAnalysis() {
+    var ulkeler = answers['ülkeler'] || [];
+    var aracTipi = answers['araç_tipi'] || 'otomobil';
+    var sure = answers['süre'] || 'hafta';
+    var belgeler = answers.belgeler || [];
+    var internet = answers.internet || 'evet_az';
+
+    // Ülke sayısı
+    var ulkeSayisi = ulkeler.length;
+    if (ulkeler.indexOf('diger') !== -1) ulkeSayisi = ulkeSayisi + 1;
+    document.getElementById('a-ulke-sayisi').textContent = ulkeSayisi + ' Ülke';
+
+    // Vinyet sayısı
+    var vinyetUlkeleri = ulkeler.filter(function(u) { return u !== 'diger'; });
+    document.getElementById('a-vinyet').textContent = vinyetUlkeleri.length + ' Vinyet';
+
+    // Eksik belgeler
+    var eksikSayisi = 0;
+    var eksikler = [];
+    if (belgeler.indexOf('yesil_kart') === -1) { eksikSayisi++; eksikler.push('Yeşil Kart'); }
+    if (belgeler.indexOf('seyahat_sigorta') === -1) { eksikSayisi++; eksikler.push('Seyahat Sigortası'); }
+    if (belgeler.indexOf('vinyet') === -1) { eksikSayisi += vinyetUlkeleri.length; eksikler.push(vinyetUlkeleri.length + ' Vinyet'); }
+    document.getElementById('a-eksik').textContent = eksikSayisi > 0 ? eksikSayisi + ' Eksik' : 'Tamam';
+    if (eksikSayisi === 0) document.getElementById('a-eksik').style.color = 'var(--success)';
+
+    // Tahmini toplam
+    var tahmini = 0;
+    if (belgeler.indexOf('vinyet') === -1) {
+      var vinyetFiyat = sure === 'transit' ? 15 : sure === 'hafta' ? 25 : 50;
+      if (aracTipi === 'tir') vinyetFiyat *= 3;
+      tahmini += vinyetUlkeleri.length * vinyetFiyat;
+    }
+    if (belgeler.indexOf('yesil_kart') === -1) tahmini += 80;
+    if (belgeler.indexOf('seyahat_sigorta') === -1) tahmini += 30;
+    if (internet !== 'hayir') tahmini += 20;
+    document.getElementById('a-toplam').textContent = tahmini > 0 ? '~' + tahmini + ' EUR' : 'Hazırsınız!';
+
+    // İçgörüler
+    var insights = [];
+    if (belgeler.indexOf('vinyet') === -1 && vinyetUlkeleri.length > 0) {
+      insights.push({ emoji: '\u{1F6E3}\uFE0F', text: vinyetUlkeleri.length + ' ülke için dijital vinyet gerekiyor. Online alarak sınırda beklemeyin.' });
+    }
+    if (belgeler.indexOf('yesil_kart') === -1) {
+      insights.push({ emoji: '\uD83D\uDCB3', text: 'Yeşil kart sigortası zorunlu. Vinyetle birlikte tek seferde alabilirsiniz.' });
+    }
+    if (belgeler.indexOf('seyahat_sigorta') === -1) {
+      insights.push({ emoji: '\uD83C\uDFE5', text: 'Seyahat sağlık sigortası şiddetle tavsiye edilir. Avrupa\'da sağlık hizmeti çok pahalı.' });
+    }
+    if (internet !== 'hayir') {
+      insights.push({ emoji: '\uD83D\uDCF6', text: 'eSIM ile yurtdışında uygun fiyatlı internet. Roaming ücretlerinden kurtulun.' });
+    }
+    if (aracTipi === 'tir') {
+      insights.push({ emoji: '\uD83D\uDE9B', text: 'Ağır vasıta için vinyet fiyatları farklıdır. Filo indirimi için bizimle iletişime geçin.' });
+    }
+
+    insights = insights.slice(0, 4);
+    if (insights.length === 0) {
+      insights.push({ emoji: '\u2705', text: 'Belgeleriniz hazır görünüyor. Vignetim ile tüm belgelerinizi tek platformdan yönetin.' });
+    }
+
+    var insightsList = document.getElementById('insights-list');
+    insightsList.innerHTML = '';
+    for (var i = 0; i < insights.length; i++) {
+      var div = document.createElement('div');
+      div.className = 'insight-item';
+      div.innerHTML = '<span class="emoji">' + insights[i].emoji + '</span><span>' + insights[i].text + '</span>';
+      insightsList.appendChild(div);
+    }
+
+    // Öncelik metni
+    var ulkeIsimleri = { bulgaristan: 'Bulgaristan', romanya: 'Romanya', macaristan: 'Macaristan', avusturya: 'Avusturya', slovakya: 'Slovakya/Slovenya/Çekya' };
+    var ulkeListesi = ulkeler.filter(function(u) { return u !== 'diger'; }).map(function(u) { return ulkeIsimleri[u] || u; }).join(', ');
+    document.getElementById('priority-text').textContent = ulkeListesi + ' için vinyet, sigorta ve eSIM ihtiyaçlarınızı Vignetim ile tek seferde halledin. Dijital teslimat sayesinde dakikalar içinde hazır.';
+  }
+
+  window.sendInterest = function() {
+    if (window.GROWTHER_TRACKER) GROWTHER_TRACKER.onInterested();
+    var btn = document.getElementById('cta-7');
+    btn.disabled = true;
+    btn.textContent = 'Gönderiliyor...';
+    GROWTHER.supaFetch('/rest/v1/funnel_leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ source: 'demo-funnel', client: 'vignetim', status: 'interested', answers: JSON.stringify(answers), created_at: new Date().toISOString() })
+    }).then(function() {
+      btn.textContent = '\u2705 Görüşme talebi alındı!';
+      btn.style.background = '#16a34a';
+      var note = document.createElement('p');
+      note.style.cssText = 'text-align:center;color:var(--text-secondary);font-size:14px;margin-top:12px';
+      note.textContent = 'En kısa sürede sizinle iletişime geçeceğiz.';
+      btn.parentNode.appendChild(note);
+      setTimeout(function() { showCalPopup('tr'); }, 1200);
+    }).catch(function() {
+      btn.textContent = '\u2705 Görüşme talebi alındı!';
+      btn.style.background = '#16a34a';
+      setTimeout(function() { showCalPopup('tr'); }, 1200);
+    });
+  };
+
+  var touchStartX = 0, touchStartY = 0;
+  document.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].clientX; touchStartY = e.changedTouches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', function(e) { var dx = e.changedTouches[0].clientX - touchStartX, dy = e.changedTouches[0].clientY - touchStartY; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && dx > 0 && currentStep > 1) goBack(); }, { passive: true });
+
+})();
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+<script src="/lib/tracker.js" data-type="demo-funnel" data-client="vignetim" data-total-steps="7"></script>
+</body>
+</html>
