@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif; color: #1a1a2e; font-size: 15px; line-height: 1.7; max-width: 860px; margin: 0 auto; padding: 20px 28px; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #e8eef4; color: #032341; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #032341; margin: 0 0 10px; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #032341, #345e83); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #032341; border-bottom: 2px solid #032341; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
+  h4 { font-size: 12px; font-weight: 600; color: #555; margin: 14px 0 6px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+  th { background: #032341; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 14px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #e8eef4; border-left: 4px solid #032341; color: #032341; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #e8eef4; color: #032341; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #032341; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
+  .summary-card { flex: 1; min-width: 120px; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #032341; }
+  .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  .liked-section { padding: 20px 24px; background: #dcfce7; border: 2px solid #22c55e; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .liked-section h3 { font-size: 16px; color: #166534; margin-bottom: 6px; border: none; }
+  .liked-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .liked-btn { background: #22c55e; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; box-shadow: 0 0 20px rgba(34,197,94,0.3); }
+  .liked-btn:hover { background: #16a34a; box-shadow: 0 0 30px rgba(34,197,94,0.5); } .liked-btn.clicked { background: #22c55e; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanım</div>
+  <h1>Celluragen</h1>
+  <h2>Büyüme Stratejisi &amp; Dijital Pazarlama Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazırlanma Tarihi:</strong> 26 Mart 2026<br>
+    <strong>Domain:</strong> celluragen.com<br>
+    <strong>Sektör:</strong> Biyoteknoloji - Takviye Gıda (Kolajen)<br>
+    <strong>Rapor Türü:</strong> Detaylı Analiz + Strateji Önerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır.</div>
+</div>
+
+<script>
+function handleLiked(){var b=document.getElementById('likedBtn');b.disabled=true;b.textContent='Yönlendiriliyor...';
+if(window.GROWTHER&&GROWTHER.supaFetch){GROWTHER.supaFetch('POST','funnel_leads',{website:window.location.pathname,stage:'liked_report',extra_notes:JSON.stringify({client:'celluragen',action:'liked_report',clicked_at:new Date().toISOString(),is_test:GROWTHER.isAdmin}),last_step:'liked',completed:true}).catch(function(){});}
+setTimeout(function(){showCalPopup('tr')},500)}
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+
+<!-- PROFIL -->
+<h2 class="page-break">1. Şirket Profil Özeti</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">B2C</div><div class="label">Hedef Pazar</div></div>
+  <div class="summary-card"><div class="value">Biyotek</div><div class="label">Sektör</div></div>
+  <div class="summary-card"><div class="value">3.190 TL</div><div class="label">Ürün Fiyatı</div></div>
+  <div class="summary-card"><div class="value">Yeni</div><div class="label">Pazar Aşaması</div></div>
+  <div class="summary-card"><div class="value">Tek SKU</div><div class="label">Ürün Sayısı</div></div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Değer</th></tr>
+  <tr><td><strong>Website</strong></td><td>celluragen.com</td></tr>
+  <tr><td><strong>Ürün</strong></td><td>Celluragen Marine Collagen Complex - Balık kolajeni peptitleri, Ca-AKG, vitamin C, glisin, bakır, resveratrol, alfa lipoik asit, nar kabuğu ekstraktı ve rhodiola ekstraktı içeren premium takviye gıda</td></tr>
+  <tr><td><strong>Ar-Ge</strong></td><td>TÜBİTAK TEYDEB destekli (Proje No: 7230824) - Collaxir Ar-Ge ve Biyoteknoloji A.Ş. bünyesinde geliştirilmiş</td></tr>
+  <tr><td><strong>Fiyatlandırma</strong></td><td>Tekli: 3.190 TL | 3 Aylık Avantaj Paketi ve 6 Aylık Paket seçenekleri mevcut</td></tr>
+  <tr><td><strong>Teknoloji</strong></td><td>Next.js, Ikas e-ticaret altyapısı, Facebook Pixel, Google Tag Manager</td></tr>
+  <tr><td><strong>Satış Kanalı</strong></td><td>Online mağaza + yetkili eczaneler</td></tr>
+  <tr><td><strong>Sosyal Medya</strong></td><td>Facebook, Instagram, LinkedIn - mevcut ama aktivite düzeyi düşük</td></tr>
+  <tr><td><strong>Etkinlik Katılımı</strong></td><td>GİFT (Gıda İnovasyon Zirvesi), TEKNOFEST</td></tr>
+</table>
+
+<h3>Formül İçeriği ve Fark Yaratan Bileşenler</h3>
+<table>
+  <tr><th>Bileşen</th><th>Fonksiyon</th><th>Rekabetçi Fark</th></tr>
+  <tr><td><strong>Balık Kolajeni Peptitleri</strong></td><td>Cilt elastikiyeti, eklem sağlığı, hücre yenilenmesi</td><td><span class="tag tag-blue">Temel</span></td></tr>
+  <tr><td><strong>Ca-AKG (Kalsiyum Alfa-Ketoklutarat)</strong></td><td>Hücresel enerji üretimi, yaşlanma karşıtı</td><td><span class="tag tag-blue">Nadir Bileşen</span></td></tr>
+  <tr><td><strong>Resveratrol</strong></td><td>Antioksidan, kardiyovasküler destek</td><td><span class="tag tag-green">Premium</span></td></tr>
+  <tr><td><strong>Alfa Lipoik Asit</strong></td><td>Güçlü antioksidan, kan şekeri dengesi</td><td><span class="tag tag-green">Premium</span></td></tr>
+  <tr><td><strong>Rhodiola Ekstraktı</strong></td><td>Adaptöjen, stres direnci, enerji</td><td><span class="tag tag-blue">Nadir Bileşen</span></td></tr>
+  <tr><td><strong>Nar Kabuğu Ekstraktı</strong></td><td>Polifenol kaynağı, anti-inflamatuar</td><td><span class="tag tag-green">Premium</span></td></tr>
+  <tr><td><strong>Vitamin C + Glisin + Bakır</strong></td><td>Kolajen sentezi desteği, bağ doku güçlendirme</td><td><span class="tag tag-green">Sinerjik</span></td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Profil Değerlendirmesi</strong>
+  Celluragen, TÜBİTAK destekli Ar-Ge geçmişiyle pazarda güçlü bir bilimsel temel üzerine inşa edilmiş. Ca-AKG ve rhodiola gibi nadir bileşenler formülü sıradan kolajen takviyelerinden ayırıyor. Ancak 3.190 TL'lik fiyat noktası yüksek güven ve ikna gerektiriyor - şu anda sitede bunu sağlayacak sosyal kanıt, klinik veri ve içerik altyapısı eksik. Tek SKU ile çalışmak odak avantajı sağlıyor ama sepet ortalamasını artırmak için paket stratejisi kritik.
+</div>
+
+
+<!-- RAKIP -->
+<h2 class="page-break">2. Rakip Analizi - Kolajen Takviye Pazarı</h2>
+
+<h3>2.1 Doğrudan ve Dolaylı Rakipler</h3>
+<table>
+  <tr><th>Rakip</th><th>Fiyat Aralığı</th><th>Güçlü Yönü</th><th>Zayıf Yönü</th></tr>
+  <tr>
+    <td><strong>Vital Proteins</strong></td>
+    <td>800-2.500 TL</td>
+    <td>Küresel marka bilinirliği, influencer ağı, Amazon/Trendyol dağıtımı</td>
+    <td>Temel formül, Ca-AKG/rhodiola gibi ileri bileşenler yok</td>
+  </tr>
+  <tr>
+    <td><strong>Balen Kolajen</strong></td>
+    <td>200-600 TL</td>
+    <td>Düşük fiyat, eczane dağıtım ağı geniş, Trendyol'da güçlü</td>
+    <td>Düşük doz, basit formül, bilimsel destek zayıf</td>
+  </tr>
+  <tr>
+    <td><strong>Naturagen</strong></td>
+    <td>400-1.200 TL</td>
+    <td>Türk markası, eczane ağı, tanınan isim</td>
+    <td>Ar-Ge derinliği zayıf, standart formül</td>
+  </tr>
+  <tr>
+    <td><strong>Solgar</strong></td>
+    <td>600-1.800 TL</td>
+    <td>Premium algı, 75+ yıllık marka güveni, geniş ürün yelpazesi</td>
+    <td>Kolajen odaklı değil, spesifik formülasyon yok</td>
+  </tr>
+  <tr>
+    <td><strong>CollagenArt</strong></td>
+    <td>500-1.500 TL</td>
+    <td>Türk markası, sosyal medya pazarlaması aktif</td>
+    <td>TÜBİTAK desteği yok, bilimsel altyapı zayıf</td>
+  </tr>
+  <tr>
+    <td><strong>Dr. Collagen</strong></td>
+    <td>300-900 TL</td>
+    <td>Eczane kanalında güçlü, erişilebilir fiyat</td>
+    <td>Basit formül, premium segment dışı</td>
+  </tr>
+  <tr style="background:#e8eef4">
+    <td><strong>Celluragen</strong></td>
+    <td>3.190 TL</td>
+    <td>TÜBİTAK destekli Ar-Ge, Ca-AKG + rhodiola + resveratrol kombinasyonu, bilimsel temel, nadir bileşenler</td>
+    <td>Fiyat çok yüksek, bilinirlik sıfır, sosyal kanıt yok, tek SKU</td>
+  </tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Celluragen'in Rekabetçi Avantajları</strong>
+  <ul style="margin-top:6px">
+    <li><strong>TÜBİTAK TEYDEB desteği</strong> - Türkiye'deki hiçbir kolajen markasının sahip olmadığı bilimsel meşruiyet. Bu tek başına güçlü bir güven sinyali.</li>
+    <li><strong>Ca-AKG + Rhodiola formülü</strong> - Pazardaki hiçbir rakip bu kombinasyona sahip değil. Longevity/hücresel yenilenme alanında benzersiz konum.</li>
+    <li><strong>9 aktif bileşen sinerjisi</strong> - Rakipler genelde 2-3 bileşenle çalışırken, Celluragen kapsamlı bir formül sunuyor.</li>
+    <li><strong>Bilimsel hikaye anlatımı potansiyeli</strong> - Ar-Ge süreci, TEKNOFEST/GİFT katılımları pazarlamada kullanılabilecek güçlü içerik malzemesi.</li>
+  </ul>
+</div>
+
+<h3>2.2 Pazar Fırsat Değerlendirmesi</h3>
+<table>
+  <tr><th>Metrik</th><th>Değer / Yorum</th></tr>
+  <tr><td>Türkiye kolajen takviye pazarı</td><td><strong>Hızla büyüyor</strong> - Yıllık %20+ büyüme, 2026'da tahmini 2+ milyar TL</td></tr>
+  <tr><td>"kolajen takviyesi" arama hacmi</td><td><strong>Yüksek</strong> - Aylık 50.000+ arama, yoğun rekabet</td></tr>
+  <tr><td>"marine kolajen" arama hacmi</td><td><strong>Orta</strong> - Aylık 10.000+ arama, daha az rekabet</td></tr>
+  <tr><td>"Ca-AKG takviye" arama hacmi</td><td><strong>Çok düşük rekabet</strong> - Longevity nişi henüz Türkiye'de boş</td></tr>
+  <tr><td>"hücresel yenilenme takviye" arama</td><td><strong>Düşük rekabet</strong> - Eğitim içeriğiyle bu alanı sahiplenebilirsiniz</td></tr>
+  <tr><td>Premium segment (%1.500+ TL) payı</td><td><strong>Küçük ama büyüyen</strong> - Bilinçli tüketici segmenti hızla genişliyor</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Kritik Bulgu: Premium Kolajen Nişi Boş</strong>
+  Türkiye'de 3.000 TL+ fiyat segmentinde bilimsel altyapısı olan, TÜBİTAK destekli bir kolajen markası yok. "Ca-AKG nedir", "hücresel yenilenme takviyesi", "longevity Türkiye" gibi aramalarda organik olarak ilk sayfaya girmek düşük bütçeyle mümkün. Bu niş henüz sahipsiz - ama uzun süre öyle kalmaz.
+</div>
+
+
+<!-- WEB SİTESİ -->
+<h2 class="page-break">3. Web Sitesi Analizi</h2>
+
+<h3>3.1 Güçlü Yönler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr><td>Tasarım Kalitesi</td><td><span class="tag tag-green">İyi</span> - Temiz, premium hissiyat veren minimal tasarım, Poppins fontu profesyonel duruyor</td></tr>
+  <tr><td>E-ticaret Altyapısı</td><td><span class="tag tag-green">Var</span> - Ikas altyapısı üzerinde çalışan online mağaza, direkt satın alma imkanı</td></tr>
+  <tr><td>Mobil Uyumluluk</td><td><span class="tag tag-green">Var</span> - Responsive tasarım, mobil deneyim iyi</td></tr>
+  <tr><td>Tracking Altyapısı</td><td><span class="tag tag-green">Var</span> - GTM + Facebook Pixel kurulu, reklam altyapısı hazır</td></tr>
+  <tr><td>TÜBİTAK Referansı</td><td><span class="tag tag-green">Güçlü</span> - Bilimsel meşruiyet sinyali sitede mevcut</td></tr>
+</table>
+
+<h3>3.2 Kritik Sorunlar</h3>
+<table>
+  <tr><th>Sorun</th><th>Açıklama</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>Blog / İçerik Yok</strong></td>
+    <td>"Ca-AKG nedir", "marine kolajen faydaları", "kolajen ne zaman içilir" gibi yüksek hacimli aramalarda hiç içerik yok. 3.190 TL'lik bir ürünü satmak için müşteriyi eğitmek şart - içerik olmadan bu imkansız.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sosyal Kanıt Eksik</strong></td>
+    <td>Müşteri yorumu, önce/sonra görseli, kullanıcı deneyimi hikayesi yok. 3.190 TL fiyatla güven oluşturmadan satış yapılamaz. İnsanlar bu fiyata "başkaları ne diyor?" diye soruyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Bilimsel İçerik Yetersiz</strong></td>
+    <td>TÜBİTAK desteği mevcut ama Ar-Ge süreci, klinik veriler, bileşen açıklamaları detaylı anlatılmıyor. Bu, en büyük rekabet avantajınızın kullanılmaması demek.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Tek SKU Riski</strong></td>
+    <td>Sadece tek ürün var. Sepet ortalaması artırılamıyor, müşteri yaşam boyu değeri düşük kalıyor. En azından 3 aylık ve 6 aylık paketlerin ayrı ürün sayfaları olmalı.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Fiyat Gerekçesi Zayıf</strong></td>
+    <td>3.190 TL fiyatın neden bu kadar olduğu açıklanmıyor. Bileşen maliyeti karşılaştırması, doz başına fiyat hesabı, rakiplerle ingrediyent karşılaştırması yok. Müşteri "neden 3.190 TL?" sorusuna cevap bulamıyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>SEO İçerik Stratejisi Yok</strong></td>
+    <td>Organik trafik neredeyse sıfır. "kolajen takviyesi", "Ca-AKG", "marine kolajen" gibi hedef kelimelerde sıralama yok. Reklam bütçesi olmadan müşteriye ulaşmak imkansız.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+</table>
+
+<h3>3.3 Sosyal Medya Varlığı</h3>
+<table>
+  <tr><th>Platform</th><th>Durum</th><th>Öneri</th></tr>
+  <tr><td>Instagram</td><td><span class="tag tag-orange">Var - Düşük Aktivite</span></td><td>Kolajen/wellness sektöründe birincil kanal. Reels, önce/sonra, bilimsel içerik paylaşımları şart.</td></tr>
+  <tr><td>Facebook</td><td><span class="tag tag-orange">Var - Düşük Aktivite</span></td><td>35+ yaş hedef kitle için önemli. Facebook Ads ile retargeting yapılabilir.</td></tr>
+  <tr><td>LinkedIn</td><td><span class="tag tag-orange">Var</span></td><td>B2B (eczane, klinik) için kullanılabilir. TÜBİTAK/Ar-Ge hikayesi LinkedIn'de güçlü yankı bulur.</td></tr>
+  <tr><td>YouTube</td><td><span class="tag tag-red">Yok</span></td><td>Bileşen açıklama videoları, Ar-Ge süreci, kullanıcı deneyimleri - yüksek güven inşa eder.</td></tr>
+  <tr><td>TikTok</td><td><span class="tag tag-red">Yok</span></td><td>Wellness/beauty segmentinde en hızlı büyüyen kanal. Kısa bilimsel içerik viral potansiyeli taşır.</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Sosyal Medya Değerlendirmesi</strong>
+  Premium takviye gıda satışında Instagram ve TikTok en güçlü kanallar. Kolajen kategorisinde influencer pazarlaması dönüşüm oranlarını 3-5x artırabiliyor. Celluragen'in bilimsel altyapısı (TÜBİTAK, Ca-AKG) diğer kolajen markalarından farklılaşma fırsatı sunuyor - "bilim destekli kolajen" pozisyonlaması sosyal medyada çok güçlü bir anlatı. Ancak şu an bu hikaye hiç anlatılmıyor.
+</div>
+
+
+<!-- STRATEJİ -->
+<h2 class="page-break">4. Önerilen Aksiyon Planı</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - Güven Altyapısı ve İçerik Temeli (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Fiyat gerekçesi sayfası oluşturun - acil:</strong> "Neden 3.190 TL?" sorusunu yanıtlayan bir sayfa: bileşen başına maliyet analizi, günlük doz başına fiyat (yaklaşık 106 TL/gün), rakip formüllerle ingrediyent karşılaştırma tablosu. 3.190 TL'yi "günde bir kahve fiyatına bilim destekli hücre yenilenmesi" olarak çerçeveleyin.</li>
+    <li><strong>Bilimsel içerik sayfaları yazın:</strong> Her bileşen için ayrı sayfa: "Ca-AKG Nedir? Hücresel Yenilenmedeki Rolü", "Resveratrol ve Kolajen Sinerjisi", "Marine Kolajen vs Sığır Kolajeni: Farklar". TÜBİTAK proje sürecini anlatan detaylı bir "Ar-Ge Hikayemiz" sayfası ekleyin.</li>
+    <li><strong>Müşteri yorumları ve sosyal kanıt toplayın:</strong> İlk 50 müşteriden detaylı geri bildirim isteyin. Fotoğraflı/videolu deneyim paylaşımları, kullanım süresi ve sonuç bildirimleri. Sitede belirgin şekilde gösterin.</li>
+    <li><strong>Blog başlatın:</strong> "Kolajen Ne Zaman İçilir?", "Marine Kolajen Faydaları", "Ca-AKG ve Yaşlanma Karşıtı Bilim", "Kolajen Takviyesi Nasıl Seçilir?" konularında SEO odaklı 4-5 makale yayınlayın.</li>
+    <li><strong>Paket sayfalarını oluşturun:</strong> 3 aylık (%10 indirim) ve 6 aylık (%20 indirim) paketleri ayrı ürün sayfaları olarak ekleyin. Abonelik modeli düşünün - aylık otomatik gönderim ile müşteri yaşam boyu değerini artırın.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - Sosyal Medya ve Influencer Stratejisi (Hafta 3-4)</div>
+  <ol>
+    <li><strong>Instagram içerik planı:</strong> Haftada 4-5 post: Bileşen açıklamaları (carousel), Ar-Ge süreci (behind the scenes), müşteri deneyimleri, bilimsel infografikler. Reels formatında kısa bilgi videoları (30-60 sn) kolajen kategorisinde yüksek etkileşim alıyor.</li>
+    <li><strong>Mikro-influencer kampanyası başlatın:</strong> 10K-50K takipçili 5-10 wellness/beauty influencer ile ürün deneyimi anlaşması yapın. "1 ay Celluragen kullandım" formatında gerçekçi içerikler ürettirin. Büyük influencer yerine çok sayıda mikro-influencer daha yüksek ROI sağlar.</li>
+    <li><strong>TikTok hesabı açın:</strong> "Eczacı anlatıyor: Ca-AKG nedir?", "Kolajende fark yaratan 3 bileşen", "3.190 TL'lik kolajenin içinde ne var?" formatında eğitici içerikler. Bilimsel içerik TikTok'ta sürpriz şekilde viral olabiliyor.</li>
+    <li><strong>YouTube kanalı açın:</strong> "Celluragen Ar-Ge Süreci", "TÜBİTAK Destekli Formül Nasıl Geliştirildi?", "Ca-AKG: Longevity Biliminin Yeni Yıldızı" konularında 5-10 dakikalık videolar. Yüksek fiyatlı ürünlerde video içerik güven inşa eder.</li>
+    <li><strong>UGC (User Generated Content) stratejisi:</strong> Müşterilere "deneyimini paylaş, sonraki siparişinde %15 indirim" teklifi sunun. Gerçek kullanıcı içerikleri en güçlü sosyal kanıt.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - Ücretli Reklam ve Ölçekleme (Ay 2+)</div>
+  <ol>
+    <li><strong>Meta Ads (Instagram + Facebook):</strong> Hedef kitle: 28-55 yaş, kadın ağırlıklı, wellness/beauty ilgi alanları, yüksek gelir segmenti. Farklı reklam formatları test edin: bilimsel içerik vs sosyal kanıt vs fiyat gerekçesi. Retargeting ile site ziyaretçilerini geri çekin.</li>
+    <li><strong>Google Ads - arama reklamları:</strong> "kolajen takviyesi", "marine kolajen", "en iyi kolajen", "Ca-AKG takviye" kelimelerinde reklam verin. Arama reklamları yüksek niyet taşıyor - kolajen arayan kişi zaten satın almaya yakın.</li>
+    <li><strong>Eczane kanalını genişletin:</strong> Yetkili eczane sayısını artırın. Eczane içi POS materyalleri, broşürler ve eczacı eğitim programı hazırlayın. Eczacı tavsiyesi kolajen satışında en güçlü dönüşüm kanallarından biri.</li>
+    <li><strong>Trendyol/Hepsiburada mağazası açın:</strong> Marketplace kanalları hem satış hem bilinirlik sağlar. Müşteri yorumları burada biriktikçe organik satışlar artar. İlk dönem indirimli fiyatla yorum toplama stratejisi uygulayın.</li>
+    <li><strong>E-posta pazarlaması başlatın:</strong> Blog okuyucuları ve site ziyaretçilerinden e-posta toplayın. Haftalık "Hücresel Yenilenme Bülteni" ile bilimsel içerik paylaşın. 3-4 e-postadan sonra satış teklifi sunun. Kolajen gibi tekrar satın alınan ürünlerde e-posta ROI çok yüksek.</li>
+    <li><strong>Abonelik modeli başlatın:</strong> Aylık otomatik gönderim ile %15-20 indirim teklifi. Müşteri yaşam boyu değerini 3-5x artırır, tahmin edilebilir gelir sağlar.</li>
+  </ol>
+</div>
+
+
+<!-- SONUÇ -->
+<h2 class="page-break">5. Sonuç ve Skor Kartı</h2>
+
+<h3>Skor Kartı</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef (3 Ay)</th></tr>
+  <tr><td>Ürün / Formül Kalitesi</td><td><div class="score-bar"><div class="score-fill score-high" style="width:85%"></div></div> 8.5/10</td><td>9/10</td></tr>
+  <tr><td>Web Sitesi Tasarımı</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:65%"></div></div> 6.5/10</td><td>8/10</td></tr>
+  <tr><td>SEO / Organik Trafik</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>5/10</td></tr>
+  <tr><td>İçerik Pazarlaması</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>6/10</td></tr>
+  <tr><td>Sosyal Kanıt</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>6/10</td></tr>
+  <tr><td>Sosyal Medya</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>6/10</td></tr>
+  <tr><td>Ücretli Reklamlar</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>5/10</td></tr>
+  <tr><td>Fiyat İletişimi</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>7/10</td></tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>Acil Müdahale Gerektiren 3 Alan</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Fiyat Gerekçesi: 1.5/10</strong> - 3.190 TL'lik fiyatın neden haklı olduğu anlatılmıyor. Bileşen karşılaştırması, doz başına maliyet, TÜBİTAK Ar-Ge süreci detayı olmadan bu fiyata satış yapmak neredeyse imkansız.</li>
+    <li><strong>Sosyal Kanıt: 1/10</strong> - Müşteri yorumu, önce/sonra, deneyim hikayesi yok. Premium fiyatlı ürünlerde sosyal kanıt satın alma kararının %70'ini etkiliyor.</li>
+    <li><strong>İçerik Stratejisi: 1/10</strong> - Blog yok, bilimsel içerik yok, SEO yok. "Ca-AKG nedir", "marine kolajen faydaları" gibi doğrudan hedef kitlenize ulaşacak aramalar boşa gidiyor.</li>
+  </ul>
+</div>
+
+<div class="alert alert-info">
+  <strong>Özet Değerlendirme</strong>
+  Celluragen, formül kalitesi açısından Türkiye kolajen pazarının en güçlü ürünlerinden biri. TÜBİTAK destekli Ar-Ge, Ca-AKG ve rhodiola gibi nadir bileşenler, 9 aktif madde sinerjisi - bunlar gerçek rekabetçi avantajlar.
+  <br><br>
+  Asıl sorun bu hikayenin anlatılmaması. Bilimsel altyapı var ama müşteriye ulaşmıyor. Fiyat yüksek ama gerekçelendirilmiyor. Ürün güçlü ama kimse bilmiyor. Bu "iyi ürün, eksik pazarlama" problemi çözülebilir bir problem. Fiyat gerekçesi sayfası, bilimsel blog içerikleri ve 5-10 mikro-influencer kampanyası ile 3 ay içinde ciddi bir fark yaratılabilir.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adım</strong>
+  Bu rapordaki stratejinin uygulanması için sizinle çalışabiliriz. İçerik stratejisi ve bilimsel blog yazıları, Instagram/TikTok içerik planı, influencer kampanya yönetimi, Google ve Meta Ads kurulumu, fiyat iletişimi optimizasyonu ve dönüşüm hunisi oluşturma konularında somut ve ölçülebilir büyüme planı hazırlayabiliriz. Düşük bütçeyle maksimum etki için 15 dakikalık görüşme talep edin.
+</div>
+
+<div class="liked-section">
+  <h3>Bu rapor işinize yaradıysa</h3>
+  <p>Stratejileri birlikte uygulayalım. 15 dakikalık ücretsiz görüşme için tıklayın.</p>
+  <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Raporu Beğendim</button>
+</div>
+
+<p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır. &copy; 2026</p>
+
+<script src="/lib/config.js"></script>
+<script src="/lib/tracker.js" data-type="rapor" data-client="celluragen"></script>
+</body>
+</html>

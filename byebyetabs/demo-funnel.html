@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0a1e">
+<title>Tab Productivity Analysis - ByeByeTabs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--bg:#0f0a1e;--bg-card:#1a1433;--bg-card-hover:#2a2247;--bg-option:rgba(26,20,51,0.8);--bg-option-selected:rgba(99,102,241,0.15);--border-option:rgba(99,102,241,0.25);--border-selected:rgba(99,102,241,0.6);--text-primary:#f1f5f9;--text-secondary:#94a3b8;--text-muted:#64748b;--accent:#6366f1;--accent-hover:#4f46e5;--accent-glow:rgba(99,102,241,0.3);--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--safe-bottom:env(safe-area-inset-bottom,0px)}html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text-primary);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;touch-action:pan-y}.funnel-container{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}.step{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;padding:0 24px;padding-bottom:calc(16px + var(--safe-bottom));transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .4s ease;will-change:transform,opacity;opacity:0;pointer-events:none}.step[data-position="center"]{transform:translateX(0);opacity:1;pointer-events:auto}.step[data-position="left"]{transform:translateX(-100%);opacity:0}.step[data-position="right"]{transform:translateX(100%);opacity:0}.step-header{display:flex;align-items:center;justify-content:center;position:relative;padding:16px 0 8px;flex-shrink:0}.back-btn{position:absolute;left:0;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-secondary);cursor:pointer;padding:8px;border-radius:12px;display:flex;align-items:center;justify-content:center;width:44px;height:44px}.back-btn:hover{background:var(--bg-card);color:var(--text-primary)}.back-btn svg{width:22px;height:22px}.progress-dots{display:flex;gap:6px;align-items:center}.dot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);transition:all .35s ease}.dot.active{background:var(--accent);width:24px;border-radius:4px}.dot.completed{background:var(--accent)}.step-content{flex:1;display:flex;flex-direction:column;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;min-height:0}.step-content::-webkit-scrollbar{display:none}.question-area{text-align:center;margin-bottom:28px;flex-shrink:0}.question-title{font-size:26px;font-weight:700;line-height:1.3;margin-bottom:8px;letter-spacing:-.02em}.question-subtitle{font-size:14px;color:var(--text-secondary)}.options-area{display:flex;flex-direction:column;gap:12px;width:100%;max-width:480px;margin:0 auto}.option-btn{display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:14px 18px;background:var(--bg-option);border:1.5px solid var(--border-option);border-radius:16px;color:var(--text-primary);font-family:inherit;font-size:16px;font-weight:500;text-align:left;cursor:pointer;transition:all .2s;user-select:none}.option-btn:hover{background:var(--bg-card-hover);border-color:var(--text-muted)}.option-btn:active{transform:scale(.98)}.option-btn.selected{background:var(--bg-option-selected);border-color:var(--border-selected);box-shadow:0 0 0 1px var(--border-selected),0 0 20px var(--accent-glow)}.option-btn .emoji{font-size:28px;flex-shrink:0;line-height:1}.option-btn .option-label{flex:1}.option-btn .check-indicator{width:22px;height:22px;border-radius:50%;border:2px solid var(--text-muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}.option-btn.selected .check-indicator{background:var(--accent);border-color:var(--accent)}.option-btn.selected .check-indicator::after{content:'\2713';color:#fff;font-size:13px;font-weight:700}.option-btn.multi .check-indicator{border-radius:6px}.step-footer{flex-shrink:0;padding-top:16px;max-width:480px;width:100%;margin:0 auto}.cta-btn{display:flex;align-items:center;justify-content:center;width:100%;height:56px;background:var(--accent);color:#fff;border:none;border-radius:16px;font-family:inherit;font-size:17px;font-weight:600;cursor:pointer;transition:all .2s}.cta-btn:hover:not(:disabled){background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}.cta-btn:disabled{opacity:.35;cursor:not-allowed}.analysis-card{background:var(--bg-card);border-radius:20px;padding:24px;width:100%;max-width:480px;margin:0 auto}.analysis-header{text-align:center;margin-bottom:20px}.analysis-header h2{font-size:22px;font-weight:700;margin-bottom:4px}.analysis-header p{font-size:13px;color:var(--text-secondary)}.analysis-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(99,102,241,.15)}.analysis-row:last-child{border-bottom:none}.analysis-label{font-size:14px;color:var(--text-secondary)}.analysis-value{font-size:16px;font-weight:600}.insights-list{margin-top:16px;display:flex;flex-direction:column;gap:10px}.insight-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--text-secondary)}.insight-item .emoji{font-size:20px;flex-shrink:0;line-height:1.3}.priority-box{margin-top:16px;padding:14px 16px;background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.25);border-radius:14px}.priority-box .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:4px}.priority-box .text{font-size:14px;color:var(--text-primary);line-height:1.5}.free-trial-banner{margin-top:20px;text-align:center;padding:16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:14px}.free-trial-banner .emoji{font-size:28px;display:block;margin-bottom:6px}.free-trial-banner .text{font-size:15px;font-weight:600;color:var(--text-primary)}.free-trial-banner .sub{font-size:13px;color:var(--text-secondary);margin-top:2px}.thank-you-icon{width:72px;height:72px;border-radius:50%;background:rgba(99,102,241,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:36px;animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1)}@keyframes scaleIn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}.benefits-list{display:flex;flex-direction:column;gap:12px;width:100%;max-width:480px;margin:0 auto 20px}.benefit-item{display:flex;gap:12px;align-items:center;padding:14px 16px;background:var(--bg-card);border-radius:14px;font-size:15px;font-weight:500}.benefit-item .emoji{font-size:24px;flex-shrink:0}.skip-link{text-align:center;margin-top:12px}.skip-link a{color:var(--text-muted);font-size:14px;text-decoration:none;border-bottom:1px solid transparent}.skip-link a:hover{color:var(--text-secondary);border-bottom-color:var(--text-secondary)}.loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .3s}.loading-overlay.active{opacity:1;pointer-events:auto}.loading-spinner{width:48px;height:48px;border:3px solid var(--bg-card);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loading-text{margin-top:20px;font-size:16px;color:var(--text-secondary);text-align:center}.loading-text .changing{display:block;margin-top:6px;font-size:14px;color:var(--text-muted);min-height:21px}.growther-banner{margin-top:16px;padding:14px 16px;background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.15);border-radius:14px;text-align:center}.growther-banner .text{font-size:13px;color:var(--text-muted)}.growther-banner .text strong{color:var(--text-secondary)}@media(max-height:680px){.question-title{font-size:22px}.option-btn{min-height:48px;padding:10px 14px}.option-btn .emoji{font-size:24px}.options-area{gap:8px}.analysis-card{padding:16px}}@media(min-width:640px){.step{padding:0 40px;padding-bottom:calc(24px + var(--safe-bottom))}.question-title{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="funnel-container" id="funnel">
+
+  <!-- Step 1: How many tabs -->
+  <div class="step" id="step-1" data-position="center">
+    <div class="step-header"><div class="progress-dots" id="dots-1"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">How many tabs do you usually have open?</h1></div>
+      <div class="options-area" data-step="1" data-key="tab_count">
+        <button class="option-btn" data-value="5-15"><span class="emoji">&#x1F4CB;</span><span class="option-label">5-15 tabs</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="15-30"><span class="emoji">&#x1F4DA;</span><span class="option-label">15-30 tabs</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="30-60"><span class="emoji">&#x1F525;</span><span class="option-label">30-60 tabs</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="60+"><span class="emoji">&#x1F4A5;</span><span class="option-label">60+ tabs (I lost count)</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-1" disabled>Continue</button></div>
+  </div>
+
+  <!-- Step 2: Biggest pain (multi-select) -->
+  <div class="step" id="step-2" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-2"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">What frustrates you most about open tabs?</h1><p class="question-subtitle">Select all that apply</p></div>
+      <div class="options-area" data-step="2" data-key="pain_points" data-multi="true">
+        <button class="option-btn multi" data-value="cant_find"><span class="emoji">&#x1F50D;</span><span class="option-label">Can't find the tab I need</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="overwhelmed"><span class="emoji">&#x1F62B;</span><span class="option-label">Feeling overwhelmed by clutter</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="memory"><span class="emoji">&#x1F4BB;</span><span class="option-label">Browser uses too much memory</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="context_switch"><span class="emoji">&#x1F504;</span><span class="option-label">Losing context when switching tasks</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="forget"><span class="emoji">&#x1F914;</span><span class="option-label">Forgetting why I opened a tab</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-2" disabled>Continue</button></div>
+  </div>
+
+  <!-- Step 3: Role -->
+  <div class="step" id="step-3" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-3"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">What best describes your role?</h1></div>
+      <div class="options-area" data-step="3" data-key="role">
+        <button class="option-btn" data-value="developer"><span class="emoji">&#x1F468;&#x200D;&#x1F4BB;</span><span class="option-label">Software Developer / Engineer</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="pm"><span class="emoji">&#x1F4CB;</span><span class="option-label">Project / Product Manager</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="researcher"><span class="emoji">&#x1F52C;</span><span class="option-label">Researcher / Academic</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="designer"><span class="emoji">&#x1F3A8;</span><span class="option-label">Designer / Creative</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="other"><span class="emoji">&#x1F464;</span><span class="option-label">Other knowledge worker</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-3" disabled>Continue</button></div>
+  </div>
+
+  <!-- Step 4: Current solution -->
+  <div class="step" id="step-4" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-4"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">How do you currently manage your tabs?</h1></div>
+      <div class="options-area" data-step="4" data-key="current_solution">
+        <button class="option-btn" data-value="nothing"><span class="emoji">&#x1F937;</span><span class="option-label">I don't - I just let them pile up</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="bookmarks"><span class="emoji">&#x1F516;</span><span class="option-label">Bookmarks / bookmark folders</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="tab_groups"><span class="emoji">&#x1F4C1;</span><span class="option-label">Chrome tab groups</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="extension"><span class="emoji">&#x1F9E9;</span><span class="option-label">Tab management extension (OneTab, etc.)</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="close_all"><span class="emoji">&#x1F4A3;</span><span class="option-label">I just close everything and start fresh</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-4" disabled>Continue</button></div>
+  </div>
+
+  <!-- Step 5: Privacy preference -->
+  <div class="step" id="step-5" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-5"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">How important is data privacy for browser tools?</h1><p class="question-subtitle">Your tabs can reveal a lot about you</p></div>
+      <div class="options-area" data-step="5" data-key="privacy">
+        <button class="option-btn" data-value="critical"><span class="emoji">&#x1F512;</span><span class="option-label">Critical - I want local processing only</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="important"><span class="emoji">&#x1F6E1;&#xFE0F;</span><span class="option-label">Important - minimal data sharing</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="moderate"><span class="emoji">&#x2696;&#xFE0F;</span><span class="option-label">Moderate - I accept some trade-offs</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="not_worried"><span class="emoji">&#x1F44D;</span><span class="option-label">Not worried about it</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-5" disabled>See My Analysis</button></div>
+  </div>
+
+  <!-- Step 6: Analysis -->
+  <div class="step" id="step-6" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-6"></div></div>
+    <div class="step-content">
+      <div class="analysis-card">
+        <div class="analysis-header"><h2>Your Tab Profile</h2><p>Based on your answers</p></div>
+        <div class="analysis-row"><span class="analysis-label">Tab Overload Level</span><span class="analysis-value" id="a-overload">Moderate</span></div>
+        <div class="analysis-row"><span class="analysis-label">Biggest Pain Point</span><span class="analysis-value" id="a-pain">Context Switching</span></div>
+        <div class="analysis-row"><span class="analysis-label">Privacy Match</span><span class="analysis-value" id="a-privacy" style="color:var(--accent)">Perfect Fit</span></div>
+        <div class="analysis-row"><span class="analysis-label">Time You Could Save</span><span class="analysis-value" id="a-time-saved" style="color:var(--success)">45 min/day</span></div>
+        <div class="insights-list" id="insights-list"></div>
+        <div class="priority-box"><div class="label">Early Access - Free</div><div class="text" id="priority-text">Join the waitlist to get early access when ByeByeTabs launches. No credit card needed, completely free.</div></div>
+        <div class="free-trial-banner"><span class="emoji">&#x1F4A1;</span><div class="text">This funnel can work for your product too</div><div class="sub">Analyze your visitors' needs and present the right solution</div></div>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-6">Get Early Access</button></div>
+  </div>
+
+  <!-- Step 7: Thank you / CTA -->
+  <div class="step" id="step-7" data-position="right">
+    <div class="step-header"><div class="progress-dots" id="dots-7"></div></div>
+    <div class="step-content">
+      <div style="text-align:center;margin-bottom:20px">
+        <div class="thank-you-icon">&#x1F44B;</div>
+        <h1 class="question-title" style="font-size:24px">Let's Talk Growth</h1>
+        <p style="font-size:15px;color:var(--text-secondary);margin-top:8px">See how we can help ByeByeTabs reach more users</p>
+      </div>
+      <div class="benefits-list">
+        <div class="benefit-item"><span class="emoji">&#x1F680;</span><span>Product Hunt launch strategy</span></div>
+        <div class="benefit-item"><span class="emoji">&#x1F4C8;</span><span>Waitlist growth & conversion optimization</span></div>
+        <div class="benefit-item"><span class="emoji">&#x1F3AF;</span><span>Landing page optimization for signups</span></div>
+        <div class="benefit-item"><span class="emoji">&#x1F310;</span><span>SEO content strategy for organic traffic</span></div>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-7" onclick="sendInterest()">Book 15 Min Chat</button>
+      <div class="skip-link" style="margin-top:12px"><a href="https://byebyetabs.com" target="_blank">Back to byebyetabs.com</a></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Analyzing your tab habits<span class="changing" id="loading-changing"></span></div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  var TOTAL_STEPS = 7;
+  var currentStep = 1;
+  var answers = {};
+
+  for (var s = 1; s <= TOTAL_STEPS; s++) {
+    var dotsContainer = document.getElementById('dots-' + s);
+    if (!dotsContainer) continue;
+    for (var d = 1; d <= TOTAL_STEPS; d++) {
+      var dot = document.createElement('span');
+      dot.className = 'dot';
+      if (d < s) dot.className += ' completed';
+      if (d === s) dot.className += ' active';
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  var optionAreas = document.querySelectorAll('.options-area');
+  for (var i = 0; i < optionAreas.length; i++) {
+    (function(area) {
+      var isMulti = area.dataset.multi === 'true';
+      var key = area.dataset.key;
+      var step = parseInt(area.dataset.step, 10);
+      var btns = area.querySelectorAll('.option-btn');
+      for (var j = 0; j < btns.length; j++) {
+        (function(btn) {
+          btn.addEventListener('click', function() {
+            if (isMulti) {
+              btn.classList.toggle('selected');
+              var selected = area.querySelectorAll('.option-btn.selected');
+              var vals = [];
+              for (var k = 0; k < selected.length; k++) vals.push(selected[k].dataset.value);
+              answers[key] = vals;
+              document.getElementById('cta-' + step).disabled = vals.length === 0;
+            } else {
+              var allBtns = area.querySelectorAll('.option-btn');
+              for (var k = 0; k < allBtns.length; k++) allBtns[k].classList.remove('selected');
+              btn.classList.add('selected');
+              answers[key] = btn.dataset.value;
+              document.getElementById('cta-' + step).disabled = false;
+            }
+          });
+        })(btns[j]);
+      }
+    })(optionAreas[i]);
+  }
+
+  for (var s2 = 1; s2 <= 4; s2++) {
+    (function(step) {
+      document.getElementById('cta-' + step).addEventListener('click', function() {
+        goToStep(step + 1);
+      });
+    })(s2);
+  }
+  document.getElementById('cta-5').addEventListener('click', function() {
+    showLoading(function() { buildAnalysis(); goToStep(6); });
+  });
+  document.getElementById('cta-6').addEventListener('click', function() { goToStep(7); });
+
+  function goToStep(target) {
+    if (target < 1 || target > TOTAL_STEPS) return;
+    document.getElementById('step-' + currentStep).dataset.position = target > currentStep ? 'left' : 'right';
+    document.getElementById('step-' + target).dataset.position = 'center';
+    currentStep = target;
+    if (window.GROWTHER_TRACKER) GROWTHER_TRACKER.onStepChange(target);
+  }
+  window.goBack = function() { goToStep(currentStep - 1); };
+
+  window.GROWTHER_FUNNEL = { getCurrentStep: function() { return currentStep; }, getAnswers: function() { return answers; } };
+
+  function showLoading(callback) {
+    var overlay = document.getElementById('loading-overlay');
+    var changing = document.getElementById('loading-changing');
+    overlay.classList.add('active');
+    var messages = ['Counting your open tabs...', 'Analyzing your pain points...', 'Calculating time savings...', 'Preparing your profile...'];
+    var idx = 0; changing.textContent = messages[0];
+    var interval = setInterval(function() { idx++; if (idx < messages.length) changing.textContent = messages[idx]; }, 600);
+    setTimeout(function() { clearInterval(interval); overlay.classList.remove('active'); callback(); }, 2600);
+  }
+
+  function buildAnalysis() {
+    var pains = answers.pain_points || [];
+    var tabCount = answers.tab_count || '15-30';
+    var privacy = answers.privacy || 'important';
+    var role = answers.role || 'developer';
+
+    // Tab overload level
+    var overload = 'Light';
+    if (tabCount === '15-30') overload = 'Moderate';
+    else if (tabCount === '30-60') overload = 'Heavy';
+    else if (tabCount === '60+') overload = 'Extreme';
+
+    // Biggest pain
+    var painLabel = pains.length > 0 ? labelOf(pains[0]) : 'Tab Clutter';
+
+    // Privacy match
+    var privacyMatch = 'Good Fit';
+    if (privacy === 'critical') privacyMatch = 'Perfect Fit';
+    else if (privacy === 'important') privacyMatch = 'Great Fit';
+    else if (privacy === 'not_worried') privacyMatch = 'Good Fit';
+
+    // Time saved estimation
+    var timeSaved = '20 min/day';
+    if (tabCount === '15-30') timeSaved = '30 min/day';
+    else if (tabCount === '30-60') timeSaved = '45 min/day';
+    else if (tabCount === '60+') timeSaved = '60+ min/day';
+    if (pains.length >= 3) timeSaved = '60+ min/day';
+
+    document.getElementById('a-overload').textContent = overload;
+    document.getElementById('a-pain').textContent = painLabel;
+    document.getElementById('a-privacy').textContent = privacyMatch;
+    document.getElementById('a-time-saved').textContent = timeSaved;
+
+    // Build insights
+    var insights = [];
+    if (pains.indexOf('cant_find') !== -1) insights.push({ emoji: '\uD83D\uDD0D', text: 'Smart Search - AI groups related tabs so you find what you need instantly' });
+    if (pains.indexOf('overwhelmed') !== -1) insights.push({ emoji: '\u2728', text: 'Auto-Organize - Turns tab chaos into clean, prioritized task lists' });
+    if (pains.indexOf('memory') !== -1) insights.push({ emoji: '\u26A1', text: 'Memory Saver - Organize and close tabs without losing context' });
+    if (pains.indexOf('context_switch') !== -1) insights.push({ emoji: '\uD83C\uDFAF', text: 'Task Mode - Group tabs by project so you switch contexts cleanly' });
+    if (pains.indexOf('forget') !== -1) insights.push({ emoji: '\uD83D\uDCA1', text: 'Smart Labels - AI explains why each tab matters to your workflow' });
+
+    insights = insights.slice(0, 3);
+
+    if (insights.length === 0) {
+      insights.push({ emoji: '\u2728', text: 'Auto-Organize - Turns tab chaos into clean, prioritized task lists' });
+      insights.push({ emoji: '\uD83C\uDFAF', text: 'Task Mode - Group tabs by project so you switch contexts cleanly' });
+      insights.push({ emoji: '\u26A1', text: 'Smart Time - Reading time estimates help you plan your day' });
+    }
+
+    var insightsList = document.getElementById('insights-list');
+    insightsList.innerHTML = '';
+    for (var i = 0; i < insights.length; i++) {
+      var div = document.createElement('div');
+      div.className = 'insight-item';
+      div.innerHTML = '<span class="emoji">' + insights[i].emoji + '</span><span>' + insights[i].text + '</span>';
+      insightsList.appendChild(div);
+    }
+
+    var privacyNote = privacy === 'critical' ? 'ByeByeTabs uses Chrome\'s built-in Gemini Nano AI - your data never leaves your device.' : 'ByeByeTabs processes your tabs privately with minimal data exposure.';
+    document.getElementById('priority-text').textContent = privacyNote + ' Join the waitlist for free early access.';
+  }
+
+  function labelOf(key) {
+    var map = { cant_find: 'Finding Tabs', overwhelmed: 'Tab Overload', memory: 'Memory Usage', context_switch: 'Context Switching', forget: 'Lost Context' };
+    return map[key] || key;
+  }
+
+  window.sendInterest = function() {
+    if (window.GROWTHER_TRACKER) GROWTHER_TRACKER.onInterested();
+    var btn = document.getElementById('cta-7');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    GROWTHER.supaFetch('/rest/v1/funnel_leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ source: 'demo-funnel', client: 'byebyetabs', status: 'interested', answers: JSON.stringify(answers), created_at: new Date().toISOString() })
+    }).then(function() {
+      btn.textContent = '\u2705 Request received!';
+      btn.style.background = '#16a34a';
+      var note = document.createElement('p');
+      note.style.cssText = 'text-align:center;color:var(--text-secondary);font-size:14px;margin-top:12px';
+      note.textContent = 'We\'ll get in touch with you shortly.';
+      btn.parentNode.appendChild(note);
+      setTimeout(function() { showCalPopup('en'); }, 1200);
+    }).catch(function() {
+      btn.textContent = '\u2705 Request received!';
+      btn.style.background = '#16a34a';
+      setTimeout(function() { showCalPopup('en'); }, 1200);
+    });
+  };
+
+  var touchStartX = 0, touchStartY = 0;
+  document.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].clientX; touchStartY = e.changedTouches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', function(e) { var dx = e.changedTouches[0].clientX - touchStartX, dy = e.changedTouches[0].clientY - touchStartY; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && dx > 0 && currentStep > 1) goBack(); }, { passive: true });
+
+})();
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+<script src="/lib/tracker.js" data-type="demo-funnel" data-client="byebyetabs" data-total-steps="7"></script>
+</body>
+</html>

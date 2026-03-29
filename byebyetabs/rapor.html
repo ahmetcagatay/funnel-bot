@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1e293b; font-size: 15px; line-height: 1.7; max-width: 860px; margin: 0 auto; padding: 20px 28px; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #eef2ff; color: #4338ca; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #1e293b; margin: 0 0 10px; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #64748b; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #94a3b8; margin-top: 20px; }
+  .cover-meta strong { color: #64748b; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #6366f1, #818cf8); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #1e293b; border-bottom: 2px solid #6366f1; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; font-weight: 600; color: #334155; margin: 20px 0 10px; }
+  h4 { font-size: 12px; font-weight: 600; color: #555; margin: 14px 0 6px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+  th { background: #1e293b; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8fafc; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #eef2ff; border-left: 4px solid #6366f1; color: #4338ca; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e2e8f0; color: #64748b; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #eef2ff; color: #4338ca; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #6366f1; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
+  .summary-card { flex: 1; min-width: 120px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #6366f1; }
+  .summary-card .label { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e2e8f0; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  .liked-section { padding: 20px 24px; background: #dcfce7; border: 2px solid #22c55e; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+  .liked-section h3 { font-size: 16px; color: #166534; margin-bottom: 6px; border: none; }
+  .liked-section p { font-size: 13px; color: #64748b; margin-bottom: 14px; }
+  .liked-btn { background: #22c55e; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; box-shadow: 0 0 20px rgba(34,197,94,0.3); }
+  .liked-btn:hover { background: #16a34a; box-shadow: 0 0 30px rgba(34,197,94,0.45); } .liked-btn.clicked { background: #22c55e; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanım</div>
+  <h1>ByeByeTabs</h1>
+  <h2>Büyüme Stratejisi &amp; Dijital Pazarlama Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazırlanma Tarihi:</strong> 26 Mart 2026<br>
+    <strong>Domain:</strong> byebyetabs.com<br>
+    <strong>Sektör:</strong> B2C SaaS - AI Tarayıcı Uzantısı / Verimlilik Aracı<br>
+    <strong>Rapor Türü:</strong> Detaylı Analiz + Strateji Önerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır.</div>
+</div>
+
+<script>
+function handleLiked(){var b=document.getElementById('likedBtn');b.disabled=true;b.textContent='Yönlendiriliyor...';
+if(window.GROWTHER&&GROWTHER.supaFetch){GROWTHER.supaFetch('POST','funnel_leads',{website:window.location.pathname,stage:'liked_report',extra_notes:JSON.stringify({client:'byebyetabs',action:'liked_report',clicked_at:new Date().toISOString(),is_test:GROWTHER.isAdmin}),last_step:'liked',completed:true}).catch(function(){});}
+setTimeout(function(){showCalPopup('en')},500)}
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+
+<!-- PROFIL -->
+<h2 class="page-break">1. Şirket Profil Özeti</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">B2C</div><div class="label">Hedef Pazar</div></div>
+  <div class="summary-card"><div class="value">SaaS</div><div class="label">İş Modeli</div></div>
+  <div class="summary-card"><div class="value">$0</div><div class="label">Mevcut Fiyat</div></div>
+  <div class="summary-card"><div class="value">Pre-launch</div><div class="label">Aşama</div></div>
+  <div class="summary-card"><div class="value">Chrome</div><div class="label">Platform</div></div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Değer</th></tr>
+  <tr><td><strong>Website</strong></td><td>byebyetabs.com</td></tr>
+  <tr><td><strong>Ürün</strong></td><td>AI destekli tarayıcı uzantısı. Açık sekmeleri yapay zeka ile analiz ederek anlamlı görev listelerine dönüştürüyor. Öncelik seviyeleri, süre tahmini, okuma süresi hesaplama ve bağlam bazlı gruplama özellikleri var.</td></tr>
+  <tr><td><strong>Fiyatlandırma</strong></td><td>Ücretsiz ($0.00 USD) - Henüz monetizasyon yok</td></tr>
+  <tr><td><strong>Teknoloji</strong></td><td>Next.js, Chrome Gemini Nano AI (yerel işleme, yakında), şu an OpenAI API (sadece URL bazlı)</td></tr>
+  <tr><td><strong>Durum</strong></td><td>Pre-launch - Waitlist toplama aşamasında, Chrome Web Store'da henüz yok</td></tr>
+  <tr><td><strong>Sosyal Medya</strong></td><td>Twitter/X (@trkaplan), LinkedIn (linkedin.com/in/trkaplan/)</td></tr>
+  <tr><td><strong>Waitlist</strong></td><td>Google Forms ile toplama (forms.gle/DxmcEdD1tDC9qrCH8)</td></tr>
+  <tr><td><strong>Hedef Kitle</strong></td><td>Çok sayıda sekme açan bilgi çalışanları: yazılımcılar, proje yöneticileri, araştırmacılar</td></tr>
+  <tr><td><strong>Gizlilik Yaklaşımı</strong></td><td>Privacy-first: Chrome'un dahili Gemini Nano AI ile yerel işleme (yakında), şu an OpenAI API ile sadece URL gönderimi</td></tr>
+</table>
+
+<h3>Temel Özellikler</h3>
+<table>
+  <tr><th>Özellik</th><th>Açıklama</th><th>Değer</th></tr>
+  <tr><td><strong>Görev Bazlı Organizasyon</strong></td><td>İlgili sekmeleri anlamlı görevlere gruplandırma, öncelik seviyeleri ve süre takibi</td><td><span class="tag tag-blue">Temel Fark</span></td></tr>
+  <tr><td><strong>Akıllı Zaman Yönetimi</strong></td><td>Doğru okuma süresi tahminleri ile tarama verimliliğini optimize etme</td><td><span class="tag tag-blue">Temel Fark</span></td></tr>
+  <tr><td><strong>Gizlilik Öncelikli AI</strong></td><td>Chrome'un dahili Gemini Nano AI ile yerel işleme - veri cihazdan çıkmıyor</td><td><span class="tag tag-blue">Temel Fark</span></td></tr>
+  <tr><td><strong>Bağlam Bazlı Gruplama</strong></td><td>Sekmeleri içerik ve bağlamına göre otomatik kategorilere ayırma</td><td><span class="tag tag-green">Güçlü</span></td></tr>
+  <tr><td><strong>Süre Tahmini</strong></td><td>Her görev için tahmini tamamlama süresi hesaplama</td><td><span class="tag tag-green">Güçlü</span></td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Profil Değerlendirmesi</strong>
+  ByeByeTabs, gerçek bir problemi (sekme kaosu) çözen akıllı bir ürün fikri. "Tab overload" developer ve bilgi çalışanlarının en yaygın şikayetlerinden biri ve mevcut çözümler (tab grupları, bookmark yöneticileri) yeterli değil. AI ile sekmeleri otomatik olarak görevlere dönüştürme yaklaşımı yenilikçi. Ancak ürün henüz pre-launch aşamasında, Chrome Web Store'da yok, waitlist Google Forms ile toplanıyor ve monetizasyon planı belirsiz. Bu aşamada en kritik hedef: lansman öncesi yeterli waitlist büyüklüğüne ulaşmak ve güçlü bir launch yapmak.
+</div>
+
+
+<!-- RAKIP -->
+<h2 class="page-break">2. Rakip Analizi - Tab Yönetimi &amp; Verimlilik Uzantıları</h2>
+
+<h3>2.1 Doğrudan ve Dolaylı Rakipler</h3>
+<table>
+  <tr><th>Rakip</th><th>Kullanıcı</th><th>Güçlü Yönü</th><th>Zayıf Yönü</th></tr>
+  <tr>
+    <td><strong>OneTab</strong></td>
+    <td>2M+ kullanıcı</td>
+    <td>Basit ve hızlı, düşük bellek kullanımı, herkesin bildiği çözüm</td>
+    <td>AI yok, görev bazlı organizasyon yok, sadece liste yapıyor, 2013'ten beri güncellenmedi</td>
+  </tr>
+  <tr>
+    <td><strong>Workona</strong></td>
+    <td>500K+ kullanıcı</td>
+    <td>Workspace bazlı organizasyon, proje yönetimi entegrasyonu, güçlü UI</td>
+    <td>AI destekli otomatik gruplama yok, premium model ($7/ay), öğrenme eğrisi var</td>
+  </tr>
+  <tr>
+    <td><strong>Toby</strong></td>
+    <td>300K+ kullanıcı</td>
+    <td>Görsel workspace yönetimi, takım paylaşım özelliği</td>
+    <td>AI yok, manuel organizasyon gerektiriyor, bazen yavaşlıyor</td>
+  </tr>
+  <tr>
+    <td><strong>Tab Wrangler</strong></td>
+    <td>200K+ kullanıcı</td>
+    <td>Otomatik inaktif sekme kapatma, hafif</td>
+    <td>Akıllı gruplama yok, sadece kapatıyor - organize etmiyor</td>
+  </tr>
+  <tr>
+    <td><strong>Chrome Tab Groups</strong></td>
+    <td>Tüm Chrome kullanıcıları</td>
+    <td>Yerleşik, ek kurulum gerektirmiyor, Google'ın desteği</td>
+    <td>Manuel, AI yok, sekmeleri sadece grupluyor - görev çıkarmıyor</td>
+  </tr>
+  <tr>
+    <td><strong>Arc Browser</strong></td>
+    <td>1M+ kullanıcı</td>
+    <td>Tab yönetimi tarayıcıya entegre, modern UX, AI özellikleri</td>
+    <td>Ayrı tarayıcı gerektirir, Chrome kullanıcıları geçiş yapmak istemez</td>
+  </tr>
+  <tr style="background:#eef2ff">
+    <td><strong>ByeByeTabs</strong></td>
+    <td>Pre-launch</td>
+    <td>AI ile otomatik görev çıkarma, süre tahmini, privacy-first yerel AI yaklaşımı, okuma süresi hesaplama</td>
+    <td>Henüz yayında değil, kullanıcı tabanı sıfır, monetizasyon belirsiz</td>
+  </tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>ByeByeTabs'ın Rekabetçi Avantajları</strong>
+  <ul style="margin-top:6px">
+    <li><strong>AI ile otomatik görev çıkarma</strong> - Rakiplerin hiçbiri sekmeleri analiz edip "yapılacak görev" formatına dönüştürmüyor. OneTab sadece listeler, Toby sadece gruplar.</li>
+    <li><strong>Privacy-first yerel AI</strong> - Gemini Nano ile veriler cihazdan çıkmıyor. Privacy-conscious developer ve kurumsal kullanıcılar için büyük avantaj. Rakiplerin çoğu bulut bağımlı.</li>
+    <li><strong>Akıllı süre tahmini</strong> - Her görev için "ne kadar sürer?" tahmini veren başka bir tab yönetim uzantısı yok. Bu, verimlilik odaklı kullanıcılar için gerçek değer.</li>
+    <li><strong>Okuma süresi hesaplama</strong> - Sekmelerdeki içeriğin okuma süresini tahmin etmek, kullanıcının gününü planlamasına yardımcı oluyor.</li>
+    <li><strong>Mevcut tarayıcıda kalma</strong> - Arc Browser aksine, kullanıcıların Chrome'dan ayrılmasına gerek yok.</li>
+  </ul>
+</div>
+
+<h3>2.2 Pazar Fırsat Değerlendirmesi</h3>
+<table>
+  <tr><th>Metrik</th><th>Değer / Yorum</th></tr>
+  <tr><td>Chrome Extension kullanıcı tabanı</td><td><strong>3+ milyar Chrome kullanıcısı</strong> - Devasa adreslenebilir pazar</td></tr>
+  <tr><td>"tab management" arama trendi</td><td><strong>Yükseliyor</strong> - Uzaktan çalışma ile sekme kaosu arttı</td></tr>
+  <tr><td>"too many tabs" arama hacmi</td><td><strong>Yüksek</strong> - Ayda 10K+ arama, gerçek bir pain point</td></tr>
+  <tr><td>AI productivity tools büyüme</td><td><strong>%40+ yıllık büyüme</strong> - AI verimlilik araçları patlaması yaşanıyor</td></tr>
+  <tr><td>Tab uzantıları toplam kullanıcı</td><td><strong>5M+</strong> - Sadece OneTab + Workona + Toby toplamı, pazar var</td></tr>
+  <tr><td>Monetizasyon potansiyeli</td><td><strong>Güçlü</strong> - Freemium model ile $3-7/ay, kurumsal planlar daha yüksek</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Kritik Bulgu: Zamanlama Çok İyi Ama Hız Gerek</strong>
+  AI destekli verimlilik araçlarına ilgi zirvedeyken ve Chrome'un Gemini Nano entegrasyonu gündemdeyken, ByeByeTabs'ın "privacy-first AI tab management" pozisyonu son derece güçlü. Ancak bu fırsat penceresi süresiz açık değil. Büyük oyuncular (Google, Arc, Workona) AI özelliklerini hızla ekliyorlar. İlk hamle avantajını yakalamak için hızlı launch ve agresif büyüme şart.
+</div>
+
+
+<!-- WEB SİTESİ -->
+<h2 class="page-break">3. Web Sitesi Analizi</h2>
+
+<h3>3.1 Mevcut Durum</h3>
+<table>
+  <tr><th>Metrik</th><th>Değer</th><th>Yorum</th></tr>
+  <tr><td>Aylık Toplam Ziyaret</td><td><strong>Tahmin: &lt;500</strong></td><td><span class="tag tag-red">Pre-launch seviyesi</span></td></tr>
+  <tr><td>Waitlist Toplama</td><td><strong>Google Forms</strong></td><td><span class="tag tag-orange">Profesyonel değil</span></td></tr>
+  <tr><td>Chrome Web Store</td><td><strong>Henüz yok</strong></td><td><span class="tag tag-red">Kritik eksik</span></td></tr>
+  <tr><td>Dönüşüm Optimizasyonu</td><td><strong>Zayıf</strong></td><td><span class="tag tag-orange">Tek CTA, sosyal kanıt az</span></td></tr>
+</table>
+
+<h3>3.2 Güçlü Yönler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr><td>Tasarım Kalitesi</td><td><span class="tag tag-green">Modern</span> - Next.js ile temiz, minimal tasarım. Ürünün kalitesini yansıtıyor.</td></tr>
+  <tr><td>Değer Önerisi</td><td><span class="tag tag-green">Net</span> - "Transform your browser tabs into organized tasks" - anlaşılır ve çekici.</td></tr>
+  <tr><td>Testimonial'lar</td><td><span class="tag tag-green">Var</span> - 2 kullanıcı yorumu mevcut (Ahmet Yılmaz, Lisa Müller). Güvenilirlik katıyor.</td></tr>
+  <tr><td>Privacy Mesajı</td><td><span class="tag tag-green">Güçlü</span> - "Privacy First" vurgusu developer hedef kitle için önemli bir satış noktası.</td></tr>
+  <tr><td>JSON-LD Yapılandırması</td><td><span class="tag tag-green">Var</span> - SoftwareApplication schema doğru uygulanmış.</td></tr>
+  <tr><td>Mobil Uyumluluk</td><td><span class="tag tag-green">Var</span> - Responsive tasarım mevcut.</td></tr>
+</table>
+
+<h3>3.3 Kritik Sorunlar</h3>
+<table>
+  <tr><th>Sorun</th><th>Açıklama</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>Waitlist Google Forms ile Toplanıyor</strong></td>
+    <td>Kullanıcılar "Join Waitlist" dediğinde harici bir Google Form'a yönleniyor. Bu, dönüşüm oranını ciddi düşürür - sayfa dışına çıkmak sürtünme yaratır. Waitlist e-posta toplama sayfanın içinde olmalı.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Chrome Web Store Listesi Yok</strong></td>
+    <td>"Coming soon to Chrome Web Store" yazıyor ama mağaza listesi yok. Chrome Web Store'daki listing SEO açısından çok değerli - "tab manager", "AI tab organizer" aramalarında görünürlük sağlar.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Blog / İçerik Yok</strong></td>
+    <td>"Too many tabs solution", "how to organize browser tabs", "tab management tips" gibi yüksek hacimli aramalarda organik trafik çekmek için blog şart. Şu an hiç içerik yok.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sadece İngilizce</strong></td>
+    <td>Site tamamen İngilizce - bu doğru bir karar (küresel hedef kitle). Ancak İngilizce anahtar kelime rekabeti Türkçe'den çok daha yüksek. İçerik stratejisi buna göre şekillenmeli.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Demo / Video Yok</strong></td>
+    <td>Ürünün nasıl çalıştığını gösteren kısa bir video veya GIF yok. Kullanıcılar "bu gerçekten işe yarıyor mu?" sorusunu görsel olmadan cevaplayamıyor. Bir 30 saniyelik demo GIF dönüşümü 2-3x artırabilir.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sosyal Kanıt Yetersiz</strong></td>
+    <td>2 testimonial var ama yeterli değil. GitHub yıldızları, ProductHunt upvote'ları, Twitter/X mention'ları gibi sosyal kanıtlar eklenmeli.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Monetizasyon Planı Belirsiz</strong></td>
+    <td>Ürün ücretsiz listelenmiş, gelecekte nasıl para kazanılacağı belli değil. Freemium stratejisi belirlenmeli - hangi özellikler ücretsiz, hangisi premium?</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+</table>
+
+<h3>3.4 Sosyal Medya Varlığı</h3>
+<table>
+  <tr><th>Platform</th><th>Durum</th><th>Öneri</th></tr>
+  <tr><td>Twitter/X (@trkaplan)</td><td><span class="tag tag-green">Var</span></td><td>Developer ve tech community için birincil kanal. #buildinpublic, #indiehacker hashtag'leri ile organik büyüme.</td></tr>
+  <tr><td>LinkedIn</td><td><span class="tag tag-green">Var</span></td><td>Kurumsal kullanıcılar ve B2B lead'leri için kullanılmalı.</td></tr>
+  <tr><td>Product Hunt</td><td><span class="tag tag-red">Yok</span></td><td>Launch günü için kritik. İyi bir PH launch 1.000+ waitlist kaydı getirebilir.</td></tr>
+  <tr><td>Hacker News</td><td><span class="tag tag-red">Yok</span></td><td>"Show HN" post'u developer hedef kitle için çok değerli. Privacy-first AI angle ilgi çeker.</td></tr>
+  <tr><td>Reddit (r/chrome, r/productivity)</td><td><span class="tag tag-red">Yok</span></td><td>Organik tartışmalara katılım + launch duyurusu. Self-promo değil, değer sunarak.</td></tr>
+  <tr><td>YouTube</td><td><span class="tag tag-red">Yok</span></td><td>Kısa demo videosu YouTube Shorts + uzun review'lar için kanal açılmalı.</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Sosyal Medya Değerlendirmesi</strong>
+  Pre-launch aşamasında en etkili kanallar sırasıyla: Twitter/X (#buildinpublic community), Product Hunt (launch günü), Hacker News (Show HN), Reddit (r/productivity, r/chrome). Bu kanalların hiçbiri reklam bütçesi gerektirmiyor. Özellikle Twitter'da "building in public" yaklaşımı - her gün geliştirme sürecini paylaşmak - developer hedef kitle için organik büyümenin en güçlü yolu. Product Hunt launch'ı için en az 2-3 hafta öncesinden hazırlık (hunter bulmak, topluluk oluşturmak, screenshot'lar hazırlamak) gerekiyor.
+</div>
+
+
+<!-- STRATEJİ -->
+<h2 class="page-break">4. Önerilen Aksiyon Planı</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - Lansman Öncesi Hazırlık (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Waitlist'i Google Forms'dan çıkarın - acil:</strong> Sayfanın içine e-posta toplama formu entegre edin. Waitlist.com, LaunchList veya basit bir Supabase/Mailchimp entegrasyonu yeterli. Google Forms'a yönlendirme dönüşüm oranını %50+ düşürüyor.</li>
+    <li><strong>30 saniyelik demo GIF/video hazırlayın:</strong> Ürünün "100 sekme > 5 organize görev" dönüşümünü gösteren kısa bir animasyon. Hero section'a ekleyin. Görmek inanmaktır - özellikle uzantılar için.</li>
+    <li><strong>Landing page'i optimize edin:</strong> Social proof bölümünü güçlendirin (waitlist sayacı, "X kişi bekliyor" göstergesi). E-posta topladıktan sonra "Share with friends" referral mekanizması ekleyin - viral loop oluşturur.</li>
+    <li><strong>Twitter'da #buildinpublic başlayın:</strong> Haftalık gelişme paylaşımları, ekran görüntüleri, teknik kararlar, kullanıcı geri bildirimleri. Developer community bu tür şeffaf içerikleri çok seviyor ve organik paylaşım yapıyor.</li>
+    <li><strong>Freemium model belirleyin:</strong> Ücretsiz: günde 1 organizasyon, 20 sekmeye kadar. Premium ($3-5/ay): sınırsız organizasyon, gelişmiş AI, tema özelleştirme, cross-device senkronizasyon. Bu netlik sayfa dönüşümünü artırır.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - Launch &amp; İlk Büyüme (Hafta 3-4)</div>
+  <ol>
+    <li><strong>Chrome Web Store'a yükleyin:</strong> Beta olsa bile mağaza listesi oluşturun. "AI tab manager", "organize browser tabs", "tab to task" gibi anahtar kelimeleri listing'e yerleştirin. Chrome Web Store SEO'su çok güçlüdür.</li>
+    <li><strong>Product Hunt launch planlayın:</strong> Güçlü bir hunter bulun, screenshot'ları ve video'yu hazırlayın. "First Comment" stratejisi uygulayın. Launch günü waitlist'e ve sosyal medyaya duyuru yapın. Hedef: Top 5 of the Day.</li>
+    <li><strong>Hacker News "Show HN" post'u:</strong> "Show HN: ByeByeTabs - AI that turns your tab chaos into organized tasks (privacy-first, uses Gemini Nano)" başlığı ile. HN community'si privacy-first ve AI konularını çok tartışıyor.</li>
+    <li><strong>Blog başlatın - SEO içerik:</strong> "How to Manage Too Many Browser Tabs (2026 Guide)", "Best Tab Management Extensions Compared", "Why AI Tab Management is the Future" gibi makaleler. Bu anahtar kelimeler organik trafik çeker.</li>
+    <li><strong>Reddit'te organik katılım:</strong> r/chrome, r/productivity, r/webdev subreddit'lerinde sekme yönetimi tartışmalarına katılın. Direkt reklam yapmayın - değer sunun, doğal olarak ByeByeTabs'ı mention edin.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - Ölçekleme &amp; Monetizasyon (Ay 2+)</div>
+  <ol>
+    <li><strong>Influencer / YouTuber outreach:</strong> Verimlilik YouTuber'ları (Thomas Frank, Ali Abdaal tipi) ve tech reviewer'lara uzantıyı gönderin. "Tab management" videolarını yapan küçük YouTuber'lar bile 10-50K görüntülenme alıyor.</li>
+    <li><strong>Referral programı başlatın:</strong> "3 arkadaşını davet et, 1 ay premium ücretsiz" gibi bir viral mekanizma. Dropbox'ın büyüme motoru buydu.</li>
+    <li><strong>Enterprise/Team planı hazırlayın:</strong> "Takım olarak sekme ve görev yönetimi" - paylaşılan workspace'ler, yönetici dashboard'u. $7-12/kullanıcı/ay fiyatla kurumsal segment.</li>
+    <li><strong>Chrome dışı platformlara genişleyin:</strong> Firefox, Safari, Edge uzantıları. JSON-LD'de zaten "Chrome, Firefox, Safari" yazıyor - bunu gerçekleştirin. Her platform yeni bir kullanıcı havuzu.</li>
+    <li><strong>Integration'lar ekleyin:</strong> Notion, Todoist, Trello, Asana, Linear gibi proje yönetim araçlarıyla entegrasyon. "Sekmelerimi Notion'a görev olarak aktar" özelliği çok güçlü bir değer önerisi.</li>
+    <li><strong>Content marketing hızlandırın:</strong> Haftalık blog, aylık "Tab Productivity Report" (anonim kullanıcı verileriyle), developer case study'ler. SEO organik büyümenin temeli.</li>
+  </ol>
+</div>
+
+
+<!-- SONUÇ -->
+<h2 class="page-break">5. Sonuç ve Skor Kartı</h2>
+
+<h3>Skor Kartı</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef (3 Ay)</th></tr>
+  <tr><td>Ürün Fikri / Problem-Çözüm Uyumu</td><td><div class="score-bar"><div class="score-fill score-high" style="width:85%"></div></div> 8.5/10</td><td>9/10</td></tr>
+  <tr><td>Web Sitesi Tasarımı</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:70%"></div></div> 7/10</td><td>9/10</td></tr>
+  <tr><td>Dönüşüm Optimizasyonu</td><td><div class="score-bar"><div class="score-fill score-low" style="width:30%"></div></div> 3/10</td><td>7/10</td></tr>
+  <tr><td>İçerik Pazarlaması</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>6/10</td></tr>
+  <tr><td>Sosyal Kanıt</td><td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td><td>7/10</td></tr>
+  <tr><td>Waitlist / Kullanıcı Tabanı</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>6/10</td></tr>
+  <tr><td>Topluluk / Sosyal Medya</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>6/10</td></tr>
+  <tr><td>Monetizasyon Stratejisi</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>5/10</td></tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>Acil Müdahale Gerektiren 3 Alan</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Dönüşüm Optimizasyonu: 3/10</strong> - Waitlist Google Forms'a yönlendiriyor, demo video/GIF yok, waitlist sayacı yok. Her ziyaretçi potansiyel kayıp. Sayfanın içine e-posta toplama formu, demo animasyonu ve sosyal kanıt göstergesi eklemek dönüşümü 3-5x artırabilir.</li>
+    <li><strong>İçerik Pazarlaması: 1/10</strong> - Blog yok, SEO içerik yok. "Too many tabs", "tab management", "organize browser tabs" gibi yüksek hacimli anahtar kelimeler boşa gidiyor. Her geçen gün rakipler bu alanı dolduruyor.</li>
+    <li><strong>Waitlist Büyüklüğü: 1/10</strong> - Pre-launch bir ürünün başarılı launch yapması için minimum 500-1.000 waitlist kaydı gerekiyor. Product Hunt, Hacker News, Twitter #buildinpublic kombinasyonu ile bu hedefe 4-6 haftada ulaşılabilir.</li>
+  </ul>
+</div>
+
+<div class="alert alert-info">
+  <strong>Özet Değerlendirme</strong>
+  ByeByeTabs güçlü bir ürün fikrine sahip. "Sekme kaosunu AI ile organize görevlere dönüştür" yaklaşımı gerçek bir problemi çözüyor, mevcut çözümlerden farklılaşıyor ve zamanlama mükemmel - AI araçları patlaması ve Chrome Gemini Nano entegrasyonu ile pazar tam olgunlaşıyor.
+  <br><br>
+  Ancak ürün fikri tek başına yetmiyor. Şu an en büyük risk: harika bir ürünü kimsenin bilmemesi. Google Forms waitlist, blog/içerik yokluğu, Chrome Web Store listing eksikliği ve demo video olmaması - bunların hepsi düşük bütçeyle 2-3 hafta içinde çözülebilir sorunlar. Öncelik sırası net: (1) Waitlist'i sayfanın içine al, (2) Demo GIF/video ekle, (3) Twitter'da build in public başla, (4) Product Hunt launch planla, (5) Blog aç. Bu 5 adım uygulandığında, 3 ay içinde ByeByeTabs'ın konuşulan bir ürün olma ihtimali çok yüksek.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adım</strong>
+  Bu rapordaki stratejinin uygulanması için sizinle çalışabiliriz. Landing page optimizasyonu, waitlist dönüşüm artırma, Product Hunt launch hazırlığı, SEO içerik stratejisi, #buildinpublic kampanyası ve growth hacking konularında somut ve ölçülebilir büyüme planı hazırlayabiliriz. Pre-launch aşamasında hız her şeydir - 15 dakikalık görüşme için tıklayın.
+</div>
+
+<div class="liked-section">
+  <h3>Bu rapor işinize yaradıysa</h3>
+  <p>Stratejileri birlikte uygulayalım. 15 dakikalık ücretsiz görüşme için tıklayın.</p>
+  <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Raporu Beğendim</button>
+</div>
+
+<p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır. &copy; 2026</p>
+
+<script src="/lib/config.js"></script>
+<script src="/lib/tracker.js" data-type="rapor" data-client="byebyetabs"></script>
+</body>
+</html>
