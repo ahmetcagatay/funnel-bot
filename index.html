@@ -552,6 +552,7 @@ const stepNames = { 0:'website', 2:'stage', 3:'market', 4:'sectors', 5:'experien
 let syncQueue = Promise.resolve();
 
 function syncLead(stepName) {
+    if (isAdmin) return;
     syncQueue = syncQueue.then(async () => {
         const payload = {
             website: D.website || null,
