@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1a2e; font-size: 15px; line-height: 1.7; max-width: 860px; margin: 0 auto; padding: 20px 28px; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #e0f2fe; color: #0c4a6e; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #1e3a5f; margin: 0 0 10px; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #1e3a5f, #0ea5e9); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #1e3a5f; border-bottom: 2px solid #0ea5e9; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
+  h4 { font-size: 12px; font-weight: 600; color: #555; margin: 14px 0 6px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+  th { background: #1e3a5f; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #e0f2fe; border-left: 4px solid #0ea5e9; color: #0c4a6e; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #e0f2fe; color: #0c4a6e; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #0ea5e9; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
+  .summary-card { flex: 1; min-width: 120px; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #0ea5e9; }
+  .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  .liked-section { padding: 20px 24px; background: rgba(34,197,94,0.08); border: 2px solid #22c55e; border-radius: 12px; text-align: center; margin-bottom: 24px; box-shadow: 0 0 20px rgba(34,197,94,0.15); }
+  .liked-section h3 { font-size: 16px; color: #15803d; margin-bottom: 6px; border: none; }
+  .liked-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .liked-btn { background: #22c55e; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; box-shadow: 0 0 20px rgba(34,197,94,0.15); }
+  .liked-btn:hover { background: #16a34a; transform: translateY(-2px); box-shadow: 0 0 30px rgba(34,197,94,0.25); }
+  .liked-btn.clicked { background: #22c55e; }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanım</div>
+  <h1>Leap Global</h1>
+  <h2>Büyüme Stratejisi &amp; Dijital Pazarlama Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazırlanma Tarihi:</strong> 26 Mart 2026<br>
+    <strong>Domain:</strong> leapglobal.net<br>
+    <strong>Sektör:</strong> Eğitim / Mentorluk - Mühendisler için Girişimcilik<br>
+    <strong>Rapor Türü:</strong> Detaylı Analiz + Strateji Önerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır.</div>
+</div>
+
+<script>
+function handleLiked(){var b=document.getElementById('likedBtn');b.disabled=true;b.textContent='Yönlendiriliyor...';
+if(window.GROWTHER&&GROWTHER.supaFetch){GROWTHER.supaFetch('POST','funnel_leads',{website:window.location.pathname,stage:'liked_report',extra_notes:JSON.stringify({client:'leapglobal',action:'liked_report',clicked_at:new Date().toISOString(),is_test:GROWTHER.isAdmin}),last_step:'liked',completed:true}).catch(function(){});}
+setTimeout(function(){showCalPopup('tr')},500)}
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+
+<!-- PROFIL -->
+<h2 class="page-break">1. Şirket Profil Özeti</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">B2B/B2C</div><div class="label">Hedef Pazar</div></div>
+  <div class="summary-card"><div class="value">Eğitim</div><div class="label">Sektör</div></div>
+  <div class="summary-card"><div class="value">Global</div><div class="label">Pazar</div></div>
+  <div class="summary-card"><div class="value">Wix</div><div class="label">Platform</div></div>
+  <div class="summary-card"><div class="value">2 Kurucu</div><div class="label">Ekip</div></div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Değer</th></tr>
+  <tr><td><strong>Website</strong></td><td>leapglobal.net</td></tr>
+  <tr><td><strong>Ürün/Hizmet</strong></td><td>Mühendisleri girişimciye dönüştüren mentorluk ve eğitim platformu. entrepreneurHUB üyelik sistemi, 10 haftalık hızlı başlangıç programı, 12 aylık marka ve büyüme programı, stratejik planlama oturumları sunuyor.</td></tr>
+  <tr><td><strong>Kurucular</strong></td><td>Hazan Günay (Havacılık Mühendisi, CVE, EASA uzmanı, 18 yıl deneyim) ve Udaya Silva (Çok yönlü girişimci, stratejist). İkisi birlikte HSB Solutions'ı (multi-7-figure global mühendislik şirketi) sıfırdan kurmuş.</td></tr>
+  <tr><td><strong>Ana Şirket</strong></td><td>HSB Solutions - Küresel havacılık mühendisliği hizmetleri (Japonya, Kanada, ABD, İngiltere, Avrupa müşterileri)</td></tr>
+  <tr><td><strong>Hedef Kitle</strong></td><td>Mühendislik geçmişli solo kurucular, büyüyen teknik ekipler, küresel ölçeklenmek isteyen şirketler</td></tr>
+  <tr><td><strong>Değer Önerisi</strong></td><td>"Mühendisten girişimciye" dönüşüm yolculuğu — strateji, marka geliştirme, küresel topluluk</td></tr>
+  <tr><td><strong>Dil</strong></td><td>İngilizce (global kitle)</td></tr>
+  <tr><td><strong>Teknoloji</strong></td><td>Wix tabanlı website, Google Analytics (G-Y4XG5VDZK9)</td></tr>
+</table>
+
+<h3>Program ve Hizmet Detayları</h3>
+<table>
+  <tr><th>Program</th><th>Açıklama</th><th>Süre</th></tr>
+  <tr><td><strong>Quick-Start Program</strong></td><td>Fikir doğrulama, ilk teklifini paketleme, ilk müşterini bulma — teknik zihinler için rehberlikli hızlı başlangıç</td><td><span class="tag tag-blue">10 Hafta</span></td></tr>
+  <tr><td><strong>Brand & Growth Program</strong></td><td>Kişisel ve şirket markası oluşturma, doğru kitleye ulaşma, uluslararası fırsatlar için konumlandırma</td><td><span class="tag tag-blue">12 Ay</span></td></tr>
+  <tr><td><strong>entrepreneurHUB</strong></td><td>Sürekli erişim — sistemler, topluluk ve netlik. Girişimciliği keşfedenlerden ikinci girişimini kuranlara kadar herkese</td><td><span class="tag tag-green">Sürekli</span></td></tr>
+  <tr><td><strong>Stratejik Planlama</strong></td><td>Odaklı oturumlarla tek sayfalık büyüme planı oluşturma — yön, güven ve ivme</td><td><span class="tag tag-green">Oturum Bazlı</span></td></tr>
+  <tr><td><strong>Teknik Ürün Danışmanlığı</strong></td><td>Teknik ürün/hizmeti pazara sunma — fizibilite, Ar-Ge, sistemler, gerçek dünya uygulaması</td><td><span class="tag tag-blue">Proje Bazlı</span></td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Profil Değerlendirmesi</strong>
+  Leap Global, kurucularının gerçek başarı hikayesiyle (HSB Solutions — sıfırdan multi-7-figure küresel mühendislik şirketi) desteklenen çok güçlü bir değer önerisine sahip. "Mühendisten girişimciye" nişi spesifik, kanıtlanabilir ve kalabalık olmayan bir pazar. Hazan Günay'ın 18 yıllık havacılık deneyimi ve Udaya Silva'nın stratejik vizyonu, bu platformu sıradan bir "koçluk" hizmetinden ayırıyor. Ancak bu güçlü temel, henüz dijital varlık ve organik keşfedilebilirlik ile desteklenmiyor.
+</div>
+
+
+<!-- RAKIP -->
+<h2 class="page-break">2. Rakip Analizi - Mühendis Girişimcilik Eğitimi Pazarı</h2>
+
+<h3>2.1 Doğrudan ve Dolaylı Rakipler</h3>
+<table>
+  <tr><th>Rakip</th><th>Odak</th><th>Güçlü Yönü</th><th>Zayıf Yönü</th></tr>
+  <tr>
+    <td><strong>Y Combinator Startup School</strong></td>
+    <td>Genel girişimcilik</td>
+    <td>Marka bilinirliği çok yüksek, ücretsiz, geniş alumni ağı</td>
+    <td>Mühendis-spesifik değil, kişisel mentorluk yok, çok genel</td>
+  </tr>
+  <tr>
+    <td><strong>Techstars</strong></td>
+    <td>Startup hızlandırma</td>
+    <td>Küresel ağ, yatırım bağlantıları, güçlü marka</td>
+    <td>Çok seçici, hisse karşılığı, mühendis-odaklı değil</td>
+  </tr>
+  <tr>
+    <td><strong>Founder Institute</strong></td>
+    <td>Ön-tohum girişimcilik</td>
+    <td>130+ şehirde program, yapılandırılmış müfredat</td>
+    <td>Jenerik — mühendislik geçmişine özel değil</td>
+  </tr>
+  <tr>
+    <td><strong>LinkedIn Learning</strong></td>
+    <td>Online eğitim (genel)</td>
+    <td>Devasa içerik kütüphanesi, düşük fiyat</td>
+    <td>Mentorluk yok, topluluk yok, mühendis-girişimci nişi yok</td>
+  </tr>
+  <tr>
+    <td><strong>MicroConf / SaaS Akademi</strong></td>
+    <td>Bootstrapped SaaS</td>
+    <td>SaaS kurucuları için spesifik, güçlü topluluk</td>
+    <td>Sadece SaaS, mühendislik hizmeti / danışmanlık kapsamıyor</td>
+  </tr>
+  <tr>
+    <td><strong>Koçluk platformları (Tony Robbins, etc.)</strong></td>
+    <td>Genel iş koçluğu</td>
+    <td>Motivasyonel, geniş kitle, marka gücü</td>
+    <td>Teknik derinlik sıfır, mühendis diline konuşmuyor</td>
+  </tr>
+  <tr style="background:#e0f2fe">
+    <td><strong>Leap Global</strong></td>
+    <td>Mühendis → Girişimci</td>
+    <td>Kurucuların kanıtlanmış başarısı (HSB Solutions), mühendis-spesifik programlar, küresel perspektif, teknik ürün danışmanlığı</td>
+    <td>Düşük dijital görünürlük, SEO altyapısı zayıf, sosyal kanıt eksik</td>
+  </tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Leap Global'in Rekabetçi Avantajları</strong>
+  <ul style="margin-top:6px">
+    <li><strong>"Walk the talk" güvenilirliği</strong> — Kurucular sıfırdan multi-7-figure mühendislik şirketi kurmuş. Teori değil, yaşanmış deneyim. Bu, pazardaki en güçlü farklılaştırıcı.</li>
+    <li><strong>Mühendis-spesifik niş</strong> — "Girişimci olmak istiyorum ama mühendisim" diyen kişiye özel konumlandırma. Y Combinator/Techstars gibi devler bu nişe hitap etmiyor.</li>
+    <li><strong>Havacılık/mühendislik derinliği</strong> — Teknik ürün pazara çıkarma, Ar-Ge, fizibilite konularında rakiplerin sunamayacağı derinlik.</li>
+    <li><strong>Küresel ağ</strong> — Japonya'dan ABD'ye, Avrupa'dan Kanada'ya uzanan gerçek iş ağı.</li>
+    <li><strong>entrepreneurHUB modeli</strong> — Sürekli erişim topluluk modeli, tek seferlik kurs modelinden daha yüksek LTV potansiyeli taşıyor.</li>
+  </ul>
+</div>
+
+<h3>2.2 Pazar Fırsat Değerlendirmesi</h3>
+<table>
+  <tr><th>Metrik</th><th>Değer / Yorum</th></tr>
+  <tr><td>Küresel STEM mezunu sayısı (yıllık)</td><td><strong>~7.5 milyon</strong> — Devasa potansiyel havuz</td></tr>
+  <tr><td>"engineer to entrepreneur" arama trendi</td><td><strong>Yükselişte</strong> — Son 3 yılda istikrarlı artış</td></tr>
+  <tr><td>"technical founder" ilgi düzeyi</td><td><strong>Yüksek</strong> — VC ekosistemi teknik kurucuları aktif olarak arıyor</td></tr>
+  <tr><td>Mühendis girişimcilik eğitimi rekabeti</td><td><strong>Düşük</strong> — Bu spesifik niş büyük oranda boş</td></tr>
+  <tr><td>Online eğitim pazar büyüklüğü (2026)</td><td><strong>$400B+</strong> — Ve büyümeye devam ediyor</td></tr>
+  <tr><td>Mentorluk/koçluk pazar büyümesi</td><td><strong>%15+ yıllık</strong> — Premium segment daha hızlı</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Kritik Bulgu: Niş Boş Ama Pencere Kapanıyor</strong>
+  "Engineer to entrepreneur", "technical founder mentorship", "engineering entrepreneurship program" gibi aramalar şu an düşük rekabetli. Ancak bu pazar büyüdükçe büyük oyuncular (Techstars, Y Combinator) alt segmentler açabilir. Leap Global'in şu anki "first mover" avantajını organik içerik ve SEO ile kalıcı hale getirmesi kritik.
+</div>
+
+
+<!-- WEB SİTESİ -->
+<h2 class="page-break">3. Web Sitesi Analizi</h2>
+
+<h3>3.1 Genel Durum</h3>
+<table>
+  <tr><th>Metrik</th><th>Değer</th><th>Yorum</th></tr>
+  <tr><td>Platform</td><td><strong>Wix</strong></td><td><span class="tag tag-orange">SEO Sınırlı</span></td></tr>
+  <tr><td>Sayfa Sayısı</td><td><strong>~5</strong> (Ana, About, Programs, Survey, Legal)</td><td><span class="tag tag-red">Çok Az</span></td></tr>
+  <tr><td>Blog</td><td><strong>Yok</strong></td><td><span class="tag tag-red">Kritik Eksik</span></td></tr>
+  <tr><td>Dil</td><td><strong>İngilizce</strong></td><td><span class="tag tag-green">Global kitleye uygun</span></td></tr>
+  <tr><td>Analytics</td><td><strong>Google Analytics aktif</strong></td><td><span class="tag tag-green">Veri toplama var</span></td></tr>
+  <tr><td>Mobil Uyum</td><td><strong>Responsive (Wix)</strong></td><td><span class="tag tag-green">Otomatik</span></td></tr>
+</table>
+
+<h3>3.2 Güçlü Yönler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr><td>Kurucu Hikayesi</td><td><span class="tag tag-green">Güçlü</span> — HSB Solutions başarı hikayesi güven oluşturuyor</td></tr>
+  <tr><td>Değer Önerisi</td><td><span class="tag tag-green">Net</span> — "Mühendisten girişimciye" mesajı anlaşılır ve farklılaştırıcı</td></tr>
+  <tr><td>Program Çeşitliliği</td><td><span class="tag tag-green">İyi</span> — Farklı aşamalardaki girişimciler için farklı programlar</td></tr>
+  <tr><td>Google Analytics</td><td><span class="tag tag-green">Aktif</span> — Veri toplama altyapısı mevcut</td></tr>
+</table>
+
+<h3>3.3 Kritik Sorunlar</h3>
+<table>
+  <tr><th>Sorun</th><th>Açıklama</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>Wix SEO Sınırlamaları</strong></td>
+    <td>Wix, JavaScript tabanlı render kullanıyor. Google bu sayfaları indeksleyebilir ancak crawl bütçesi ve sayfa hızı açısından WordPress veya Next.js'e göre dezavantajlı. Özellikle blog ve uzun kuyruk içerik stratejisi için Wix ciddi bir engel.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Blog / İçerik Yok</strong></td>
+    <td>"How to go from engineer to entrepreneur", "technical founder first steps", "engineering consulting business" gibi yüksek niyetli aramalarda hiç içerik yok. Bu, en büyük organik büyüme fırsatını kaçırıyor.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sosyal Kanıt Eksik</strong></td>
+    <td>Program mezunlarının başarı hikayeleri, testimonial'lar, vaka çalışmaları sitede görünmüyor. Yüksek fiyatlı mentorluk/eğitim hizmetlerinde sosyal kanıt, satın alma kararının en kritik faktörü.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Fiyatlandırma Şeffaflığı</strong></td>
+    <td>Program fiyatları açıkça belirtilmiyor. B2C eğitim ürünlerinde fiyat belirsizliği, potansiyel müşterilerin %60-70'inin sayfadan ayrılmasına neden olur.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sayfa Derinliği Yetersiz</strong></td>
+    <td>Sadece ~5 sayfa var. Her program için ayrıntılı landing page, her modül için detay sayfası, kurucu profilleri, SSS sayfası gibi içerikler gerekiyor.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>E-posta Listesi / Lead Magnet Yok</strong></td>
+    <td>"Mühendisler İçin Girişimcilik Rehberi" gibi ücretsiz bir kaynak ile e-posta toplamak, satış hunisinin temeli. Şu an bu mekanizma yok.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+</table>
+
+<h3>3.4 Sosyal Medya Varlığı</h3>
+<table>
+  <tr><th>Platform</th><th>Durum</th><th>Öneri</th></tr>
+  <tr><td>LinkedIn (Hazan Günay)</td><td><span class="tag tag-green">Kişisel profil aktif</span></td><td>Kişisel marka güçlü — şirket sayfası da aynı ivmeyle büyütülmeli</td></tr>
+  <tr><td>LinkedIn (Şirket)</td><td><span class="tag tag-orange">Mevcut</span></td><td>Haftalık içerik: mühendis-girişimci dönüşüm hikayeleri, sektörel içgörüler</td></tr>
+  <tr><td>YouTube</td><td><span class="tag tag-red">Yok/Pasif</span></td><td>Video içerik bu niş için altın madeni — "Engineer to CEO" serisi, kurucu hikayeleri, teknik demo'lar</td></tr>
+  <tr><td>Twitter/X</td><td><span class="tag tag-orange">Değerlendirilmeli</span></td><td>Tech Twitter'da "technical founder" konuşmaları aktif — katılım sağlanmalı</td></tr>
+  <tr><td>Podcast</td><td><span class="tag tag-red">Yok</span></td><td>Mühendis kurucularla röportaj podcast'i, düşük maliyetle yüksek otorite oluşturur</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Sosyal Medya Değerlendirmesi</strong>
+  Hazan Günay'ın kişisel LinkedIn varlığı güçlü bir başlangıç noktası. Ancak şirket olarak Leap Global'in ayrı bir "thought leadership" stratejisine ihtiyacı var. Mühendis girişimciliği konusunda LinkedIn'de düzenli içerik paylaşımı, YouTube'da "Engineer to Entrepreneur" video serisi ve mühendis kurucularla podcast röportajları — bu üçlü, 0 reklam bütçesiyle organik büyümenin temelini oluşturur.
+</div>
+
+
+<!-- STRATEJİ -->
+<h2 class="page-break">4. Önerilen Aksiyon Planı</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - İçerik Altyapısı ve Güven Oluşturma (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Blog başlatın — acil:</strong> "How an Engineer Can Start a Business (Without Quitting Their Job)", "From Technical Expert to CEO: A Step-by-Step Guide", "5 Mistakes Engineers Make When Starting a Consulting Firm", "Why Engineers Make Great Entrepreneurs (And What Holds Them Back)" — bu konularda İngilizce blog yazıları yazın. Bu aramalar şu an neredeyse rakipsiz.</li>
+    <li><strong>Mezun başarı hikayeleri toplayın:</strong> entrepreneurHUB veya Quick-Start programından geçmiş en az 3-5 kişinin "ben mühendistim, şimdi şirketim var" hikayesini yazılı + video olarak alın. Bu, satış hunisinin en güçlü silahı.</li>
+    <li><strong>HSB Solutions hikayesini detaylandırın:</strong> "Sıfırdan multi-7-figure global mühendislik şirketi" iddiası çok güçlü — bunu case study formatında (somut rakamlar, zaman çizelgesi, dönüm noktaları) detaylandırın. Bu tek sayfa bile dönüşüm oranını 2-3x artırabilir.</li>
+    <li><strong>Lead magnet oluşturun:</strong> "The Engineer's Roadmap to Entrepreneurship — Free Guide" şeklinde ücretsiz PDF rehber hazırlayın. E-posta karşılığı indirilebilir. Bu, her blog yazısının ve sosyal paylaşımın CTA'sı olsun.</li>
+    <li><strong>Fiyatlandırma sayfası ekleyin:</strong> Programların fiyatını şeffaf biçimde gösterin. "Book a call" yerine en azından fiyat aralığı belirtin — bu güven oluşturur ve doğru kitleyi filtreler.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - Organik Büyüme ve Topluluk (Hafta 3-4)</div>
+  <ol>
+    <li><strong>LinkedIn düşünce liderliği:</strong> Hazan ve Udaya, haftada 3-4 LinkedIn paylaşımı yapsın. Konular: mühendis-girişimci geçiş zorlukları, HSB'den öğrenilen dersler, müşteri kazanma taktikleri, teknik kurucu hataları. Engagement'a cevap verin — LinkedIn algoritması bunu ödüllendiriyor.</li>
+    <li><strong>YouTube "Engineer to Entrepreneur" serisi:</strong> 5-10 dakikalık videolar: "Neden mühendisler harika girişimciler olur?", "İlk müşterini nasıl buldum — HSB hikayesi", "Consulting business nasıl kurulur?". Video, güven oluşturmanın en güçlü aracı.</li>
+    <li><strong>SEO içerik genişletmesi:</strong> "engineer to entrepreneur", "technical founder coaching", "how to start an engineering consulting firm", "leaving corporate engineering for entrepreneurship" long-tail kelimelerde içerik üretin.</li>
+    <li><strong>Guest posting / podcast konukluğu:</strong> Engineering veya startup podcast'lerine konuk olun. "Bir havacılık mühendisi nasıl küresel şirket kurdu?" hikayesi çok dikkat çekici.</li>
+    <li><strong>Webinar dizisi:</strong> "From Engineer to Entrepreneur: Your First 90 Days" konulu ücretsiz webinar düzenleyin. LinkedIn ve e-posta ile duyurun. Lead toplama için mükemmel format.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - Ücretli Büyüme ve Ölçekleme (Ay 2+)</div>
+  <ol>
+    <li><strong>Google Ads — düşük bütçeyle başlayın:</strong> "engineer to entrepreneur program", "technical founder coaching", "engineering consulting startup" kelimelerinde reklam verin. Bu niş kelimeler CPC'si düşük, niyet yüksek.</li>
+    <li><strong>LinkedIn Ads:</strong> Hedef: Mühendislik pozisyonlarında 5-15 yıl deneyimli profesyoneller. Job title: "Senior Engineer", "Principal Engineer", "Engineering Manager". Lead gen formu ile doğrudan lead toplayın.</li>
+    <li><strong>Platform göçünü değerlendirin:</strong> Wix'ten WordPress veya Webflow'a geçiş, SEO performansını ciddi şekilde artırır. Blog stratejisi hızla büyüyecekse bu göç erken yapılmalı.</li>
+    <li><strong>Referral programı:</strong> Mevcut mezunlara "bir mühendis arkadaşını getir, ikisine de indirim" teklifi sunun. Mühendis ağları dar ama derin — referral bu nişte çok etkili.</li>
+    <li><strong>Üniversite ortaklıkları:</strong> Mühendislik fakülteleriyle (özellikle Türkiye ve global top 100) "girişimcilik atölyesi" ortaklıkları kurun. Erken aşama lead toplama ve marka bilinirliği için düşük maliyetli kanal.</li>
+    <li><strong>Community-led growth:</strong> entrepreneurHUB'ı açık bir "free tier" ile sunun — ücretsiz topluluk erişimi + premium mentorluk. Notion/Discord/Circle gibi bir platformda topluluk büyütmek, uzun vadeli en sürdürülebilir büyüme stratejisi.</li>
+  </ol>
+</div>
+
+
+<!-- SONUÇ -->
+<h2 class="page-break">5. Sonuç ve Skor Kartı</h2>
+
+<h3>Skor Kartı</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef (3 Ay)</th></tr>
+  <tr><td>Ürün / Program Kalitesi</td><td><div class="score-bar"><div class="score-fill score-high" style="width:75%"></div></div> 7.5/10</td><td>9/10</td></tr>
+  <tr><td>Kurucu Güvenilirliği</td><td><div class="score-bar"><div class="score-fill score-high" style="width:90%"></div></div> 9/10</td><td>9.5/10</td></tr>
+  <tr><td>Web Sitesi Kalitesi</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:50%"></div></div> 5/10</td><td>7/10</td></tr>
+  <tr><td>SEO / Organik Trafik</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>5/10</td></tr>
+  <tr><td>İçerik Pazarlaması</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>6/10</td></tr>
+  <tr><td>Sosyal Kanıt</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>6/10</td></tr>
+  <tr><td>Sosyal Medya</td><td><div class="score-bar"><div class="score-fill score-low" style="width:25%"></div></div> 2.5/10</td><td>6/10</td></tr>
+  <tr><td>Ücretli Reklamlar</td><td><div class="score-bar"><div class="score-fill score-low" style="width:5%"></div></div> 0.5/10</td><td>5/10</td></tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>Acil Müdahale Gerektiren 3 Alan</strong>
+  <ul style="margin-top:6px">
+    <li><strong>İçerik Pazarlaması: 1/10</strong> — Blog yok, SEO içeriği yok. "Engineer to entrepreneur" aramalarında Leap Global hiçbir yerde görünmüyor. Bu, platformun en büyük organik büyüme fırsatını tamamen kaçırdığı anlamına geliyor. Her geçen hafta rakipler bu alanı doldurabilir.</li>
+    <li><strong>Sosyal Kanıt: 1.5/10</strong> — Program mezun hikayeleri yok, testimonial yok, case study yok. Yüksek fiyatlı eğitim/mentorluk hizmetlerinde "başkaları bununla ne sonuç aldı?" sorusunun cevabı satış kararının %70'ini belirler.</li>
+    <li><strong>SEO / Organik Trafik: 1.5/10</strong> — Wix'in SEO sınırlamaları + içerik eksikliği birleşince organik keşfedilebilirlik neredeyse sıfır. "Technical founder coaching", "engineer entrepreneur program" gibi düşük rekabetli ama yüksek niyetli aramalarda görünmemek, her gün potansiyel müşteri kaybetmek demek.</li>
+  </ul>
+</div>
+
+<div class="alert alert-info">
+  <strong>Özet Değerlendirme</strong>
+  Leap Global'in temeli çok sağlam: gerçek başarı hikayesi olan kurucular (HSB Solutions), spesifik ve büyüyen bir niş (mühendis → girişimci), farklılaştırılmış programlar (Quick-Start, Brand & Growth, entrepreneurHUB). Hazan Günay'ın 18 yıllık havacılık deneyimi ve EASA uzmanlığı, Udaya Silva'nın stratejik vizyonu — bu ikili, pazardaki "genel koç" profilinden tamamen farklı.
+  <br><br>
+  Asıl sorun, bu güçlü temelin dünyaya yeterince görünür olmaması. İçerik yok, sosyal kanıt eksik, SEO altyapısı Wix'le sınırlı. İyi haber: "mühendis girişimcilik" nişi şu an neredeyse rekabetsiz. Blog başlatın, mezun hikayelerini toplayın, LinkedIn'de düşünce liderliği oluşturun — sonuçlar çok kısa sürede görülecektir.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adım</strong>
+  Bu rapordaki stratejinin uygulanması için sizinle çalışabiliriz. İçerik stratejisi ve blog yazıları, LinkedIn düşünce liderliği kampanyası, Google/LinkedIn Ads kurulumu, mezun başarı hikayesi yazımı, lead magnet oluşturma, demo funnel ve dönüşüm optimizasyonu konularında somut ve ölçülebilir büyüme planı hazırlayabiliriz. Düşük bütçeyle maksimum etki için 15 dakikalık görüşme talep edin.
+</div>
+
+<div class="liked-section">
+  <h3>Bu rapor işinize yaradıysa</h3>
+  <p>Stratejileri birlikte uygulayalım. 15 dakikalık ücretsiz görüşme için tıklayın.</p>
+  <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Raporu Beğendim</button>
+</div>
+
+<p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır. &copy; 2026</p>
+
+<script src="/lib/config.js"></script>
+<script src="/lib/tracker.js" data-type="rapor" data-client="leapglobal"></script>
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0c1929">
+<title>Mühendisten Girişimciye - Leap Global</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--bg:#0c1929;--bg-card:#162337;--bg-card-hover:#1e3148;--bg-option:rgba(22,35,55,0.8);--bg-option-selected:rgba(14,165,233,0.15);--border-option:rgba(55,75,105,0.5);--border-selected:rgba(14,165,233,0.6);--text-primary:#f1f5f9;--text-secondary:#94a3b8;--text-muted:#64748b;--accent:#0ea5e9;--accent-hover:#0284c7;--accent-glow:rgba(14,165,233,0.3);--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--safe-bottom:env(safe-area-inset-bottom,0px)}html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text-primary);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;touch-action:pan-y}.funnel-container{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}.step{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;padding:0 24px;padding-bottom:calc(16px + var(--safe-bottom));transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .4s ease;will-change:transform,opacity;opacity:0;pointer-events:none}.step[data-position="center"]{transform:translateX(0);opacity:1;pointer-events:auto}.step[data-position="left"]{transform:translateX(-100%);opacity:0}.step[data-position="right"]{transform:translateX(100%);opacity:0}.step-header{display:flex;align-items:center;justify-content:center;position:relative;padding:16px 0 8px;flex-shrink:0}.back-btn{position:absolute;left:0;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-secondary);cursor:pointer;padding:8px;border-radius:12px;display:flex;align-items:center;justify-content:center;width:44px;height:44px}.back-btn:hover{background:var(--bg-card);color:var(--text-primary)}.back-btn svg{width:22px;height:22px}.progress-dots{display:flex;gap:6px;align-items:center}.dot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);transition:all .35s ease}.dot.active{background:var(--accent);width:24px;border-radius:4px}.dot.completed{background:var(--accent)}.step-content{flex:1;display:flex;flex-direction:column;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;min-height:0}.step-content::-webkit-scrollbar{display:none}.question-area{text-align:center;margin-bottom:28px;flex-shrink:0}.question-title{font-size:26px;font-weight:700;line-height:1.3;margin-bottom:8px;letter-spacing:-.02em}.question-subtitle{font-size:14px;color:var(--text-secondary)}.options-area{display:flex;flex-direction:column;gap:12px;width:100%;max-width:480px;margin:0 auto}.option-btn{display:flex;align-items:center;gap:14px;width:100%;min-height:56px;padding:14px 18px;background:var(--bg-option);border:1.5px solid var(--border-option);border-radius:16px;color:var(--text-primary);font-family:inherit;font-size:16px;font-weight:500;text-align:left;cursor:pointer;transition:all .2s;user-select:none}.option-btn:hover{background:var(--bg-card-hover);border-color:var(--text-muted)}.option-btn:active{transform:scale(.98)}.option-btn.selected{background:var(--bg-option-selected);border-color:var(--border-selected);box-shadow:0 0 0 1px var(--border-selected),0 0 20px var(--accent-glow)}.option-btn .emoji{font-size:28px;flex-shrink:0;line-height:1}.option-btn .option-label{flex:1}.option-btn .check-indicator{width:22px;height:22px;border-radius:50%;border:2px solid var(--text-muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}.option-btn.selected .check-indicator{background:var(--accent);border-color:var(--accent)}.option-btn.selected .check-indicator::after{content:'\2713';color:#fff;font-size:13px;font-weight:700}.option-btn.multi .check-indicator{border-radius:6px}.step-footer{flex-shrink:0;padding-top:16px;max-width:480px;width:100%;margin:0 auto}.cta-btn{display:flex;align-items:center;justify-content:center;width:100%;height:56px;background:var(--accent);color:#fff;border:none;border-radius:16px;font-family:inherit;font-size:17px;font-weight:600;cursor:pointer;transition:all .2s}.cta-btn:hover:not(:disabled){background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}.cta-btn:disabled{opacity:.35;cursor:not-allowed}.analysis-card{background:var(--bg-card);border-radius:20px;padding:24px;width:100%;max-width:480px;margin:0 auto}.analysis-header{text-align:center;margin-bottom:20px}.analysis-header h2{font-size:22px;font-weight:700;margin-bottom:4px}.analysis-header p{font-size:13px;color:var(--text-secondary)}.analysis-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(71,85,105,.3)}.analysis-row:last-child{border-bottom:none}.analysis-label{font-size:14px;color:var(--text-secondary)}.analysis-value{font-size:16px;font-weight:600}.insights-list{margin-top:16px;display:flex;flex-direction:column;gap:10px}.insight-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--text-secondary)}.insight-item .emoji{font-size:20px;flex-shrink:0;line-height:1.3}.priority-box{margin-top:16px;padding:14px 16px;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.25);border-radius:14px}.priority-box .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:4px}.priority-box .text{font-size:14px;color:var(--text-primary);line-height:1.5}.free-trial-banner{margin-top:20px;text-align:center;padding:16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:14px}.free-trial-banner .emoji{font-size:28px;display:block;margin-bottom:6px}.free-trial-banner .text{font-size:15px;font-weight:600;color:var(--text-primary)}.free-trial-banner .sub{font-size:13px;color:var(--text-secondary);margin-top:2px}.thank-you-icon{width:72px;height:72px;border-radius:50%;background:rgba(14,165,233,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:36px;animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1)}@keyframes scaleIn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}.benefits-list{display:flex;flex-direction:column;gap:12px;width:100%;max-width:480px;margin:0 auto 20px}.benefit-item{display:flex;gap:12px;align-items:center;padding:14px 16px;background:var(--bg-card);border-radius:14px;font-size:15px;font-weight:500}.benefit-item .emoji{font-size:24px;flex-shrink:0}.skip-link{text-align:center;margin-top:12px}.skip-link a{color:var(--text-muted);font-size:14px;text-decoration:none;border-bottom:1px solid transparent}.skip-link a:hover{color:var(--text-secondary);border-bottom-color:var(--text-secondary)}.loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .3s}.loading-overlay.active{opacity:1;pointer-events:auto}.loading-spinner{width:48px;height:48px;border:3px solid var(--bg-card);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loading-text{margin-top:20px;font-size:16px;color:var(--text-secondary);text-align:center}.loading-text .changing{display:block;margin-top:6px;font-size:14px;color:var(--text-muted);min-height:21px}.growther-banner{margin-top:16px;padding:14px 16px;background:rgba(14,165,233,.06);border:1px solid rgba(14,165,233,.15);border-radius:14px;text-align:center}.growther-banner .text{font-size:13px;color:var(--text-muted)}.growther-banner .text strong{color:var(--text-secondary)}@media(max-height:680px){.question-title{font-size:22px}.option-btn{min-height:48px;padding:10px 14px}.option-btn .emoji{font-size:24px}.options-area{gap:8px}.analysis-card{padding:16px}}@media(min-width:640px){.step{padding:0 40px;padding-bottom:calc(24px + var(--safe-bottom))}.question-title{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="funnel-container" id="funnel">
+
+  <!-- Step 1: Mevcut durum -->
+  <div class="step" id="step-1" data-position="center">
+    <div class="step-header"><div class="progress-dots" id="dots-1"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Şu an kariyerinizde neredesiniz?</h1></div>
+      <div class="options-area" data-step="1" data-key="kariyer_durum">
+        <button class="option-btn" data-value="mühendis_tam"><span class="emoji">&#x1F477;</span><span class="option-label">Tam zamanlı mühendis olarak çalışıyorum</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="mühendis_yan"><span class="emoji">&#x1F4BB;</span><span class="option-label">Mühendisim, yan projelerim var</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="geçiş_aşaması"><span class="emoji">&#x1F680;</span><span class="option-label">Girişimciliğe geçiş aşamasındayım</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="kurdum"><span class="emoji">&#x1F3AF;</span><span class="option-label">Kendi şirketimi kurdum, büyütmek istiyorum</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-1" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- Step 2: Zorluklar (multi-select) -->
+  <div class="step" id="step-2" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-2"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">En çok hangi konuda desteğe ihtiyacınız var?</h1><p class="question-subtitle">Birden fazla seçebilirsiniz</p></div>
+      <div class="options-area" data-step="2" data-key="zorluklar" data-multi="true">
+        <button class="option-btn multi" data-value="fikir_doğrulama"><span class="emoji">&#x1F4A1;</span><span class="option-label">Fikir doğrulama ve ilk ürün</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="müşteri_bulma"><span class="emoji">&#x1F465;</span><span class="option-label">İlk müşterimi bulmak</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="marka"><span class="emoji">&#x2728;</span><span class="option-label">Kişisel ve şirket markası oluşturma</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="global"><span class="emoji">&#x1F30D;</span><span class="option-label">Küresel pazara açılma</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="strateji"><span class="emoji">&#x1F4C8;</span><span class="option-label">Büyüme stratejisi ve planlama</span><span class="check-indicator"></span></button>
+        <button class="option-btn multi" data-value="zihniyet"><span class="emoji">&#x1F9E0;</span><span class="option-label">Çalışan zihniyetinden girişimci zihniyetine geçiş</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-2" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- Step 3: Mühendislik alanı -->
+  <div class="step" id="step-3" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-3"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Mühendislik alanınız ne?</h1></div>
+      <div class="options-area" data-step="3" data-key="alan">
+        <button class="option-btn" data-value="yazılım"><span class="emoji">&#x1F4BB;</span><span class="option-label">Yazılım / Bilgisayar Mühendisliği</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="havacılık"><span class="emoji">&#x2708;&#xFE0F;</span><span class="option-label">Havacılık / Uzay Mühendisliği</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="makine"><span class="emoji">&#x2699;&#xFE0F;</span><span class="option-label">Makine / Endüstri Mühendisliği</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="elektrik"><span class="emoji">&#x26A1;</span><span class="option-label">Elektrik / Elektronik Mühendisliği</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="inşaat"><span class="emoji">&#x1F3D7;&#xFE0F;</span><span class="option-label">İnşaat / Çevre Mühendisliği</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="diğer"><span class="emoji">&#x1F52C;</span><span class="option-label">Diğer mühendislik alanı</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-3" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- Step 4: Deneyim -->
+  <div class="step" id="step-4" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-4"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">Kaç yıllık mühendislik deneyiminiz var?</h1></div>
+      <div class="options-area" data-step="4" data-key="deneyim">
+        <button class="option-btn" data-value="0-3"><span class="emoji">&#x1F331;</span><span class="option-label">0-3 yıl</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="3-7"><span class="emoji">&#x1F4AA;</span><span class="option-label">3-7 yıl</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="7-15"><span class="emoji">&#x1F3C6;</span><span class="option-label">7-15 yıl</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="15+"><span class="emoji">&#x1F451;</span><span class="option-label">15+ yıl</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-4" disabled>Devam Et</button></div>
+  </div>
+
+  <!-- Step 5: Hedef -->
+  <div class="step" id="step-5" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-5"></div></div>
+    <div class="step-content">
+      <div class="question-area"><h1 class="question-title">6 ay içinde nerede olmak istiyorsunuz?</h1></div>
+      <div class="options-area" data-step="5" data-key="hedef">
+        <button class="option-btn" data-value="ilk_müşteri"><span class="emoji">&#x1F91D;</span><span class="option-label">İlk müşterimi kazanmış olmak</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="tam_zamanlı"><span class="emoji">&#x1F680;</span><span class="option-label">Tam zamanlı girişimci olmak</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="global_büyüme"><span class="emoji">&#x1F30D;</span><span class="option-label">Küresel pazara açılmış olmak</span><span class="check-indicator"></span></button>
+        <button class="option-btn" data-value="gelir_artışı"><span class="emoji">&#x1F4B0;</span><span class="option-label">Gelirimi 2-3x artırmış olmak</span><span class="check-indicator"></span></button>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-5" disabled>Analizimi Gör</button></div>
+  </div>
+
+  <!-- Step 6: Analiz -->
+  <div class="step" id="step-6" data-position="right">
+    <div class="step-header"><button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div class="progress-dots" id="dots-6"></div></div>
+    <div class="step-content">
+      <div class="analysis-card">
+        <div class="analysis-header"><h2>Girişimcilik Profiliniz</h2><p>Cevaplarınıza göre analiz</p></div>
+        <div class="analysis-row"><span class="analysis-label">Aşama</span><span class="analysis-value" id="a-aşama">Keşif</span></div>
+        <div class="analysis-row"><span class="analysis-label">Öncelikli Alan</span><span class="analysis-value" id="a-öncelikli">Fikir Doğrulama</span></div>
+        <div class="analysis-row"><span class="analysis-label">Önerilen Program</span><span class="analysis-value" id="a-program" style="color:var(--accent)">Quick-Start</span></div>
+        <div class="analysis-row"><span class="analysis-label">Potansiyel</span><span class="analysis-value" id="a-potansiyel" style="color:var(--success)">Yüksek</span></div>
+        <div class="insights-list" id="insights-list"></div>
+        <div class="priority-box"><div class="label">Ücretsiz Strateji Oturumu</div><div class="text" id="priority-text">15 dakikalık görüşmede mühendislik geçmişinize özel girişimcilik yol haritanızı birlikte çizelim.</div></div>
+        <div class="free-trial-banner"><span class="emoji">&#x1F4A1;</span><div class="text">Bu funnel sizin için de çalışabilir</div><div class="sub">Potansiyel müşterilerinizin ihtiyacını analiz edin, doğru çözümü sunun</div></div>
+      </div>
+    </div>
+    <div class="step-footer"><button class="cta-btn" id="cta-6">Ücretsiz Görüşme Talep Et</button></div>
+  </div>
+
+  <!-- Step 7: Teşekkür / CTA -->
+  <div class="step" id="step-7" data-position="right">
+    <div class="step-header"><div class="progress-dots" id="dots-7"></div></div>
+    <div class="step-content">
+      <div style="text-align:center;margin-bottom:20px">
+        <div class="thank-you-icon">&#x1F680;</div>
+        <h1 class="question-title" style="font-size:24px">Ücretsiz Strateji Görüşmesi</h1>
+        <p style="font-size:15px;color:var(--text-secondary);margin-top:8px">Mühendislik kariyerinize özel girişimcilik yol haritanız</p>
+      </div>
+      <div class="benefits-list">
+        <div class="benefit-item"><span class="emoji">&#x1F3AF;</span><span>Size özel yol haritası — genel tavsiye değil</span></div>
+        <div class="benefit-item"><span class="emoji">&#x1F477;</span><span>Mühendis kurucularla birebir — aynı yoldan geçtik</span></div>
+        <div class="benefit-item"><span class="emoji">&#x1F30D;</span><span>Küresel perspektif — HSB Solutions deneyimiyle</span></div>
+        <div class="benefit-item"><span class="emoji">&#x1F381;</span><span>Tamamen ücretsiz — hiçbir yükümlülük yok</span></div>
+      </div>
+    </div>
+    <div class="step-footer">
+      <button class="cta-btn" id="cta-7" onclick="sendInterest()">15 Dakika Görüşelim</button>
+      <div class="skip-link" style="margin-top:12px"><a href="https://leapglobal.net" target="_blank">leapglobal.net'i incelemeye devam et</a></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Girişimcilik profiliniz analiz ediliyor<span class="changing" id="loading-changing"></span></div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  var TOTAL_STEPS = 7;
+  var currentStep = 1;
+  var answers = {};
+
+  for (var s = 1; s <= TOTAL_STEPS; s++) {
+    var dotsContainer = document.getElementById('dots-' + s);
+    if (!dotsContainer) continue;
+    for (var d = 1; d <= TOTAL_STEPS; d++) {
+      var dot = document.createElement('span');
+      dot.className = 'dot';
+      if (d < s) dot.className += ' completed';
+      if (d === s) dot.className += ' active';
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  var optionAreas = document.querySelectorAll('.options-area');
+  for (var i = 0; i < optionAreas.length; i++) {
+    (function(area) {
+      var isMulti = area.dataset.multi === 'true';
+      var key = area.dataset.key;
+      var step = parseInt(area.dataset.step, 10);
+      var btns = area.querySelectorAll('.option-btn');
+      for (var j = 0; j < btns.length; j++) {
+        (function(btn) {
+          btn.addEventListener('click', function() {
+            if (isMulti) {
+              btn.classList.toggle('selected');
+              var selected = area.querySelectorAll('.option-btn.selected');
+              var vals = [];
+              for (var k = 0; k < selected.length; k++) vals.push(selected[k].dataset.value);
+              answers[key] = vals;
+              document.getElementById('cta-' + step).disabled = vals.length === 0;
+            } else {
+              var allBtns = area.querySelectorAll('.option-btn');
+              for (var k = 0; k < allBtns.length; k++) allBtns[k].classList.remove('selected');
+              btn.classList.add('selected');
+              answers[key] = btn.dataset.value;
+              document.getElementById('cta-' + step).disabled = false;
+            }
+          });
+        })(btns[j]);
+      }
+    })(optionAreas[i]);
+  }
+
+  for (var s2 = 1; s2 <= 4; s2++) {
+    (function(step) {
+      document.getElementById('cta-' + step).addEventListener('click', function() {
+        goToStep(step + 1);
+      });
+    })(s2);
+  }
+  document.getElementById('cta-5').addEventListener('click', function() {
+    showLoading(function() { buildAnalysis(); goToStep(6); });
+  });
+  document.getElementById('cta-6').addEventListener('click', function() { goToStep(7); });
+
+  function goToStep(target) {
+    if (target < 1 || target > TOTAL_STEPS) return;
+    document.getElementById('step-' + currentStep).dataset.position = target > currentStep ? 'left' : 'right';
+    document.getElementById('step-' + target).dataset.position = 'center';
+    currentStep = target;
+    if (window.GROWTHER_TRACKER) GROWTHER_TRACKER.onStepChange(target);
+  }
+  window.goBack = function() { goToStep(currentStep - 1); };
+
+  window.GROWTHER_FUNNEL = { getCurrentStep: function() { return currentStep; }, getAnswers: function() { return answers; } };
+
+  function showLoading(callback) {
+    var overlay = document.getElementById('loading-overlay');
+    var changing = document.getElementById('loading-changing');
+    overlay.classList.add('active');
+    var messages = ['Kariyer durumunuz değerlendiriliyor...', 'Zorluk alanları analiz ediliyor...', 'Uygun program belirleniyor...', 'Kişisel yol haritanız hazırlanıyor...'];
+    var idx = 0; changing.textContent = messages[0];
+    var interval = setInterval(function() { idx++; if (idx < messages.length) changing.textContent = messages[idx]; }, 600);
+    setTimeout(function() { clearInterval(interval); overlay.classList.remove('active'); callback(); }, 2600);
+  }
+
+  function buildAnalysis() {
+    var zorluklar = answers.zorluklar || [];
+    var kariyer = answers.kariyer_durum || 'mühendis_tam';
+    var deneyim = answers.deneyim || '3-7';
+    var hedef = answers.hedef || 'ilk_müşteri';
+
+    // Aşama
+    var aşama = 'Keşif';
+    if (kariyer === 'mühendis_yan') aşama = 'Hazırlık';
+    else if (kariyer === 'geçiş_aşaması') aşama = 'Geçiş';
+    else if (kariyer === 'kurdum') aşama = 'Büyüme';
+
+    // Öncelikli alan
+    var öncelik = zorluklar.length > 0 ? labelOf(zorluklar[0]) : 'Genel Strateji';
+
+    // Program önerisi
+    var program = 'Quick-Start Program';
+    if (kariyer === 'kurdum' || hedef === 'global_büyüme') program = 'Brand & Growth Program';
+    else if (kariyer === 'geçiş_aşaması' && deneyim === '15+') program = 'Stratejik Planlama';
+    else if (zorluklar.indexOf('marka') !== -1 || zorluklar.indexOf('global') !== -1) program = 'Brand & Growth Program';
+
+    // Potansiyel
+    var potansiyel = 'Yüksek';
+    if (deneyim === '7-15' || deneyim === '15+') potansiyel = 'Çok Yüksek';
+    if (zorluklar.length >= 3) potansiyel = 'Çok Yüksek';
+
+    document.getElementById('a-aşama').textContent = aşama;
+    document.getElementById('a-öncelikli').textContent = öncelik;
+    document.getElementById('a-program').textContent = program;
+    document.getElementById('a-potansiyel').textContent = potansiyel;
+
+    // Insights
+    var insights = [];
+    if (zorluklar.indexOf('fikir_doğrulama') !== -1) insights.push({ emoji: '\uD83D\uDCA1', text: 'Fikir Doğrulama — Teknik uzmanlığınızı pazarlanabilir bir ürüne/hizmete dönüştürme rehberliği' });
+    if (zorluklar.indexOf('müşteri_bulma') !== -1) insights.push({ emoji: '\uD83D\uDC65', text: 'İlk Müşteri — Deneyimli kurucu mentorlarla ilk müşterinize ulaşma stratejileri' });
+    if (zorluklar.indexOf('marka') !== -1) insights.push({ emoji: '\u2728', text: 'Marka Oluşturma — Kişisel ve şirket markanızı uluslararası standartlarda konumlandırma' });
+    if (zorluklar.indexOf('global') !== -1) insights.push({ emoji: '\uD83C\uDF0D', text: 'Küresel Pazar — HSB Solutions deneyimiyle uluslararası müşteri portföyü oluşturma' });
+    if (zorluklar.indexOf('strateji') !== -1) insights.push({ emoji: '\uD83D\uDCC8', text: 'Büyüme Stratejisi — Tek sayfalık büyüme planıyla net yön ve ivme kazanma' });
+    if (zorluklar.indexOf('zihniyet') !== -1) insights.push({ emoji: '\uD83E\uDDE0', text: 'Zihniyet Dönüşümü — Çalışan zihniyetinden girişimci zihniyetine yapılandırılmış geçiş' });
+
+    insights = insights.slice(0, 3);
+
+    if (insights.length === 0) {
+      insights.push({ emoji: '\uD83D\uDCA1', text: 'Fikir Doğrulama — Teknik uzmanlığınızı pazarlanabilir bir ürüne dönüştürme' });
+      insights.push({ emoji: '\uD83D\uDC65', text: 'İlk Müşteri — Mühendis kurucuların rehberliğinde ilk müşterinize ulaşma' });
+      insights.push({ emoji: '\uD83C\uDF0D', text: 'Küresel Perspektif — HSB Solutions deneyimiyle sınırları aşma' });
+    }
+
+    var insightsList = document.getElementById('insights-list');
+    insightsList.innerHTML = '';
+    for (var i = 0; i < insights.length; i++) {
+      var div = document.createElement('div');
+      div.className = 'insight-item';
+      div.innerHTML = '<span class="emoji">' + insights[i].emoji + '</span><span>' + insights[i].text + '</span>';
+      insightsList.appendChild(div);
+    }
+
+    document.getElementById('priority-text').textContent = aşama + ' aşamasındaki bir mühendis olarak ' + program + ' ile girişimcilik yolculuğunuza hız katabilirsiniz. 15 dakikalık ücretsiz görüşmede size özel yol haritanızı birlikte çizelim.';
+  }
+
+  function labelOf(key) {
+    var map = { fikir_doğrulama: 'Fikir Doğrulama', müşteri_bulma: 'Müşteri Kazanma', marka: 'Marka Oluşturma', global: 'Küresel Büyüme', strateji: 'Büyüme Stratejisi', zihniyet: 'Zihniyet Dönüşümü' };
+    return map[key] || key;
+  }
+
+  window.sendInterest = function() {
+    if (window.GROWTHER_TRACKER) GROWTHER_TRACKER.onInterested();
+    var btn = document.getElementById('cta-7');
+    btn.disabled = true;
+    btn.textContent = 'Gönderiliyor...';
+    GROWTHER.supaFetch('/rest/v1/funnel_leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ source: 'demo-funnel', client: 'leapglobal', status: 'interested', answers: JSON.stringify(answers), created_at: new Date().toISOString() })
+    }).then(function() {
+      btn.textContent = '\u2705 Görüşme talebi alındı!';
+      btn.style.background = '#16a34a';
+      var note = document.createElement('p');
+      note.style.cssText = 'text-align:center;color:var(--text-secondary);font-size:14px;margin-top:12px';
+      note.textContent = 'En kısa sürede sizinle iletişime geçeceğiz.';
+      btn.parentNode.appendChild(note);
+      setTimeout(function() { showCalPopup('tr'); }, 1200);
+    }).catch(function() {
+      btn.textContent = '\u2705 Görüşme talebi alındı!';
+      btn.style.background = '#16a34a';
+      setTimeout(function() { showCalPopup('tr'); }, 1200);
+    });
+  };
+
+  var touchStartX = 0, touchStartY = 0;
+  document.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].clientX; touchStartY = e.changedTouches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', function(e) { var dx = e.changedTouches[0].clientX - touchStartX, dy = e.changedTouches[0].clientY - touchStartY; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && dx > 0 && currentStep > 1) goBack(); }, { passive: true });
+
+})();
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/cal-popup.js"></script>
+<script src="/lib/tracker.js" data-type="demo-funnel" data-client="leapglobal" data-total-steps="7"></script>
+</body>
+</html>
