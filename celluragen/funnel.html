@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#ffffff">
+<title>Celluragen — Dijital Büyüme Stratejisi</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#032341;
+  --hover:#345e83;
+  --accent:#fd6065;
+  --bg:#ffffff;
+  --text:#032341;
+  --text-sub:#5a7a96;
+  --text-muted:#8fa5b8;
+  --card-bg:#f6f9fc;
+  --card-border:#e4ecf2;
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;touch-action:pan-y}
+
+.funnel-container{position:relative;width:100%;max-width:560px;margin:0 auto;height:100vh;height:100dvh;overflow:hidden}
+
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;padding:0 24px;padding-bottom:calc(20px + var(--safe-bottom));transition:transform .5s cubic-bezier(.4,0,.2,1),opacity .45s ease;will-change:transform,opacity;opacity:0;pointer-events:none}
+.slide[data-pos="center"]{transform:translateX(0);opacity:1;pointer-events:auto}
+.slide[data-pos="left"]{transform:translateX(-100%);opacity:0}
+.slide[data-pos="right"]{transform:translateX(100%);opacity:0}
+
+.slide-header{display:flex;align-items:center;justify-content:space-between;padding:16px 0 8px;flex-shrink:0}
+.logo-text{font-size:14px;font-weight:700;letter-spacing:.08em;color:var(--primary)}
+.progress-dots{display:flex;gap:5px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--card-border);transition:all .3s ease}
+.dot.active{background:var(--primary);width:22px;border-radius:4px}
+.dot.done{background:var(--primary)}
+
+.slide-content{flex:1;display:flex;flex-direction:column;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;min-height:0}
+.slide-content::-webkit-scrollbar{display:none}
+
+.slide-footer{flex-shrink:0;padding-top:12px;text-align:center}
+.slide-footer .powered{font-size:11px;color:var(--text-muted);margin-top:10px}
+.slide-footer .powered strong{color:var(--text-sub)}
+
+/* Buttons */
+.btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;background:var(--primary);color:#fff;border:none;border-radius:4px;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:background .2s,transform .2s}
+.btn-primary:hover{background:var(--hover);transform:translateY(-1px)}
+.btn-accent{background:var(--accent)}
+.btn-accent:hover{background:#e8474c}
+.btn-outline{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;background:transparent;color:var(--primary);border:2px solid var(--primary);border-radius:4px;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-outline:hover{background:var(--primary);color:#fff}
+.btn-ghost{background:none;border:none;color:var(--text-muted);font-size:13px;font-family:inherit;cursor:pointer;padding:8px;margin-top:8px}
+.btn-ghost:hover{color:var(--text-sub)}
+
+/* Language chooser */
+.lang-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:32px}
+.lang-screen h1{font-size:28px;font-weight:700;letter-spacing:-.02em}
+.lang-btns{display:flex;gap:16px}
+.lang-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:140px;height:56px;background:var(--card-bg);border:2px solid var(--card-border);border-radius:4px;font-family:inherit;font-size:16px;font-weight:600;color:var(--primary);cursor:pointer;transition:all .2s}
+.lang-btn:hover{border-color:var(--primary);background:var(--primary);color:#fff}
+
+/* Hero */
+.hero-center{text-align:center}
+.hero-center h1{font-size:26px;font-weight:700;line-height:1.25;letter-spacing:-.02em;margin-bottom:12px}
+.hero-center p{font-size:15px;color:var(--text-sub);line-height:1.6;margin-bottom:24px}
+.trust-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:28px}
+.trust-tag{display:flex;align-items:center;gap:6px;padding:6px 14px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:3px;font-size:12px;font-weight:600;color:var(--primary);white-space:nowrap}
+.trust-tag .icon{font-size:16px}
+
+/* Problem metrics */
+.section-title{font-size:22px;font-weight:700;text-align:center;margin-bottom:6px;letter-spacing:-.01em}
+.section-sub{font-size:14px;color:var(--text-sub);text-align:center;margin-bottom:24px}
+.metric-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:4px;padding:20px;text-align:center;margin-bottom:12px}
+.metric-card .metric-num{font-size:32px;font-weight:800;color:var(--primary);letter-spacing:-.02em}
+.metric-card .metric-num .accent{color:var(--accent)}
+.metric-card .metric-label{font-size:13px;color:var(--text-sub);margin-top:4px;line-height:1.4}
+
+/* Solution cards */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sol-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:4px;padding:16px;text-align:left}
+.sol-card .card-icon{font-size:24px;margin-bottom:8px}
+.sol-card .card-title{font-size:14px;font-weight:700;color:var(--primary);margin-bottom:4px}
+.sol-card .card-desc{font-size:12px;color:var(--text-sub);line-height:1.5}
+
+/* Phone mockup */
+.phone-mockup{width:220px;margin:0 auto 16px;background:#000;border-radius:28px;padding:10px;box-shadow:0 12px 40px rgba(3,35,65,.15)}
+.phone-screen{background:var(--primary);border-radius:20px;padding:16px 12px;min-height:320px;display:flex;flex-direction:column;justify-content:space-between}
+.phone-screen .ps-step{background:rgba(255,255,255,.1);border-radius:3px;padding:8px 10px;margin-bottom:6px;font-size:11px;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:8px}
+.phone-screen .ps-step .num{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.phone-screen .ps-step.active{background:rgba(253,96,101,.3);border:1px solid rgba(253,96,101,.5)}
+.phone-screen .ps-cta{background:var(--accent);border-radius:3px;padding:8px;text-align:center;font-size:11px;font-weight:700;color:#fff;margin-top:8px}
+
+/* Dashboard preview */
+.dash-preview{background:var(--card-bg);border:1px solid var(--card-border);border-radius:4px;padding:16px;margin-bottom:16px}
+.dash-row{display:flex;gap:10px;margin-bottom:10px}
+.dash-row:last-child{margin-bottom:0}
+.dash-mini{flex:1;background:#fff;border:1px solid var(--card-border);border-radius:3px;padding:12px;text-align:center}
+.dash-mini .dm-val{font-size:22px;font-weight:800;color:var(--primary)}
+.dash-mini .dm-val.green{color:#22c55e}
+.dash-mini .dm-val.red{color:var(--accent)}
+.dash-mini .dm-label{font-size:11px;color:var(--text-muted);margin-top:2px}
+
+/* Nav arrows */
+.nav-row{display:flex;gap:10px;margin-top:8px}
+.nav-row .btn-primary,.nav-row .btn-outline{flex:1}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.anim-up{animation:fadeUp .5s ease both}
+.anim-d1{animation-delay:.1s}
+.anim-d2{animation-delay:.2s}
+.anim-d3{animation-delay:.3s}
+.anim-d4{animation-delay:.4s}
+
+/* CountUp */
+.count-up{display:inline-block}
+
+@media(max-width:380px){
+  .hero-center h1{font-size:22px}
+  .section-title{font-size:19px}
+  .card-grid{grid-template-columns:1fr}
+  .phone-mockup{width:180px}
+  .phone-screen{min-height:260px}
+  .metric-card .metric-num{font-size:26px}
+  .trust-bar{gap:8px}
+  .trust-tag{font-size:11px;padding:5px 10px}
+}
+</style>
+</head>
+<body>
+<div class="funnel-container" id="funnel" data-client="celluragen">
+
+  <!-- Slide 0: Language Selection -->
+  <div class="slide" id="slide-0" data-pos="center">
+    <div class="slide-header">
+      <span class="logo-text">CELLURAGEN</span>
+      <span></span>
+    </div>
+    <div class="slide-content">
+      <div class="lang-screen">
+        <div>
+          <h1 id="lang-title">Dil Seçin / Choose Language</h1>
+        </div>
+        <div class="lang-btns">
+          <button class="lang-btn" onclick="setLang('tr')">🇹🇷 Türkçe</button>
+          <button class="lang-btn" onclick="setLang('en')">🇬🇧 English</button>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="powered"><strong>GrowthER AI</strong> tarafından hazırlanmıştır</div>
+    </div>
+  </div>
+
+  <!-- Slide 1: Hero / Hook -->
+  <div class="slide" id="slide-1" data-pos="right">
+    <div class="slide-header">
+      <span class="logo-text">CELLURAGEN</span>
+      <div class="progress-dots" id="dots-1"></div>
+    </div>
+    <div class="slide-content">
+      <div class="hero-center">
+        <h1 id="t-hero-title"></h1>
+        <p id="t-hero-desc"></p>
+        <div class="trust-bar">
+          <span class="trust-tag"><span class="icon">🏛️</span> <span id="t-trust-tubitak">TÜBİTAK Destekli</span></span>
+          <span class="trust-tag"><span class="icon">🥇</span> <span id="t-trust-teknofest">TEKNOFEST Altın Madalya</span></span>
+          <span class="trust-tag"><span class="icon">🏆</span> <span id="t-trust-gift">GIFT Ödülü</span></span>
+          <span class="trust-tag"><span class="icon">👩‍🔬</span> <span id="t-trust-kadem">KADEM</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <button class="btn-primary" onclick="goSlide(2)" id="t-hero-cta"></button>
+      <div class="powered"><strong>GrowthER AI</strong> <span id="t-powered"></span></div>
+    </div>
+  </div>
+
+  <!-- Slide 2: Problem Tespiti -->
+  <div class="slide" id="slide-2" data-pos="right">
+    <div class="slide-header">
+      <span class="logo-text">CELLURAGEN</span>
+      <div class="progress-dots" id="dots-2"></div>
+    </div>
+    <div class="slide-content">
+      <h2 class="section-title" id="t-prob-title"></h2>
+      <p class="section-sub" id="t-prob-sub"></p>
+      <div class="metric-card anim-up anim-d1">
+        <div class="metric-num"><span class="count-up" data-target="12000">0</span><span class="accent">+</span></div>
+        <div class="metric-label" id="t-metric1-label"></div>
+      </div>
+      <div class="metric-card anim-up anim-d2">
+        <div class="metric-num">₺<span class="count-up" data-target="3190">0</span></div>
+        <div class="metric-label" id="t-metric2-label"></div>
+      </div>
+      <div class="metric-card anim-up anim-d3">
+        <div class="metric-num"><span class="count-up" data-target="4">0</span> <span class="accent" id="t-metric3-suffix"></span></div>
+        <div class="metric-label" id="t-metric3-label"></div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="nav-row">
+        <button class="btn-outline" onclick="goSlide(1)">←</button>
+        <button class="btn-primary" onclick="goSlide(3)" id="t-prob-cta"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 3: Çözüm Sunumu -->
+  <div class="slide" id="slide-3" data-pos="right">
+    <div class="slide-header">
+      <span class="logo-text">CELLURAGEN</span>
+      <div class="progress-dots" id="dots-3"></div>
+    </div>
+    <div class="slide-content">
+      <h2 class="section-title" id="t-sol-title"></h2>
+      <p class="section-sub" id="t-sol-sub"></p>
+      <div class="card-grid">
+        <div class="sol-card anim-up anim-d1">
+          <div class="card-icon">🎯</div>
+          <div class="card-title" id="t-card1-title"></div>
+          <div class="card-desc" id="t-card1-desc"></div>
+        </div>
+        <div class="sol-card anim-up anim-d2">
+          <div class="card-icon">📈</div>
+          <div class="card-title" id="t-card2-title"></div>
+          <div class="card-desc" id="t-card2-desc"></div>
+        </div>
+        <div class="sol-card anim-up anim-d3">
+          <div class="card-icon">🏆</div>
+          <div class="card-title" id="t-card3-title"></div>
+          <div class="card-desc" id="t-card3-desc"></div>
+        </div>
+        <div class="sol-card anim-up anim-d4">
+          <div class="card-icon">👩‍🔬</div>
+          <div class="card-title" id="t-card4-title"></div>
+          <div class="card-desc" id="t-card4-desc"></div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="nav-row">
+        <button class="btn-outline" onclick="goSlide(2)">←</button>
+        <button class="btn-primary" onclick="goSlide(4)" id="t-sol-cta"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 4: Demo Funnel Showcase -->
+  <div class="slide" id="slide-4" data-pos="right">
+    <div class="slide-header">
+      <span class="logo-text">CELLURAGEN</span>
+      <div class="progress-dots" id="dots-4"></div>
+    </div>
+    <div class="slide-content">
+      <h2 class="section-title" id="t-demo-title"></h2>
+      <p class="section-sub" id="t-demo-sub"></p>
+      <div class="phone-mockup">
+        <div class="phone-screen">
+          <div>
+            <div class="ps-step active"><span class="num">1</span><span id="t-ps1"></span></div>
+            <div class="ps-step"><span class="num">2</span><span id="t-ps2"></span></div>
+            <div class="ps-step"><span class="num">3</span><span id="t-ps3"></span></div>
+            <div class="ps-step"><span class="num">4</span><span id="t-ps4"></span></div>
+            <div class="ps-step"><span class="num">5</span><span id="t-ps5"></span></div>
+            <div class="ps-step"><span class="num">6</span><span id="t-ps6"></span></div>
+          </div>
+          <div class="ps-cta" id="t-ps-cta"></div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--text-muted);text-align:center" id="t-demo-note"></p>
+    </div>
+    <div class="slide-footer">
+      <div class="nav-row">
+        <button class="btn-outline" onclick="goSlide(3)">←</button>
+        <button class="btn-primary" onclick="goSlide(5)" id="t-demo-cta"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 5: Dashboard & CTA -->
+  <div class="slide" id="slide-5" data-pos="right">
+    <div class="slide-header">
+      <span class="logo-text">CELLURAGEN</span>
+      <div class="progress-dots" id="dots-5"></div>
+    </div>
+    <div class="slide-content">
+      <h2 class="section-title" id="t-dash-title"></h2>
+      <p class="section-sub" id="t-dash-sub"></p>
+      <div class="dash-preview">
+        <div class="dash-row">
+          <div class="dash-mini">
+            <div class="dm-val green" id="t-dm1-val">%73</div>
+            <div class="dm-label" id="t-dm1-label"></div>
+          </div>
+          <div class="dash-mini">
+            <div class="dm-val" id="t-dm2-val">4.2s</div>
+            <div class="dm-label" id="t-dm2-label"></div>
+          </div>
+        </div>
+        <div class="dash-row">
+          <div class="dash-mini">
+            <div class="dm-val red" id="t-dm3-val">Step 3</div>
+            <div class="dm-label" id="t-dm3-label"></div>
+          </div>
+          <div class="dash-mini">
+            <div class="dm-val green" id="t-dm4-val">%89</div>
+            <div class="dm-label" id="t-dm4-label"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <a href="/celluragen/dashboard-demo.html" class="btn-primary" style="text-decoration:none" id="t-dash-cta1"></a>
+      <div style="height:10px"></div>
+      <button class="btn-accent btn-primary" onclick="showCalPopup(currentLang)" id="t-dash-cta2"></button>
+      <button class="btn-ghost" onclick="goSlide(4)">←</button>
+      <div class="powered"><strong>GrowthER AI</strong> <span id="t-powered2"></span></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="../lib/config.js"></script>
+<script src="../lib/tracker.js" data-type="demo-funnel" data-client="celluragen" data-total-steps="5"></script>
+<script src="../lib/cal-popup.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  var TOTAL_SLIDES = 5;
+  var current = 0;
+  window.currentLang = 'tr';
+
+  // ── i18n ──
+  var T = {
+    tr: {
+      heroTitle: 'Celluragen Dijital Büyüme Stratejisi',
+      heroDesc: 'TÜBİTAK destekli, patent korumalı, 4 ödüllü ürününüz için hazırladığımız büyüme planı.',
+      heroCta: 'Stratejiyi İncele →',
+      powered: 'tarafından hazırlanmıştır',
+      trustTubitak: 'TÜBİTAK Destekli',
+      trustTeknofest: 'TEKNOFEST Altın Madalya',
+      trustGift: 'GIFT Ödülü',
+      trustKadem: 'KADEM',
+
+      probTitle: 'Ürününüz mükemmel. Ama dijitalde bu güç yansımıyor.',
+      probSub: 'Tespit ettiğimiz 3 kritik alan:',
+      metric1Label: '"kolajen takviyesi" aylık arama — organik trafik potansiyeli',
+      metric2Label: 'Fiyatın değer hikâyesi dijitalde yeterince anlatılmıyor',
+      metric3Suffix: 'Ödül',
+      metric3Label: 'Prestijli ödül sitede yeterince ön planda değil',
+      probCta: 'Çözümü Gör →',
+
+      solTitle: 'Size özel oluşturduğumuz strateji',
+      solSub: 'Her biri Celluragen için tasarlandı:',
+      card1Title: 'Fiyat Hikâyesi',
+      card1Desc: 'Ca-AKG, 41 etken madde, patent süreci ile ₺3.190\'ın gerekçelendirmesi',
+      card2Title: 'SEO Stratejisi',
+      card2Desc: '"balık kolajeni", "kolajen takviyesi" için organik trafik planı',
+      card3Title: 'Ödül Vitrini',
+      card3Desc: 'TEKNOFEST, GIFT, KADEM, Feed the Future ödüllerinin ön plana çıkarılması',
+      card4Title: 'Kurucu Hikâyesi',
+      card4Desc: 'Handan Doğan — gıda mühendisi, kadın girişimci, TÜBİTAK araştırmacısı',
+      solCta: 'Demo Funnel →',
+
+      demoTitle: 'Müşterileriniz için hazırladığımız satış funnel\'ı',
+      demoSub: 'Celluragen\'e özel quiz-to-sale funnel:',
+      ps1: 'Yaş Aralığı',
+      ps2: 'Sağlık Hedefi',
+      ps3: 'Mevcut Sorunlar',
+      ps4: 'Kolajen Deneyimi',
+      ps5: 'Aylık Bütçe',
+      ps6: 'Kişisel Öneri',
+      psCta: 'Kişisel Önerini Al →',
+      demoNote: 'Bu funnel\'ı zaten oluşturduk ve test ettik.',
+      demoCta: 'Dashboard →',
+
+      dashTitle: 'Müşterilerinizin nerede takıldığını görün',
+      dashSub: 'Gerçek zamanlı funnel analitik paneli:',
+      dm1Label: 'Tamamlama Oranı',
+      dm2Label: 'Ort. Adım Süresi',
+      dm3Label: 'En Çok Terk',
+      dm4Label: 'Mobil Uyumluluk',
+      dashCta1: 'Dashboard Demo\'yu İnceleyin →',
+      dashCta2: '15 Dakika Görüşelim',
+    },
+    en: {
+      heroTitle: 'Celluragen Digital Growth Strategy',
+      heroDesc: 'A growth plan built for your TÜBİTAK-backed, patent-protected, 4-award-winning product.',
+      heroCta: 'Explore the Strategy →',
+      powered: 'prepared by',
+      trustTubitak: 'TÜBİTAK Backed',
+      trustTeknofest: 'TEKNOFEST Gold Medal',
+      trustGift: 'GIFT Award',
+      trustKadem: 'KADEM',
+
+      probTitle: 'Your product is exceptional. But that power isn\'t reflected online.',
+      probSub: '3 critical areas we identified:',
+      metric1Label: '"collagen supplement" monthly searches — organic traffic potential',
+      metric2Label: 'The value story behind the price isn\'t told digitally',
+      metric3Suffix: 'Awards',
+      metric3Label: 'Prestigious awards aren\'t front and center on the site',
+      probCta: 'See the Solution →',
+
+      solTitle: 'The strategy we built for you',
+      solSub: 'Each component designed for Celluragen:',
+      card1Title: 'Price Story',
+      card1Desc: 'Justifying ₺3,190 through Ca-AKG, 41 active ingredients & the patent process',
+      card2Title: 'SEO Strategy',
+      card2Desc: 'Organic traffic plan for "fish collagen", "collagen supplement" keywords',
+      card3Title: 'Award Showcase',
+      card3Desc: 'Highlighting TEKNOFEST, GIFT, KADEM, Feed the Future awards on site & social',
+      card4Title: 'Founder Story',
+      card4Desc: 'Handan Doğan — food engineer, female entrepreneur, TÜBİTAK researcher',
+      solCta: 'Demo Funnel →',
+
+      demoTitle: 'The sales funnel we built for your customers',
+      demoSub: 'A quiz-to-sale funnel tailored for Celluragen:',
+      ps1: 'Age Range',
+      ps2: 'Health Goal',
+      ps3: 'Current Issues',
+      ps4: 'Collagen Experience',
+      ps5: 'Monthly Budget',
+      ps6: 'Personal Recommendation',
+      psCta: 'Get Your Recommendation →',
+      demoNote: 'We\'ve already built and tested this funnel.',
+      demoCta: 'Dashboard →',
+
+      dashTitle: 'See where your customers drop off',
+      dashSub: 'Real-time funnel analytics dashboard:',
+      dm1Label: 'Completion Rate',
+      dm2Label: 'Avg. Step Time',
+      dm3Label: 'Top Drop-off',
+      dm4Label: 'Mobile Friendly',
+      dashCta1: 'Explore Dashboard Demo →',
+      dashCta2: 'Let\'s Talk — 15 Minutes',
+    }
+  };
+
+  // ── Render language ──
+  function renderLang(lang) {
+    var t = T[lang];
+    document.getElementById('t-hero-title').textContent = t.heroTitle;
+    document.getElementById('t-hero-desc').textContent = t.heroDesc;
+    document.getElementById('t-hero-cta').textContent = t.heroCta;
+    document.getElementById('t-powered').textContent = t.powered;
+    document.getElementById('t-powered2').textContent = t.powered;
+    document.getElementById('t-trust-tubitak').textContent = t.trustTubitak;
+    document.getElementById('t-trust-teknofest').textContent = t.trustTeknofest;
+    document.getElementById('t-trust-gift').textContent = t.trustGift;
+    document.getElementById('t-trust-kadem').textContent = t.trustKadem;
+
+    document.getElementById('t-prob-title').textContent = t.probTitle;
+    document.getElementById('t-prob-sub').textContent = t.probSub;
+    document.getElementById('t-metric1-label').textContent = t.metric1Label;
+    document.getElementById('t-metric2-label').textContent = t.metric2Label;
+    document.getElementById('t-metric3-suffix').textContent = t.metric3Suffix;
+    document.getElementById('t-metric3-label').textContent = t.metric3Label;
+    document.getElementById('t-prob-cta').textContent = t.probCta;
+
+    document.getElementById('t-sol-title').textContent = t.solTitle;
+    document.getElementById('t-sol-sub').textContent = t.solSub;
+    document.getElementById('t-card1-title').textContent = t.card1Title;
+    document.getElementById('t-card1-desc').textContent = t.card1Desc;
+    document.getElementById('t-card2-title').textContent = t.card2Title;
+    document.getElementById('t-card2-desc').textContent = t.card2Desc;
+    document.getElementById('t-card3-title').textContent = t.card3Title;
+    document.getElementById('t-card3-desc').textContent = t.card3Desc;
+    document.getElementById('t-card4-title').textContent = t.card4Title;
+    document.getElementById('t-card4-desc').textContent = t.card4Desc;
+    document.getElementById('t-sol-cta').textContent = t.solCta;
+
+    document.getElementById('t-demo-title').textContent = t.demoTitle;
+    document.getElementById('t-demo-sub').textContent = t.demoSub;
+    document.getElementById('t-ps1').textContent = t.ps1;
+    document.getElementById('t-ps2').textContent = t.ps2;
+    document.getElementById('t-ps3').textContent = t.ps3;
+    document.getElementById('t-ps4').textContent = t.ps4;
+    document.getElementById('t-ps5').textContent = t.ps5;
+    document.getElementById('t-ps6').textContent = t.ps6;
+    document.getElementById('t-ps-cta').textContent = t.psCta;
+    document.getElementById('t-demo-note').textContent = t.demoNote;
+    document.getElementById('t-demo-cta').textContent = t.demoCta;
+
+    document.getElementById('t-dash-title').textContent = t.dashTitle;
+    document.getElementById('t-dash-sub').textContent = t.dashSub;
+    document.getElementById('t-dm1-label').textContent = t.dm1Label;
+    document.getElementById('t-dm2-label').textContent = t.dm2Label;
+    document.getElementById('t-dm3-label').textContent = t.dm3Label;
+    document.getElementById('t-dm4-label').textContent = t.dm4Label;
+    document.getElementById('t-dash-cta1').textContent = t.dashCta1;
+    document.getElementById('t-dash-cta2').textContent = t.dashCta2;
+  }
+
+  // ── Build progress dots ──
+  function buildDots() {
+    for (var s = 1; s <= TOTAL_SLIDES; s++) {
+      var container = document.getElementById('dots-' + s);
+      if (!container) continue;
+      container.innerHTML = '';
+      for (var d = 1; d <= TOTAL_SLIDES; d++) {
+        var dot = document.createElement('span');
+        dot.className = 'dot';
+        if (d < s) dot.className += ' done';
+        if (d === s) dot.className += ' active';
+        container.appendChild(dot);
+      }
+    }
+  }
+  buildDots();
+
+  // ── Slide navigation ──
+  function goSlide(target) {
+    if (target < 0 || target > TOTAL_SLIDES) return;
+    var oldEl = document.getElementById('slide-' + current);
+    var newEl = document.getElementById('slide-' + target);
+    if (!oldEl || !newEl) return;
+    oldEl.dataset.pos = target > current ? 'left' : 'right';
+    newEl.dataset.pos = 'center';
+    current = target;
+
+    // Trigger countUp when entering slide 2
+    if (target === 2) runCountUps();
+
+    // Tracker integration
+    if (window.GROWTHER_TRACKER && target > 0) GROWTHER_TRACKER.onStepChange(target);
+  }
+  window.goSlide = goSlide;
+
+  // ── Language selection ──
+  window.setLang = function(lang) {
+    window.currentLang = lang;
+    renderLang(lang);
+    goSlide(1);
+  };
+
+  // ── CountUp animation ──
+  var countUpDone = false;
+  function runCountUps() {
+    if (countUpDone) return;
+    countUpDone = true;
+    var els = document.querySelectorAll('.count-up');
+    for (var i = 0; i < els.length; i++) {
+      (function(el) {
+        var target = parseInt(el.dataset.target, 10);
+        var duration = 1200;
+        var start = 0;
+        var startTime = null;
+        function step(ts) {
+          if (!startTime) startTime = ts;
+          var progress = Math.min((ts - startTime) / duration, 1);
+          var eased = 1 - Math.pow(1 - progress, 3);
+          var val = Math.round(eased * target);
+          el.textContent = val.toLocaleString('tr-TR');
+          if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      })(els[i]);
+    }
+  }
+
+  // ── Expose for tracker ──
+  window.GROWTHER_FUNNEL = {
+    getCurrentStep: function() { return current; },
+    getAnswers: function() { return { lang: window.currentLang }; }
+  };
+
+  // ── Swipe support ──
+  var startX = 0, startY = 0;
+  document.addEventListener('touchstart', function(e) {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - startX;
+    var dy = e.changedTouches[0].clientY - startY;
+    if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return;
+    if (dx < 0 && current < TOTAL_SLIDES) goSlide(current + 1);
+    if (dx > 0 && current > 0) goSlide(current - 1);
+  }, { passive: true });
+
+  // Pre-render TR as default (hidden until lang selected)
+  renderLang('tr');
+
+})();
+</script>
+</body>
+</html>
