@@ -72,6 +72,16 @@
             transition: border-color 0.2s; font-family: inherit; background: #fff;
         }
         input:focus, textarea:focus { border-color: #1a1a1a; }
+        /* Fix autofill/autocomplete suggestion colors for dark terminal input */
+        #websiteUrl:-webkit-autofill,
+        #websiteUrl:-webkit-autofill:hover,
+        #websiteUrl:-webkit-autofill:focus {
+            -webkit-text-fill-color: #f0f6fc !important;
+            -webkit-box-shadow: 0 0 0 1000px #0d1117 inset !important;
+            caret-color: #f0f6fc;
+            font-family: 'SF Mono','Fira Code',monospace;
+            font-size: 14px;
+        }
         textarea { resize: vertical; min-height: 100px; }
         .input-group { margin-bottom: 16px; }
         .input-group label { display: block; font-size: 14px; font-weight: 500; color: #444; margin-bottom: 8px; }
@@ -477,7 +487,30 @@ const LANG_COUNTRIES = {
     tr: 'tr', fr: 'fr', de: 'de', es: 'es', pt: 'br',
     ar: 'sa', zh: 'cn', ja: 'jp', hi: 'in', en: 'us'
 };
+// Country to language map (for IP-based detection)
+const COUNTRY_LANGS = {
+    TR: 'tr', FR: 'fr', DE: 'de', AT: 'de', CH: 'de', ES: 'es', MX: 'es', AR: 'es', CO: 'es',
+    BR: 'br', PT: 'pt', SA: 'ar', AE: 'ar', EG: 'ar', CN: 'cn', TW: 'zh', JP: 'ja', IN: 'hi',
+    US: 'en', GB: 'en', CA: 'en', AU: 'en'
+};
 var itiInstance = null;
+var detectedCountry = null;
+
+// Detect country from IP (lightweight, no API key needed)
+async function detectCountryFromIP() {
+    try {
+        var res = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) });
+        var data = await res.json();
+        return data.country_code || null;
+    } catch(e) {
+        try {
+            var res2 = await fetch('https://ip2c.org/s', { signal: AbortSignal.timeout(2000) });
+            var txt = await res2.text();
+            var parts = txt.split(';');
+            return parts[1] || null;
+        } catch(e2) { return null; }
+    }
+}
 
 function updatePhonePrefix() {
     if (itiInstance) {
@@ -537,14 +570,34 @@ function showLangSplash() {
     const urlLang = params.get('lang');
     const storedLang = localStorage.getItem('lang');
 
-    // Skip splash if language already known
+    // Skip splash if language already known (URL or localStorage)
     if ((urlLang && LANGS[urlLang]) || (storedLang && LANGS[storedLang])) {
         const lang = (urlLang && LANGS[urlLang]) ? urlLang : storedLang;
         await loadLang(lang);
         updatePhonePrefix();
         document.getElementById('langSplash').remove();
     } else {
-        // Show splash — load English in background but don't set localStorage
+        // Try IP-based detection first
+        var ipCountry = await detectCountryFromIP();
+        if (ipCountry) {
+            detectedCountry = ipCountry;
+            var ipLang = COUNTRY_LANGS[ipCountry.toUpperCase()];
+            if (ipLang && LANGS[ipLang]) {
+                await loadLang(ipLang);
+                updatePhonePrefix();
+                document.getElementById('langSplash').remove();
+                return;
+            }
+        }
+        // Fallback: browser language
+        var browserLang = (navigator.language || '').split('-')[0];
+        if (browserLang && LANGS[browserLang]) {
+            await loadLang(browserLang);
+            updatePhonePrefix();
+            document.getElementById('langSplash').remove();
+            return;
+        }
+        // Last resort: show splash
         buildLangSplash();
     }
 })();
