@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="page_title">Ücretsiz Satış Analizi</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -103,14 +104,17 @@
         .btn-whatsapp:hover { background: #20bd5a; }
 
         .hero-badge { display: inline-block; background: #f0f0f0; border-radius: 100px; padding: 6px 16px; font-size: 13px; color: #666; margin-bottom: 16px; }
-        .phone-input-wrapper { display: flex; gap: 8px; align-items: center; }
-        .phone-prefix-input {
-            width: 72px; padding: 14px 8px; font-size: 16px; text-align: center;
-            border: 2px solid #e5e5e5; border-radius: 12px; background: #f5f5f5;
-            color: #333; font-family: inherit; outline: none; transition: border-color 0.2s;
-        }
-        .phone-prefix-input:focus { border-color: #1a1a1a; background: #fff; }
-        .phone-input-wrapper input[type="tel"] { flex: 1; }
+        .phone-input-wrapper { position: relative; }
+        .phone-input-wrapper input[type="tel"] { width: 100%; }
+        /* intl-tel-input overrides */
+        .iti { width: 100% !important; }
+        .iti__input { width: 100% !important; padding-left: 52px !important; }
+        .iti__flag-container { height: 100%; }
+        .iti__selected-flag { border-radius: 12px 0 0 12px; padding: 0 8px 0 12px; height: 100%; }
+        .iti__country-list { border-radius: 12px; border: 2px solid #e5e5e5; box-shadow: 0 8px 30px rgba(0,0,0,0.12); max-height: 220px; }
+        .iti__country-list .iti__country { padding: 8px 12px; }
+        .iti__country-list .iti__country--highlight { background: #f0f0f0; }
+        .iti__search-input { border: 2px solid #e5e5e5 !important; border-radius: 8px !important; margin: 8px !important; width: calc(100% - 16px) !important; padding: 8px 10px !important; font-size: 14px !important; font-family: inherit !important; }
 
         /* ===== ANALYSIS ===== */
         .analysis-phase {
@@ -161,7 +165,7 @@
         .footer-note { text-align: center; font-size: 12px; color: #bbb; margin-top: 40px; }
 
         /* RTL support */
-        [dir="rtl"] .phone-input-wrapper { flex-direction: row-reverse; }
+        [dir="rtl"] .iti { direction: ltr; }
         [dir="rtl"] .phase-header { flex-direction: row-reverse; }
         [dir="rtl"] .option-card { text-align: right; }
 
@@ -334,8 +338,7 @@
                 </div>
                 <div class="input-group" style="margin-bottom:16px;">
                     <div class="phone-input-wrapper">
-                        <input type="tel" class="phone-prefix-input" id="phonePrefix" value="" maxlength="5" inputmode="tel" />
-                        <input type="tel" id="userPhone" data-i18n-placeholder="placeholder_phone" placeholder="555 123 4567" inputmode="tel" />
+                        <input type="tel" id="userPhone" data-i18n-placeholder="placeholder_phone" placeholder="555 123 4567" autocomplete="tel" />
                     </div>
                 </div>
                 <button class="btn btn-whatsapp" id="btnSend" onclick="submitFunnel()" disabled>
@@ -375,6 +378,7 @@
     <p class="footer-note" data-i18n="footer">Verileriniz gizli tutulur ve üçüncü taraflarla paylaşılmaz.</p>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 const SUPABASE_URL = 'https://frficzdzmxhptmtbkfft.supabase.co';
@@ -468,16 +472,17 @@ function applyTranslations() {
     });
 }
 
-// Phone prefix map per language (empty for English — many nationalities)
-const LANG_PREFIXES = {
-    tr: '+90', fr: '+33', de: '+49', es: '+34', pt: '+55',
-    ar: '+966', zh: '+86', ja: '+81', hi: '+91', en: ''
+// intl-tel-input: language to country code map
+const LANG_COUNTRIES = {
+    tr: 'tr', fr: 'fr', de: 'de', es: 'es', pt: 'br',
+    ar: 'sa', zh: 'cn', ja: 'jp', hi: 'in', en: 'us'
 };
+var itiInstance = null;
 
 function updatePhonePrefix() {
-    const prefixInput = document.getElementById('phonePrefix');
-    if (prefixInput) {
-        prefixInput.value = LANG_PREFIXES[currentLang] || '';
+    if (itiInstance) {
+        var cc = LANG_COUNTRIES[currentLang] || 'us';
+        itiInstance.setCountry(cc);
     }
 }
 
@@ -697,8 +702,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const domainPattern = /^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z]{2,})+/;
         document.getElementById('btnWebsite').disabled = !domainPattern.test(val);
     });
-    document.getElementById('userPhone').addEventListener('input', e => {
-        const valid = e.target.value.replace(/\D/g, '').length >= 7;
+
+    // Init intl-tel-input
+    var phoneEl = document.getElementById('userPhone');
+    itiInstance = window.intlTelInput(phoneEl, {
+        initialCountry: LANG_COUNTRIES[currentLang] || 'tr',
+        preferredCountries: ['tr', 'us', 'gb', 'de', 'fr'],
+        separateDialCode: true,
+        formatOnDisplay: true,
+        loadUtils: function() { return import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"); }
+    });
+
+    phoneEl.addEventListener('input', function() {
+        var valid = phoneEl.value.replace(/\D/g, '').length >= 7;
         document.getElementById('btnSend').disabled = !valid;
     });
 });
@@ -848,9 +864,7 @@ async function runAnalysis() {
 
 // ==================== SUBMIT ====================
 async function submitFunnel() {
-    const prefix = document.getElementById('phonePrefix').value.trim();
-    const number = document.getElementById('userPhone').value.trim();
-    D.phone = prefix ? prefix + ' ' + number : number;
+    D.phone = itiInstance ? itiInstance.getNumber() : document.getElementById('userPhone').value.trim();
     const btn = document.getElementById('btnSend');
     btn.disabled = true;
     btn.querySelector('[data-i18n="btn_submit"]').textContent = t('btn_sending');
