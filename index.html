@@ -709,12 +709,32 @@ document.addEventListener('DOMContentLoaded', () => {
         initialCountry: LANG_COUNTRIES[currentLang] || 'tr',
         preferredCountries: ['tr', 'us', 'gb', 'de', 'fr'],
         separateDialCode: true,
+        nationalMode: false,
         formatOnDisplay: true,
+        formatAsYouType: true,
         loadUtils: function() { return import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"); }
     });
 
+    // Handle autofill: if user pastes/autofills +90555... detect country and clean up
     phoneEl.addEventListener('input', function() {
-        var valid = phoneEl.value.replace(/\D/g, '').length >= 7;
+        var raw = phoneEl.value;
+        // If autofill dropped a full international number (starts with + or 00)
+        if (raw.match(/^(\+|00)\d{7,}/)) {
+            itiInstance.setNumber(raw);
+        }
+        var num = itiInstance.getNumber();
+        var valid = num && num.replace(/\D/g, '').length >= 10;
+        document.getElementById('btnSend').disabled = !valid;
+    });
+
+    // Also catch autofill via change event (some browsers fire change, not input)
+    phoneEl.addEventListener('change', function() {
+        var raw = phoneEl.value;
+        if (raw.match(/^(\+|00)\d{7,}/)) {
+            itiInstance.setNumber(raw);
+        }
+        var num = itiInstance.getNumber();
+        var valid = num && num.replace(/\D/g, '').length >= 10;
         document.getElementById('btnSend').disabled = !valid;
     });
 
