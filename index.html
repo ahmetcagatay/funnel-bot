@@ -770,29 +770,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handlePhoneInput() {
         var raw = phoneEl.value;
-        // If autofill/paste dropped a full international number
-        if (raw.match(/^[\+\s0]?\+?\d{2,4}[\s\-]?\d/)) {
-            // Clean spaces/dashes for detection
-            var cleaned = raw.replace(/[\s\-\(\)]/g, '');
-            if (cleaned.match(/^(\+|00)\d{9,}/)) {
-                itiInstance.setNumber(cleaned);
-            }
+        // If autofill dropped a full international number with country code
+        var cleaned = raw.replace(/[\s\-\(\)]/g, '');
+        if (cleaned.match(/^(\+|00)\d{9,}/)) {
+            itiInstance.setNumber(cleaned);
         }
-        // Validate
-        if (utilsReady) {
-            document.getElementById('btnSend').disabled = !itiInstance.isValidNumber();
-        } else {
-            var digits = raw.replace(/\D/g, '').length;
-            document.getElementById('btnSend').disabled = digits < 7;
-        }
+        // Simple digit-count validation (works regardless of utils loading)
+        var digits = phoneEl.value.replace(/\D/g, '').length;
+        document.getElementById('btnSend').disabled = digits < 7;
     }
 
     phoneEl.addEventListener('input', handlePhoneInput);
     phoneEl.addEventListener('change', handlePhoneInput);
-    // Some autofill triggers neither input nor change, poll briefly after focus
+    // Catch late autofill + periodic check while popup is visible
     phoneEl.addEventListener('focus', function() {
-        setTimeout(handlePhoneInput, 500);
-        setTimeout(handlePhoneInput, 1000);
+        setTimeout(handlePhoneInput, 300);
+        setTimeout(handlePhoneInput, 800);
+        setTimeout(handlePhoneInput, 1500);
     });
 
     // Scroll input into view when mobile keyboard opens
