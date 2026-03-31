@@ -717,6 +717,15 @@ document.addEventListener('DOMContentLoaded', () => {
         var valid = phoneEl.value.replace(/\D/g, '').length >= 7;
         document.getElementById('btnSend').disabled = !valid;
     });
+
+    // Scroll input into view when mobile keyboard opens
+    document.querySelectorAll('input[type="text"], input[type="tel"], input[type="url"], textarea').forEach(function(input) {
+        input.addEventListener('focus', function() {
+            setTimeout(function() {
+                input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        });
+    });
 });
 
 // ==================== TERMINAL & ANALYSIS ====================
