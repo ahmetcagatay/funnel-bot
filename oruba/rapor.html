@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #011638; font-size: 15px; line-height: 1.7; max-width: 860px; margin: 0 auto; padding: 20px 28px; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; }
+  .cover-badge { background: #e8f0fe; color: #011638; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 36px; font-weight: 700; color: #011638; margin: 0 0 10px; line-height: 1.2; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6368; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #80868b; margin-top: 20px; }
+  .cover-meta strong { color: #5f6368; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #36f, #2149b6); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #aaa; }
+  h2 { font-size: 18px; font-weight: 700; color: #011638; border-bottom: 2px solid #36f; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 14px; font-weight: 600; color: #333; margin: 20px 0 10px; }
+  h4 { font-size: 12px; font-weight: 600; color: #555; margin: 14px 0 6px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+  th { background: #011638; color: #fff; text-align: left; padding: 8px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e8eaed; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .alert { padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #e37400; }
+  .alert-info { background: #e8f0fe; border-left: 4px solid #36f; color: #0031d1; }
+  .alert-success { background: #e6f4ea; border-left: 4px solid #34a853; color: #137333; }
+  .alert strong { display: block; margin-bottom: 4px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #e8eaed; color: #5f6368; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-blue { background: #e8f0fe; color: #0031d1; } .tag-orange { background: #fef7e0; color: #e37400; }
+  .phase { background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 10px; padding: 16px 20px; margin: 14px 0; }
+  .phase-title { font-weight: 700; font-size: 15px; color: #36f; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
+  .summary-card { flex: 1; min-width: 120px; background: #f8f9fa; border: 1px solid #e8eaed; border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #36f; }
+  .summary-card .label { font-size: 11px; color: #80868b; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #e8eaed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  .liked-section { padding: 20px 24px; background: rgba(34,197,94,0.08); border: 2px solid #22c55e; border-radius: 12px; text-align: center; margin-bottom: 24px; box-shadow: 0 0 20px rgba(34,197,94,0.15); }
+  .liked-section h3 { font-size: 16px; color: #15803d; margin-bottom: 6px; border: none; }
+  .liked-section p { font-size: 13px; color: #5f6368; margin-bottom: 14px; }
+  .liked-btn { background: #22c55e; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+  .liked-btn:hover { background: #16a34a; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(34,197,94,0.3); }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Gizli - Sadece Dahili Kullanım</div>
+  <h1>Oruba Health</h1>
+  <h2>Büyüme Stratejisi &amp; Dijital Pazarlama Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazırlanma Tarihi:</strong> 26 Mart 2026<br>
+    <strong>Domain:</strong> oruba.health<br>
+    <strong>Sektör:</strong> B2B MedTech - Tıbbi Cihaz Üreticisi<br>
+    <strong>Rapor Türü:</strong> Detaylı Analiz + Strateji Önerisi
+  </div>
+  <div class="cover-footer">Bu rapor funnel verilerine ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır.</div>
+</div>
+
+<script>
+function handleLiked(){var b=document.getElementById('likedBtn');b.disabled=true;b.textContent='Yönlendiriliyor...';
+if(window.GROWTHER&&GROWTHER.supaFetch){GROWTHER.supaFetch('POST','funnel_leads',{website:window.location.pathname,stage:'liked_report',extra_notes:JSON.stringify({client:'oruba',action:'liked_report',clicked_at:new Date().toISOString(),is_test:GROWTHER.isAdmin}),last_step:'liked',completed:true}).catch(function(){});}
+setTimeout(function(){showCalPopup('tr')},500)}
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/clarity.js"></script>
+<script src="/lib/cal-popup.js"></script>
+
+<!-- PROFIL -->
+<h2 class="page-break">1. Şirket Profil Özeti</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">B2B</div><div class="label">Hedef Pazar</div></div>
+  <div class="summary-card"><div class="value">MedTech</div><div class="label">Sektör</div></div>
+  <div class="summary-card"><div class="value">IoT</div><div class="label">Teknoloji</div></div>
+  <div class="summary-card"><div class="value">Global</div><div class="label">Pazar Hedefi</div></div>
+  <div class="summary-card"><div class="value">Üroloji</div><div class="label">Tıbbi Alan</div></div>
+</div>
+
+<table>
+  <tr><th style="width:35%">Alan</th><th>Değer</th></tr>
+  <tr><td><strong>Website</strong></td><td>oruba.health / global.oruba.health</td></tr>
+  <tr><td><strong>Ürünler</strong></td><td><strong>Oruflow:</strong> Dünyanın ilk kendi kendini temizleyen, operatörsüz üroflovmetre cihazı. Alt üriner sistem semptomları (LUTS) teşhisinde idrar akış hızı ve mesane çıkış durumu ölçümü yapıyor.<br><strong>Inalys:</strong> Kupsuz, zahmetsiz, gerçek zamanlı idrar analizörü.</td></tr>
+  <tr><td><strong>Değer Önerisi</strong></td><td>Klinik ortamda hijyen ve konfor: Kendi kendini temizleyen cihazlar sayesinde hastalar temiz ve rahat ortamlarda teşhis testlerini gerçekleştirebiliyor. Operatör gerektirmeyen, IoT entegreli point-of-care çözümleri.</td></tr>
+  <tr><td><strong>Teknoloji</strong></td><td>IoT entegrasyonu, kendi kendini temizleme teknolojisi, point-of-care tıbbi cihaz. Dünyada ilk IoT entegreli point-of-care tıbbi cihaz üreticisi.</td></tr>
+  <tr><td><strong>Web Teknolojisi</strong></td><td>Framer üzerinde inşa edilmiş, modern ve responsive tasarım</td></tr>
+  <tr><td><strong>Sosyal Medya</strong></td><td>LinkedIn (Oruba Technology & Innovation), Facebook (orubatechnology)</td></tr>
+  <tr><td><strong>Vizyon</strong></td><td>İnsan atıklarındaki değerli bilgilerden faydalanarak hastalar için kapsamlı sağlık profili oluşturmak</td></tr>
+  <tr><td><strong>Hedef Kitle</strong></td><td>Hastaneler, üroloji klinikleri, sağlık merkezleri, distribütörler</td></tr>
+</table>
+
+<h3>Ürün Portföyü</h3>
+<table>
+  <tr><th>Ürün</th><th>Açıklama</th><th>Önem</th></tr>
+  <tr><td><strong>Oruflow</strong></td><td>Kendi kendini temizleyen, operatörsüz üroflovmetre. İdrar akış hızı ölçümü, alt üriner sistem teşhisi için kritik veri sağlıyor.</td><td><span class="tag tag-blue">Ana Ürün</span></td></tr>
+  <tr><td><strong>Inalys</strong></td><td>Kupsuz, gerçek zamanlı idrar analizörü. Geleneksel idrar testi sürecini tamamen dönüştürüyor.</td><td><span class="tag tag-blue">Yeni Ürün</span></td></tr>
+  <tr><td><strong>IoT Platform</strong></td><td>Cihazlardan toplanan verilerin bulut üzerinden izlenmesi, analitik ve uzaktan yönetim altyapısı.</td><td><span class="tag tag-green">Farklılaştırıcı</span></td></tr>
+  <tr><td><strong>Kendi Kendini Temizleme</strong></td><td>Patentli temizlik teknolojisi - çapraz kontaminasyon riskini sıfırlıyor, personel ihtiyacını ortadan kaldırıyor.</td><td><span class="tag tag-blue">Ana Rekabet Avantajı</span></td></tr>
+</table>
+
+<div class="alert alert-info">
+  <strong>Profil Değerlendirmesi</strong>
+  Oruba Health, üroloji teşhis cihazları alanında gerçek bir inovasyon sunuyor. "Dünyada ilk" kendi kendini temizleyen, IoT entegreli point-of-care üroflovmetre iddiaları güçlü bir farklılaştırma sağlıyor. Ürün teknolojik olarak güçlü, ancak dijital pazarlama ve online görünürlük alanında ciddi boşluklar var. MedTech sektöründe B2B satış döngüsü uzun olduğu için dijital varlığın güçlü olması distribütör ve hastane karar vericilerini ikna etmede kritik.
+</div>
+
+
+<!-- RAKIP -->
+<h2 class="page-break">2. Rakip Analizi - Üroflovmetri ve İdrar Teşhis Pazarı</h2>
+
+<h3>2.1 Doğrudan ve Dolaylı Rakipler</h3>
+<table>
+  <tr><th>Rakip</th><th>Ürün Tipi</th><th>Güçlü Yönü</th><th>Zayıf Yönü</th></tr>
+  <tr>
+    <td><strong>MMS (Medical Measurement Systems)</strong></td>
+    <td>Ürodinamik cihazlar</td>
+    <td>Klinik standart, geniş ürün portföyü, global dağıtım ağı</td>
+    <td>Geleneksel teknoloji, IoT entegrasyonu yok, operatör gerektiriyor</td>
+  </tr>
+  <tr>
+    <td><strong>Laborie Medical</strong></td>
+    <td>Ürodinamik ve gastrointestinal teşhis</td>
+    <td>Geniş ürün yelpazesi, güçlü klinik kanıt tabanı, köklü marka</td>
+    <td>Self-cleaning özelliği yok, yüksek fiyat, ağır kurulum süreci</td>
+  </tr>
+  <tr>
+    <td><strong>Medtronic (üroloji bölümü)</strong></td>
+    <td>Geniş üroloji portföyü</td>
+    <td>Dev şirket güveni, global satış ağı, AR-GE bütçesi</td>
+    <td>Üroflovmetri odaklı değil, niş inovasyona yavaş tepki</td>
+  </tr>
+  <tr>
+    <td><strong>DANTEC (Natus Medical)</strong></td>
+    <td>Üroflovmetre cihazları</td>
+    <td>Bilinen marka, klinik yaygınlık</td>
+    <td>Eski teknoloji, IoT yok, self-cleaning yok</td>
+  </tr>
+  <tr>
+    <td><strong>Sievert Larsen</strong></td>
+    <td>Portatif üroflovmetre</td>
+    <td>Taşınabilirlik, düşük maliyet</td>
+    <td>Sınırlı veri toplama, dijital entegrasyon yok</td>
+  </tr>
+  <tr style="background:#e8f0fe">
+    <td><strong>Oruba Health</strong></td>
+    <td>IoT entegreli, kendi kendini temizleyen üroflovmetre + idrar analizörü</td>
+    <td>Dünyada ilk self-cleaning üroflovmetre, IoT platformu, operatörsüz çalışma, hijyen avantajı, gerçek zamanlı veri</td>
+    <td>Yeni marka, sınırlı klinik referans, düşük dijital görünürlük</td>
+  </tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Oruba'nın Rekabetçi Avantajları</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Self-cleaning teknolojisi:</strong> Hiçbir rakip kendi kendini temizleyen üroflovmetre sunmuyor. Bu tek başına devasa bir hijyen ve maliyet avantajı - personel ihtiyacını ortadan kaldırıyor.</li>
+    <li><strong>IoT entegrasyonu:</strong> Geleneksel rakipler hala offline cihazlar satıyor. Oruba'nın bulut bağlantılı platformu uzaktan izleme, analitik ve predictive maintenance imkanı veriyor.</li>
+    <li><strong>Operatörsüz çalışma:</strong> Hasta başına bir sağlık personeli ayırma zorunluluğunu kaldırıyor. Bu, klinikler için ciddi operasyonel tasarruf demek.</li>
+    <li><strong>Point-of-care yaklaşımı:</strong> Hastane laboratuvarı yerine yerinde teşhis. Sonuç bekleme süresini dramatik şekilde kısaltıyor.</li>
+    <li><strong>İki ürünlü portföy:</strong> Oruflow + Inalys birlikte kapsamlı idrar teşhis çözümü sunuyor - rakiplerin çoğu tek ürün odaklı.</li>
+  </ul>
+</div>
+
+<h3>2.2 Pazar Fırsat Değerlendirmesi</h3>
+<table>
+  <tr><th>Metrik</th><th>Değer / Yorum</th></tr>
+  <tr><td>Global üroloji cihaz pazarı</td><td><strong>~$45 milyar (2025)</strong> - Hızla büyüyen segment</td></tr>
+  <tr><td>Üroflovmetri alt segment</td><td><strong>Yükselen talep</strong> - Yaşlanan nüfus ve BPH (iyi huylu prostat büyümesi) prevalansı artıyor</td></tr>
+  <tr><td>IoT tıbbi cihaz trendi</td><td><strong>Güçlü büyüme</strong> - Hastaneler dijital dönüşüm yatırımlarını artırıyor</td></tr>
+  <tr><td>Hijyen farkındalığı</td><td><strong>COVID sonrası zirve</strong> - Self-cleaning cihaz talebi hiç bu kadar yüksek olmadı</td></tr>
+  <tr><td>"uroflowmeter" global arama hacmi</td><td><strong>Orta rekabet</strong> - İngilizce içerikle global organik trafik fırsatı</td></tr>
+  <tr><td>"uroflowmetry device" arama hacmi</td><td><strong>Düşük-orta rekabet</strong> - Ürün sayfaları ile hemen sıralama potansiyeli</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Kritik Bulgu: Dijital Görünürlük Boşluğu</strong>
+  Oruba'nın ürün teknolojisi rakiplerinin önünde, ancak dijital pazarlama varlığı çok geride. MedTech satın alma süreçlerinde hastane yöneticileri ve distribütörler artık önce Google'da araştırma yapıyor. "Self-cleaning uroflowmeter", "IoT uroflowmetry", "automated urine analysis device" gibi aramalarda Oruba'nın görünmemesi, potansiyel distribütörlerin ve hastanelerin sizi bulamadığı anlamına geliyor.
+</div>
+
+
+<!-- WEB SİTESİ -->
+<h2 class="page-break">3. Web Sitesi Analizi</h2>
+
+<h3>3.1 Genel Değerlendirme</h3>
+<table>
+  <tr><th>Metrik</th><th>Değer</th><th>Yorum</th></tr>
+  <tr><td>Web Platformu</td><td><strong>Framer</strong></td><td><span class="tag tag-green">Modern tasarım aracı</span></td></tr>
+  <tr><td>Tasarım Kalitesi</td><td><strong>Yüksek</strong></td><td><span class="tag tag-green">Profesyonel, temiz</span></td></tr>
+  <tr><td>Mobil Uyumluluk</td><td><strong>Responsive</strong></td><td><span class="tag tag-green">3 breakpoint</span></td></tr>
+  <tr><td>SEO Altyapısı</td><td><strong>Zayıf</strong></td><td><span class="tag tag-red">Framer sitelerde SEO sınırlı</span></td></tr>
+  <tr><td>Blog / İçerik</td><td><strong>Yok</strong></td><td><span class="tag tag-red">Kritik eksik</span></td></tr>
+  <tr><td>Çoklu Dil Desteği</td><td><strong>TR + EN (global subdomain)</strong></td><td><span class="tag tag-green">Doğru yaklaşım</span></td></tr>
+</table>
+
+<h3>3.2 Güçlü Yönler</h3>
+<table>
+  <tr><th>Element</th><th>Durum</th></tr>
+  <tr><td>Tasarım ve Marka Kimliği</td><td><span class="tag tag-green">Güçlü</span> - Temiz, profesyonel, güven veren MedTech tasarımı. Navy + mavi renk paleti sektöre uygun.</td></tr>
+  <tr><td>Global Alt Domain</td><td><span class="tag tag-green">Doğru</span> - global.oruba.health ile uluslararası pazara ayrı site. Lokalizasyon stratejisi doğru.</td></tr>
+  <tr><td>Domain Adı</td><td><span class="tag tag-green">Mükemmel</span> - oruba.health - .health uzantısı MedTech için mükemmel, kısa ve akılda kalıcı.</td></tr>
+  <tr><td>Responsive Tasarım</td><td><span class="tag tag-green">Var</span> - Mobil (390px), tablet (810px), masaüstü (1200px+) breakpoint'leri doğru yapılandırılmış.</td></tr>
+  <tr><td>Font Seçimi</td><td><span class="tag tag-green">Profesyonel</span> - Inter / Inter Display - okunabilir ve modern.</td></tr>
+</table>
+
+<h3>3.3 Kritik Sorunlar</h3>
+<table>
+  <tr><th>Sorun</th><th>Açıklama</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>SEO Yetersizliği</strong></td>
+    <td>Framer sitelerde JavaScript rendering nedeniyle arama motorları içeriği tam indeksleyemiyor. Meta açıklamalar, structured data (JSON-LD), sitemap gibi teknik SEO öğeleri eksik veya yetersiz.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Blog / İçerik Yok</strong></td>
+    <td>"Uroflowmetry nedir", "BPH teşhisi nasıl yapılır", "üroloji cihaz hijyeni" gibi aramalarda hiçbir içerik yok. MedTech'te eğitim içeriği distribütör ve hastane karar vericilerinin güvenini kazanmanın en etkili yolu.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Klinik Kanıt Yetersiz</strong></td>
+    <td>Site üzerinde klinik çalışma sonuçları, peer-reviewed yayınlar veya validasyon verileri görünmüyor. MedTech'te karar vericiler bilimsel kanıt ister.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Referans ve Vaka Çalışması Yok</strong></td>
+    <td>Hangi hastaneler kullanıyor? Sonuçlar ne oldu? Distribütör ağı ne kadar geniş? Bu soruların yanıtları sitede yok.</td>
+    <td><span class="tag tag-red">Kritik</span></td>
+  </tr>
+  <tr>
+    <td><strong>Distribütör Portal / Başvuru Eksik</strong></td>
+    <td>MedTech'te distribütör ağı büyümenin anahtarı. "Distribütör ol" sayfası veya başvuru formu kolayca erişilebilir olmalı.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+  <tr>
+    <td><strong>Video İçerik Yok</strong></td>
+    <td>Self-cleaning ve operatörsüz çalışma gibi devrimci özellikleri anlatmanın en etkili yolu video. Ürün demo videosu sitede ve YouTube'da olmalı.</td>
+    <td><span class="tag tag-orange">Yüksek</span></td>
+  </tr>
+</table>
+
+<h3>3.4 Sosyal Medya ve Dijital Varlık</h3>
+<table>
+  <tr><th>Platform</th><th>Durum</th><th>Öneri</th></tr>
+  <tr><td>LinkedIn</td><td><span class="tag tag-green">Var</span></td><td>MedTech B2B için birincil kanal - hastane yöneticileri, ürologlar ve distribütörler burada</td></tr>
+  <tr><td>Facebook</td><td><span class="tag tag-green">Var</span></td><td>Marka bilinirliği için kullanılabilir, ancak B2B MedTech için ikincil</td></tr>
+  <tr><td>YouTube</td><td><span class="tag tag-red">Yok</span></td><td>Ürün demo videoları için acil açılmalı - MedTech'te video en ikna edici araç</td></tr>
+  <tr><td>MedicalExpo</td><td><span class="tag tag-green">Var</span></td><td>Profil mevcut ama aktif kullanımı artırılmalı - MedTech distribütörleri burada arar</td></tr>
+  <tr><td>Google Scholar / PubMed</td><td><span class="tag tag-red">Yetersiz</span></td><td>Klinik çalışma sonuçları yayınlanmalı - MedTech'te bilimsel kanıt satış yapıyor</td></tr>
+</table>
+
+<div class="alert alert-warning">
+  <strong>Dijital Varlık Değerlendirmesi</strong>
+  MedTech B2B satışlarında karar verici yolculuğu %70'e kadar dijital ortamda gerçekleşiyor. Hastane satın alma komiteleri, ürologlar ve distribütörler ürünleri önce Google'da, YouTube'da ve MedicalExpo gibi platformlarda araştırıyor. Oruba'nın ürün teknolojisi dünya çapında rekabetçi, ancak dijital ayak izi bu teknolojiyi yansıtmıyor. Bu uyumsuzluk, potansiyel iş ortaklarının ve müşterilerin sizi bulamadan rakiplere yönelmesi anlamına geliyor.
+</div>
+
+
+<!-- STRATEJİ -->
+<h2 class="page-break">4. Önerilen Aksiyon Planı</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 - İçerik ve Güven Altyapısı (Hafta 1-2)</div>
+  <ol>
+    <li><strong>Klinik kanıt sayfası oluşturun - acil:</strong> Oruflow ve Inalys için mevcut klinik çalışma sonuçlarını, validasyon verilerini ve test raporlarını site üzerinde paylaşın. MedTech'te bilimsel kanıt en güçlü satış aracıdır. Yoksa bile cihazın teknik spesifikasyonlarını ve CE/FDA sertifikasyon durumunu net şekilde sergileyin.</li>
+    <li><strong>Blog başlatın - çift dilde:</strong> İngilizce: "What is Uroflowmetry?", "Self-Cleaning Medical Devices: The Future of Urology", "IoT in Urology: Remote Patient Monitoring". Türkçe: "Üroflovmetri Nedir?", "Tıbbi Cihazlarda Hijyen Devrimi". Bu içerikler hem organik trafik hem de güvenilirlik sağlar.</li>
+    <li><strong>Referans ve vaka çalışması ekleyin:</strong> Mevcut kullanıcılardan (hastaneler, klinikler) en az 2-3 referans alın. "X Hastanesi'nde Oruflow ile üroflovmetri süreçi nasıl dönüştü" formatında somut vaka çalışmaları hazırlayın.</li>
+    <li><strong>YouTube kanalı açın ve ürün demosu çekin:</strong> Self-cleaning mekanizmasının çalışmasını gösteren 2-3 dakikalık video, hastaneler ve distribütörler için en ikna edici materyal olacak. Cihazın operatörsüz çalışma sürecini baştan sona gösterin.</li>
+    <li><strong>Distribütör başvuru sayfası oluşturun:</strong> "Distribütör Ol" / "Become a Distributor" sayfası net bir form ile kolayca erişilebilir olmalı. Global büyüme distribütör ağı ile gelir.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 - SEO ve Organik Büyüme (Hafta 3-4)</div>
+  <ol>
+    <li><strong>Teknik SEO iyileştirmesi:</strong> Framer'ın SEO sınırlamalarını aşmak için server-side rendering veya pre-rendering çözümü değerlendirin. JSON-LD structured data (MedicalDevice schema), sitemap.xml, robots.txt, canonical URL'ler ekleyin.</li>
+    <li><strong>Karşılaştırma içerikleri yazın:</strong> "Oruflow vs Traditional Uroflowmeters", "Self-Cleaning vs Manual Cleaning: Cost Analysis", "IoT Uroflowmetry vs Offline Devices" - distribütörler ve hastaneler karar sürecinde bunları arar.</li>
+    <li><strong>LinkedIn düşünce liderliği:</strong> Haftada 2-3 paylaşım: üroloji cihaz hijyeni sorunları, IoT'nin tıpta geleceği, point-of-care teşhisin avantajları. Ürologları, hastane yöneticilerini ve distribütörleri etiketleyin.</li>
+    <li><strong>MedicalExpo ve Medzell profillerini güçlendirin:</strong> Mevcut profillere detaylı ürün açıklamaları, teknik spesifikasyonlar, görseller ve videolar ekleyin. Bu platformlar distribütörlerin aktif arama yaptığı yerler.</li>
+    <li><strong>Webinar dizisi başlatın:</strong> "The Future of Uroflowmetry: Self-Cleaning and IoT" konulu İngilizce webinarlar düzenleyin. Global distribütörler ve ürologlar için lead toplama aracı olarak kullanın.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 - Global Genişleme ve Ölçekleme (Ay 2+)</div>
+  <ol>
+    <li><strong>Google Ads - hedefli kampanyalar:</strong> "uroflowmeter", "uroflowmetry device", "self cleaning medical device", "automated urine analysis" gibi kelimelerde İngilizce reklam verin. MedTech'te CPC yüksek olsa da dönüşüm değeri çok yüksek.</li>
+    <li><strong>Uluslararası tıp fuarları:</strong> MEDICA (Düsseldorf), Arab Health (Dubai), Hospitalar (Brezilya) gibi büyük fuarlara katılım veya sanal stant. Fuar öncesi LinkedIn ile bağlantı kurun, fuar sonrası takip edin.</li>
+    <li><strong>KOL (Key Opinion Leader) stratejisi:</strong> Tanınmış ürologlarla işbirliği yapın. Klinik çalışma ortaklığı, ürün deneyimi paylaşımı veya konferans sunumu ile bilimsel güvenilirlik inşa edin.</li>
+    <li><strong>Distribütör ağını genişletin:</strong> Avrupa, Orta Doğu, Güneydoğu Asya ve Latin Amerika'da bölgesel distribütör arayışını dijital kanallarla hızlandırın. LinkedIn outreach + MedicalExpo + fuar kombinasyonu ile hedef bölgelerdeki distribütörlere ulaşın.</li>
+    <li><strong>White paper ve e-kitap:</strong> "The Complete Guide to Modern Uroflowmetry" veya "IoT in Urology: Implementation Guide for Hospitals" formatında kapsamlı içerikler hazırlayın. Lead magnet olarak kullanın - indirmek için e-posta isteyin.</li>
+    <li><strong>PR ve sektörel basın:</strong> Urology Times, European Urology gibi sektörel yayınlarda editöryel içerik veya reklam. "Dünyada ilk self-cleaning üroflovmetre" hikayesi medya için güçlü bir angle.</li>
+  </ol>
+</div>
+
+
+<!-- SONUÇ -->
+<h2 class="page-break">5. Sonuç ve Skor Kartı</h2>
+
+<h3>Skor Kartı</h3>
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>Hedef (3 Ay)</th></tr>
+  <tr><td>Ürün / Teknoloji Kalitesi</td><td><div class="score-bar"><div class="score-fill score-high" style="width:90%"></div></div> 9/10</td><td>9/10</td></tr>
+  <tr><td>Web Sitesi Tasarımı</td><td><div class="score-bar"><div class="score-fill score-high" style="width:80%"></div></div> 8/10</td><td>9/10</td></tr>
+  <tr><td>SEO Altyapısı</td><td><div class="score-bar"><div class="score-fill score-low" style="width:30%"></div></div> 3/10</td><td>7/10</td></tr>
+  <tr><td>İçerik Pazarlaması</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>6/10</td></tr>
+  <tr><td>Sosyal Kanıt (Referans/Klinik Kanıt)</td><td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td><td>6/10</td></tr>
+  <tr><td>Video İçerik</td><td><div class="score-bar"><div class="score-fill score-low" style="width:10%"></div></div> 1/10</td><td>6/10</td></tr>
+  <tr><td>Distribütör Ağı Dijital Altyapısı</td><td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td><td>6/10</td></tr>
+  <tr><td>Sosyal Medya</td><td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td><td>6/10</td></tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>Acil Müdahale Gerektiren 3 Alan</strong>
+  <ul style="margin-top:6px">
+    <li><strong>İçerik Pazarlaması: 1/10</strong> - Blog yok, eğitim içeriği yok, SEO içeriği yok. "Uroflowmetry", "self cleaning uroflowmeter", "IoT medical device" gibi yüksek değerli aramalarda Oruba görünmüyor. Her geçen gün kaybedilen trafik, kaybedilen distribütör ve hastane anlamına geliyor.</li>
+    <li><strong>Video İçerik: 1/10</strong> - Self-cleaning mekanizması ve operatörsüz çalışma gibi devrimci özellikleri anlatmanın en etkili yolu video. YouTube kanalı yok, ürün demo videosu yok. MedTech'te "görmek inanmaktır" - video olmadan bu teknoloji tam anlaşılamaz.</li>
+    <li><strong>Klinik Kanıt ve Referans: 2/10</strong> - MedTech satın alma kararlarında klinik kanıt belirleyicidir. Site üzerinde peer-reviewed yayın, validasyon verisi veya hastane referansı görünmüyor. Distribütörler ve hastaneler bilimsel kanıt olmadan sipariş vermez.</li>
+  </ul>
+</div>
+
+<div class="alert alert-info">
+  <strong>Özet Değerlendirme</strong>
+  Oruba Health, üroloji teşhis cihazları pazarında gerçek bir oyun değiştirici teknolojiye sahip. Kendi kendini temizleyen, operatörsüz çalışan, IoT entegreli üroflovmetre dünyada ilk olma iddiası taşıyor ve bu güçlü bir farklılaştırma. Inalys ile birlikte kapsamlı bir idrar teşhis ekosistemi oluşturma vizyonu değerli.
+  <br><br>
+  Ancak dijital görünürlük ürün kalitesiyle orantılı değil. MedTech'te "iyi ürün yetmez, güven inşa etmek gerekir" kuralı geçerli. Klinik kanıtları yayınlayın, referans listesi oluşturun, YouTube'da ürün demolarını paylaşın ve SEO odaklı eğitim içeriği üretin. Bu adımlar distribütör ağının genişlemesini ve hastane satışlarını doğrudan hızlandıracaktır.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adım</strong>
+  Bu rapordaki stratejinin uygulanması için sizinle çalışabiliriz. İçerik stratejisi ve blog yazıları, YouTube kanal kurulumu ve video stratejisi, SEO optimizasyonu, LinkedIn B2B kampanyası, distribütör edinme stratejisi, Google Ads kurulumu ve MedTech dijital pazarlama planı konularında somut ve ölçülebilir büyüme planı hazırlayabiliriz. 15 dakikalık ücretsiz görüşme için tıklayın.
+</div>
+
+<div class="liked-section">
+  <h3>Bu rapor işinize yaradıysa</h3>
+  <p>Stratejileri birlikte uygulayalım. 15 dakikalık ücretsiz görüşme için tıklayın.</p>
+  <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Raporu Beğendim</button>
+</div>
+
+<p style="text-align:center;color:#999;font-size:11px;margin-top:40px;">Bu rapor funnel verisi ve web araştırmasına dayanarak Claude Code Opus 4.6 ile hazırlanmıştır. &copy; 2026</p>
+
+<script src="/lib/config.js"></script>
+<script src="/lib/tracker.js" data-type="rapor" data-client="oruba"></script>
+</body>
+</html>
