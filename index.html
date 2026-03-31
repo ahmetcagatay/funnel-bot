@@ -496,20 +496,19 @@ const COUNTRY_LANGS = {
 var itiInstance = null;
 var detectedCountry = null;
 
-// Detect country from IP (lightweight, no API key needed)
+// Detect country from IP (fully free, no API key, no limits)
 async function detectCountryFromIP() {
     try {
-        var res = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) });
-        var data = await res.json();
-        return data.country_code || null;
-    } catch(e) {
-        try {
-            var res2 = await fetch('https://ip2c.org/s', { signal: AbortSignal.timeout(2000) });
-            var txt = await res2.text();
-            var parts = txt.split(';');
-            return parts[1] || null;
-        } catch(e2) { return null; }
-    }
+        var res = await fetch('https://ip2c.org/s', { signal: AbortSignal.timeout(3000) });
+        var txt = await res.text();
+        var parts = txt.split(';');
+        if (parts[0] === '1' && parts[1]) return parts[1];
+    } catch(e) {}
+    try {
+        var res2 = await fetch('https://freeipapi.com/api/json', { signal: AbortSignal.timeout(3000) });
+        var data = await res2.json();
+        return data.countryCode || null;
+    } catch(e2) { return null; }
 }
 
 function updatePhonePrefix() {
@@ -758,6 +757,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Init intl-tel-input
     var phoneEl = document.getElementById('userPhone');
+    var utilsReady = false;
     itiInstance = window.intlTelInput(phoneEl, {
         initialCountry: LANG_COUNTRIES[currentLang] || 'tr',
         preferredCountries: ['tr', 'us', 'gb', 'de', 'fr'],
@@ -765,30 +765,34 @@ document.addEventListener('DOMContentLoaded', () => {
         nationalMode: false,
         formatOnDisplay: true,
         formatAsYouType: true,
-        loadUtils: function() { return import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"); }
+        loadUtils: function() { return import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js").then(function() { utilsReady = true; }); }
     });
 
-    // Handle autofill: if user pastes/autofills +90555... detect country and clean up
-    phoneEl.addEventListener('input', function() {
+    function handlePhoneInput() {
         var raw = phoneEl.value;
-        // If autofill dropped a full international number (starts with + or 00)
-        if (raw.match(/^(\+|00)\d{7,}/)) {
-            itiInstance.setNumber(raw);
+        // If autofill/paste dropped a full international number
+        if (raw.match(/^[\+\s0]?\+?\d{2,4}[\s\-]?\d/)) {
+            // Clean spaces/dashes for detection
+            var cleaned = raw.replace(/[\s\-\(\)]/g, '');
+            if (cleaned.match(/^(\+|00)\d{9,}/)) {
+                itiInstance.setNumber(cleaned);
+            }
         }
-        var num = itiInstance.getNumber();
-        var valid = num && num.replace(/\D/g, '').length >= 10;
-        document.getElementById('btnSend').disabled = !valid;
-    });
+        // Validate
+        if (utilsReady) {
+            document.getElementById('btnSend').disabled = !itiInstance.isValidNumber();
+        } else {
+            var digits = raw.replace(/\D/g, '').length;
+            document.getElementById('btnSend').disabled = digits < 7;
+        }
+    }
 
-    // Also catch autofill via change event (some browsers fire change, not input)
-    phoneEl.addEventListener('change', function() {
-        var raw = phoneEl.value;
-        if (raw.match(/^(\+|00)\d{7,}/)) {
-            itiInstance.setNumber(raw);
-        }
-        var num = itiInstance.getNumber();
-        var valid = num && num.replace(/\D/g, '').length >= 10;
-        document.getElementById('btnSend').disabled = !valid;
+    phoneEl.addEventListener('input', handlePhoneInput);
+    phoneEl.addEventListener('change', handlePhoneInput);
+    // Some autofill triggers neither input nor change, poll briefly after focus
+    phoneEl.addEventListener('focus', function() {
+        setTimeout(handlePhoneInput, 500);
+        setTimeout(handlePhoneInput, 1000);
     });
 
     // Scroll input into view when mobile keyboard opens
