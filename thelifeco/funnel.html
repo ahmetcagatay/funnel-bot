@@ -2052,6 +2052,12 @@ h1.info-title {
     state.currentStep = target;
     updateUI();
 
+    // Dynamic content hooks
+    if (target === '16') {
+      var gc = $('#programCards');
+      if (gc) programCards(gc);
+    }
+
     if (['5', '8', '10', '15'].indexOf(target) !== -1) showTicker();
     if (window.GROWTHER_TRACKER && GROWTHER_TRACKER.onStepChange) GROWTHER_TRACKER.onStepChange(target);
   }
@@ -2503,14 +2509,6 @@ h1.info-title {
     if ($('#next12Month')) $('#next12Month').textContent = nextMonth1 + ' - ' + nextMonth2;
     if ($('#next36Month')) $('#next36Month').textContent = nextMonth3 + ' - ' + nextMonth6;
   })();
-
-  document.addEventListener('click', function(e) {
-    if (e.target.closest('[data-step="15"]')) {
-      setTimeout(function() {
-        if (state.currentStep === '16') programCards($('#programCards'));
-      }, 300);
-    }
-  }, true);
 
   var phoneInput = $('#phoneInput');
   var countrySelect = $('#countrySelect');
