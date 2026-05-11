@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#2A3010">
+<title>TheLifeCo · Yolculuğunuzu Tasarlayın</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --olive-deep: #2A3010;
+  --olive: #3D3F1F;
+  --olive-light: #5C6131;
+  --cream: #F8F4EC;
+  --cream-warm: #F0EADC;
+  --gold: #C9A56B;
+  --gold-soft: #E5CFA3;
+  --charcoal: #1F1F1F;
+  --gray-text: #5A5A52;
+  --gray-muted: #8B8B82;
+  --gray-border: #E0DCD0;
+  --white: #FFFFFF;
+  --success: #4A7C3A;
+  --success-bg: #E8F0DE;
+  --danger: #B84A3E;
+  --warm-red: #D86F3E;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+}
+
+html, body {
+  height: 100%;
+  background: var(--cream);
+  color: var(--charcoal);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.serif { font-family: 'Playfair Display', serif; letter-spacing: -0.01em; }
+
+/* === FUNNEL CONTAINER === */
+.funnel {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--cream);
+}
+
+/* === BACKGROUND IMAGE LAYER === */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.bg-layer.active { opacity: 1; }
+.bg-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(248,244,236,0.0) 0%, rgba(248,244,236,0.7) 60%, rgba(248,244,236,0.95) 100%);
+}
+
+/* === TOP BAR === */
+.top-bar {
+  position: relative;
+  z-index: 20;
+  padding: calc(12px + var(--safe-top)) 20px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(248,244,236,0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(224,220,208,0.5);
+}
+.brand {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--olive);
+  letter-spacing: -0.01em;
+}
+.brand span { color: var(--gold); font-weight: 800; }
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--olive);
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.back-btn.visible { opacity: 1; pointer-events: auto; }
+.back-btn:hover { background: rgba(61,63,31,0.05); }
+.back-btn svg { width: 18px; height: 18px; }
+.step-counter {
+  font-size: 12px;
+  color: var(--gray-muted);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* === PROGRESS BAR === */
+.progress-wrap {
+  position: relative;
+  z-index: 20;
+  padding: 0 20px 10px;
+  background: rgba(248,244,236,0.92);
+  backdrop-filter: blur(10px);
+}
+.progress-track {
+  height: 4px;
+  background: rgba(61,63,31,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--olive) 0%, var(--gold) 100%);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* === STEPS === */
+.steps {
+  position: relative;
+  z-index: 5;
+  flex: 1;
+  height: calc(100% - 70px - var(--safe-top));
+  overflow: hidden;
+}
+.step {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px calc(16px + var(--safe-bottom));
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.step::-webkit-scrollbar { display: none; }
+.step.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.step.exit { opacity: 0; transform: translateY(-12px); }
+
+.step-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 8px;
+}
+.step-footer {
+  flex-shrink: 0;
+  padding-top: 12px;
+}
+
+/* === HEADINGS === */
+.eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--gold);
+  margin-bottom: 12px;
+  display: inline-block;
+}
+h1.q {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 6vw, 34px);
+  font-weight: 700;
+  line-height: 1.18;
+  color: var(--olive-deep);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.subtitle {
+  font-size: 15px;
+  color: var(--gray-text);
+  margin-bottom: 24px;
+  line-height: 1.55;
+}
+
+/* === OPTION BUTTONS === */
+.options { display: flex; flex-direction: column; gap: 10px; margin: 0 auto; width: 100%; max-width: 520px; }
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 60px;
+  padding: 14px 18px;
+  background: var(--white);
+  border: 1.5px solid var(--gray-border);
+  border-radius: 14px;
+  color: var(--charcoal);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.opt::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201,165,107,0.0) 0%, rgba(201,165,107,0.06) 100%);
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+.opt:hover { border-color: var(--olive-light); }
+.opt:hover::before { opacity: 1; }
+.opt.selected { border-color: var(--olive); background: var(--cream-warm); box-shadow: 0 4px 16px rgba(61,63,31,0.08); }
+.opt.selected::before { opacity: 1; }
+.opt:active { transform: scale(0.98); }
+.opt .emoji { font-size: 24px; line-height: 1; flex-shrink: 0; }
+.opt .text { flex: 1; line-height: 1.35; }
+.opt .text small { display: block; font-size: 12.5px; color: var(--gray-muted); font-weight: 400; margin-top: 2px; }
+.opt .check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--gray-border);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.opt.multi .check { border-radius: 6px; }
+.opt.selected .check { background: var(--olive); border-color: var(--olive); }
+.opt.selected .check::after { content: '✓'; color: var(--white); font-size: 13px; font-weight: 700; }
+
+/* === CTA === */
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 56px;
+  background: var(--olive-deep);
+  color: var(--white);
+  border: none;
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(201,165,107,0.3) 50%, transparent 100%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+.cta:hover:not(:disabled)::after { transform: translateX(100%); }
+.cta:hover:not(:disabled) { background: var(--olive); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(42,48,16,0.25); }
+.cta:active:not(:disabled) { transform: translateY(0) scale(0.99); }
+.cta:disabled { opacity: 0.4; cursor: not-allowed; }
+.cta-secondary {
+  background: transparent;
+  color: var(--olive);
+  border: 1.5px solid var(--gray-border);
+}
+.cta-secondary:hover:not(:disabled) { background: var(--cream-warm); border-color: var(--olive-light); box-shadow: none; }
+.cta-gold {
+  background: linear-gradient(135deg, var(--gold) 0%, #B89254 100%);
+  color: var(--white);
+}
+.cta-gold:hover:not(:disabled) { background: var(--gold); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,165,107,0.4); }
+.cta-arrow { display: inline-flex; align-items: center; gap: 6px; }
+.cta-arrow svg { width: 18px; height: 18px; transition: transform 0.2s; }
+.cta:hover .cta-arrow svg { transform: translateX(3px); }
+
+/* === HERO STEP (Welcome) === */
+.hero-step {
+  text-align: center;
+  padding: 32px 24px calc(20px + var(--safe-bottom));
+}
+.hero-trust-strip {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.hero-trust-item {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gray-muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.hero-trust-item .star { color: var(--gold); }
+h1.hero {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(30px, 7vw, 42px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--olive-deep);
+  margin-bottom: 14px;
+}
+h1.hero em { color: var(--gold); font-style: italic; }
+.hero-sub {
+  font-size: 16px;
+  color: var(--gray-text);
+  line-height: 1.6;
+  margin-bottom: 28px;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 32px;
+  max-width: 380px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-bullets li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--charcoal);
+  text-align: left;
+}
+.hero-bullets .icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--success-bg);
+  color: var(--success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.hero-meta {
+  font-size: 12px;
+  color: var(--gray-muted);
+  margin-top: 14px;
+}
+
+/* === SOCIAL PROOF STRIP (mid-quiz) === */
+.proof-strip {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  background: var(--cream-warm);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--gray-text);
+  border-left: 3px solid var(--gold);
+  animation: fadeInUp 0.5s ease;
+}
+.proof-strip .icon { font-size: 18px; flex-shrink: 0; }
+
+/* === ANIMATION (loading plan) === */
+.loading-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+.spinner-wrap {
+  width: 84px;
+  height: 84px;
+  position: relative;
+  margin-bottom: 24px;
+}
+.spinner-ring {
+  position: absolute;
+  inset: 0;
+  border: 3px solid rgba(61,63,31,0.1);
+  border-top-color: var(--olive);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+.spinner-inner {
+  position: absolute;
+  inset: 12px;
+  background: var(--cream-warm);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: var(--olive-deep);
+  margin-bottom: 12px;
+}
+.loading-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+  width: 100%;
+  max-width: 320px;
+}
+.loading-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--gray-muted);
+  text-align: left;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: all 0.4s ease;
+}
+.loading-step.shown { opacity: 1; transform: translateX(0); color: var(--charcoal); }
+.loading-step.done { color: var(--success); }
+.loading-step .ls-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(61,63,31,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 12px;
+  transition: all 0.3s;
+}
+.loading-step.done .ls-icon { background: var(--success-bg); color: var(--success); }
+
+/* === PLAN REVEAL CARD === */
+.reveal-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 20px 60px rgba(42,48,16,0.15);
+  border: 1px solid var(--gray-border);
+  max-width: 520px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  animation: revealUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes revealUp {
+  0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.reveal-tag {
+  display: inline-block;
+  background: var(--olive-deep);
+  color: var(--gold-soft);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+.reveal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--olive-deep);
+  margin-bottom: 14px;
+  line-height: 1.25;
+}
+.reveal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.reveal-cell {
+  background: var(--cream);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.reveal-cell .label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gray-muted);
+  font-weight: 600;
+}
+.reveal-cell .value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--olive-deep);
+  margin-top: 2px;
+  line-height: 1.2;
+}
+.reveal-price-block {
+  background: linear-gradient(135deg, var(--olive-deep) 0%, var(--olive) 100%);
+  color: var(--white);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.reveal-price-block::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(201,165,107,0.25) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.price-original {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  text-decoration: line-through;
+  margin-bottom: 4px;
+  position: relative;
+}
+.price-current {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 2px;
+  position: relative;
+}
+.price-current small { font-size: 14px; font-weight: 500; opacity: 0.8; }
+.price-discount {
+  font-size: 12px;
+  color: var(--gold-soft);
+  font-weight: 600;
+  position: relative;
+}
+.coupon-row {
+  background: rgba(201,165,107,0.15);
+  border: 1px dashed var(--gold);
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.coupon-row .code {
+  font-family: 'SF Mono', Menlo, monospace;
+  font-weight: 700;
+  color: var(--olive-deep);
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.coupon-row .timer {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--warm-red);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.coupon-row .timer::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--warm-red);
+  border-radius: 50%;
+  animation: pulse 1.5s ease infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.3); }
+}
+.reveal-insights {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: var(--gray-text);
+}
+.reveal-insights li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.45;
+}
+.reveal-insights .ri-icon { color: var(--gold); flex-shrink: 0; font-size: 14px; line-height: 1.45; }
+
+/* === DATE CHIPS === */
+.date-chips { display: flex; flex-direction: column; gap: 10px; }
+.date-chip {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--white);
+  border: 1.5px solid var(--gray-border);
+  border-radius: 14px;
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  width: 100%;
+  text-align: left;
+}
+.date-chip:hover { border-color: var(--olive-light); }
+.date-chip.selected { border-color: var(--olive); background: var(--cream-warm); }
+.date-chip .ico {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.date-chip.selected .ico { background: var(--olive); color: var(--gold-soft); }
+.date-chip .lbl { flex: 1; }
+.date-chip .lbl strong { font-size: 15px; color: var(--olive-deep); display: block; line-height: 1.2; }
+.date-chip .lbl small { font-size: 12px; color: var(--gray-muted); display: block; margin-top: 2px; }
+.date-chip .urgency {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--warm-red);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(216,111,62,0.1);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+/* === PROGRAM CARDS (urgency) === */
+.program-cards { display: flex; flex-direction: column; gap: 12px; max-width: 520px; margin: 0 auto; }
+.program-card {
+  background: var(--white);
+  border: 1.5px solid var(--gray-border);
+  border-radius: 16px;
+  padding: 16px 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.program-card:hover { border-color: var(--olive-light); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(42,48,16,0.08); }
+.program-card.selected { border-color: var(--olive); background: var(--cream-warm); box-shadow: 0 8px 24px rgba(42,48,16,0.12); }
+.program-card .pc-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 10px;
+}
+.pc-date { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--olive-deep); line-height: 1.2; }
+.pc-loc { font-size: 12px; color: var(--gray-muted); margin-top: 2px; font-weight: 500; }
+.pc-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.pc-tag.hot { background: rgba(184,74,62,0.1); color: var(--danger); }
+.pc-tag.warm { background: rgba(216,111,62,0.12); color: var(--warm-red); }
+.pc-tag.cool { background: var(--success-bg); color: var(--success); }
+.pc-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--gray-border);
+}
+.pc-spots { font-size: 12.5px; color: var(--gray-text); display: flex; align-items: center; gap: 6px; }
+.pc-spots strong { color: var(--charcoal); font-weight: 700; }
+.pc-price { font-size: 16px; font-weight: 800; color: var(--olive-deep); }
+.pc-price small { font-size: 11px; font-weight: 500; color: var(--gray-muted); }
+
+/* === PHONE INPUT === */
+.phone-row {
+  display: flex;
+  gap: 8px;
+  max-width: 520px;
+  margin: 0 auto 16px;
+}
+.country-select {
+  background: var(--white);
+  border: 1.5px solid var(--gray-border);
+  border-radius: 14px;
+  padding: 14px 12px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--charcoal);
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  min-width: 110px;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%235A5A52'%3e%3cpath d='M4.5 6L8 9.5L11.5 6H4.5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+.country-select:focus { border-color: var(--olive); outline: none; }
+.phone-input {
+  flex: 1;
+  background: var(--white);
+  border: 1.5px solid var(--gray-border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--charcoal);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.phone-input:focus { border-color: var(--olive); outline: none; box-shadow: 0 0 0 4px rgba(61,63,31,0.08); }
+.phone-input::placeholder { color: var(--gray-muted); font-weight: 500; }
+.contact-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 520px;
+  margin: 12px auto;
+  padding: 14px 18px;
+  background: var(--white);
+  border: 1.5px solid var(--gray-border);
+  border-radius: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+.contact-toggle:hover { border-color: var(--olive-light); }
+.toggle-switch {
+  width: 44px;
+  height: 26px;
+  background: var(--gray-border);
+  border-radius: 13px;
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.3s;
+}
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background: var(--white);
+  border-radius: 50%;
+  transition: transform 0.3s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.contact-toggle.active .toggle-switch { background: var(--success); }
+.contact-toggle.active .toggle-switch::after { transform: translateX(18px); }
+.toggle-label { flex: 1; font-size: 14px; }
+.toggle-label strong { display: block; font-weight: 600; color: var(--charcoal); }
+.toggle-label small { display: block; font-size: 12px; color: var(--gray-muted); margin-top: 2px; }
+.trust-note {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--gray-muted);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.trust-note .lock { font-size: 13px; }
+
+/* === THANK YOU STAGE === */
+.thank-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+.expert-bubble {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--olive) 100%);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  position: relative;
+  animation: bubbleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 12px 36px rgba(201,165,107,0.4);
+}
+.expert-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  background: var(--success);
+  border: 3px solid var(--cream);
+  border-radius: 50%;
+}
+@keyframes bubbleIn {
+  0% { opacity: 0; transform: scale(0.5); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.expert-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--olive-deep);
+  font-weight: 700;
+}
+.expert-role { font-size: 13px; color: var(--gray-muted); margin-top: 2px; margin-bottom: 18px; }
+.confirm-tag {
+  background: var(--cream-warm);
+  border: 1.5px dashed var(--gold);
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-family: 'SF Mono', Menlo, monospace;
+  font-size: 13px;
+  color: var(--olive-deep);
+  font-weight: 700;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+.thank-cta-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+}
+.cta-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: var(--white);
+  border: 1.5px solid var(--gray-border);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--charcoal);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.cta-line:hover { border-color: var(--olive); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(42,48,16,0.08); }
+.cta-line .ico { font-size: 20px; line-height: 1; flex-shrink: 0; }
+.cta-line.whatsapp { border-color: rgba(37,211,102,0.3); background: rgba(37,211,102,0.05); color: #1F8C50; }
+.cta-line.whatsapp:hover { background: rgba(37,211,102,0.1); border-color: rgba(37,211,102,0.5); }
+.cta-line .arrow { margin-left: auto; color: var(--gray-muted); }
+
+/* === FLOATING TICKER === */
+.ticker {
+  position: fixed;
+  bottom: calc(82px + var(--safe-bottom));
+  left: 50%;
+  transform: translateX(-50%) translateY(120%);
+  z-index: 30;
+  background: var(--olive-deep);
+  color: var(--white);
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 12px 32px rgba(42,48,16,0.3);
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+  max-width: calc(100% - 32px);
+}
+.ticker.visible { transform: translateX(-50%) translateY(0); opacity: 1; }
+.ticker .dot {
+  width: 8px;
+  height: 8px;
+  background: #4ADE80;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px #4ADE80;
+  animation: pulse 1.5s ease infinite;
+}
+.ticker .txt { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* === SCOPED CARDS === */
+.value-card {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid var(--gray-border);
+}
+.testimonial-pop {
+  background: var(--cream-warm);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin: 14px auto;
+  max-width: 520px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  border-left: 3px solid var(--gold);
+  animation: fadeInUp 0.6s ease;
+}
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.testimonial-pop .ava {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--olive-light) 100%);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.testimonial-pop .body { flex: 1; font-size: 13px; line-height: 1.45; color: var(--charcoal); font-style: italic; }
+.testimonial-pop .body strong { display: block; font-style: normal; font-size: 12px; color: var(--olive); margin-top: 4px; }
+.testimonial-pop .stars { color: var(--gold); font-size: 11px; margin-top: 2px; }
+
+/* === SCHEDULE CALL TIME === */
+.time-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-width: 520px;
+  margin: 0 auto;
+}
+.time-chip {
+  background: var(--white);
+  border: 1.5px solid var(--gray-border);
+  border-radius: 14px;
+  padding: 16px 14px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.time-chip:hover { border-color: var(--olive-light); }
+.time-chip.selected { border-color: var(--olive); background: var(--cream-warm); }
+.time-chip .ti-emoji { font-size: 22px; display: block; margin-bottom: 6px; }
+.time-chip strong { display: block; font-size: 14px; color: var(--olive-deep); font-weight: 700; line-height: 1.25; }
+.time-chip small { display: block; font-size: 11.5px; color: var(--gray-muted); margin-top: 3px; }
+.time-chip.urgent { border-color: var(--warm-red); background: rgba(216,111,62,0.06); }
+.time-chip.urgent strong { color: var(--warm-red); }
+
+/* === DECLINE LINK === */
+.decline-link {
+  display: block;
+  text-align: center;
+  margin-top: 14px;
+  font-size: 13.5px;
+  color: var(--gray-muted);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  padding: 4px 12px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+  width: 100%;
+}
+.decline-link:hover { color: var(--olive); border-bottom-color: var(--gray-muted); }
+
+/* === ANIMATIONS === */
+.fade-in { animation: fadeInUp 0.5s ease both; }
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+
+/* === BACKGROUND IMAGES === */
+.bg-1 { background-image: linear-gradient(180deg, rgba(42,48,16,0.4) 0%, rgba(248,244,236,0) 60%), url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=80'); }
+.bg-2 { background-image: url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1600&q=80'); }
+.bg-3 { background-image: url('https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&w=1600&q=80'); }
+.bg-4 { background-image: url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1600&q=80'); }
+.bg-5 { background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1600&q=80'); }
+.bg-6 { background-image: url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=1600&q=80'); }
+.bg-7 { background-image: url('https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=1600&q=80'); }
+
+/* === FOOTER MICRO === */
+.footer-micro {
+  text-align: center;
+  font-size: 10.5px;
+  color: var(--gray-muted);
+  letter-spacing: 0.5px;
+  margin-top: 14px;
+  opacity: 0.85;
+}
+.footer-micro strong { color: var(--olive); }
+
+/* === MOBILE OPT === */
+@media (max-height: 720px) {
+  h1.q { font-size: 22px; }
+  .subtitle { margin-bottom: 16px; font-size: 14px; }
+  .opt { min-height: 52px; padding: 12px 16px; }
+  .reveal-card { padding: 16px; }
+  .price-current { font-size: 26px; }
+}
+@media (min-width: 640px) {
+  .step { padding: 24px 40px calc(24px + var(--safe-bottom)); }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-layer bg-1 active" id="bg"></div>
+
+<div class="funnel">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <button class="back-btn" id="backBtn" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      Geri
+    </button>
+    <div class="brand">TheLifeCo<span>·</span></div>
+    <div class="step-counter" id="counter">1 / 13</div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="progress" style="width: 7.7%"></div></div>
+  </div>
+
+  <div class="steps" id="steps">
+
+    <!-- STEP 1: WELCOME -->
+    <div class="step active" data-step="1" data-bg="bg-1">
+      <div class="step-content hero-step">
+        <div class="hero-trust-strip">
+          <div class="hero-trust-item"><span class="star">★</span> 4.9 / 5</div>
+          <div class="hero-trust-item">40.000+ MİSAFİR</div>
+          <div class="hero-trust-item">22 YIL DENEYİM</div>
+        </div>
+        <h1 class="hero">Hayatınızı yeniden <em>dengeleyin</em></h1>
+        <p class="hero-sub">Size en uygun wellness yolculuğunu birlikte tasarlayalım. 60 saniye sürer — sonunda kişisel planınızı ve özel teklifinizi alacaksınız.</p>
+        <ul class="hero-bullets">
+          <li><span class="icon">✓</span>Sağlık hedeflerinize göre özelleştirilmiş program</li>
+          <li><span class="icon">✓</span>Müsait tarihler ve özel erken kayıt indirimi</li>
+          <li><span class="icon">✓</span>Medikal uzmandan ücretsiz değerlendirme görüşmesi</li>
+        </ul>
+      </div>
+      <div class="step-footer">
+        <button class="cta" onclick="next(2)"><span class="cta-arrow">Yolculuğa Başla <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span></button>
+        <p class="hero-meta">Verileriniz güvende — KVKK kapsamında korunur</p>
+      </div>
+    </div>
+
+    <!-- STEP 2: BİRİNCİL HEDEF -->
+    <div class="step" data-step="2" data-bg="bg-2">
+      <div class="step-content">
+        <span class="eyebrow">Adım 1 — Sağlık Hedefi</span>
+        <h1 class="q">Şu an sizi en çok yoran şey ne?</h1>
+        <p class="subtitle">İçten cevap verin — programınızı buna göre tasarlıyoruz. Birden fazla seçebilirsiniz.</p>
+        <div class="options" data-key="hedef" data-multi="true">
+          <button class="opt multi" data-value="yorgunluk"><span class="emoji">💤</span><span class="text">Sürekli yorgun hissediyorum<small>Enerjim bitmiş, kendimi toparlayamıyorum</small></span><span class="check"></span></button>
+          <button class="opt multi" data-value="kilo"><span class="emoji">⚖️</span><span class="text">Yo-yo diyet döngüsünden çıkamıyorum<small>Veriyorum, geri alıyorum — sürdürülemez</small></span><span class="check"></span></button>
+          <button class="opt multi" data-value="stres"><span class="emoji">🌪️</span><span class="text">Stres beni yiyip bitiriyor<small>İş, hayat, sorumluluklar — tükendim</small></span><span class="check"></span></button>
+          <button class="opt multi" data-value="uyku"><span class="emoji">🌙</span><span class="text">Uyku düzenim bozuldu<small>Uyuyamıyor, dinlenemiyor, yorgun uyanıyorum</small></span><span class="check"></span></button>
+          <button class="opt multi" data-value="kronik"><span class="emoji">🩺</span><span class="text">Kronik bir rahatsızlığım var<small>Diyabet, tansiyon, kolesterol vs.</small></span><span class="check"></span></button>
+          <button class="opt multi" data-value="reset"><span class="emoji">🌱</span><span class="text">Tam bir reset istiyorum<small>Sıfırdan başlamak ve sağlıklı yaşam kurmak</small></span><span class="check"></span></button>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" id="cta-2" disabled onclick="next(3)">Devam Et</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: VİZYON -->
+    <div class="step" data-step="3" data-bg="bg-3">
+      <div class="step-content">
+        <span class="eyebrow">Adım 2 — Vizyonunuz</span>
+        <h1 class="q">Bir hafta sonra nasıl hissetmek istiyorsunuz?</h1>
+        <p class="subtitle">Hedeflediğiniz hissi seçin — buraya ulaşmanız için neyin gerektiğini biz çözeceğiz.</p>
+        <div class="options" data-key="vizyon" data-multi="true">
+          <button class="opt multi" data-value="enerji"><span class="emoji">✨</span><span class="text">Enerjik ve dinlenmiş</span><span class="check"></span></button>
+          <button class="opt multi" data-value="kilo_ideal"><span class="emoji">⚖️</span><span class="text">İdeal kiloma yaklaşmış</span><span class="check"></span></button>
+          <button class="opt multi" data-value="sakin"><span class="emoji">🧘</span><span class="text">Sakin, stresten arınmış</span><span class="check"></span></button>
+          <button class="opt multi" data-value="guclu"><span class="emoji">💪</span><span class="text">Daha güçlü ve dayanıklı</span><span class="check"></span></button>
+          <button class="opt multi" data-value="guven"><span class="emoji">😊</span><span class="text">Kendine güvenen, hafiflemiş</span><span class="check"></span></button>
+          <button class="opt multi" data-value="baglan"><span class="emoji">🌟</span><span class="text">Hayata yeniden bağlanmış</span><span class="check"></span></button>
+        </div>
+        <div class="proof-strip">
+          <span class="icon">💚</span>
+          <span>40.000+ misafirimizden benzer şeyler duyduk. Hedefleriniz bizim için tanıdık.</span>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" id="cta-3" disabled onclick="next(4)">Devam Et</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: YAŞ -->
+    <div class="step" data-step="4" data-bg="bg-4">
+      <div class="step-content">
+        <span class="eyebrow">Adım 3 — Sizin Hakkınızda</span>
+        <h1 class="q">Yaş aralığınız?</h1>
+        <p class="subtitle">Programınızı yaşınızın metabolik ihtiyaçlarına göre özelleştiriyoruz. Bu önemli.</p>
+        <div class="options" data-key="yas">
+          <button class="opt" data-value="25-34"><span class="emoji">🌱</span><span class="text">25 - 34 yaş<small>Önleme &amp; performans odaklı</small></span><span class="check"></span></button>
+          <button class="opt" data-value="35-44"><span class="emoji">🌿</span><span class="text">35 - 44 yaş<small>Metabolik denge &amp; longevity başlangıcı</small></span><span class="check"></span></button>
+          <button class="opt" data-value="45-54"><span class="emoji">🌳</span><span class="text">45 - 54 yaş<small>Hormonal denge &amp; medikal destek</small></span><span class="check"></span></button>
+          <button class="opt" data-value="55-64"><span class="emoji">🌲</span><span class="text">55 - 64 yaş<small>Anti-aging &amp; canlılık restorasyonu</small></span><span class="check"></span></button>
+          <button class="opt" data-value="65+"><span class="emoji">🌴</span><span class="text">65+ yaş<small>Sağlıklı yaşlanma &amp; kronik yönetim</small></span><span class="check"></span></button>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" id="cta-4" disabled onclick="next(5)">Devam Et</button>
+      </div>
+    </div>
+
+    <!-- STEP 5: CİNSİYET -->
+    <div class="step" data-step="5" data-bg="bg-4">
+      <div class="step-content">
+        <span class="eyebrow">Adım 4 — Sizin Hakkınızda</span>
+        <h1 class="q">Cinsiyetiniz?</h1>
+        <p class="subtitle">Medikal protokollerimiz biyolojik farklara göre değişiyor (örn. hormonal denge, demir/kalsiyum). Bilgiyi gizli tutuyoruz.</p>
+        <div class="options" data-key="cinsiyet">
+          <button class="opt" data-value="kadin"><span class="emoji">👩</span><span class="text">Kadın</span><span class="check"></span></button>
+          <button class="opt" data-value="erkek"><span class="emoji">👨</span><span class="text">Erkek</span><span class="check"></span></button>
+          <button class="opt" data-value="diger"><span class="emoji">🌈</span><span class="text">Diğer / söylemek istemiyorum<small>Genel protokol uygularız</small></span><span class="check"></span></button>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" id="cta-5" disabled onclick="next(6)">Devam Et</button>
+      </div>
+    </div>
+
+    <!-- STEP 6: SAGLIK -->
+    <div class="step" data-step="6" data-bg="bg-5">
+      <div class="step-content">
+        <span class="eyebrow">Adım 5 — Sağlık Durumu</span>
+        <h1 class="q">Bilmemiz gereken sağlık durumlarınız?</h1>
+        <p class="subtitle">Bu, doktorlarımıza ön bilgi verir. Eksiklikleri görüşmede tamamlarız. Birden fazla seçebilirsiniz.</p>
+        <div class="options" data-key="saglik" data-multi="true">
+          <button class="opt multi" data-value="tansiyon"><span class="emoji">💓</span><span class="text">Yüksek tansiyon</span><span class="check"></span></button>
+          <button class="opt multi" data-value="diyabet"><span class="emoji">🩸</span><span class="text">Diyabet (Tip 1 veya 2)</span><span class="check"></span></button>
+          <button class="opt multi" data-value="kolesterol"><span class="emoji">📊</span><span class="text">Yüksek kolesterol</span><span class="check"></span></button>
+          <button class="opt multi" data-value="sindirim"><span class="emoji">🥑</span><span class="text">Sindirim problemleri / şişkinlik</span><span class="check"></span></button>
+          <button class="opt multi" data-value="hormon"><span class="emoji">🌸</span><span class="text">Hormonal değişim (menopoz, PCOS)</span><span class="check"></span></button>
+          <button class="opt multi" data-value="uyku_b"><span class="emoji">😴</span><span class="text">Kronik uyku problemleri</span><span class="check"></span></button>
+          <button class="opt multi" data-value="agri"><span class="emoji">🦴</span><span class="text">Eklem / kronik ağrı</span><span class="check"></span></button>
+          <button class="opt multi" data-value="yok"><span class="emoji">✨</span><span class="text">Yok, tamamen sağlıklıyım</span><span class="check"></span></button>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" id="cta-6" disabled onclick="next(7)">Devam Et</button>
+      </div>
+    </div>
+
+    <!-- STEP 7: SÜRE -->
+    <div class="step" data-step="7" data-bg="bg-6">
+      <div class="step-content">
+        <span class="eyebrow">Adım 6 — Süre Planlaması</span>
+        <h1 class="q">Bu yolculuğa ne kadar zaman ayırabilirsiniz?</h1>
+        <p class="subtitle">Daha uzun program = daha derin sonuçlar. Ama her süre değerli — size en uygunu hangisi?</p>
+        <div class="options" data-key="sure">
+          <button class="opt" data-value="4"><span class="emoji">☀️</span><span class="text">4 gün — Hızlı yenilenme<small>İlk deneyim, kısa kaçış</small></span><span class="check"></span></button>
+          <button class="opt" data-value="7"><span class="emoji">🌊</span><span class="text">7 gün — Klasik detoks<small>En popüler süre, ölçülebilir sonuç</small></span><span class="check"></span></button>
+          <button class="opt" data-value="14"><span class="emoji">🌿</span><span class="text">14 gün — Derin dönüşüm<small>Kilo, kronik sağlık ve sürdürülebilir alışkanlık için ideal</small></span><span class="check"></span></button>
+          <button class="opt" data-value="21"><span class="emoji">🔥</span><span class="text">21 gün — Tam reset<small>Maksimum sonuç, yeni alışkanlık tam yerleşir</small></span><span class="check"></span></button>
+          <button class="opt" data-value="30+"><span class="emoji">⭐</span><span class="text">30+ gün — Yaşam stili transformasyonu<small>Premium uzun konaklama</small></span><span class="check"></span></button>
+        </div>
+        <div class="testimonial-pop">
+          <div class="ava">SK</div>
+          <div class="body">
+            "Bodrum'da 14 gün benim için yeniden doğuş oldu. 6 kilo verdim ama daha önemlisi yıllardır olmadığım kadar dinlendim."
+            <strong>Selma K., 47 — İstanbul</strong>
+            <div class="stars">★★★★★</div>
+          </div>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" id="cta-7" disabled onclick="goToPlanBuild()">Planımı Hazırlayın</button>
+      </div>
+    </div>
+
+    <!-- STEP 8: PLAN BUILDING ANIMATION -->
+    <div class="step" data-step="8" data-bg="bg-3">
+      <div class="step-content loading-stage">
+        <div class="spinner-wrap">
+          <div class="spinner-ring"></div>
+          <div class="spinner-inner">🌿</div>
+        </div>
+        <div class="loading-title">Size özel planınız hazırlanıyor</div>
+        <p style="font-size:14px;color:var(--gray-muted);max-width:320px;margin:8px auto 0">Medikal kadromuz cevaplarınızı analiz ediyor ve size en uygun protokolü eşleştiriyor</p>
+        <div class="loading-steps" id="loadingSteps">
+          <div class="loading-step" data-i="0"><span class="ls-icon">1</span>Sağlık profiliniz değerlendiriliyor...</div>
+          <div class="loading-step" data-i="1"><span class="ls-icon">2</span>Yaş ve cinsiyet bazlı protokol seçiliyor...</div>
+          <div class="loading-step" data-i="2"><span class="ls-icon">3</span>İdeal merkez ve program eşleştiriliyor...</div>
+          <div class="loading-step" data-i="3"><span class="ls-icon">4</span>Müsait tarihler kontrol ediliyor...</div>
+          <div class="loading-step" data-i="4"><span class="ls-icon">5</span>Kişisel teklifiniz hazırlanıyor...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 9: PLAN REVEAL -->
+    <div class="step" data-step="9" data-bg="bg-4">
+      <div class="step-content">
+        <div style="text-align:center;margin-bottom:14px">
+          <span class="eyebrow" style="color:var(--success)">✨ PLANINIZ HAZIR</span>
+          <h1 class="q" style="font-size:22px;margin-top:6px">Size özel hazırladığımız yolculuk</h1>
+        </div>
+        <div class="reveal-card">
+          <div class="reveal-tag">Kişisel Eşleştirme</div>
+          <div class="reveal-title" id="planTitle">Master Detox + Wellness Reset</div>
+
+          <div class="reveal-grid">
+            <div class="reveal-cell"><div class="label">Merkez</div><div class="value" id="planMerkez">Bodrum (Türkbükü)</div></div>
+            <div class="reveal-cell"><div class="label">Süre</div><div class="value" id="planSure">7 gün</div></div>
+            <div class="reveal-cell"><div class="label">Program</div><div class="value" id="planProgram">Master Detox</div></div>
+            <div class="reveal-cell"><div class="label">Format</div><div class="value">All-Inclusive</div></div>
+          </div>
+
+          <div class="reveal-price-block">
+            <div class="price-original" id="priceOriginal">€2.450</div>
+            <div class="price-current" id="priceCurrent">€2.082 <small>· tüm her şey dahil</small></div>
+            <div class="price-discount">🎁 ERKEN KAYIT — %15 indirim uygulandı</div>
+          </div>
+
+          <div class="coupon-row">
+            <div>
+              <div style="font-size:11px;color:var(--gray-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px">İndirim kodu</div>
+              <div class="code">WELCOME15</div>
+            </div>
+            <div class="timer" id="couponTimer">14:59 kaldı</div>
+          </div>
+
+          <ul class="reveal-insights">
+            <li><span class="ri-icon">●</span>Sizinki gibi profile sahip 4.200+ misafir hedeflerine ulaştı</li>
+            <li><span class="ri-icon">●</span>Medikal kadromuz program süresince yanınızda</li>
+            <li><span class="ri-icon">●</span>Program sonrası 30/90/180 gün takip dahildir</li>
+          </ul>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta cta-gold" onclick="next(10)"><span class="cta-arrow">Tarih Seçmek İstiyorum <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span></button>
+        <p class="footer-micro">İndirim sadece sonraki adımlarda geçerlidir · Süre dolarsa standart fiyat uygulanır</p>
+      </div>
+    </div>
+
+    <!-- STEP 10: MÜSAİTLİK ARALIK -->
+    <div class="step" data-step="10" data-bg="bg-5">
+      <div class="step-content">
+        <span class="eyebrow">Adım 7 — Tarih Tercihi</span>
+        <h1 class="q">Ne zaman gelmeyi düşünüyorsunuz?</h1>
+        <p class="subtitle">Müsaitlik takvimimize göre size en uygun tarihleri göstereceğiz.</p>
+        <div class="date-chips" data-key="tarih_aralik">
+          <button class="date-chip" data-value="hemen">
+            <div class="ico">🔥</div>
+            <div class="lbl"><strong>Hemen müsaitim</strong><small>Bu hafta veya 7 gün içinde başlamak istiyorum</small></div>
+            <span class="urgency">Acil</span>
+          </button>
+          <button class="date-chip" data-value="bu_ay">
+            <div class="ico">🌿</div>
+            <div class="lbl"><strong>Bu ay içinde</strong><small id="thisMonth">Mayıs sonuna kadar</small></div>
+          </button>
+          <button class="date-chip" data-value="1_2_ay">
+            <div class="ico">🌅</div>
+            <div class="lbl"><strong>1-2 ay sonra</strong><small id="next12Month">Haziran - Temmuz</small></div>
+          </button>
+          <button class="date-chip" data-value="3_6_ay">
+            <div class="ico">🗓️</div>
+            <div class="lbl"><strong>3-6 ay içinde</strong><small id="next36Month">Ağustos - Kasım</small></div>
+          </button>
+          <button class="date-chip" data-value="esnek">
+            <div class="ico">📅</div>
+            <div class="lbl"><strong>Esnek — en uygun olduğunda</strong><small>Uzmanlarımız önersin</small></div>
+          </button>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" id="cta-10" disabled onclick="next(11)">Müsait Tarihleri Gör</button>
+      </div>
+    </div>
+
+    <!-- STEP 11: SPESİFİK TARİH (urgency) -->
+    <div class="step" data-step="11" data-bg="bg-6">
+      <div class="step-content">
+        <span class="eyebrow">Adım 8 — Yerinizi Ayırın</span>
+        <h1 class="q">Size en uygun 3 tarih</h1>
+        <p class="subtitle">Bu tarihler kontenjana göre canlı güncellenir. Yer ayırmak için seçin.</p>
+        <div class="program-cards" id="programCards"></div>
+        <button class="decline-link" onclick="declineDates()">Bu tarihler bana uygun değil — esnek bir tarih bulalım</button>
+      </div>
+      <div class="step-footer">
+        <button class="cta" id="cta-11" disabled onclick="next(12)">Bu Tarih İçin Devam Et</button>
+      </div>
+    </div>
+
+    <!-- STEP 12: TELEFON -->
+    <div class="step" data-step="12" data-bg="bg-2">
+      <div class="step-content">
+        <span class="eyebrow">Adım 9 — Son Detay</span>
+        <h1 class="q">Sizi nasıl arayalım?</h1>
+        <p class="subtitle">Uzmanımız size detayları iletmek ve sorularınızı cevaplamak için arayacak. Numaranız sadece bu görüşme için kullanılır.</p>
+
+        <div class="phone-row">
+          <select class="country-select" id="countrySelect">
+            <option value="+90" selected>🇹🇷 +90</option>
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+49">🇩🇪 +49</option>
+            <option value="+33">🇫🇷 +33</option>
+            <option value="+31">🇳🇱 +31</option>
+            <option value="+971">🇦🇪 +971</option>
+            <option value="+966">🇸🇦 +966</option>
+            <option value="+974">🇶🇦 +974</option>
+            <option value="+965">🇰🇼 +965</option>
+            <option value="+7">🇷🇺 +7</option>
+            <option value="+66">🇹🇭 +66</option>
+          </select>
+          <input type="tel" class="phone-input" id="phoneInput" placeholder="532 123 45 67" inputmode="tel" autocomplete="tel">
+        </div>
+
+        <div class="contact-toggle active" id="wpToggle" onclick="toggleWhatsApp()">
+          <div class="toggle-switch"></div>
+          <div class="toggle-label">
+            <strong>WhatsApp'tan da yazabilirsiniz</strong>
+            <small>Bazen telefon görüşmesi zor olur — yazılı iletişim de açık</small>
+          </div>
+        </div>
+
+        <div class="trust-note">
+          <span class="lock">🔒</span>
+          <span>KVKK kapsamında korunur · Üçüncü taraflarla paylaşılmaz</span>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" id="cta-12" disabled onclick="next(13)">Görüşme Zamanını Seç</button>
+      </div>
+    </div>
+
+    <!-- STEP 13: GÖRÜŞME ZAMANI -->
+    <div class="step" data-step="13" data-bg="bg-7">
+      <div class="step-content">
+        <span class="eyebrow">Son Adım — Görüşme Zamanı</span>
+        <h1 class="q">Sizi ne zaman arayalım?</h1>
+        <p class="subtitle">Uzmanımız müsait olduğunuz zaman arasın — kesintiye uğratmasın.</p>
+        <div class="time-grid" data-key="cagri_zamani">
+          <button class="time-chip urgent" data-value="hemen">
+            <span class="ti-emoji">⚡</span>
+            <strong>Hemen mümkünse</strong>
+            <small>15 dk içinde</small>
+          </button>
+          <button class="time-chip" data-value="bugun_ogle">
+            <span class="ti-emoji">🌅</span>
+            <strong>Bugün öğleden sonra</strong>
+            <small>14:00 - 18:00</small>
+          </button>
+          <button class="time-chip" data-value="bugun_aksam">
+            <span class="ti-emoji">🌇</span>
+            <strong>Bugün akşam</strong>
+            <small>18:00 - 21:00</small>
+          </button>
+          <button class="time-chip" data-value="yarin_sabah">
+            <span class="ti-emoji">☀️</span>
+            <strong>Yarın sabah</strong>
+            <small>09:00 - 12:00</small>
+          </button>
+          <button class="time-chip" data-value="yarin_ogle">
+            <span class="ti-emoji">🌤️</span>
+            <strong>Yarın öğleden sonra</strong>
+            <small>14:00 - 18:00</small>
+          </button>
+          <button class="time-chip" data-value="hafta_sonu">
+            <span class="ti-emoji">🏖️</span>
+            <strong>Hafta sonu</strong>
+            <small>Cumartesi - Pazar</small>
+          </button>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" id="cta-13" disabled onclick="submitFunnel()">Görüşme Talebimi Tamamla</button>
+      </div>
+    </div>
+
+    <!-- STEP 14: THANK YOU -->
+    <div class="step" data-step="14">
+      <div class="step-content thank-stage">
+        <div class="expert-bubble">DA</div>
+        <div class="expert-name">Dr. Aslı Demir</div>
+        <div class="expert-role">Wellness &amp; Detoks Uzmanı · 12 yıl</div>
+        <div class="confirm-tag" id="confirmTag">#TLC-0000</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:24px;color:var(--olive-deep);margin-bottom:8px;line-height:1.25">Harika — yolculuğunuz başladı</h2>
+        <p style="font-size:14px;color:var(--gray-text);max-width:380px;margin:0 auto 24px;line-height:1.55">Dr. Aslı <strong id="callWindow">15 dakika içinde</strong> sizinle iletişime geçecek. Görüşmeye hazır olduğunuzdan emin olun.</p>
+
+        <div class="thank-cta-grid">
+          <a class="cta-line whatsapp" id="whatsappBtn" href="#" target="_blank">
+            <span class="ico">💬</span>
+            <span>WhatsApp'tan hemen yazın</span>
+            <span class="arrow">→</span>
+          </a>
+          <a class="cta-line" href="tel:+902523776310">
+            <span class="ico">📞</span>
+            <span>Sabırsızlanıyorum — şimdi ara<br><small style="color:var(--gray-muted);font-weight:500;font-size:11.5px">0252 377 63 10</small></span>
+            <span class="arrow">→</span>
+          </a>
+          <a class="cta-line" id="calBtn" href="#" onclick="openCal();return false;">
+            <span class="ico">🗓️</span>
+            <span>Kendim takvimde seçeyim</span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+
+        <div style="margin-top:24px;padding:14px 16px;background:var(--cream-warm);border-radius:12px;max-width:380px">
+          <div style="font-size:11px;font-weight:700;color:var(--olive);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">📌 Görüşmeye hazırlık</div>
+          <p style="font-size:12.5px;color:var(--gray-text);line-height:1.5;margin:0">Mevcut sağlık raporlarınız, kullandığınız ilaçlar ve önemli sağlık geçmişiniz görüşme için faydalı olur — el altında bulundurun.</p>
+        </div>
+
+        <p class="footer-micro" style="margin-top:24px">Onayınız WhatsApp ve e-postaya gönderildi · Bu funnel <strong>GrowthER AI</strong> tarafından tasarlandı</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- LIVE TICKER -->
+  <div class="ticker" id="ticker">
+    <span class="dot"></span>
+    <span class="txt" id="tickerText">Mehmet, İstanbul — 2 dk önce Bodrum 7 günlük programı için rezervasyon yaptı</span>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  // === STATE ===
+  var state = {
+    currentStep: 1,
+    totalSteps: 14,
+    answers: {},
+    confirmId: 'TLC-' + Math.floor(100000 + Math.random() * 900000),
+    couponEndTime: Date.now() + 15 * 60 * 1000
+  };
+
+  // === DOM HELPERS ===
+  function $(s) { return document.querySelector(s); }
+  function $$(s) { return Array.prototype.slice.call(document.querySelectorAll(s)); }
+
+  // === STEP NAVIGATION ===
+  window.next = function(target) {
+    if (target < 1 || target > state.totalSteps) return;
+    var curr = $('[data-step="' + state.currentStep + '"]');
+    var nextEl = $('[data-step="' + target + '"]');
+    if (!nextEl) return;
+
+    if (target > state.currentStep) {
+      curr.classList.add('exit');
+      setTimeout(function() { curr.classList.remove('active', 'exit'); }, 300);
+    } else {
+      curr.classList.remove('active');
+    }
+    setTimeout(function() {
+      nextEl.classList.add('active');
+      // Scroll to top of new step
+      nextEl.scrollTop = 0;
+    }, target > state.currentStep ? 120 : 50);
+
+    state.currentStep = target;
+    updateUI();
+
+    // Switch bg
+    var bgClass = nextEl.getAttribute('data-bg');
+    if (bgClass) { var bg = $('#bg'); bg.className = 'bg-layer ' + bgClass + ' active'; }
+
+    // Trigger ticker every few steps
+    if ([3, 6, 10, 12].indexOf(target) !== -1) showTicker();
+
+    // Tracking
+    if (window.GROWTHER_TRACKER && GROWTHER_TRACKER.onStepChange) GROWTHER_TRACKER.onStepChange(target);
+  };
+
+  window.goBack = function() {
+    if (state.currentStep > 1 && state.currentStep < 14) next(state.currentStep - 1);
+  };
+
+  function updateUI() {
+    $('#counter').textContent = state.currentStep + ' / ' + state.totalSteps;
+    var pct = (state.currentStep / state.totalSteps) * 100;
+    $('#progress').style.width = pct + '%';
+    $('#backBtn').classList.toggle('visible', state.currentStep > 1 && state.currentStep < 14);
+  }
+
+  // === OPTION SELECTION ===
+  $$('.options').forEach(function(area) {
+    var key = area.getAttribute('data-key');
+    var isMulti = area.getAttribute('data-multi') === 'true';
+    var step = parseInt(area.closest('.step').getAttribute('data-step'), 10);
+    var ctaBtn = $('#cta-' + step);
+    area.querySelectorAll('.opt').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        if (isMulti) {
+          btn.classList.toggle('selected');
+          var sel = area.querySelectorAll('.opt.selected');
+          state.answers[key] = Array.prototype.map.call(sel, function(b) { return b.getAttribute('data-value'); });
+          if (ctaBtn) ctaBtn.disabled = sel.length === 0;
+        } else {
+          area.querySelectorAll('.opt').forEach(function(b) { b.classList.remove('selected'); });
+          btn.classList.add('selected');
+          state.answers[key] = btn.getAttribute('data-value');
+          if (ctaBtn) ctaBtn.disabled = false;
+        }
+      });
+    });
+  });
+
+  // Date chips
+  $$('.date-chips').forEach(function(area) {
+    var key = area.getAttribute('data-key');
+    var step = parseInt(area.closest('.step').getAttribute('data-step'), 10);
+    var ctaBtn = $('#cta-' + step);
+    area.querySelectorAll('.date-chip').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        area.querySelectorAll('.date-chip').forEach(function(b) { b.classList.remove('selected'); });
+        btn.classList.add('selected');
+        state.answers[key] = btn.getAttribute('data-value');
+        if (ctaBtn) ctaBtn.disabled = false;
+      });
+    });
+  });
+
+  // Time chips
+  $$('.time-grid').forEach(function(area) {
+    var key = area.getAttribute('data-key');
+    var step = parseInt(area.closest('.step').getAttribute('data-step'), 10);
+    var ctaBtn = $('#cta-' + step);
+    area.querySelectorAll('.time-chip').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        area.querySelectorAll('.time-chip').forEach(function(b) { b.classList.remove('selected'); });
+        btn.classList.add('selected');
+        state.answers[key] = btn.getAttribute('data-value');
+        if (ctaBtn) ctaBtn.disabled = false;
+      });
+    });
+  });
+
+  // === PROGRAM CARDS (dynamic) ===
+  function programCards(target) {
+    target.innerHTML = '';
+    var aralik = state.answers.tarih_aralik || 'bu_ay';
+    var today = new Date();
+    var offsets = { hemen: [7, 12, 18], bu_ay: [14, 22, 28], '1_2_ay': [40, 55, 75], '3_6_ay': [95, 130, 165], esnek: [21, 60, 110] };
+    var spotPattern = { hemen: ['🔥', 'hot', 2], bu_ay: ['🔥', 'hot', 3], '1_2_ay': ['⚡', 'warm', 5], '3_6_ay': ['✓', 'cool', 8], esnek: ['✓', 'cool', 6] };
+    var pat = spotPattern[aralik] || spotPattern.bu_ay;
+    var locs = ['Bodrum (Türkbükü)', 'Antalya (Akra)', 'Bodrum (Türkbükü)'];
+    var prog = state.answers.program_label || 'Master Detox';
+    var sure = parseInt(state.answers.sure || '7', 10);
+    var fiyat = priceFor(sure);
+    var fiyatInd = Math.round(fiyat * 0.85);
+    var months = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+
+    offsets[aralik].forEach(function(offset, i) {
+      var start = new Date(today.getTime() + offset * 86400000);
+      var end = new Date(start.getTime() + (sure - 1) * 86400000);
+      var dateRange = start.getDate() + '-' + end.getDate() + ' ' + months[end.getMonth()];
+      var tag = i === 0 ? pat[0] + ' ' + pat[2] + ' yer kaldı' : (i === 1 ? '⚡ ' + (pat[2] + 3) + ' yer kaldı' : '✓ Müsait');
+      var tagClass = i === 0 ? pat[1] : (i === 1 ? 'warm' : 'cool');
+
+      var card = document.createElement('div');
+      card.className = 'program-card';
+      card.setAttribute('data-value', 'date-' + i);
+      card.innerHTML =
+        '<div class="pc-head">' +
+          '<div><div class="pc-date">' + dateRange + '</div><div class="pc-loc">' + locs[i] + ' · ' + prog + '</div></div>' +
+          '<div class="pc-tag ' + tagClass + '">' + tag + '</div>' +
+        '</div>' +
+        '<div class="pc-body">' +
+          '<div class="pc-spots"><strong>' + sure + ' gün</strong> all-inclusive</div>' +
+          '<div class="pc-price">€' + fiyatInd.toLocaleString('tr-TR') + ' <small>· yeni indirimli</small></div>' +
+        '</div>';
+      target.appendChild(card);
+    });
+
+    target.querySelectorAll('.program-card').forEach(function(c) {
+      c.addEventListener('click', function() {
+        target.querySelectorAll('.program-card').forEach(function(b) { b.classList.remove('selected'); });
+        c.classList.add('selected');
+        state.answers.secilen_tarih = c.querySelector('.pc-date').textContent;
+        $('#cta-11').disabled = false;
+      });
+    });
+  }
+
+  window.declineDates = function() {
+    state.answers.secilen_tarih = 'esnek';
+    state.answers.declined_dates = true;
+    next(12);
+  };
+
+  // === PRICE LOGIC ===
+  function priceFor(sure) {
+    var rates = { 4: 1400, 7: 2450, 14: 4800, 21: 7000, '30+': 9800 };
+    return rates[sure] || 2450;
+  }
+  function programFor(answers) {
+    var hedef = answers.hedef || [];
+    if (hedef.indexOf('kilo') !== -1) return { label: 'Weight Loss + Detox', short: 'Weight Loss' };
+    if (hedef.indexOf('kronik') !== -1) return { label: 'Medical Wellness Programı', short: 'Medical Wellness' };
+    if (hedef.indexOf('stres') !== -1 || hedef.indexOf('uyku') !== -1) return { label: 'Mental Reset + Detox', short: 'Mind Reset' };
+    if (hedef.indexOf('reset') !== -1) return { label: 'Master Detox + Green Detox', short: 'Master Detox' };
+    return { label: 'Master Detox', short: 'Master Detox' };
+  }
+  function merkezFor(answers) {
+    var hedef = answers.hedef || [];
+    if (hedef.indexOf('kronik') !== -1) return 'Antalya (Akra)';
+    return 'Bodrum (Türkbükü)';
+  }
+
+  // === PLAN BUILDING ===
+  window.goToPlanBuild = function() {
+    next(8);
+    runLoadingAnimation();
+  };
+
+  function runLoadingAnimation() {
+    var steps = $$('.loading-step');
+    var i = 0;
+    var interval = setInterval(function() {
+      if (i < steps.length) {
+        steps[i].classList.add('shown');
+        if (i > 0) {
+          steps[i-1].classList.remove('shown');
+          steps[i-1].classList.add('done');
+          steps[i-1].querySelector('.ls-icon').textContent = '✓';
+        }
+        i++;
+      } else {
+        clearInterval(interval);
+        steps[steps.length-1].classList.add('done');
+        steps[steps.length-1].querySelector('.ls-icon').textContent = '✓';
+        setTimeout(function() {
+          buildPlanReveal();
+          next(9);
+        }, 700);
+      }
+    }, 700);
+  }
+
+  function buildPlanReveal() {
+    var prog = programFor(state.answers);
+    var merkez = merkezFor(state.answers);
+    var sure = parseInt(state.answers.sure || '7', 10);
+    var sureLabel = sure + ' gün';
+    if (state.answers.sure === '30+') sureLabel = '30+ gün';
+    var fiyat = priceFor(state.answers.sure || 7);
+    var fiyatInd = Math.round(fiyat * 0.85);
+    state.answers.program_label = prog.short;
+    state.answers.fiyat_original = fiyat;
+    state.answers.fiyat_indirimli = fiyatInd;
+    state.answers.merkez = merkez;
+    $('#planTitle').textContent = prog.label;
+    $('#planMerkez').textContent = merkez;
+    $('#planSure').textContent = sureLabel;
+    $('#planProgram').textContent = prog.short;
+    $('#priceOriginal').textContent = '€' + fiyat.toLocaleString('tr-TR');
+    $('#priceCurrent').innerHTML = '€' + fiyatInd.toLocaleString('tr-TR') + ' <small>· tüm her şey dahil</small>';
+  }
+
+  // === COUPON COUNTDOWN ===
+  setInterval(function() {
+    var elt = $('#couponTimer');
+    if (!elt) return;
+    var remaining = state.couponEndTime - Date.now();
+    if (remaining < 0) { elt.textContent = 'Süre doldu'; elt.style.color = 'var(--gray-muted)'; return; }
+    var mins = Math.floor(remaining / 60000);
+    var secs = Math.floor((remaining % 60000) / 1000);
+    elt.textContent = mins + ':' + (secs < 10 ? '0' : '') + secs + ' kaldı';
+  }, 500);
+
+  // === DYNAMIC MONTH LABELS ===
+  (function() {
+    var months = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+    var today = new Date();
+    var thisMonthName = months[today.getMonth()];
+    var nextMonth1 = months[(today.getMonth() + 1) % 12];
+    var nextMonth2 = months[(today.getMonth() + 2) % 12];
+    var nextMonth3 = months[(today.getMonth() + 3) % 12];
+    var nextMonth6 = months[(today.getMonth() + 6) % 12];
+    if ($('#thisMonth')) $('#thisMonth').textContent = thisMonthName + ' sonuna kadar';
+    if ($('#next12Month')) $('#next12Month').textContent = nextMonth1 + ' - ' + nextMonth2;
+    if ($('#next36Month')) $('#next36Month').textContent = nextMonth3 + ' - ' + nextMonth6;
+  })();
+
+  // === DATE-DEPENDENT PROGRAM CARDS TRIGGER ===
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('[data-step="10"] .cta')) {
+      setTimeout(function() {
+        if (state.currentStep === 11) programCards($('#programCards'));
+      }, 200);
+    }
+  }, true);
+
+  // === PHONE INPUT ===
+  var phoneInput = $('#phoneInput');
+  var countrySelect = $('#countrySelect');
+
+  function phoneFormat(val) {
+    var digits = val.replace(/\D/g, '');
+    if (digits.length === 0) return '';
+    if (digits.length <= 3) return digits;
+    if (digits.length <= 6) return digits.slice(0,3) + ' ' + digits.slice(3);
+    if (digits.length <= 8) return digits.slice(0,3) + ' ' + digits.slice(3,6) + ' ' + digits.slice(6);
+    return digits.slice(0,3) + ' ' + digits.slice(3,6) + ' ' + digits.slice(6,8) + ' ' + digits.slice(8,10);
+  }
+
+  function validatePhone() {
+    var raw = phoneInput.value.replace(/\D/g, '');
+    state.answers.phone = countrySelect.value + raw;
+    state.answers.phone_raw = raw;
+    state.answers.phone_country = countrySelect.value;
+    $('#cta-12').disabled = raw.length < 7;
+  }
+
+  phoneInput.addEventListener('input', function() {
+    var pos = phoneInput.selectionStart;
+    var oldLen = phoneInput.value.length;
+    phoneInput.value = phoneFormat(phoneInput.value);
+    var newLen = phoneInput.value.length;
+    phoneInput.setSelectionRange(pos + (newLen - oldLen), pos + (newLen - oldLen));
+    validatePhone();
+  });
+  countrySelect.addEventListener('change', validatePhone);
+
+  // === IP DETECTION (auto country) ===
+  // For now: simulate Turkish detection. In production: fetch ipapi.co/json/
+  // setTimeout simulates async detection
+  setTimeout(function() {
+    // Default already +90; this is where IP detection would override.
+    // Stub: detected as TR
+    state.detectedCountry = 'TR';
+  }, 200);
+
+  // === WHATSAPP TOGGLE ===
+  window.toggleWhatsApp = function() {
+    $('#wpToggle').classList.toggle('active');
+    state.answers.whatsapp_ok = $('#wpToggle').classList.contains('active');
+  };
+  state.answers.whatsapp_ok = true; // default ON
+
+  // === SUBMIT ===
+  window.submitFunnel = function() {
+    var btn = $('#cta-13');
+    btn.disabled = true;
+    btn.textContent = 'Gönderiliyor...';
+    state.answers.submitted_at = new Date().toISOString();
+    state.answers.confirm_id = state.confirmId;
+
+    // Build call-window text
+    var ctimes = {
+      hemen: '15 dakika içinde',
+      bugun_ogle: 'bugün öğleden sonra',
+      bugun_aksam: 'bugün akşam saatlerinde',
+      yarin_sabah: 'yarın sabah',
+      yarin_ogle: 'yarın öğleden sonra',
+      hafta_sonu: 'hafta sonu'
+    };
+    var wnd = ctimes[state.answers.cagri_zamani] || 'kısa sürede';
+    $('#callWindow').textContent = wnd;
+    $('#confirmTag').textContent = '#' + state.confirmId;
+
+    // Build whatsapp link
+    var phone = (state.answers.phone || '+905555555555').replace(/\D/g, '');
+    var msg = encodeURIComponent('Merhaba! TheLifeCo rezervasyon talebim için ' + state.confirmId + ' kodlu görüşmeyi onaylıyorum.');
+    $('#whatsappBtn').href = 'https://wa.me/' + phone + '?text=' + msg;
+
+    // Track to Supabase if available
+    if (window.GROWTHER && window.GROWTHER.supaFetch) {
+      window.GROWTHER.supaFetch('POST', 'funnel_leads', {
+        source: 'thelifeco-funnel',
+        client: 'thelifeco',
+        status: 'completed',
+        answers: JSON.stringify(state.answers),
+        created_at: new Date().toISOString()
+      }).catch(function(){});
+    }
+    if (window.GROWTHER_TRACKER && GROWTHER_TRACKER.onInterested) GROWTHER_TRACKER.onInterested();
+
+    setTimeout(function() { next(14); }, 600);
+  };
+
+  window.openCal = function() {
+    if (window.showCalPopup) showCalPopup('tr');
+    else window.open('https://cal.com/ahmetcagatay/15min', '_blank');
+  };
+
+  // === LIVE TICKER MESSAGES ===
+  var tickerMsgs = [
+    'Mehmet, İstanbul — 2 dk önce Bodrum 7 günlük programı için rezervasyon yaptı',
+    'Selin, Ankara — 5 dk önce Antalya 14 günlük detox için yer ayırttı',
+    'Ahmet, İzmir — 8 dk önce Master Cleanse görüşmesi planladı',
+    'Aylin, Bursa — 12 dk önce 21 günlük longevity programı için kayıt aldı',
+    'Cem, Eskişehir — 4 dk önce Bodrum Mental Reset için bilgi aldı',
+    'Burcu, Antalya — 7 dk önce 4 günlük hızlı detox seçti'
+  ];
+  var tickerIdx = 0;
+  function showTicker() {
+    var t = $('#ticker');
+    $('#tickerText').textContent = tickerMsgs[tickerIdx % tickerMsgs.length];
+    tickerIdx++;
+    t.classList.add('visible');
+    setTimeout(function() { t.classList.remove('visible'); }, 4500);
+  }
+
+  // === TOUCH SWIPE BACK ===
+  var touchX = 0, touchY = 0;
+  document.addEventListener('touchstart', function(e) {
+    touchX = e.changedTouches[0].clientX;
+    touchY = e.changedTouches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - touchX;
+    var dy = e.changedTouches[0].clientY - touchY;
+    if (Math.abs(dx) > 80 && Math.abs(dx) > Math.abs(dy) * 1.6 && dx > 0 && state.currentStep > 1 && state.currentStep < 14) {
+      goBack();
+    }
+  }, { passive: true });
+
+  // === INITIAL UI ===
+  updateUI();
+
+  // Show ticker initially after 5s
+  setTimeout(showTicker, 5000);
+
+})();
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/clarity.js"></script>
+<script src="/lib/cal-popup.js"></script>
+<script src="/lib/tracker.js" data-type="thelifeco-funnel" data-client="thelifeco" data-total-steps="14"></script>
+</body>
+</html>
