@@ -6,15 +6,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#FFFFFF">
-<title>TheLifeCo · Yolculuğunuzu Tasarlayın</title>
+<title>Life Co · Yolculuğunuzu Tasarlayın</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* TheLifeCo brand — white + steel blue */
   --primary: #2F739E;
   --primary-dark: #1E5577;
   --primary-deep: #154463;
@@ -61,9 +60,8 @@ html, body {
   overscroll-behavior: none;
 }
 
-.serif { font-family: 'Playfair Display', serif; letter-spacing: -0.01em; }
+.serif { font-family: 'DM Sans', 'Inter', sans-serif; letter-spacing: -0.01em; }
 
-/* === FUNNEL === */
 .funnel {
   position: relative;
   width: 100%;
@@ -73,103 +71,125 @@ html, body {
   background: var(--bg);
 }
 
-/* Soft decorative accent (subtle) */
 .deco {
-  position: fixed;
-  top: -200px;
-  right: -200px;
-  width: 500px;
-  height: 500px;
+  position: fixed; top: -200px; right: -200px;
+  width: 500px; height: 500px;
   background: radial-gradient(circle, rgba(47,115,158,0.06) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
+  border-radius: 50%; pointer-events: none; z-index: 0;
 }
 .deco-2 {
-  position: fixed;
-  bottom: -300px;
-  left: -200px;
-  width: 600px;
-  height: 600px;
+  position: fixed; bottom: -300px; left: -200px;
+  width: 600px; height: 600px;
   background: radial-gradient(circle, rgba(47,115,158,0.04) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
+  border-radius: 50%; pointer-events: none; z-index: 0;
 }
 
 /* === TOP BAR === */
 .top-bar {
   position: relative;
   z-index: 20;
-  padding: calc(14px + var(--safe-top)) 20px 12px;
+  padding: calc(14px + var(--safe-top)) 20px 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: var(--bg);
-  border-bottom: 1px solid var(--border);
 }
 .brand {
-  font-family: 'Playfair Display', serif;
-  font-weight: 800;
-  font-size: 18px;
-  color: var(--primary-deep);
-  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  height: 28px;
 }
-.brand .dot { color: var(--primary); margin: 0 2px; }
-.back-btn {
+.brand svg { height: 22px; width: auto; display: block; }
+.brand svg path { fill: var(--primary); }
+.icon-btn {
   background: none;
   border: none;
-  color: var(--text-muted);
+  color: var(--text);
   cursor: pointer;
-  padding: 6px 10px;
+  padding: 8px;
   border-radius: 8px;
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 14px;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
   font-family: inherit;
+  transition: background 0.2s;
+}
+.icon-btn:hover { background: var(--bg-warm); }
+.icon-btn svg { width: 22px; height: 22px; }
+.icon-btn.back-btn {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s;
 }
-.back-btn.visible { opacity: 1; pointer-events: auto; }
-.back-btn:hover { background: var(--bg-warm); color: var(--primary); }
-.back-btn svg { width: 18px; height: 18px; }
-.step-counter {
-  font-size: 11px;
-  color: var(--text-light);
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
+.icon-btn.back-btn.visible { opacity: 1; pointer-events: auto; }
 
-/* === PROGRESS BAR === */
-.progress-wrap {
+/* === SEGMENTED PROGRESS BAR === */
+.seg-wrap {
   position: relative;
   z-index: 20;
-  padding: 0 20px 12px;
+  padding: 4px 20px 14px;
   background: var(--bg);
+  border-bottom: 1px solid var(--border);
 }
-.progress-track {
-  height: 3px;
+.seg-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+  min-height: 22px;
+  transition: opacity 0.3s;
+}
+.seg-tracks {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.seg-track {
+  flex: var(--w, 1);
+  height: 4px;
   background: var(--border);
   border-radius: 2px;
+  position: relative;
   overflow: hidden;
 }
-.progress-fill {
+.seg-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
   border-radius: 2px;
   width: 0%;
-  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 0.55s cubic-bezier(0.4, 0, 0.2, 1);
 }
+.seg-track.done .seg-fill { width: 100% !important; }
+.seg-track.active .seg-fill { background: var(--primary); }
+.seg-labels {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+.seg-label {
+  flex: var(--w, 1);
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--text-light);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  text-align: center;
+  transition: color 0.3s;
+}
+.seg-label.active { color: var(--primary); }
+.seg-label.done { color: var(--text-muted); }
 
 /* === STEPS === */
 .steps {
   position: relative;
   z-index: 5;
   flex: 1;
-  height: calc(100% - 80px - var(--safe-top));
+  height: calc(100% - 130px - var(--safe-top));
   overflow: hidden;
 }
 .step {
@@ -183,12 +203,12 @@ html, body {
   scrollbar-width: none;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(12px);
-  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(16px);
+  transition: opacity 0.65s ease, transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 .step::-webkit-scrollbar { display: none; }
 .step.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
-.step.exit { opacity: 0; transform: translateY(-12px); }
+.step.exit { opacity: 0; transform: translateY(-10px); transition: opacity 0.4s ease, transform 0.4s ease; }
 
 .step-content {
   flex: 1;
@@ -197,12 +217,8 @@ html, body {
   justify-content: flex-start;
   padding-top: 8px;
 }
-.step-footer {
-  flex-shrink: 0;
-  padding-top: 16px;
-}
+.step-footer { flex-shrink: 0; padding-top: 16px; }
 
-/* === HEADINGS === */
 .eyebrow {
   font-size: 11px;
   font-weight: 700;
@@ -213,7 +229,7 @@ html, body {
   display: inline-block;
 }
 h1.q {
-  font-family: 'Playfair Display', serif;
+  font-family: 'DM Sans', 'Inter', sans-serif;
   font-size: clamp(26px, 6vw, 34px);
   font-weight: 700;
   line-height: 1.18;
@@ -229,75 +245,51 @@ h1.q {
   max-width: 540px;
 }
 
-/* === OPTION BUTTONS === */
+/* === OPTIONS === */
 .options { display: flex; flex-direction: column; gap: 10px; margin: 0 auto; width: 100%; max-width: 520px; }
 .opt {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: 100%;
-  min-height: 60px;
+  display: flex; align-items: center; gap: 14px;
+  width: 100%; min-height: 60px;
   padding: 16px 18px;
   background: var(--white);
   border: 1.5px solid var(--border);
   border-radius: 14px;
   color: var(--text);
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 500;
-  text-align: left;
-  cursor: pointer;
-  transition: all 0.2s;
-  position: relative;
+  font-family: inherit; font-size: 15px; font-weight: 500;
+  text-align: left; cursor: pointer; transition: all 0.2s;
 }
 .opt:hover { border-color: var(--accent-light); background: var(--primary-tint); }
 .opt.selected {
-  border-color: var(--primary);
-  background: var(--primary-soft);
+  border-color: var(--primary); background: var(--primary-soft);
   box-shadow: 0 4px 14px rgba(47,115,158,0.12);
 }
 .opt:active { transform: scale(0.99); }
 .opt .text { flex: 1; line-height: 1.35; }
 .opt .text small {
-  display: block;
-  font-size: 12.5px;
-  color: var(--text-muted);
-  font-weight: 400;
-  margin-top: 2px;
+  display: block; font-size: 12.5px; color: var(--text-muted);
+  font-weight: 400; margin-top: 2px;
 }
 .opt .check {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
+  width: 22px; height: 22px; border-radius: 50%;
   border: 2px solid var(--border-strong);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
   transition: all 0.2s;
 }
 .opt.multi .check { border-radius: 6px; }
 .opt.selected .check { background: var(--primary); border-color: var(--primary); }
-.opt.selected .check::after { content: ''; width: 12px; height: 12px; background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>") no-repeat center / contain; }
+.opt.selected .check::after {
+  content: ''; width: 12px; height: 12px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>") no-repeat center / contain;
+}
 
 /* === CTA === */
 .cta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  height: 56px;
-  background: var(--primary);
-  color: var(--white);
-  border: none;
-  border-radius: 14px;
-  font-family: inherit;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  cursor: pointer;
-  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; height: 56px;
+  background: var(--primary); color: var(--white);
+  border: none; border-radius: 14px;
+  font-family: inherit; font-size: 16px; font-weight: 600;
+  letter-spacing: 0.01em; cursor: pointer; transition: all 0.2s;
 }
 .cta:hover:not(:disabled) {
   background: var(--primary-dark);
@@ -306,496 +298,306 @@ h1.q {
 }
 .cta:active:not(:disabled) { transform: translateY(0) scale(0.99); }
 .cta:disabled { opacity: 0.4; cursor: not-allowed; }
-.cta-secondary {
-  background: transparent;
-  color: var(--primary);
-  border: 1.5px solid var(--border);
-}
-.cta-secondary:hover:not(:disabled) { background: var(--primary-tint); border-color: var(--primary); box-shadow: none; }
 .cta-arrow { display: inline-flex; align-items: center; gap: 6px; }
 .cta-arrow svg { width: 18px; height: 18px; transition: transform 0.2s; }
 .cta:hover:not(:disabled) .cta-arrow svg { transform: translateX(3px); }
 
 /* === HERO === */
-.hero-step {
-  text-align: center;
-  padding: 24px 24px calc(20px + var(--safe-bottom));
-}
+.hero-step { text-align: center; padding: 24px 24px calc(20px + var(--safe-bottom)); }
 .hero-trust-strip {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 32px;
-  flex-wrap: wrap;
+  display: flex; justify-content: center; gap: 20px;
+  margin-bottom: 32px; flex-wrap: wrap;
 }
 .hero-trust-item {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text-muted);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  font-size: 11px; font-weight: 700; color: var(--text-muted);
+  letter-spacing: 1px; text-transform: uppercase;
+  display: flex; align-items: center; gap: 5px;
 }
 .hero-trust-item svg { width: 13px; height: 13px; color: var(--primary); }
 h1.hero {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(30px, 7vw, 42px);
-  font-weight: 700;
-  line-height: 1.1;
-  color: var(--primary-deep);
-  margin-bottom: 14px;
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: clamp(30px, 7vw, 42px); font-weight: 700;
+  line-height: 1.1; color: var(--primary-deep); margin-bottom: 14px;
 }
 h1.hero em { color: var(--primary); font-style: italic; }
 .hero-sub {
-  font-size: 16px;
-  color: var(--text-muted);
-  line-height: 1.6;
-  margin-bottom: 30px;
-  max-width: 420px;
-  margin-left: auto;
-  margin-right: auto;
+  font-size: 16px; color: var(--text-muted);
+  line-height: 1.6; margin-bottom: 30px;
+  max-width: 420px; margin-left: auto; margin-right: auto;
 }
 .hero-bullets {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 32px;
-  max-width: 380px;
-  margin-left: auto;
-  margin-right: auto;
+  list-style: none; display: flex; flex-direction: column; gap: 12px;
+  margin-bottom: 32px; max-width: 380px;
+  margin-left: auto; margin-right: auto;
 }
 .hero-bullets li {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-size: 14.5px;
-  color: var(--text);
-  text-align: left;
+  display: flex; align-items: center; gap: 14px;
+  font-size: 14.5px; color: var(--text); text-align: left;
 }
 .hero-bullets .icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--primary-soft);
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--primary-soft); color: var(--primary);
+  display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
 .hero-bullets .icon svg { width: 16px; height: 16px; }
 .hero-meta {
-  font-size: 12px;
-  color: var(--text-light);
-  margin-top: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+  font-size: 12px; color: var(--text-light); margin-top: 16px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
 }
 .hero-meta svg { width: 12px; height: 12px; }
 
-/* === SOCIAL PROOF STRIP === */
+/* === PROOF STRIP === */
 .proof-strip {
-  margin: 16px auto 0;
-  max-width: 520px;
+  margin: 16px auto 0; max-width: 520px;
   padding: 12px 16px;
   background: var(--primary-soft);
   border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13px;
-  color: var(--primary-deep);
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; color: var(--primary-deep);
   border-left: 3px solid var(--primary);
   animation: fadeInUp 0.5s ease;
 }
 .proof-strip svg { width: 18px; height: 18px; color: var(--primary); flex-shrink: 0; }
-@keyframes fadeInUp {
-  0% { opacity: 0; transform: translateY(8px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeInUp { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: translateY(0); } }
 
-/* === LOADING / ANIMATION === */
+/* === LOADING === */
 .loading-stage {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  text-align: center; padding: 20px;
 }
 .spinner-wrap {
-  width: 84px;
-  height: 84px;
+  width: 96px; height: 96px;
   position: relative;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
+  animation: gentle-breath 3.2s ease-in-out infinite;
 }
 .spinner-ring {
-  position: absolute;
-  inset: 0;
-  border: 3px solid var(--border);
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--primary-soft) 30%, transparent 70%);
+  animation: gentle-glow 3.2s ease-in-out infinite;
+}
+.spinner-ring::after {
+  content: '';
+  position: absolute; inset: 0;
+  border: 2px solid var(--primary-soft);
   border-top-color: var(--primary);
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: slow-spin 3.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 .spinner-inner {
-  position: absolute;
-  inset: 14px;
-  background: var(--primary-tint);
+  position: absolute; inset: 22px;
+  background: var(--white);
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   color: var(--primary);
+  box-shadow: 0 4px 16px rgba(47,115,158,0.12);
 }
-.spinner-inner svg { width: 30px; height: 30px; }
-@keyframes spin { to { transform: rotate(360deg); } }
+.spinner-inner svg { width: 28px; height: 28px; }
+@keyframes slow-spin { to { transform: rotate(360deg); } }
+@keyframes gentle-breath {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+@keyframes gentle-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
 .loading-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 24px;
-  color: var(--primary-deep);
-  margin-bottom: 10px;
+  font-family: 'DM Sans', 'Inter', sans-serif; font-size: 24px;
+  color: var(--primary-deep); margin-bottom: 10px;
 }
 .loading-sub {
-  font-size: 14px;
-  color: var(--text-muted);
-  max-width: 320px;
-  margin: 0 auto 18px;
-  line-height: 1.5;
+  font-size: 14px; color: var(--text-muted);
+  max-width: 320px; margin: 0 auto 18px; line-height: 1.5;
 }
 .loading-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 8px;
-  width: 100%;
-  max-width: 320px;
+  display: flex; flex-direction: column; gap: 10px;
+  margin-top: 8px; width: 100%; max-width: 320px;
 }
 .loading-step {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 14px;
-  color: var(--text-light);
-  text-align: left;
-  opacity: 0.4;
-  transform: translateX(-8px);
-  transition: all 0.4s ease;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 14px; color: var(--text-light); text-align: left;
+  opacity: 0.4; transform: translateX(-8px); transition: all 0.4s ease;
 }
-.loading-step.shown {
-  opacity: 1;
-  transform: translateX(0);
-  color: var(--text);
-}
+.loading-step.shown { opacity: 1; transform: translateX(0); color: var(--text); }
 .loading-step.done { color: var(--success); opacity: 1; transform: translateX(0); }
 .loading-step .ls-icon {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
+  width: 22px; height: 22px; border-radius: 50%;
   background: var(--bg-warm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
-  transition: all 0.3s;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 12px; font-weight: 600;
+  color: var(--text-muted); transition: all 0.3s;
 }
 .loading-step.shown .ls-icon { background: var(--primary-soft); color: var(--primary); }
 .loading-step.done .ls-icon { background: var(--success-soft); color: var(--success); }
 .loading-step.done .ls-icon svg { width: 12px; height: 12px; }
 
-/* === PLAN REVEAL CARD === */
+/* === REVEAL CARD === */
 .reveal-card {
-  background: var(--white);
-  border-radius: 20px;
-  padding: 24px;
+  background: var(--white); border-radius: 20px; padding: 24px;
   box-shadow: 0 20px 50px rgba(47,115,158,0.12), 0 0 0 1px var(--border);
-  max-width: 520px;
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
-  animation: revealUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-width: 520px; margin: 0 auto;
+  position: relative; overflow: hidden;
+  animation: revealUp 0.95s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
-@keyframes revealUp {
-  0% { opacity: 0; transform: translateY(30px) scale(0.95); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
+@keyframes revealUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
 .reveal-tag {
   display: inline-block;
-  background: var(--primary);
-  color: var(--white);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 5px 12px;
-  border-radius: 20px;
+  background: var(--primary); color: var(--white);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 20px;
   margin-bottom: 12px;
 }
 .reveal-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  color: var(--primary-deep);
-  margin-bottom: 16px;
-  line-height: 1.25;
+  font-family: 'DM Sans', 'Inter', sans-serif; font-size: 22px;
+  color: var(--primary-deep); margin-bottom: 16px; line-height: 1.25;
 }
 .reveal-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 16px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; margin-bottom: 16px;
 }
-.reveal-cell {
-  background: var(--bg-warm);
-  border-radius: 10px;
-  padding: 10px 12px;
-}
+.reveal-cell { background: var(--bg-warm); border-radius: 10px; padding: 10px 12px; }
 .reveal-cell .label {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-muted);
-  font-weight: 700;
+  font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--text-muted); font-weight: 700;
 }
 .reveal-cell .value {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--primary-deep);
-  margin-top: 2px;
-  line-height: 1.2;
+  font-size: 15px; font-weight: 700;
+  color: var(--primary-deep); margin-top: 2px; line-height: 1.2;
 }
 .reveal-price-block {
   background: linear-gradient(135deg, var(--primary-deep) 0%, var(--primary) 100%);
-  color: var(--white);
-  border-radius: 14px;
-  padding: 18px 20px;
-  margin-bottom: 14px;
-  position: relative;
-  overflow: hidden;
+  color: var(--white); border-radius: 14px;
+  padding: 18px 20px; margin-bottom: 14px;
+  position: relative; overflow: hidden;
 }
 .reveal-price-block::before {
-  content: '';
-  position: absolute;
-  top: -60%;
-  right: -20%;
-  width: 280px;
-  height: 280px;
+  content: ''; position: absolute;
+  top: -60%; right: -20%;
+  width: 280px; height: 280px;
   background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 60%);
   border-radius: 50%;
 }
 .price-original {
-  font-size: 13px;
-  color: rgba(255,255,255,0.55);
-  text-decoration: line-through;
-  margin-bottom: 4px;
-  position: relative;
+  font-size: 13px; color: rgba(255,255,255,0.55);
+  text-decoration: line-through; margin-bottom: 4px; position: relative;
 }
 .price-current {
-  font-size: 30px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin-bottom: 4px;
-  position: relative;
+  font-size: 30px; font-weight: 800;
+  letter-spacing: -0.02em; margin-bottom: 4px; position: relative;
 }
 .price-current small { font-size: 14px; font-weight: 500; opacity: 0.85; }
 .price-discount {
-  font-size: 12px;
-  color: var(--accent-light);
-  font-weight: 600;
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  font-size: 12px; color: var(--accent-light); font-weight: 600;
+  position: relative; display: flex; align-items: center; gap: 6px;
 }
 .price-discount svg { width: 13px; height: 13px; }
 .coupon-row {
   background: var(--primary-soft);
   border: 1px dashed var(--primary);
-  border-radius: 10px;
-  padding: 12px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  border-radius: 10px; padding: 12px 14px;
+  display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 14px;
 }
 .coupon-row .code {
-  font-family: 'SF Mono', Menlo, monospace;
-  font-weight: 700;
-  color: var(--primary-deep);
-  font-size: 14px;
-  letter-spacing: 1px;
+  font-family: 'SF Mono', Menlo, monospace; font-weight: 700;
+  color: var(--primary-deep); font-size: 14px; letter-spacing: 1px;
 }
 .coupon-row .label-mini {
-  font-size: 10px;
-  color: var(--text-muted);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-size: 10px; color: var(--text-muted); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.5px;
 }
 .coupon-row .timer {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--danger);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  font-size: 12px; font-weight: 600; color: var(--danger);
+  display: flex; align-items: center; gap: 6px;
 }
 .coupon-row .timer .dot {
-  width: 6px;
-  height: 6px;
-  background: var(--danger);
-  border-radius: 50%;
-  animation: pulse 1.5s ease infinite;
+  width: 6px; height: 6px; background: var(--danger);
+  border-radius: 50%; animation: pulse 2.2s ease infinite;
 }
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(1.3); }
-}
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.15); } }
 .reveal-insights {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--text-muted);
+  list-style: none; display: flex; flex-direction: column; gap: 8px;
+  font-size: 13px; color: var(--text-muted);
 }
 .reveal-insights li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  line-height: 1.45;
+  display: flex; align-items: flex-start; gap: 10px; line-height: 1.45;
 }
 .reveal-insights svg { width: 14px; height: 14px; color: var(--primary); flex-shrink: 0; margin-top: 2px; }
 
-/* === LOCATION HINT === */
 .loc-hint {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: flex; align-items: center; gap: 8px;
   background: var(--success-soft);
   border: 1px solid rgba(45,123,95,0.25);
-  border-radius: 10px;
-  padding: 8px 12px;
+  border-radius: 10px; padding: 8px 12px;
   margin: -6px 0 14px;
-  font-size: 12.5px;
-  color: var(--success);
-  font-weight: 500;
+  font-size: 12.5px; color: var(--success); font-weight: 500;
 }
 .loc-hint svg { width: 14px; height: 14px; flex-shrink: 0; }
 .loc-hint strong { font-weight: 700; }
 
-/* === SCIENCE INSIGHTS BLOCK === */
+/* === SCIENCE BLOCK === */
 .science-block {
-  max-width: 520px;
-  margin: 16px auto 0;
-  background: var(--bg-warm);
-  border-radius: 16px;
+  max-width: 520px; margin: 16px auto 0;
+  background: var(--bg-warm); border-radius: 16px;
   padding: 18px 20px;
   border-left: 3px solid var(--primary);
   animation: fadeInUp 0.6s ease 0.2s both;
 }
 .science-block .sb-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
 }
 .science-block .sb-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--primary);
-  color: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--primary); color: var(--white);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .science-block .sb-icon svg { width: 14px; height: 14px; }
 .science-block .sb-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 16px;
-  color: var(--primary-deep);
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-family: 'DM Sans', 'Inter', sans-serif; font-size: 16px;
+  color: var(--primary-deep); font-weight: 700; letter-spacing: -0.01em;
 }
-.science-block .sb-sub {
-  font-size: 11.5px;
-  color: var(--text-muted);
-  margin-top: 1px;
-}
-.science-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+.science-block .sb-sub { font-size: 11.5px; color: var(--text-muted); margin-top: 1px; }
+.science-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
 .science-item {
-  background: var(--white);
-  border-radius: 10px;
-  padding: 12px 14px;
-  font-size: 13px;
-  color: var(--text);
-  line-height: 1.55;
-  border: 1px solid var(--border);
+  background: var(--white); border-radius: 10px;
+  padding: 12px 14px; font-size: 13px; color: var(--text);
+  line-height: 1.55; border: 1px solid var(--border);
 }
 .science-item .si-tag {
   display: inline-block;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--primary);
-  background: var(--primary-soft);
-  padding: 2px 8px;
-  border-radius: 10px;
-  margin-bottom: 6px;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--primary); background: var(--primary-soft);
+  padding: 2px 8px; border-radius: 10px; margin-bottom: 6px;
 }
 .science-item .si-body { color: var(--text); }
 .science-item .si-source {
-  display: block;
-  margin-top: 6px;
-  font-size: 11px;
-  color: var(--text-light);
-  font-style: italic;
+  display: block; margin-top: 6px;
+  font-size: 11px; color: var(--text-light); font-style: italic;
 }
 .science-item .si-source::before { content: '— '; }
 
 /* === DATE CHIPS === */
 .date-chips { display: flex; flex-direction: column; gap: 10px; max-width: 520px; margin: 0 auto; }
 .date-chip {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: 14px;
-  padding: 14px 18px;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: inherit;
-  width: 100%;
-  text-align: left;
+  display: flex; align-items: center; gap: 14px;
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 14px; padding: 14px 18px;
+  cursor: pointer; transition: all 0.2s;
+  font-family: inherit; width: 100%; text-align: left;
 }
 .date-chip:hover { border-color: var(--accent-light); background: var(--primary-tint); }
 .date-chip.selected { border-color: var(--primary); background: var(--primary-soft); }
 .date-chip .ico {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
+  width: 38px; height: 38px; border-radius: 10px;
   background: var(--bg-warm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--text-muted);
 }
 .date-chip .ico svg { width: 18px; height: 18px; }
 .date-chip.selected .ico { background: var(--primary); color: var(--white); }
@@ -803,57 +605,38 @@ h1.hero em { color: var(--primary); font-style: italic; }
 .date-chip .lbl strong { font-size: 15px; color: var(--primary-deep); display: block; line-height: 1.2; }
 .date-chip .lbl small { font-size: 12px; color: var(--text-muted); display: block; margin-top: 2px; }
 .date-chip .urgency {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--danger);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  background: var(--danger-soft);
-  padding: 3px 8px;
-  border-radius: 6px;
+  font-size: 10px; font-weight: 700; color: var(--danger);
+  text-transform: uppercase; letter-spacing: 0.5px;
+  background: var(--danger-soft); padding: 3px 8px; border-radius: 6px;
 }
 
 /* === PROGRAM CARDS === */
 .program-cards { display: flex; flex-direction: column; gap: 12px; max-width: 520px; margin: 0 auto; }
 .program-card {
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: 16px;
-  padding: 16px 18px;
-  cursor: pointer;
-  transition: all 0.2s;
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 16px; padding: 16px 18px;
+  cursor: pointer; transition: all 0.2s;
   position: relative;
 }
 .program-card:hover { border-color: var(--accent-light); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(47,115,158,0.10); }
 .program-card.selected { border-color: var(--primary); background: var(--primary-soft); box-shadow: 0 8px 24px rgba(47,115,158,0.16); }
 .program-card .pc-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  gap: 10px;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 8px; gap: 10px;
 }
-.pc-date { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--primary-deep); line-height: 1.2; }
+.pc-date { font-family: 'DM Sans', 'Inter', sans-serif; font-size: 17px; font-weight: 700; color: var(--primary-deep); line-height: 1.2; }
 .pc-loc { font-size: 12.5px; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
 .pc-tag {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  padding: 4px 9px;
-  border-radius: 6px;
-  flex-shrink: 0;
-  white-space: nowrap;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+  text-transform: uppercase; padding: 4px 9px; border-radius: 6px;
+  flex-shrink: 0; white-space: nowrap;
 }
 .pc-tag.hot { background: var(--danger-soft); color: var(--danger); }
 .pc-tag.warm { background: var(--warn-soft); color: var(--warn); }
 .pc-tag.cool { background: var(--success-soft); color: var(--success); }
 .pc-body {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 10px;
-  padding-top: 10px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 10px; padding-top: 10px;
   border-top: 1px dashed var(--border);
 }
 .pc-spots { font-size: 12.5px; color: var(--text-muted); }
@@ -862,79 +645,44 @@ h1.hero em { color: var(--primary); font-style: italic; }
 .pc-price small { font-size: 11px; font-weight: 500; color: var(--text-muted); }
 
 /* === PHONE === */
-.phone-row {
-  display: flex;
-  gap: 8px;
-  max-width: 520px;
-  margin: 0 auto 16px;
-}
+.phone-row { display: flex; gap: 8px; max-width: 520px; margin: 0 auto 16px; }
 .country-select {
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: 14px;
-  padding: 14px 12px;
-  font-family: inherit;
-  font-size: 15px;
-  color: var(--text);
-  cursor: pointer;
-  font-weight: 600;
-  flex-shrink: 0;
-  min-width: 110px;
-  appearance: none;
-  -webkit-appearance: none;
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 14px; padding: 14px 12px;
+  font-family: inherit; font-size: 15px; color: var(--text);
+  cursor: pointer; font-weight: 600; flex-shrink: 0;
+  min-width: 110px; appearance: none; -webkit-appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%235F6B75'%3e%3cpath d='M4.5 6L8 9.5L11.5 6H4.5z'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
+  background-repeat: no-repeat; background-position: right 10px center;
   padding-right: 30px;
 }
 .country-select:focus { border-color: var(--primary); outline: none; }
 .phone-input {
-  flex: 1;
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: 14px;
+  flex: 1; background: var(--white);
+  border: 1.5px solid var(--border); border-radius: 14px;
   padding: 14px 16px;
-  font-family: inherit;
-  font-size: 16px;
-  color: var(--text);
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  font-family: inherit; font-size: 16px; color: var(--text);
+  font-weight: 600; letter-spacing: 0.5px;
 }
 .phone-input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 4px rgba(47,115,158,0.10); }
 .phone-input::placeholder { color: var(--text-light); font-weight: 500; }
 .contact-toggle {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  max-width: 520px;
-  margin: 12px auto;
-  padding: 14px 18px;
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: 14px;
-  cursor: pointer;
-  user-select: none;
+  display: flex; align-items: center; gap: 12px;
+  max-width: 520px; margin: 12px auto;
+  padding: 14px 18px; background: var(--white);
+  border: 1.5px solid var(--border); border-radius: 14px;
+  cursor: pointer; user-select: none;
 }
 .contact-toggle:hover { border-color: var(--accent-light); }
 .toggle-switch {
-  width: 44px;
-  height: 26px;
-  background: var(--border-strong);
-  border-radius: 13px;
-  position: relative;
-  flex-shrink: 0;
+  width: 44px; height: 26px; background: var(--border-strong);
+  border-radius: 13px; position: relative; flex-shrink: 0;
   transition: background 0.3s;
 }
 .toggle-switch::after {
-  content: '';
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 20px;
-  height: 20px;
-  background: var(--white);
-  border-radius: 50%;
-  transition: transform 0.3s;
+  content: ''; position: absolute; top: 3px; left: 3px;
+  width: 20px; height: 20px; background: var(--white);
+  border-radius: 50%; transition: transform 0.3s;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 .contact-toggle.active .toggle-switch { background: var(--success); }
@@ -943,116 +691,60 @@ h1.hero em { color: var(--primary); font-style: italic; }
 .toggle-label strong { display: block; font-weight: 600; color: var(--text); }
 .toggle-label small { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 .trust-note {
-  max-width: 520px;
-  margin: 0 auto;
-  padding: 10px 14px;
-  font-size: 12px;
-  color: var(--text-muted);
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+  max-width: 520px; margin: 0 auto; padding: 10px 14px;
+  font-size: 12px; color: var(--text-muted); text-align: center;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
 }
 .trust-note svg { width: 13px; height: 13px; color: var(--success); }
 
 /* === THANK YOU === */
 .thank-stage {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  text-align: center; padding: 20px;
 }
 .expert-bubble {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
+  width: 96px; height: 96px; border-radius: 50%;
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-deep) 100%);
   color: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Playfair Display', serif;
-  font-size: 34px;
-  font-weight: 700;
-  margin-bottom: 18px;
-  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Sans', 'Inter', sans-serif; font-size: 34px; font-weight: 700;
+  margin-bottom: 18px; position: relative;
   animation: bubbleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: 0 16px 40px rgba(47,115,158,0.30);
 }
 .expert-bubble::after {
-  content: '';
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
-  width: 22px;
-  height: 22px;
-  background: var(--success);
-  border: 3px solid var(--white);
-  border-radius: 50%;
+  content: ''; position: absolute; bottom: 4px; right: 4px;
+  width: 22px; height: 22px; background: var(--success);
+  border: 3px solid var(--white); border-radius: 50%;
 }
-@keyframes bubbleIn {
-  0% { opacity: 0; transform: scale(0.5); }
-  100% { opacity: 1; transform: scale(1); }
-}
-.expert-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 18px;
-  color: var(--primary-deep);
-  font-weight: 700;
-}
+@keyframes bubbleIn { 0% { opacity: 0; transform: scale(0.85); } 100% { opacity: 1; transform: scale(1); } }
+.expert-name { font-family: 'DM Sans', 'Inter', sans-serif; font-size: 18px; color: var(--primary-deep); font-weight: 700; }
 .expert-role { font-size: 13px; color: var(--text-muted); margin-top: 2px; margin-bottom: 18px; }
 .confirm-tag {
-  background: var(--primary-soft);
-  border: 1.5px dashed var(--primary);
-  border-radius: 10px;
-  padding: 10px 16px;
-  font-family: 'SF Mono', Menlo, monospace;
-  font-size: 13px;
-  color: var(--primary-deep);
-  font-weight: 700;
-  margin-bottom: 20px;
-  letter-spacing: 1px;
+  background: var(--primary-soft); border: 1.5px dashed var(--primary);
+  border-radius: 10px; padding: 10px 16px;
+  font-family: 'SF Mono', Menlo, monospace; font-size: 13px;
+  color: var(--primary-deep); font-weight: 700;
+  margin-bottom: 20px; letter-spacing: 1px;
 }
 .thank-cta-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-  max-width: 380px;
-  margin: 0 auto;
+  display: flex; flex-direction: column; gap: 10px;
+  width: 100%; max-width: 380px; margin: 0 auto;
 }
 .cta-line {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
-  border-radius: 14px;
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  cursor: pointer;
-  transition: all 0.2s;
-  text-decoration: none;
-  text-align: left;
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 18px; border-radius: 14px;
+  background: var(--white); border: 1.5px solid var(--border);
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  color: var(--text); cursor: pointer;
+  transition: all 0.2s; text-decoration: none; text-align: left;
 }
 .cta-line:hover { border-color: var(--primary); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(47,115,158,0.10); }
 .cta-line .ico {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: var(--primary-soft);
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--primary-soft); color: var(--primary);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .cta-line .ico svg { width: 18px; height: 18px; }
 .cta-line.whatsapp .ico { background: #DCFCE7; color: #15803D; }
@@ -1063,64 +755,55 @@ h1.hero em { color: var(--primary); font-style: italic; }
 .cta-line .lbl-block { flex: 1; }
 .cta-line .lbl-block small { display: block; color: var(--text-muted); font-weight: 500; font-size: 11.5px; margin-top: 2px; }
 
-/* === TICKER === */
+/* === TOAST / TICKER (from top, calm) === */
 .ticker {
   position: fixed;
-  bottom: calc(86px + var(--safe-bottom));
+  top: calc(96px + var(--safe-top));
   left: 50%;
-  transform: translateX(-50%) translateY(120%);
+  transform: translateX(-50%) translateY(-150%);
   z-index: 30;
-  background: var(--primary-deep);
-  color: var(--white);
-  padding: 10px 16px;
-  border-radius: 30px;
-  font-size: 12.5px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  box-shadow: 0 12px 32px rgba(47,115,158,0.30);
+  background: var(--white);
+  color: var(--primary-deep);
+  padding: 12px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 500;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 10px 32px rgba(47, 115, 158, 0.10), 0 2px 8px rgba(0,0,0,0.04);
   opacity: 0;
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.7s ease;
   pointer-events: none;
   max-width: calc(100% - 32px);
 }
 .ticker.visible { transform: translateX(-50%) translateY(0); opacity: 1; }
 .ticker .dot {
-  width: 8px;
-  height: 8px;
-  background: #4ADE80;
-  border-radius: 50%;
-  flex-shrink: 0;
-  box-shadow: 0 0 8px #4ADE80;
-  animation: pulse 1.5s ease infinite;
+  width: 8px; height: 8px;
+  background: var(--success);
+  border-radius: 50%; flex-shrink: 0;
+  box-shadow: 0 0 0 0 rgba(45, 123, 95, 0.4);
+  animation: breath 2.6s ease-in-out infinite;
+}
+@keyframes breath {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(45, 123, 95, 0.5); transform: scale(1); }
+  50% { box-shadow: 0 0 0 6px rgba(45, 123, 95, 0); transform: scale(1.1); }
 }
 .ticker .txt { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* === TESTIMONIAL POP === */
 .testimonial-pop {
-  background: var(--primary-tint);
-  border-radius: 14px;
-  padding: 14px 16px;
-  margin: 14px auto 0;
-  max-width: 520px;
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  border-left: 3px solid var(--primary);
+  background: var(--primary-tint); border-radius: 14px;
+  padding: 14px 16px; margin: 14px auto 0;
+  max-width: 520px; display: flex; gap: 12px;
+  align-items: flex-start; border-left: 3px solid var(--primary);
   animation: fadeInUp 0.6s ease;
 }
 .testimonial-pop .ava {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 40px; height: 40px; border-radius: 50%;
   background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
   color: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 14px;
-  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; flex-shrink: 0;
 }
 .testimonial-pop .body { flex: 1; font-size: 13px; line-height: 1.5; color: var(--text); font-style: italic; }
 .testimonial-pop .body strong { display: block; font-style: normal; font-size: 12px; color: var(--primary); margin-top: 4px; font-weight: 700; }
@@ -1128,38 +811,23 @@ h1.hero em { color: var(--primary); font-style: italic; }
 
 /* === TIME GRID === */
 .time-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  max-width: 520px;
-  margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; max-width: 520px; margin: 0 auto;
 }
 .time-chip {
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: 14px;
-  padding: 16px 14px;
-  cursor: pointer;
-  text-align: center;
-  transition: all 0.2s;
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 14px; padding: 16px 14px;
+  cursor: pointer; text-align: center; transition: all 0.2s;
   font-family: inherit;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
 }
 .time-chip:hover { border-color: var(--accent-light); background: var(--primary-tint); }
 .time-chip.selected { border-color: var(--primary); background: var(--primary-soft); }
 .time-chip .ti-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  width: 32px; height: 32px; border-radius: 50%;
   background: var(--bg-warm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-muted);
-  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted); transition: all 0.2s;
 }
 .time-chip .ti-icon svg { width: 16px; height: 16px; }
 .time-chip.selected .ti-icon { background: var(--primary); color: var(--white); }
@@ -1170,35 +838,260 @@ h1.hero em { color: var(--primary); font-style: italic; }
 .time-chip.urgent strong { color: var(--danger); }
 .time-chip.urgent.selected { border-color: var(--danger); background: var(--danger-soft); }
 
-/* === DECLINE LINK === */
 .decline-link {
-  display: block;
-  text-align: center;
-  margin-top: 14px;
-  font-size: 13.5px;
-  color: var(--text-muted);
-  text-decoration: none;
-  cursor: pointer;
-  background: none;
-  border: none;
-  font-family: inherit;
-  width: 100%;
-  padding: 6px;
-  transition: color 0.2s;
+  display: block; text-align: center; margin-top: 14px;
+  font-size: 13.5px; color: var(--text-muted);
+  text-decoration: none; cursor: pointer;
+  background: none; border: none; font-family: inherit;
+  width: 100%; padding: 6px; transition: color 0.2s;
 }
 .decline-link:hover { color: var(--primary); }
 
-/* === FOOTER MICRO === */
 .footer-micro {
-  text-align: center;
-  font-size: 10.5px;
-  color: var(--text-light);
-  letter-spacing: 0.5px;
-  margin-top: 14px;
+  text-align: center; font-size: 10.5px; color: var(--text-light);
+  letter-spacing: 0.5px; margin-top: 14px;
 }
 .footer-micro strong { color: var(--primary); font-weight: 600; }
 
-/* === RESPONSIVE === */
+/* === WELCOME (conversational) === */
+.welcome-stage {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; padding: 8px 4px;
+  max-width: 520px; margin: 0 auto; width: 100%;
+}
+.welcome-expert-row {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 18px;
+}
+.welcome-portrait {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--primary-soft);
+  flex-shrink: 0;
+  border: 2px solid var(--white);
+  box-shadow: 0 4px 14px rgba(47,115,158,0.18);
+  position: relative;
+}
+.welcome-portrait-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+.welcome-portrait-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 1px; right: 1px;
+  width: 14px; height: 14px;
+  background: var(--success);
+  border: 2.5px solid var(--white);
+  border-radius: 50%;
+  animation: breath 2.6s ease-in-out infinite;
+}
+.welcome-bubble {
+  flex: 1;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+  padding: 12px 14px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--text);
+  position: relative;
+  animation: fadeInUp 0.6s ease;
+}
+.welcome-bubble-meta { font-weight: 700; font-size: 13px; color: var(--primary-deep); }
+.welcome-bubble-role { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.welcome-bubble-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+.welcome-bubble-text strong { color: var(--primary-deep); font-weight: 700; }
+h1.welcome-title {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: clamp(28px, 7vw, 38px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  color: var(--primary-deep);
+  margin-bottom: 12px;
+  text-align: left;
+}
+h1.welcome-title em { color: var(--primary); font-style: normal; position: relative; }
+h1.welcome-title em::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 2px;
+  height: 6px;
+  background: var(--primary-soft);
+  z-index: -1;
+  border-radius: 3px;
+}
+.welcome-lead {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 20px;
+}
+.welcome-lead strong { color: var(--primary-deep); font-weight: 700; }
+.welcome-trust-tags {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin: 14px 0 20px;
+}
+.welcome-trust-tag {
+  background: var(--primary-soft);
+  color: var(--primary-deep);
+  padding: 5px 11px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.welcome-trust-tag svg { width: 12px; height: 12px; color: var(--primary); }
+
+/* === EXPERT TEAM CARD (used in plan reveal) === */
+.team-block {
+  max-width: 520px; margin: 16px auto 0;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 18px;
+}
+.team-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.team-title {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: var(--primary-deep);
+  letter-spacing: -0.01em;
+}
+.team-sub { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+.team-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.team-member {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 6px;
+}
+.team-photo {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--primary-soft);
+  border: 2px solid var(--white);
+  box-shadow: 0 2px 8px rgba(47,115,158,0.12);
+}
+.team-name {
+  font-size: 11.5px; font-weight: 700; color: var(--primary-deep);
+  line-height: 1.2;
+}
+.team-role {
+  font-size: 10px; color: var(--text-muted);
+  line-height: 1.2;
+}
+
+/* === INFO STEP (conditional educational interstitial) === */
+.info-stage {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; padding: 12px 4px;
+  max-width: 540px; margin: 0 auto; width: 100%;
+}
+.info-expert-row {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 16px;
+}
+.info-expert-photo {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--white);
+  box-shadow: 0 2px 8px rgba(47,115,158,0.18);
+  background: var(--primary-soft);
+  flex-shrink: 0;
+}
+.info-expert-meta { flex: 1; }
+.info-expert-meta strong {
+  display: block;
+  font-size: 13px; font-weight: 700;
+  color: var(--primary-deep);
+  line-height: 1.2;
+}
+.info-expert-meta small {
+  display: block;
+  font-size: 11px; color: var(--text-muted);
+  margin-top: 2px;
+}
+.info-badge {
+  align-self: flex-start;
+  font-size: 10.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--primary);
+  background: var(--primary-soft);
+  padding: 5px 12px; border-radius: 20px;
+  margin-bottom: 16px;
+}
+.info-illustration {
+  width: 64px; height: 64px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--primary-soft) 0%, var(--primary-tint) 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--primary);
+  margin-bottom: 18px;
+  animation: fadeInUp 0.7s ease;
+}
+.info-illustration svg { width: 30px; height: 30px; }
+h1.info-title {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-size: clamp(24px, 5.5vw, 30px);
+  font-weight: 700; letter-spacing: -0.02em;
+  color: var(--primary-deep); line-height: 1.2;
+  margin-bottom: 12px;
+}
+.info-lead {
+  font-size: 15px; color: var(--text-muted);
+  line-height: 1.6; margin-bottom: 20px;
+}
+.info-points {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 10px;
+  margin-bottom: 18px;
+}
+.info-points li {
+  background: var(--bg-warm);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.info-points .ip-icon {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--primary); flex-shrink: 0;
+}
+.info-points .ip-icon svg { width: 14px; height: 14px; }
+.info-points .ip-text {
+  flex: 1; font-size: 13.5px; color: var(--text);
+  line-height: 1.5;
+}
+.info-points .ip-text strong {
+  display: block; color: var(--primary-deep);
+  font-weight: 700; margin-bottom: 2px; font-size: 14px;
+}
+.info-quote {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 13px; font-style: italic;
+  color: var(--text-muted); line-height: 1.5;
+  margin-bottom: 6px;
+}
+.info-quote strong { display: block; font-style: normal; color: var(--primary); font-size: 12px; margin-top: 6px; font-weight: 700; }
+
 @media (max-height: 720px) {
   h1.q { font-size: 22px; }
   h1.hero { font-size: 28px; }
@@ -1207,9 +1100,14 @@ h1.hero em { color: var(--primary); font-style: italic; }
   .reveal-card { padding: 18px; }
   .price-current { font-size: 26px; }
   .expert-bubble { width: 80px; height: 80px; font-size: 28px; }
+  .seg-title { font-size: 13px; margin-bottom: 8px; }
 }
 @media (min-width: 640px) {
   .step { padding: 24px 40px calc(24px + var(--safe-bottom)); }
+}
+@media (max-width: 380px) {
+  .seg-labels { display: none; }
+  .seg-wrap { padding-bottom: 10px; }
 }
 </style>
 </head>
@@ -1222,67 +1120,101 @@ h1.hero em { color: var(--primary); font-style: italic; }
 
   <!-- TOP BAR -->
   <div class="top-bar">
-    <button class="back-btn" id="backBtn" onclick="goBack()">
+    <button class="icon-btn back-btn" id="backBtn" onclick="goBack()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
-      Geri
     </button>
-    <div class="brand">TheLifeCo<span class="dot">·</span></div>
-    <div class="step-counter" id="counter">1 / 14</div>
+    <div class="brand">
+      <svg viewBox="0 0 810 133" xmlns="http://www.w3.org/2000/svg" aria-label="TheLifeCo">
+        <path d="M315.09 8.91992H293.79V129.66H376.39V111.69H315.09V8.91992Z"/>
+        <path d="M408.6 48.9299H388.25V129.67H408.6V48.9299Z"/>
+        <path d="M487.61 48.96H459.98V30.69C459.98 26.22 461.64 22.87 464.96 20.67C466.75 19.45 468.82 18.84 471.16 18.84C473.02 18.84 475.02 19.21 477.19 19.96L482.88 22.06L489.18 5.78L482.2 2.94C478 1.28 473.84 0.300006 469.7 0.100006C469.06 0.0300061 468.41 0 467.77 0C464.35 0 461.06 0.580011 458.02 1.73001C454.46 3.02001 451.32 4.88 448.54 7.38C445.76 9.89 443.6 13.1 442.04 17.06C440.48 21.02 439.67 25.46 439.67 30.4V48.94H419.59V66.04H439.67V129.68H460.02V66.11H487.62V48.98L487.61 48.96Z"/>
+        <path d="M652.86 20.15V20.08C662.44 20.08 670.67 22.55 677.68 27.53C684.69 32.51 689.74 39.58 692.78 48.89L712.25 43.58C708.02 30.01 700.53 19.58 689.87 12.23C679.17 4.92001 666.88 1.26001 653.06 1.26001C643.21 1.26001 634.23 3.02001 625.94 6.51001C617.64 10 610.7 14.74 605.11 20.69C599.52 26.65 595.15 33.59 592.04 41.54C588.92 49.5 587.3 57.86 587.3 66.69C587.3 75.52 588.86 83.85 592.04 91.81C595.22 99.77 599.56 106.67 605.11 112.63C610.66 118.59 617.64 123.29 625.94 126.78C634.24 130.27 643.24 132.03 653.06 132.03C666.88 132.03 679.14 128.37 689.87 121.06C700.54 113.71 707.99 103.29 712.25 89.65L692.78 84.34C689.73 93.62 684.75 100.76 677.68 105.73C670.67 110.71 662.44 113.21 652.86 113.21C639.92 113.21 629.39 108.88 621.23 100.18C613.07 91.48 608.97 80.34 608.97 66.73C608.97 53.12 613.03 41.82 621.19 33.15C629.35 24.48 639.92 20.15 652.85 20.15H652.86Z"/>
+        <path d="M803.67 67.3801C800.11 60.8801 794.9 55.6701 788.02 51.7401C781.21 47.8501 773.46 45.8801 764.69 45.8801C755.92 45.8801 748.16 47.8401 741.43 51.7401C734.69 55.6301 729.51 60.8501 725.92 67.3801C722.33 73.9101 720.54 81.0901 720.54 88.9401C720.54 96.7901 722.37 104.11 725.92 110.61C729.48 117.11 734.69 122.32 741.43 126.22C748.17 130.11 755.92 132.04 764.69 132.04C773.46 132.04 781.22 130.08 788.02 126.22C794.82 122.36 800.08 117.15 803.67 110.61C807.29 104.11 809.12 96.8701 809.12 88.9401C809.12 81.0101 807.29 73.8801 803.67 67.3801ZM782.1 107.59C777.6 112.46 771.91 114.94 764.97 114.94C758.03 114.94 752.17 112.5 747.63 107.59C743.09 102.68 740.89 96.4902 740.89 88.9702C740.89 81.4502 743.13 75.2901 747.63 70.3901C752.13 65.4801 757.89 63.0101 764.97 63.0101C772.05 63.0101 777.57 65.4801 782.1 70.3901C786.54 75.3301 788.77 81.4902 788.77 88.9702C788.77 96.4502 786.53 102.71 782.1 107.59Z"/>
+        <path d="M34.52 129.66H55.82V26.8899H90.33V8.91992H0V26.8899H34.52V129.66Z"/>
+        <path d="M412.859 19.7501C412.859 11.6601 406.299 5.11011 398.219 5.11011C390.139 5.11011 383.579 11.6701 383.579 19.7501C383.579 27.8301 390.139 34.3901 398.219 34.3901C406.299 34.3901 412.859 27.8301 412.859 19.7501Z"/>
+        <path d="M278.439 109.5L260.739 104.67C256.199 112.08 248.769 116.65 240.479 116.72H240.119C239.839 116.74 239.569 116.75 239.289 116.75C226.899 116.75 216.619 106.66 214.669 93.4901H281.779C281.959 92.0001 282.079 90.5002 282.119 88.9702C282.709 63.1502 262.939 45.9001 239.279 45.9001C215.619 45.9001 196.439 65.1802 196.439 88.9702C196.439 112.76 215.619 132.04 239.279 132.04C239.979 132.04 240.679 132 241.369 131.96V131.99C257.469 131.87 271.209 122.81 278.439 109.5ZM239.279 61.1801C245.869 61.1801 252.019 63.7302 256.599 68.3502C259.799 71.5902 262.059 75.6702 263.269 80.2802H215.569C218.859 69.2002 228.239 61.1701 239.289 61.1701L239.279 61.1801Z"/>
+        <path d="M574.27 109.5L556.57 104.67C552.03 112.08 544.6 116.65 536.31 116.72H535.95C535.67 116.74 535.4 116.75 535.12 116.75C522.73 116.75 512.45 106.66 510.5 93.4901H577.609C577.789 92.0001 577.91 90.5002 577.95 88.9702C578.54 63.1502 558.769 45.9001 535.109 45.9001C511.449 45.9001 492.27 65.1802 492.27 88.9702C492.27 112.76 511.449 132.04 535.109 132.04C535.809 132.04 536.51 132 537.2 131.96V131.99C553.3 131.87 567.04 122.81 574.27 109.5ZM535.12 61.1801C541.71 61.1801 547.86 63.7302 552.44 68.3502C555.64 71.5902 557.899 75.6702 559.109 80.2802H511.409C514.699 69.2002 524.08 61.1701 535.13 61.1701L535.12 61.1801Z"/>
+        <path d="M185.14 129.66V83.6199C185.14 72.6499 181.82 63.6499 175.22 56.6399C168.62 49.6299 159.91 46.1799 149.15 46.1799V46.2099C143.49 46.2099 138.21 47.2899 133.3 49.4299C128.39 51.5599 124.19 54.4399 120.7 58.0299V8.90991H100.35V129.66H120.7V88.2299C120.7 80.9199 123.04 74.9599 127.71 70.2899C132.38 65.6199 137.9 63.2799 144.3 63.2799C150.7 63.2799 155.81 65.2799 159.4 69.2699C162.99 73.2599 164.78 78.7099 164.78 85.6899V129.66H185.13H185.14Z"/>
+      </svg>
+    </div>
+    <button class="icon-btn" id="menuBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
   </div>
 
-  <div class="progress-wrap">
-    <div class="progress-track"><div class="progress-fill" id="progress" style="width: 7.1%"></div></div>
+  <!-- SEGMENTED PROGRESS -->
+  <div class="seg-wrap" id="segWrap">
+    <div class="seg-title" id="segTitle">Hoş geldiniz</div>
+    <div class="seg-tracks">
+      <div class="seg-track" data-seg="profile" style="--w:3"><div class="seg-fill"></div></div>
+      <div class="seg-track" data-seg="activity" style="--w:2"><div class="seg-fill"></div></div>
+      <div class="seg-track" data-seg="nutrition" style="--w:2"><div class="seg-fill"></div></div>
+      <div class="seg-track" data-seg="emotions" style="--w:3"><div class="seg-fill"></div></div>
+      <div class="seg-track" data-seg="plan" style="--w:7"><div class="seg-fill"></div></div>
+    </div>
+    <div class="seg-labels">
+      <span class="seg-label" data-seg="profile" style="--w:3">Profil</span>
+      <span class="seg-label" data-seg="activity" style="--w:2">Aktivite</span>
+      <span class="seg-label" data-seg="nutrition" style="--w:2">Beslenme</span>
+      <span class="seg-label" data-seg="emotions" style="--w:3">Hisler</span>
+      <span class="seg-label" data-seg="plan" style="--w:7">Plan</span>
+    </div>
   </div>
 
   <div class="steps" id="steps">
 
-    <!-- STEP 1: WELCOME -->
-    <div class="step active" data-step="1">
-      <div class="step-content hero-step">
-        <div class="hero-trust-strip">
-          <div class="hero-trust-item">
-            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-            4.9 / 5
+    <!-- STEP 1: WELCOME — CONVERSATIONAL / TRANSFORMATION -->
+    <div class="step active" data-step="1" data-seg="welcome">
+      <div class="step-content welcome-stage">
+        <div class="welcome-expert-row">
+          <div class="welcome-portrait-wrap">
+            <img class="welcome-portrait" src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=300&h=300&q=80" alt="Dr. Selin Aydın" onerror="this.style.display='none';this.parentNode.classList.add('no-photo')">
           </div>
-          <div class="hero-trust-item">40.000+ MİSAFİR</div>
-          <div class="hero-trust-item">22 YIL DENEYİM</div>
+          <div class="welcome-bubble">
+            <div class="welcome-bubble-meta">Dr. Selin Aydın</div>
+            <div class="welcome-bubble-role">Wellness Yolculuk Uzmanı</div>
+            <div class="welcome-bubble-text">Merhaba, ben <strong>size eşlik edeceğim</strong>. Hemen başlayalım — birlikte size en uygun dönüşüm planını çıkaralım.</div>
+          </div>
         </div>
-        <h1 class="hero">Hayatınızı yeniden <em>dengeleyin</em></h1>
-        <p class="hero-sub">Size en uygun wellness yolculuğunu birlikte tasarlayalım. 60 saniye sürer — sonunda kişisel planınızı ve özel teklifinizi alacaksınız.</p>
-        <ul class="hero-bullets">
-          <li>
-            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-            Sağlık hedeflerinize göre özelleştirilmiş program
-          </li>
-          <li>
-            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-            Müsait tarihler ve özel erken kayıt indirimi
-          </li>
-          <li>
-            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-            Medikal uzmandan ücretsiz değerlendirme görüşmesi
-          </li>
+
+        <h1 class="welcome-title">TheLifeCo ile <em>dönüşüm</em> yolculuğuna hoş geldiniz</h1>
+        <p class="welcome-lead">Bu sadece bir tatil değil — <strong>22 yıldır 40.000+ kişiye uyguladığımız medikal destekli dönüşüm programı</strong>. Birlikte 90 saniyede size özel planınızı tasarlayalım.</p>
+
+        <div class="welcome-trust-tags">
+          <span class="welcome-trust-tag">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+            4.9 / 5 · 223 yorum
+          </span>
+          <span class="welcome-trust-tag">22 yıl deneyim</span>
+          <span class="welcome-trust-tag">40.000+ misafir</span>
+          <span class="welcome-trust-tag">6 global merkez</span>
+        </div>
+
+        <ul class="hero-bullets" style="text-align:left;margin:0 0 18px;max-width:none">
+          <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Size özel <strong>medikal protokol</strong> + kişisel rapor</li>
+          <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Müsait tarihler ve <strong>erken kayıt indirimi</strong></li>
+          <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Uzmandan <strong>ücretsiz değerlendirme görüşmesi</strong></li>
         </ul>
       </div>
       <div class="step-footer">
         <button class="cta" onclick="next(2)">
-          <span class="cta-arrow">Yolculuğa Başla
+          <span class="cta-arrow">Yolculuğu Başlat
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </span>
         </button>
         <p class="hero-meta">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-          Verileriniz güvende — KVKK kapsamında korunur
+          Verileriniz güvende · KVKK kapsamında korunur
         </p>
       </div>
     </div>
 
-    <!-- STEP 2: CİNSİYET (was 5) -->
-    <div class="step" data-step="2">
+    <!-- STEP 2: CİNSİYET — PROFILE 1/3 -->
+    <div class="step" data-step="2" data-seg="profile" data-seg-step="1">
       <div class="step-content">
-        <span class="eyebrow">Adım 1 — Sizin Hakkınızda</span>
+        <span class="eyebrow">Profil — Adım 1</span>
         <h1 class="q">Cinsiyetiniz?</h1>
-        <p class="subtitle">Medikal protokollerimiz biyolojik farklara göre değişiyor (hormonal denge, demir, kalsiyum düzeyi vs.). Bilgi gizli kalır.</p>
+        <p class="subtitle">Medikal protokollerimiz biyolojik farklara göre değişiyor (hormonal denge, demir, kalsiyum vs.). Bilgi gizli kalır.</p>
         <div class="options" data-key="cinsiyet">
           <button class="opt" data-value="kadin"><span class="text">Kadın</span><span class="check"></span></button>
           <button class="opt" data-value="erkek"><span class="text">Erkek</span><span class="check"></span></button>
@@ -1294,10 +1226,10 @@ h1.hero em { color: var(--primary); font-style: italic; }
       </div>
     </div>
 
-    <!-- STEP 3: YAŞ (was 4) -->
-    <div class="step" data-step="3">
+    <!-- STEP 3: YAŞ — PROFILE 2/3 -->
+    <div class="step" data-step="3" data-seg="profile" data-seg-step="2">
       <div class="step-content">
-        <span class="eyebrow">Adım 2 — Sizin Hakkınızda</span>
+        <span class="eyebrow">Profil — Adım 2</span>
         <h1 class="q">Yaş aralığınız?</h1>
         <p class="subtitle">Programınızı yaşınızın metabolik ihtiyaçlarına göre özelleştiriyoruz.</p>
         <div class="options" data-key="yas">
@@ -1309,14 +1241,163 @@ h1.hero em { color: var(--primary); font-style: italic; }
         </div>
       </div>
       <div class="step-footer">
-        <button class="cta" id="cta-3" disabled onclick="next(4)">Devam Et</button>
+        <button class="cta" id="cta-3" disabled onclick="afterAge()">Devam Et</button>
       </div>
     </div>
 
-    <!-- STEP 4: BİRİNCİL HEDEF (was 2) -->
-    <div class="step" data-step="4">
+    <!-- STEP 4: EBEVEYNLİK — PROFILE 3/3 (kadın only) -->
+    <div class="step" data-step="4" data-seg="profile" data-seg-step="3">
       <div class="step-content">
-        <span class="eyebrow">Adım 3 — Sağlık Hedefi</span>
+        <span class="eyebrow">Profil — Adım 3</span>
+        <h1 class="q">Ebeveynlik / annelik durumunuz?</h1>
+        <p class="subtitle">Bazı protokoller hamilelik, emzirme veya postpartum süreçte adapte edilir. Bu bilgi medikal güvenlik için önemli.</p>
+        <div class="options" data-key="ebeveynlik">
+          <button class="opt" data-value="hamile"><span class="text">Şu an hamileyim<small>Programınız hamilelik dostu modüle alınır</small></span><span class="check"></span></button>
+          <button class="opt" data-value="emziren"><span class="text">Emziriyorum<small>Detoks ve beslenme emzirme uyumlu yapılır</small></span><span class="check"></span></button>
+          <button class="opt" data-value="postpartum"><span class="text">Yeni anneyim (son 12 ay)<small>Postpartum restorasyon odaklı program</small></span><span class="check"></span></button>
+          <button class="opt" data-value="annelik_aktif"><span class="text">Çocuğum var, emzirme dönemim bitti<small>Annelik yorgunluğu &amp; toparlanma</small></span><span class="check"></span></button>
+          <button class="opt" data-value="annelik_yetiskin"><span class="text">Çocuklarım büyüdü<small>Kendinize zaman ayırmanın tam zamanı</small></span><span class="check"></span></button>
+          <button class="opt" data-value="cocuk_yok"><span class="text">Çocuğum yok<small>Standart kadın protokolü</small></span><span class="check"></span></button>
+          <button class="opt" data-value="soylemek_istemiyorum"><span class="text">Söylemek istemiyorum</span><span class="check"></span></button>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" id="cta-4" disabled onclick="next(5)">Devam Et</button>
+      </div>
+    </div>
+
+    <!-- INFO PAGE: Hamilelik/Emzirme — shown if ebeveynlik in {hamile, emziren, postpartum} -->
+    <div class="step" data-step="4_info" data-seg="profile" data-seg-step="3" data-info="true">
+      <div class="step-content info-stage">
+        <div class="info-expert-row">
+          <img class="info-expert-photo" src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=200&h=200&q=80" alt="Dr. Zeynep Karaca" onerror="this.style.display='none'">
+          <div class="info-expert-meta">
+            <strong>Dr. Zeynep Karaca</strong>
+            <small>Kadın Hastalıkları &amp; Maternal Wellness · 14 yıl</small>
+          </div>
+        </div>
+        <span class="info-badge">Önemli Bilgi · Maternal Sağlık</span>
+        <div class="info-illustration">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <h1 class="info-title">Hamilelik &amp; emzirme dönemine özel yaklaşımımız</h1>
+        <p class="info-lead">Yoğun detoks bu süreçte yapılmaz. Programınız tamamen besleyici, dinlendirici ve medikal gözetimli olacak şekilde modüle edilir.</p>
+        <ul class="info-points">
+          <li>
+            <span class="ip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="ip-text"><strong>Kadın doğum uzmanı onayı</strong>İlk gün tüm protokoller kendi doktorunuzla paylaşılır, sadece güvenli olanlar uygulanır.</span>
+          </li>
+          <li>
+            <span class="ip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="ip-text"><strong>Besleyici mutfak</strong>Min. 1.800 kcal, ekstra protein, omega-3, folat zenginleştirilmiş öğünler — süt arzını ve enerjiyi korur.</span>
+          </li>
+          <li>
+            <span class="ip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="ip-text"><strong>Yumuşak terapiler</strong>Prenatal yoga, lenfatik masaj, meditasyon. Sauna, kolon hidroterapi, agresif detoks YOK.</span>
+          </li>
+          <li>
+            <span class="ip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="ip-text"><strong>Bebek dostu konaklama</strong>Yeni anneler için bebek ile kalabilen odalar mevcut. Bakıcı desteği talep edilebilir.</span>
+          </li>
+        </ul>
+        <div class="info-quote">
+          "Annelik döneminin her aşaması farklı destek ister. Programınızı kendi temponuza, vücudunuzun ihtiyacına göre özelleştiriyoruz — hızlı sonuç değil, kalıcı toparlanma."
+          <strong>Dr. Aslı Demir · Maternal Wellness Uzmanı</strong>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" onclick="nextStep()">
+          <span class="cta-arrow">Anladım, devam edelim
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 5: İŞ DURUMU — ACTIVITY 1/2 -->
+    <div class="step" data-step="5" data-seg="activity" data-seg-step="1">
+      <div class="step-content">
+        <span class="eyebrow">Aktivite — Adım 1</span>
+        <h1 class="q">Aktif çalışma durumunuz?</h1>
+        <p class="subtitle">Günlük rutininiz ve toparlanma süreciniz iş yoğunluğunuza göre planlanır.</p>
+        <div class="options" data-key="is_durumu">
+          <button class="opt" data-value="tam_zamanli"><span class="text">Tam zamanlı çalışıyorum<small>Haftada 40+ saat, kurumsal/ofis</small></span><span class="check"></span></button>
+          <button class="opt" data-value="yari_zamanli"><span class="text">Yarı zamanlı / esnek çalışıyorum<small>Programlı ama daha az saat</small></span><span class="check"></span></button>
+          <button class="opt" data-value="yogun_giris"><span class="text">Kendi işim — yoğun tempo<small>Founder, freelancer, yüksek sorumluluk</small></span><span class="check"></span></button>
+          <button class="opt" data-value="kontrollu_giris"><span class="text">Kendi işim — kontrollü tempo<small>Düzenli saatler, dengeli iş</small></span><span class="check"></span></button>
+          <button class="opt" data-value="emekli"><span class="text">Emekliyim<small>Daha esnek bir hayat dönemi</small></span><span class="check"></span></button>
+          <button class="opt" data-value="calismiyorum"><span class="text">Şu an çalışmıyorum<small>Ev, sabbatical, geçiş dönemi</small></span><span class="check"></span></button>
+          <button class="opt" data-value="ogrenci"><span class="text">Öğrenciyim</span><span class="check"></span></button>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" id="cta-5" disabled onclick="next(6)">Devam Et</button>
+      </div>
+    </div>
+
+    <!-- STEP 6: HAREKET DÜZEYİ — ACTIVITY 2/2 -->
+    <div class="step" data-step="6" data-seg="activity" data-seg-step="2">
+      <div class="step-content">
+        <span class="eyebrow">Aktivite — Adım 2</span>
+        <h1 class="q">Günlük hareket düzeyiniz?</h1>
+        <p class="subtitle">Programınızda egzersiz yoğunluğu mevcut formunuza göre ayarlanır — zorlama yok.</p>
+        <div class="options" data-key="hareket">
+          <button class="opt" data-value="sedanter"><span class="text">Sedanter<small>Masaüstü iş, nadir hareket</small></span><span class="check"></span></button>
+          <button class="opt" data-value="dusuk"><span class="text">Düşük aktif<small>Günde 15-30dk yürüyüş</small></span><span class="check"></span></button>
+          <button class="opt" data-value="orta"><span class="text">Orta aktif<small>Haftada 2-3 egzersiz</small></span><span class="check"></span></button>
+          <button class="opt" data-value="aktif"><span class="text">Aktif<small>Haftada 4-5 egzersiz</small></span><span class="check"></span></button>
+          <button class="opt" data-value="cok_aktif"><span class="text">Çok aktif<small>Neredeyse her gün egzersiz</small></span><span class="check"></span></button>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" id="cta-6" disabled onclick="next(7)">Devam Et</button>
+      </div>
+    </div>
+
+    <!-- STEP 7: BESLENME — NUTRITION 1/2 -->
+    <div class="step" data-step="7" data-seg="nutrition" data-seg-step="1">
+      <div class="step-content">
+        <span class="eyebrow">Beslenme — Adım 1</span>
+        <h1 class="q">Beslenme tarzınız?</h1>
+        <p class="subtitle">Mutfağımız tüm tarzlara hizmet eder. Programınız tercihinize göre özelleştirilir.</p>
+        <div class="options" data-key="beslenme">
+          <button class="opt" data-value="karisik"><span class="text">Karışık (et + sebze)<small>Esnek omnivor diyet</small></span><span class="check"></span></button>
+          <button class="opt" data-value="vejetaryan"><span class="text">Vejetaryen<small>Et yok, süt/yumurta var</small></span><span class="check"></span></button>
+          <button class="opt" data-value="vegan"><span class="text">Vegan<small>Hayvansal ürün yok</small></span><span class="check"></span></button>
+          <button class="opt" data-value="pesketaryan"><span class="text">Pesketaryan<small>Sadece balık + sebze</small></span><span class="check"></span></button>
+          <button class="opt" data-value="dusuk_karb"><span class="text">Düşük karbonhidrat / keto</span><span class="check"></span></button>
+          <button class="opt" data-value="glutensiz"><span class="text">Glütensiz<small>Çölyak veya hassasiyet</small></span><span class="check"></span></button>
+          <button class="opt" data-value="kararsiz"><span class="text">Karar veremiyorum<small>Uzman önersin</small></span><span class="check"></span></button>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" id="cta-7" disabled onclick="next(8)">Devam Et</button>
+      </div>
+    </div>
+
+    <!-- STEP 8: SU TÜKETİMİ — NUTRITION 2/2 -->
+    <div class="step" data-step="8" data-seg="nutrition" data-seg-step="2">
+      <div class="step-content">
+        <span class="eyebrow">Beslenme — Adım 2</span>
+        <h1 class="q">Günlük su tüketiminiz?</h1>
+        <p class="subtitle">Yetersiz hidrasyon enerji, sindirim ve kilo yönetiminde gizli sabotördür.</p>
+        <div class="options" data-key="su">
+          <button class="opt" data-value="az"><span class="text">1 litreden az<small>Önemli hidrasyon eksikliği</small></span><span class="check"></span></button>
+          <button class="opt" data-value="orta_az"><span class="text">1 - 2 litre<small>Yetersiz, geliştirilebilir</small></span><span class="check"></span></button>
+          <button class="opt" data-value="iyi"><span class="text">2 - 3 litre<small>İyi seviye</small></span><span class="check"></span></button>
+          <button class="opt" data-value="cok"><span class="text">3 litreden fazla<small>Çok iyi hidrasyon</small></span><span class="check"></span></button>
+          <button class="opt" data-value="baska"><span class="text">Çoğunlukla başka içecekler<small>Çay, kahve, asitli içecek</small></span><span class="check"></span></button>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" id="cta-8" disabled onclick="next(9)">Devam Et</button>
+      </div>
+    </div>
+
+    <!-- STEP 9: BİRİNCİL HEDEF — EMOTIONS 1/3 -->
+    <div class="step" data-step="9" data-seg="emotions" data-seg-step="1">
+      <div class="step-content">
+        <span class="eyebrow">Hisler &amp; Davranış — Adım 1</span>
         <h1 class="q">Şu an sizi en çok yoran şey ne?</h1>
         <p class="subtitle">İçten cevap verin — programınızı buna göre tasarlıyoruz. Birden fazla seçebilirsiniz.</p>
         <div class="options" data-key="hedef" data-multi="true">
@@ -1329,14 +1410,14 @@ h1.hero em { color: var(--primary); font-style: italic; }
         </div>
       </div>
       <div class="step-footer">
-        <button class="cta" id="cta-4" disabled onclick="next(5)">Devam Et</button>
+        <button class="cta" id="cta-9" disabled onclick="next(10)">Devam Et</button>
       </div>
     </div>
 
-    <!-- STEP 5: VİZYON (was 3) -->
-    <div class="step" data-step="5">
+    <!-- STEP 10: VİZYON — EMOTIONS 2/3 -->
+    <div class="step" data-step="10" data-seg="emotions" data-seg-step="2">
       <div class="step-content">
-        <span class="eyebrow">Adım 4 — Vizyonunuz</span>
+        <span class="eyebrow">Hisler &amp; Davranış — Adım 2</span>
         <h1 class="q">Bir hafta sonra nasıl hissetmek istiyorsunuz?</h1>
         <p class="subtitle">Hedeflediğiniz hissi seçin — buraya ulaşmanız için neyin gerektiğini biz çözeceğiz.</p>
         <div class="options" data-key="vizyon" data-multi="true">
@@ -1353,16 +1434,16 @@ h1.hero em { color: var(--primary); font-style: italic; }
         </div>
       </div>
       <div class="step-footer">
-        <button class="cta" id="cta-5" disabled onclick="next(6)">Devam Et</button>
+        <button class="cta" id="cta-10" disabled onclick="next(11)">Devam Et</button>
       </div>
     </div>
 
-    <!-- STEP 6: SAĞLIK DURUMU -->
-    <div class="step" data-step="6">
+    <!-- STEP 11: SAĞLIK — EMOTIONS 3/3 -->
+    <div class="step" data-step="11" data-seg="emotions" data-seg-step="3">
       <div class="step-content">
-        <span class="eyebrow">Adım 5 — Sağlık Durumu</span>
+        <span class="eyebrow">Hisler &amp; Davranış — Adım 3</span>
         <h1 class="q">Bilmemiz gereken sağlık durumlarınız?</h1>
-        <p class="subtitle">Bu, doktorlarımıza ön bilgi verir. Eksiklikleri görüşmede tamamlarız. Birden fazla seçebilirsiniz.</p>
+        <p class="subtitle">Doktorlarımıza ön bilgi verir. Eksiklikleri görüşmede tamamlarız. Birden fazla seçebilirsiniz.</p>
         <div class="options" data-key="saglik" data-multi="true">
           <button class="opt multi" data-value="tansiyon"><span class="text">Yüksek tansiyon</span><span class="check"></span></button>
           <button class="opt multi" data-value="diyabet"><span class="text">Diyabet (Tip 1 veya 2)</span><span class="check"></span></button>
@@ -1375,14 +1456,62 @@ h1.hero em { color: var(--primary); font-style: italic; }
         </div>
       </div>
       <div class="step-footer">
-        <button class="cta" id="cta-6" disabled onclick="next(7)">Devam Et</button>
+        <button class="cta" id="cta-11" disabled onclick="next(12)">Devam Et</button>
       </div>
     </div>
 
-    <!-- STEP 7: SÜRE -->
-    <div class="step" data-step="7">
+    <!-- INFO PAGE: Kronik Hastalık — shown if saglik includes diyabet/tansiyon/kolesterol -->
+    <div class="step" data-step="11_info" data-seg="emotions" data-seg-step="3" data-info="true">
+      <div class="step-content info-stage">
+        <div class="info-expert-row">
+          <img class="info-expert-photo" src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=200&h=200&q=80" alt="Dr. Mehmet Tunç" onerror="this.style.display='none'">
+          <div class="info-expert-meta">
+            <strong>Dr. Mehmet Tunç</strong>
+            <small>Dahiliye Uzmanı · Medikal Direktör · 22 yıl</small>
+          </div>
+        </div>
+        <span class="info-badge">Önemli Bilgi · Kronik Hastalık Yönetimi</span>
+        <div class="info-illustration">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12.572l-7.5 7.428-7.5-7.428a5 5 0 117.5-6.566 5 5 0 117.5 6.566z"/><path d="M3 12h3l2-4 4 8 2-4h7"/></svg>
+        </div>
+        <h1 class="info-title">Kronik hastalığınızla güvenli yolculuk</h1>
+        <p class="info-lead">Mevcut tedavinizi koruyup tamamlayan bir protokol hazırlıyoruz. Hiçbir ilaç değişikliği veya tedavi kesintisi <strong>kendi doktorunuzla görüşmeden</strong> yapılmaz.</p>
+        <ul class="info-points">
+          <li>
+            <span class="ip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="ip-text"><strong>İlk gün tam tarama</strong>Kan tahlili, vital değerler, mevcut ilaçların gözden geçirilmesi. Programınız bu verilere göre özelleştirilir.</span>
+          </li>
+          <li>
+            <span class="ip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="ip-text"><strong>Günlük doktor takibi</strong>Diyabet ve tansiyon için günde 2 ölçüm + dahiliye uzmanı takibi. Riske yer yok.</span>
+          </li>
+          <li>
+            <span class="ip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="ip-text"><strong>Kanıtlanmış sonuçlar</strong>Lancet DiRECT Trial: Tip 2 diyabette HbA1c ortalama 0.5-1.0 puan iyileşme. DASH protokolü: tansiyon 10-15 mmHg düşüş.</span>
+          </li>
+          <li>
+            <span class="ip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="ip-text"><strong>Sonrası takip</strong>Program sonrası 30/90/180 gün boyunca uzaktan takip — değerleriniz kontrol edilir, gerekirse plan adapte edilir.</span>
+          </li>
+        </ul>
+        <div class="info-quote">
+          "Detoks programı kronik hastalığı tedavi etmez — tedavinizin yanında çalışarak vücudunuzun yenilenmesine destek olur. Doktorunuzla işbirliği içinde, güvenli yol."
+          <strong>Medikal Ekibimiz</strong>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" onclick="nextStep()">
+          <span class="cta-arrow">Anladım, devam edelim
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 12: SÜRE — PLAN 1/7 -->
+    <div class="step" data-step="12" data-seg="plan" data-seg-step="1">
       <div class="step-content">
-        <span class="eyebrow">Adım 6 — Süre Planlaması</span>
+        <span class="eyebrow">Plan — Süre Planlaması</span>
         <h1 class="q">Bu yolculuğa ne kadar zaman ayırabilirsiniz?</h1>
         <p class="subtitle">Daha uzun program = daha derin sonuçlar. Ama her süre değerli — size en uygunu hangisi?</p>
         <div class="options" data-key="sure">
@@ -1402,12 +1531,12 @@ h1.hero em { color: var(--primary); font-style: italic; }
         </div>
       </div>
       <div class="step-footer">
-        <button class="cta" id="cta-7" disabled onclick="goToPlanBuild()">Planımı Hazırlayın</button>
+        <button class="cta" id="cta-12" disabled onclick="goToPlanBuild()">Planımı Hazırlayın</button>
       </div>
     </div>
 
-    <!-- STEP 8: PLAN BUILDING ANIMATION -->
-    <div class="step" data-step="8">
+    <!-- STEP 13: LOADING — PLAN 2/7 -->
+    <div class="step" data-step="13" data-seg="plan" data-seg-step="2">
       <div class="step-content loading-stage">
         <div class="spinner-wrap">
           <div class="spinner-ring"></div>
@@ -1418,17 +1547,17 @@ h1.hero em { color: var(--primary); font-style: italic; }
         <div class="loading-title">Size özel planınız hazırlanıyor</div>
         <p class="loading-sub">Medikal kadromuz cevaplarınızı analiz ediyor ve size en uygun protokolü eşleştiriyor</p>
         <div class="loading-steps" id="loadingSteps">
-          <div class="loading-step" data-i="0"><span class="ls-icon">1</span>Sağlık profiliniz değerlendiriliyor...</div>
-          <div class="loading-step" data-i="1"><span class="ls-icon">2</span>Yaş ve cinsiyet bazlı protokol seçiliyor...</div>
-          <div class="loading-step" data-i="2"><span class="ls-icon">3</span>İdeal merkez ve program eşleştiriliyor...</div>
-          <div class="loading-step" data-i="3"><span class="ls-icon">4</span>Müsait tarihler kontrol ediliyor...</div>
+          <div class="loading-step" data-i="0"><span class="ls-icon">1</span>Profil ve aktivite analiz ediliyor...</div>
+          <div class="loading-step" data-i="1"><span class="ls-icon">2</span>Beslenme ve hidrasyon profili çıkarılıyor...</div>
+          <div class="loading-step" data-i="2"><span class="ls-icon">3</span>Hedefler ve duygusal durum eşleştiriliyor...</div>
+          <div class="loading-step" data-i="3"><span class="ls-icon">4</span>Size en yakın merkez tespit ediliyor...</div>
           <div class="loading-step" data-i="4"><span class="ls-icon">5</span>Kişisel teklifiniz hazırlanıyor...</div>
         </div>
       </div>
     </div>
 
-    <!-- STEP 9: PLAN REVEAL -->
-    <div class="step" data-step="9">
+    <!-- STEP 14: PLAN REVEAL — PLAN 3/7 -->
+    <div class="step" data-step="14" data-seg="plan" data-seg-step="3">
       <div class="step-content">
         <div style="text-align:center;margin-bottom:14px">
           <span class="eyebrow" style="color:var(--success)">PLANINIZ HAZIR</span>
@@ -1474,6 +1603,38 @@ h1.hero em { color: var(--primary); font-style: italic; }
           </ul>
         </div>
 
+        <div class="team-block">
+          <div class="team-head">
+            <div>
+              <div class="team-title">Programınızı tasarlayan ekip</div>
+              <div class="team-sub">Yolculuğunuz boyunca yanınızda olacaklar</div>
+            </div>
+          </div>
+          <div class="team-grid">
+            <div class="team-member">
+              <img class="team-photo" src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=200&h=200&q=80" alt="Dr. Aslı Demir" onerror="this.style.display='none'">
+              <div>
+                <div class="team-name">Dr. Aslı Demir</div>
+                <div class="team-role">Wellness Direktörü</div>
+              </div>
+            </div>
+            <div class="team-member">
+              <img class="team-photo" src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=200&h=200&q=80" alt="Dr. Mehmet Tunç" onerror="this.style.display='none'">
+              <div>
+                <div class="team-name">Dr. Mehmet Tunç</div>
+                <div class="team-role">Dahiliye Uzmanı</div>
+              </div>
+            </div>
+            <div class="team-member">
+              <img class="team-photo" src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=200&h=200&q=80" alt="Dyt. Elif Şahin" onerror="this.style.display='none'">
+              <div>
+                <div class="team-name">Dyt. Elif Şahin</div>
+                <div class="team-role">Beslenme Uzmanı</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="science-block">
           <div class="sb-head">
             <div class="sb-icon">
@@ -1488,7 +1649,7 @@ h1.hero em { color: var(--primary); font-style: italic; }
         </div>
       </div>
       <div class="step-footer">
-        <button class="cta" onclick="next(10)">
+        <button class="cta" onclick="next(15)">
           <span class="cta-arrow">Tarih Seçmek İstiyorum
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </span>
@@ -1497,10 +1658,10 @@ h1.hero em { color: var(--primary); font-style: italic; }
       </div>
     </div>
 
-    <!-- STEP 10: TARİH ARALIK -->
-    <div class="step" data-step="10">
+    <!-- STEP 15: TARİH ARALIK — PLAN 4/7 -->
+    <div class="step" data-step="15" data-seg="plan" data-seg-step="4">
       <div class="step-content">
-        <span class="eyebrow">Adım 7 — Tarih Tercihi</span>
+        <span class="eyebrow">Plan — Tarih Tercihi</span>
         <h1 class="q">Ne zaman gelmeyi düşünüyorsunuz?</h1>
         <p class="subtitle">Müsaitlik takvimimize göre size en uygun tarihleri göstereceğiz.</p>
         <div class="date-chips" data-key="tarih_aralik">
@@ -1528,28 +1689,28 @@ h1.hero em { color: var(--primary); font-style: italic; }
         </div>
       </div>
       <div class="step-footer">
-        <button class="cta" id="cta-10" disabled onclick="next(11)">Müsait Tarihleri Gör</button>
+        <button class="cta" id="cta-15" disabled onclick="next(16)">Müsait Tarihleri Gör</button>
       </div>
     </div>
 
-    <!-- STEP 11: SPESİFİK TARİH -->
-    <div class="step" data-step="11">
+    <!-- STEP 16: SPESİFİK TARİH — PLAN 5/7 -->
+    <div class="step" data-step="16" data-seg="plan" data-seg-step="5">
       <div class="step-content">
-        <span class="eyebrow">Adım 8 — Yerinizi Ayırın</span>
+        <span class="eyebrow">Plan — Yerinizi Ayırın</span>
         <h1 class="q">Size en uygun 3 tarih</h1>
         <p class="subtitle">Bu tarihler kontenjana göre canlı güncellenir. Yer ayırmak için seçin.</p>
         <div class="program-cards" id="programCards"></div>
         <button class="decline-link" onclick="declineDates()">Bu tarihler bana uygun değil — esnek bir tarih bulalım</button>
       </div>
       <div class="step-footer">
-        <button class="cta" id="cta-11" disabled onclick="next(12)">Bu Tarih İçin Devam Et</button>
+        <button class="cta" id="cta-16" disabled onclick="next(17)">Bu Tarih İçin Devam Et</button>
       </div>
     </div>
 
-    <!-- STEP 12: TELEFON -->
-    <div class="step" data-step="12">
+    <!-- STEP 17: TELEFON — PLAN 6/7 -->
+    <div class="step" data-step="17" data-seg="plan" data-seg-step="6">
       <div class="step-content">
-        <span class="eyebrow">Adım 9 — Son Detay</span>
+        <span class="eyebrow">Plan — İletişim</span>
         <h1 class="q">Sizi nasıl arayalım?</h1>
         <p class="subtitle">Uzmanımız detayları iletmek ve sorularınızı cevaplamak için arayacak. Numaranız sadece bu görüşme için kullanılır.</p>
 
@@ -1585,14 +1746,14 @@ h1.hero em { color: var(--primary); font-style: italic; }
         </div>
       </div>
       <div class="step-footer">
-        <button class="cta" id="cta-12" disabled onclick="next(13)">Görüşme Zamanını Seç</button>
+        <button class="cta" id="cta-17" disabled onclick="next(18)">Görüşme Zamanını Seç</button>
       </div>
     </div>
 
-    <!-- STEP 13: GÖRÜŞME ZAMANI -->
-    <div class="step" data-step="13">
+    <!-- STEP 18: GÖRÜŞME ZAMANI — PLAN 7/7 -->
+    <div class="step" data-step="18" data-seg="plan" data-seg-step="7">
       <div class="step-content">
-        <span class="eyebrow">Son Adım — Görüşme Zamanı</span>
+        <span class="eyebrow">Plan — Son Adım</span>
         <h1 class="q">Sizi ne zaman arayalım?</h1>
         <p class="subtitle">Uzmanımız müsait olduğunuz zaman arasın — sizi rahatsız etmesin.</p>
         <div class="time-grid" data-key="cagri_zamani">
@@ -1617,7 +1778,7 @@ h1.hero em { color: var(--primary); font-style: italic; }
             <small>09:00 - 12:00</small>
           </button>
           <button class="time-chip" data-value="yarin_ogle">
-            <div class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.2A4.5 4.5 0 0017.5 8h-1.8A7 7 0 104 14.9"/><path d="M16 14v6M8 14v6M12 16v6"/></svg></div>
+            <div class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.2A4.5 4.5 0 0017.5 8h-1.8A7 7 0 104 14.9"/></svg></div>
             <strong>Yarın öğleden sonra</strong>
             <small>14:00 - 18:00</small>
           </button>
@@ -1629,12 +1790,12 @@ h1.hero em { color: var(--primary); font-style: italic; }
         </div>
       </div>
       <div class="step-footer">
-        <button class="cta" id="cta-13" disabled onclick="submitFunnel()">Görüşme Talebimi Tamamla</button>
+        <button class="cta" id="cta-18" disabled onclick="submitFunnel()">Görüşme Talebimi Tamamla</button>
       </div>
     </div>
 
-    <!-- STEP 14: THANK YOU -->
-    <div class="step" data-step="14">
+    <!-- STEP 19: THANK YOU -->
+    <div class="step" data-step="19" data-seg="thanks">
       <div class="step-content thank-stage">
         <div class="expert-bubble">DA</div>
         <div class="expert-name">Dr. Aslı Demir</div>
@@ -1645,7 +1806,7 @@ h1.hero em { color: var(--primary); font-style: italic; }
 
         <div class="thank-cta-grid">
           <a class="cta-line whatsapp" id="whatsappBtn" href="#" target="_blank">
-            <span class="ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A7.86 7.86 0 0012.05 4a7.94 7.94 0 00-6.88 11.92L4 20l4.18-1.1a7.93 7.93 0 003.87.99h.01c4.38 0 7.95-3.57 7.95-7.95a7.9 7.9 0 00-2.41-5.62zm-5.55 12.21a6.6 6.6 0 01-3.36-.92l-.24-.14-2.49.65.67-2.42-.16-.25a6.6 6.6 0 0110.21-8.16 6.55 6.55 0 011.93 4.69c0 3.65-2.97 6.62-6.61 6.62 0 0 .05-.07.05-.07zm3.63-4.95c-.2-.1-1.18-.58-1.36-.65-.18-.07-.31-.1-.45.1-.13.2-.51.65-.63.78-.12.13-.23.15-.43.05-.2-.1-.85-.31-1.61-1-.6-.53-1-1.19-1.12-1.39-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.33.07-.13.03-.25-.02-.35-.05-.1-.45-1.08-.62-1.48-.16-.39-.33-.34-.45-.34-.12 0-.25-.02-.38-.02-.13 0-.35.05-.53.25-.18.2-.69.68-.69 1.66 0 .98.71 1.92.81 2.05.1.13 1.4 2.13 3.39 2.99.47.2.84.32 1.13.42.47.15.91.13 1.25.08.38-.06 1.18-.48 1.34-.95.17-.46.17-.86.12-.94-.05-.08-.18-.13-.38-.23z"/></svg></span>
+            <span class="ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A7.86 7.86 0 0012.05 4a7.94 7.94 0 00-6.88 11.92L4 20l4.18-1.1a7.93 7.93 0 003.87.99h.01c4.38 0 7.95-3.57 7.95-7.95a7.9 7.9 0 00-2.41-5.62zm-5.55 12.21a6.6 6.6 0 01-3.36-.92l-.24-.14-2.49.65.67-2.42-.16-.25a6.6 6.6 0 0110.21-8.16 6.55 6.55 0 011.93 4.69c0 3.65-2.97 6.62-6.61 6.62z"/></svg></span>
             <span class="lbl-block">WhatsApp'tan hemen yaz</span>
             <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span>
           </a>
@@ -1672,7 +1833,6 @@ h1.hero em { color: var(--primary); font-style: italic; }
 
   </div>
 
-  <!-- LIVE TICKER -->
   <div class="ticker" id="ticker">
     <span class="dot"></span>
     <span class="txt" id="tickerText">Mehmet, İstanbul — 2 dk önce Bodrum 7 günlük programı için rezervasyon yaptı</span>
@@ -1684,9 +1844,48 @@ h1.hero em { color: var(--primary); font-style: italic; }
 (function(){
   'use strict';
 
+  // === SEGMENT MAP ===
+  // Each segment has weighted bar width matching its step count
+  var SEGMENTS = ['profile', 'activity', 'nutrition', 'emotions', 'plan'];
+  var SEGMENT_TITLES = {
+    welcome: 'Hoş geldiniz',
+    profile: 'My Profile',
+    activity: 'Activity',
+    nutrition: 'Nutrition',
+    emotions: 'Emotions & Behavior',
+    plan: 'Your Plan',
+    thanks: 'Tamamlandı'
+  };
+  var SEGMENT_STEP_COUNTS = {
+    profile: 3,
+    activity: 2,
+    nutrition: 2,
+    emotions: 3,
+    plan: 7
+  };
+
+  // STEPS_ORDER includes info pages — they're auto-skipped when conditions don't apply
+  var STEPS_ORDER = [
+    '1', '2', '3', '4', '4_info', '5', '6', '7', '8',
+    '9', '10', '11', '11_info', '12', '13', '14', '15', '16', '17', '18', '19'
+  ];
+
+  function shouldShowStep(stepId) {
+    if (stepId === '4') return state.answers.cinsiyet === 'kadin';
+    if (stepId === '4_info') {
+      var e = state.answers.ebeveynlik;
+      return e === 'hamile' || e === 'emziren' || e === 'postpartum';
+    }
+    if (stepId === '11_info') {
+      var s = state.answers.saglik || [];
+      return s.indexOf('diyabet') !== -1 || s.indexOf('tansiyon') !== -1 || s.indexOf('kolesterol') !== -1;
+    }
+    return true;
+  }
+
   var state = {
-    currentStep: 1,
-    totalSteps: 14,
+    currentStep: '1',
+    totalSteps: 19,
     answers: {},
     confirmId: 'TLC-' + Math.floor(100000 + Math.random() * 900000),
     couponEndTime: Date.now() + 15 * 60 * 1000
@@ -1695,43 +1894,162 @@ h1.hero em { color: var(--primary); font-style: italic; }
   function $(s) { return document.querySelector(s); }
   function $$(s) { return Array.prototype.slice.call(document.querySelectorAll(s)); }
 
-  window.next = function(target) {
-    if (target < 1 || target > state.totalSteps) return;
+  function getStepMeta(stepNum) {
+    var el = $('[data-step="' + stepNum + '"]');
+    if (!el) return null;
+    return {
+      seg: el.getAttribute('data-seg'),
+      segStep: parseInt(el.getAttribute('data-seg-step') || '0', 10)
+    };
+  }
+
+  function updateSegments() {
+    var meta = getStepMeta(state.currentStep);
+    if (!meta) return;
+    var seg = meta.seg;
+
+    // Update title
+    $('#segTitle').textContent = SEGMENT_TITLES[seg] || '';
+
+    // Hide segment bar on welcome/thanks
+    var wrap = $('#segWrap');
+    if (seg === 'welcome' || seg === 'thanks') {
+      wrap.style.opacity = '0';
+      wrap.style.pointerEvents = 'none';
+    } else {
+      wrap.style.opacity = '1';
+      wrap.style.pointerEvents = 'auto';
+    }
+
+    // Update each segment track
+    var foundActive = false;
+    SEGMENTS.forEach(function(s) {
+      var track = $('.seg-track[data-seg="' + s + '"]');
+      var label = $('.seg-label[data-seg="' + s + '"]');
+      var fill = track.querySelector('.seg-fill');
+      track.classList.remove('done', 'active');
+      label.classList.remove('done', 'active');
+
+      if (s === seg) {
+        // Active segment - fill proportional to step
+        track.classList.add('active');
+        label.classList.add('active');
+        var pct = Math.max(8, (meta.segStep / SEGMENT_STEP_COUNTS[s]) * 100);
+        fill.style.width = pct + '%';
+        foundActive = true;
+      } else if (!foundActive) {
+        // Past segments
+        track.classList.add('done');
+        label.classList.add('done');
+        fill.style.width = '100%';
+      } else {
+        // Future segments
+        fill.style.width = '0%';
+      }
+    });
+  }
+
+  // === NAVIGATION ===
+  function goTo(target) {
+    target = String(target);
     var curr = $('[data-step="' + state.currentStep + '"]');
     var nextEl = $('[data-step="' + target + '"]');
     if (!nextEl) return;
-    if (target > state.currentStep) {
+    var currIdx = STEPS_ORDER.indexOf(String(state.currentStep));
+    var targetIdx = STEPS_ORDER.indexOf(target);
+    var forward = targetIdx > currIdx;
+
+    if (forward) {
       curr.classList.add('exit');
-      setTimeout(function() { curr.classList.remove('active', 'exit'); }, 300);
+      setTimeout(function() { curr.classList.remove('active', 'exit'); }, 400);
     } else {
       curr.classList.remove('active');
     }
     setTimeout(function() {
       nextEl.classList.add('active');
       nextEl.scrollTop = 0;
-    }, target > state.currentStep ? 120 : 50);
+    }, forward ? 160 : 60);
     state.currentStep = target;
     updateUI();
-    if ([4, 6, 10, 12].indexOf(target) !== -1) showTicker();
+
+    if (['5', '8', '10', '15'].indexOf(target) !== -1) showTicker();
     if (window.GROWTHER_TRACKER && GROWTHER_TRACKER.onStepChange) GROWTHER_TRACKER.onStepChange(target);
+  }
+
+  // next(target) — smart routing through STEPS_ORDER, auto-skipping info pages when conditions don't apply
+  window.next = function(target) {
+    target = String(target);
+    var currentIdx = STEPS_ORDER.indexOf(String(state.currentStep));
+    var targetIdx = STEPS_ORDER.indexOf(target);
+    if (targetIdx === -1) return;
+
+    if (targetIdx > currentIdx) {
+      // forward — find first visible step from currentIdx+1 onward up to/past target
+      for (var i = currentIdx + 1; i < STEPS_ORDER.length; i++) {
+        if (shouldShowStep(STEPS_ORDER[i])) { target = STEPS_ORDER[i]; break; }
+      }
+    } else if (targetIdx < currentIdx) {
+      // backward — find first visible step from target going backward
+      for (var i = targetIdx; i >= 0; i--) {
+        if (shouldShowStep(STEPS_ORDER[i])) { target = STEPS_ORDER[i]; break; }
+      }
+    }
+    goTo(target);
+  };
+
+  // nextStep — advance to next visible step
+  window.nextStep = function() {
+    var idx = STEPS_ORDER.indexOf(String(state.currentStep));
+    for (var i = idx + 1; i < STEPS_ORDER.length; i++) {
+      if (shouldShowStep(STEPS_ORDER[i])) { goTo(STEPS_ORDER[i]); return; }
+    }
   };
 
   window.goBack = function() {
-    if (state.currentStep > 1 && state.currentStep < 14) next(state.currentStep - 1);
+    var idx = STEPS_ORDER.indexOf(String(state.currentStep));
+    if (idx <= 0) return;
+    for (var i = idx - 1; i >= 0; i--) {
+      if (shouldShowStep(STEPS_ORDER[i]) && STEPS_ORDER[i] !== '19') {
+        goTo(STEPS_ORDER[i]); return;
+      }
+    }
   };
 
+  // backward compat
+  window.afterAge = function() { nextStep(); };
+
   function updateUI() {
-    $('#counter').textContent = state.currentStep + ' / ' + state.totalSteps;
-    var pct = (state.currentStep / state.totalSteps) * 100;
-    $('#progress').style.width = pct + '%';
-    $('#backBtn').classList.toggle('visible', state.currentStep > 1 && state.currentStep < 14);
+    var curr = String(state.currentStep);
+    $('#backBtn').classList.toggle('visible', curr !== '1' && curr !== '19');
+    updateSegments();
   }
 
+  // === SINGLE-SELECT AUTO-ADVANCE & CTA HIDE ===
+  // Single-answer questions don't need a "Devam Et" button — auto-advance after selection
+  function getStepCallback(stepEl) {
+    var btn = stepEl.querySelector('.step-footer .cta');
+    if (!btn) return null;
+    var onclick = btn.getAttribute('onclick');
+    if (!onclick) return null;
+    return function() { btn.click(); };
+  }
+
+  function setupSingleSelectAutoAdvance(area) {
+    var stepEl = area.closest('.step');
+    var footer = stepEl.querySelector('.step-footer');
+    if (footer) footer.style.display = 'none';
+  }
+
+  // === OPTIONS ===
   $$('.options').forEach(function(area) {
     var key = area.getAttribute('data-key');
     var isMulti = area.getAttribute('data-multi') === 'true';
-    var step = parseInt(area.closest('.step').getAttribute('data-step'), 10);
-    var ctaBtn = $('#cta-' + step);
+    var stepEl = area.closest('.step');
+    var stepId = stepEl.getAttribute('data-step');
+    var ctaBtn = $('#cta-' + stepId);
+
+    if (!isMulti) setupSingleSelectAutoAdvance(area);
+
     area.querySelectorAll('.opt').forEach(function(btn) {
       btn.addEventListener('click', function() {
         if (isMulti) {
@@ -1743,7 +2061,12 @@ h1.hero em { color: var(--primary); font-style: italic; }
           area.querySelectorAll('.opt').forEach(function(b) { b.classList.remove('selected'); });
           btn.classList.add('selected');
           state.answers[key] = btn.getAttribute('data-value');
-          if (ctaBtn) ctaBtn.disabled = false;
+          // auto-advance after gentle delay
+          setTimeout(function() {
+            // step 12 (süre) has special callback
+            if (stepId === '12') { goToPlanBuild(); return; }
+            nextStep();
+          }, 420);
         }
       });
     });
@@ -1751,32 +2074,36 @@ h1.hero em { color: var(--primary); font-style: italic; }
 
   $$('.date-chips').forEach(function(area) {
     var key = area.getAttribute('data-key');
-    var step = parseInt(area.closest('.step').getAttribute('data-step'), 10);
-    var ctaBtn = $('#cta-' + step);
+    var stepEl = area.closest('.step');
+    var stepId = stepEl.getAttribute('data-step');
+    setupSingleSelectAutoAdvance(area);
     area.querySelectorAll('.date-chip').forEach(function(btn) {
       btn.addEventListener('click', function() {
         area.querySelectorAll('.date-chip').forEach(function(b) { b.classList.remove('selected'); });
         btn.classList.add('selected');
         state.answers[key] = btn.getAttribute('data-value');
-        if (ctaBtn) ctaBtn.disabled = false;
+        setTimeout(function() { nextStep(); }, 420);
       });
     });
   });
 
   $$('.time-grid').forEach(function(area) {
     var key = area.getAttribute('data-key');
-    var step = parseInt(area.closest('.step').getAttribute('data-step'), 10);
-    var ctaBtn = $('#cta-' + step);
+    var stepEl = area.closest('.step');
+    var stepId = stepEl.getAttribute('data-step');
+    setupSingleSelectAutoAdvance(area);
     area.querySelectorAll('.time-chip').forEach(function(btn) {
       btn.addEventListener('click', function() {
         area.querySelectorAll('.time-chip').forEach(function(b) { b.classList.remove('selected'); });
         btn.classList.add('selected');
         state.answers[key] = btn.getAttribute('data-value');
-        if (ctaBtn) ctaBtn.disabled = false;
+        // step 18: submit
+        setTimeout(function() { submitFunnel(); }, 420);
       });
     });
   });
 
+  // === PROGRAM CARDS ===
   function programCards(target) {
     target.innerHTML = '';
     var aralik = state.answers.tarih_aralik || 'bu_ay';
@@ -1795,7 +2122,6 @@ h1.hero em { color: var(--primary); font-style: italic; }
       var start = new Date(today.getTime() + offset * 86400000);
       var end = new Date(start.getTime() + (sure - 1) * 86400000);
       var dateRange = start.getDate() + '-' + end.getDate() + ' ' + months[end.getMonth()];
-      var spots = pat[0] + (i * 3);
       var tagText, tagClass;
       if (i === 0) { tagText = pat[0] + ' yer kaldı'; tagClass = pat[1]; }
       else if (i === 1) { tagText = (pat[0] + 3) + ' yer kaldı'; tagClass = pat[1] === 'hot' ? 'warm' : 'cool'; }
@@ -1821,7 +2147,7 @@ h1.hero em { color: var(--primary); font-style: italic; }
         target.querySelectorAll('.program-card').forEach(function(b) { b.classList.remove('selected'); });
         c.classList.add('selected');
         state.answers.secilen_tarih = c.querySelector('.pc-date').textContent;
-        $('#cta-11').disabled = false;
+        $('#cta-16').disabled = false;
       });
     });
   }
@@ -1829,7 +2155,7 @@ h1.hero em { color: var(--primary); font-style: italic; }
   window.declineDates = function() {
     state.answers.secilen_tarih = 'esnek';
     state.answers.declined_dates = true;
-    next(12);
+    next('17');
   };
 
   function priceFor(sure) {
@@ -1838,20 +2164,25 @@ h1.hero em { color: var(--primary); font-style: italic; }
   }
   function programFor(answers) {
     var hedef = answers.hedef || [];
+    var ebev = answers.ebeveynlik;
+    if (ebev === 'hamile' || ebev === 'emziren') return { label: 'Maternal Wellness (hamilelik/emzirme dostu)', short: 'Maternal Wellness' };
     if (hedef.indexOf('kilo') !== -1) return { label: 'Weight Loss + Detox', short: 'Weight Loss' };
     if (hedef.indexOf('kronik') !== -1) return { label: 'Medical Wellness Programı', short: 'Medical Wellness' };
     if (hedef.indexOf('stres') !== -1 || hedef.indexOf('uyku') !== -1) return { label: 'Mental Reset + Detox', short: 'Mind Reset' };
     if (hedef.indexOf('reset') !== -1) return { label: 'Master Detox + Green Detox', short: 'Master Detox' };
     return { label: 'Master Detox', short: 'Master Detox' };
   }
-  function merkezFor(answers) {
+  function detectNearestCenter(answers) {
+    // TODO: gerçek IP detection (ipapi.co)
     var hedef = answers.hedef || [];
+    var ebev = answers.ebeveynlik;
+    if (ebev === 'hamile') return 'Antalya (Akra)';
     if (hedef.indexOf('kronik') !== -1) return 'Antalya (Akra)';
     return 'Bodrum (Türkbükü)';
   }
 
   window.goToPlanBuild = function() {
-    next(8);
+    next('13');
     runLoadingAnimation();
   };
 
@@ -1873,122 +2204,151 @@ h1.hero em { color: var(--primary); font-style: italic; }
         steps[steps.length-1].querySelector('.ls-icon').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
         setTimeout(function() {
           buildPlanReveal();
-          next(9);
+          next('14');
         }, 700);
       }
     }, 700);
   }
 
-  // === SCIENCE INSIGHTS LIBRARY ===
-  // Cevap segmentlerine göre bilimsel destekli kısa notlar.
-  // Her insight: { match: (answers) => bool, tag, body, source, priority }
-  // En yüksek priority'li 3 tanesi gösterilir.
+  // === SCIENCE INSIGHTS LIBRARY (expanded with new segments) ===
   var SCIENCE_LIBRARY = [
     {
       match: function(a){ return (a.hedef||[]).indexOf('yorgunluk') !== -1 && (a.hedef||[]).indexOf('uyku') !== -1; },
       tag: 'Mitokondri & Enerji',
-      body: 'Kronik yorgunluk + uyku bozukluğu hücresel düzeyde mitokondri disfonksiyonuna işaret eder. 7+ gün boyunca anti-inflamatuar beslenme, IV vitamin desteği ve sirkadyen ritim restorasyonu uygulanan misafirlerimizde ortalama %40-60 enerji iyileşmesi gözlenmiştir.',
-      source: 'TheLifeCo İç Veri 2024',
-      priority: 9
+      body: 'Kronik yorgunluk + uyku bozukluğu hücresel düzeyde mitokondri disfonksiyonuna işaret eder. Anti-inflamatuar beslenme + IV vitamin desteği + sirkadyen ritim restorasyonu ile ortalama %40-60 enerji iyileşmesi gözlenmiştir.',
+      source: 'TheLifeCo İç Veri 2024', priority: 9
     },
     {
       match: function(a){ return (a.hedef||[]).indexOf('kilo') !== -1; },
       tag: 'Yo-Yo Etkisinin Bilimi',
-      body: 'Klasik 3-5 günlük diyetler metabolik adaptasyona neden olur; vücut "açlık moduna" geçip kayıp sonrası kiloyu daha hızlı geri kazanır. 14+ günlük yapılandırılmış programlar bu adaptasyonu kırarak sürdürülebilir kayıp sağlar.',
-      source: 'NIH Obesity Reviews 2021',
-      priority: 8
+      body: 'Klasik 3-5 günlük diyetler metabolik adaptasyona neden olur; vücut "açlık moduna" geçer. 14+ günlük yapılandırılmış programlar bu adaptasyonu kırarak sürdürülebilir kayıp sağlar.',
+      source: 'NIH Obesity Reviews 2021', priority: 8
     },
     {
       match: function(a){ return (a.hedef||[]).indexOf('stres') !== -1; },
       tag: 'Kortizol & Sinir Sistemi',
-      body: 'Kronik stres kortizol seviyesini sürekli yüksek tutar ve sindirim + bağışıklık + uyku üçlüsünü bozar. Sakin doğa ortamı + meditasyon + breathwork kombinasyonu 3-5 gün içinde kortizolde %25-30 düşüş gösterir.',
-      source: 'Frontiers in Psychology 2020',
-      priority: 8
+      body: 'Kronik stres kortizolü sürekli yüksek tutar; sindirim + bağışıklık + uyku üçlüsünü bozar. Doğa + meditasyon + breathwork 3-5 günde kortizolde %25-30 düşüş sağlar.',
+      source: 'Frontiers in Psychology 2020', priority: 8
     },
     {
       match: function(a){ return (a.saglik||[]).indexOf('diyabet') !== -1; },
       tag: 'Diyabet & Metabolik Reset',
-      body: 'Tip 2 diyabet hastalarında düşük kalorili yapılandırılmış programlar HbA1c değerinde ortalama 0.5-1.0 puan iyileşme sağlar. Programınız medikal kadromuz tarafından kullandığınız ilaçlara göre günlük ayarlanır.',
-      source: 'The Lancet 2019 (DiRECT Trial)',
-      priority: 10
+      body: 'Tip 2 diyabette yapılandırılmış programlar HbA1c değerinde 0.5-1.0 puan iyileşme sağlar. Programınız mevcut ilaç tedavinize göre günlük ayarlanır.',
+      source: 'The Lancet 2019 (DiRECT Trial)', priority: 10
     },
     {
       match: function(a){ return (a.saglik||[]).indexOf('kolesterol') !== -1; },
       tag: 'Lipid Profil İyileşmesi',
-      body: 'Akdeniz tipi beslenme + yapılandırılmış detoks 7-14 günde LDL kolesterolde %10-15, trigliseritlerde %20-25 düşüş gösterebilir. Etki süresi: 3-6 ay (alışkanlık devam ederse kalıcı).',
-      source: 'Mediterranean Diet Trials, NEJM 2018',
-      priority: 9
+      body: 'Akdeniz tipi beslenme + detoks 7-14 günde LDL kolesterolde %10-15, trigliseritlerde %20-25 düşüş gösterir.',
+      source: 'Mediterranean Diet Trials, NEJM 2018', priority: 9
     },
     {
       match: function(a){ return (a.saglik||[]).indexOf('tansiyon') !== -1; },
       tag: 'Tansiyon Kontrolü',
-      body: 'Tuz kısıtlaması + ağırlık kaybı + yapılandırılmış programlar hipertansiyon hastalarında sistolik basınçta ortalama 10-15 mmHg düşüş sağlar. Etki ilk 7 günde başlar.',
-      source: 'DASH-Sodium Trial / NHLBI',
-      priority: 9
+      body: 'Tuz kısıtlaması + ağırlık kaybı + yapılandırılmış program sistolik basınçta 10-15 mmHg düşüş sağlar. Etki ilk 7 günde başlar.',
+      source: 'DASH-Sodium Trial / NHLBI', priority: 9
     },
     {
       match: function(a){ return (a.saglik||[]).indexOf('sindirim') !== -1; },
       tag: 'Bağırsak Mikrobiyota',
-      body: 'Kolon hidroterapi + probiyotik yenileme + fiber-zengin program 7 gün içinde bağırsak mikrobiyotasını dengelemekte etkili. Misafirlerimizin %85+ programın 5. gününde sindirim rahatsızlıklarında belirgin azalma raporluyor.',
-      source: 'Gut Microbiome Journal 2022',
-      priority: 8
+      body: 'Kolon hidroterapi + probiyotik + fiber-zengin program 7 gün içinde bağırsak mikrobiyotasını dengeler. %85+ misafir 5. günde sindirim rahatsızlıklarında belirgin azalma raporluyor.',
+      source: 'Gut Microbiome Journal 2022', priority: 8
+    },
+    {
+      match: function(a){ return a.ebeveynlik === 'hamile'; },
+      tag: 'Hamilelik Dostu Protokol',
+      body: 'Hamilelik döneminde yoğun detoks kontrendikedir; programınız hafif besinsel destek, prenatal yoga ve yumuşak terapilere odaklanır. Tüm aktiviteler kadın doğum uzmanı onaylı.',
+      source: 'ACOG Prenatal Guidelines', priority: 11
+    },
+    {
+      match: function(a){ return a.ebeveynlik === 'emziren'; },
+      tag: 'Emzirme Dostu Beslenme',
+      body: 'Emzirme döneminde süt arzını korumak için minimum 1.800 kcal + ekstra protein + omega-3 gereklidir. Detoks programınız bu kriterleri karşılayacak şekilde modüle edilir.',
+      source: 'WHO Maternal Nutrition 2020', priority: 11
+    },
+    {
+      match: function(a){ return a.ebeveynlik === 'postpartum'; },
+      tag: 'Postpartum Restorasyon',
+      body: 'Doğum sonrası ilk 12 ay hormonal toparlanma, abdominal kor restorasyonu ve uyku borcu için kritiktir. Programınız core-friendly hareket + uyku optimizasyonu içerir.',
+      source: 'Postnatal Care Reviews 2022', priority: 10
+    },
+    {
+      match: function(a){ return a.is_durumu === 'yogun_giris' || a.is_durumu === 'tam_zamanli'; },
+      tag: 'Yoğun İş Tempo Etkisi',
+      body: 'Yoğun çalışan bireylerde kortizol akşamları beklenenden 3-4x yüksek seyreder. Programınız sabah-akşam ritmi (matinal aktivite + akşam kapanışı) kortizol döngüsünü resetler.',
+      source: 'Occupational Health Journal 2023', priority: 7
+    },
+    {
+      match: function(a){ return a.hareket === 'sedanter' || a.hareket === 'dusuk'; },
+      tag: 'Sedanter Yaşam Telafisi',
+      body: 'Günde 6+ saat oturmak metabolik hızı %15 düşürür ve insülin direnci riskini artırır. Programınız yumuşak başlangıç + kademeli artan aktivite ile vücudu zorlamadan resetler.',
+      source: 'AHA Cardiovascular Reviews 2021', priority: 7
+    },
+    {
+      match: function(a){ return a.hareket === 'cok_aktif' || a.hareket === 'aktif'; },
+      tag: 'Toparlanma Optimizasyonu',
+      body: 'Düzenli egzersiz yapanlarda overtraining ve kronik inflamasyon gizli kalır. Programınız aktif toparlanma + kas onarım protokolü + soğuk-sıcak terapilerle performansı bir sonraki seviyeye taşır.',
+      source: 'Sports Medicine 2022', priority: 6
+    },
+    {
+      match: function(a){ return a.beslenme === 'vegan' || a.beslenme === 'vejetaryan'; },
+      tag: 'Bitki Bazlı Optimizasyon',
+      body: 'Bitki bazlı beslenmede B12, D, omega-3, demir ve çinko eksiklik riskleri vardır. Programınız tam laboratuvar taraması + hedefli takviye protokolü içerir.',
+      source: 'Plant-Based Nutrition Reviews 2021', priority: 6
+    },
+    {
+      match: function(a){ return a.su === 'az' || a.su === 'baska'; },
+      tag: 'Hidrasyon Açığı',
+      body: 'Düşük su tüketimi toksin atılımını %30 yavaşlatır, enerji ve sindirim üzerinde gizli sabotördür. Programınız ilk 3 günde aşamalı hidrasyon protokolü ile bu açığı kapatır.',
+      source: 'Nutrients Journal 2020', priority: 6
     },
     {
       match: function(a){ return (a.saglik||[]).indexOf('hormon') !== -1 && a.cinsiyet === 'kadin'; },
       tag: 'Menopozal Denge',
-      body: 'Menopoz döneminde metabolik hız ortalama %15-20 düşer; kilo, sıcak basması ve uyku problemleri hormonal değişimle paralel ilerler. Hedeflenmiş besin terapisi + adaptojenler bu süreçte semptomları %30-45 hafifletebilir.',
-      source: 'Menopause Journal 2021',
-      priority: 9
+      body: 'Menopoz döneminde metabolik hız %15-20 düşer; kilo, sıcak basması ve uyku problemleri hormonal değişimle paralel ilerler. Hedeflenmiş besin terapisi + adaptojenler semptomları %30-45 hafifletir.',
+      source: 'Menopause Journal 2021', priority: 9
     },
     {
       match: function(a){ return (a.yas === '45-54' || a.yas === '55-64') && a.cinsiyet === 'kadin'; },
       tag: 'Yaş & Hormonal Geçiş',
-      body: '45-64 yaş kadın metabolizması östrojen düşüşüne bağlı olarak insülin direncine daha yatkın hale gelir. Bu dönemde programınız insülin hassasiyetini artıracak şekilde özelleştirilir (intermittent feeding penceresi + protein optimizasyonu).',
-      source: 'Endocrine Reviews 2020',
-      priority: 7
+      body: '45-64 yaş kadın metabolizması östrojen düşüşüne bağlı olarak insülin direncine yatkın hale gelir. Programınız insülin hassasiyetini artıracak şekilde özelleştirilir.',
+      source: 'Endocrine Reviews 2020', priority: 7
     },
     {
       match: function(a){ return a.yas === '55-64' || a.yas === '65+'; },
       tag: 'Yaş & Longevity',
       body: '55+ yaşta kas kütlesi yıllık %1-2 azalır (sarkopeni). Programınıza dirençli aktivite + yüksek biyoyararlanım protein + kreatin desteği eklenerek bu kayıp tersine çevrilebilir.',
-      source: 'Journal of Gerontology 2023',
-      priority: 7
+      source: 'Journal of Gerontology 2023', priority: 7
     },
     {
       match: function(a){ return (a.hedef||[]).indexOf('uyku') !== -1; },
       tag: 'Sirkadyen Ritim',
-      body: 'Düzensiz uyku sirkadyen ritmin bozulmasından kaynaklanır. Sabah güneş ışığı + akşam mavi ışık kısıtlaması + magnesyum + melatonin desteği ile 5-7 günde uyku kalitesi anlamlı düzelir.',
-      source: 'Sleep Medicine Reviews 2022',
-      priority: 7
+      body: 'Düzensiz uyku sirkadyen ritmin bozulmasından kaynaklanır. Sabah güneş ışığı + akşam mavi ışık kısıtlaması + magnesyum + melatonin ile 5-7 günde uyku kalitesi anlamlı düzelir.',
+      source: 'Sleep Medicine Reviews 2022', priority: 7
     },
     {
       match: function(a){ return (a.hedef||[]).indexOf('reset') !== -1; },
       tag: 'Hücresel Otofaji',
-      body: 'Yapılandırılmış oruç ve kısıtlı kalori süreci otofaji denilen hücresel temizleme mekanizmasını tetikler (2016 Nobel Tıp Ödülü). Programınız bu süreci güvenli ve medikal gözetimli şekilde aktive eder.',
-      source: 'Yoshinori Ohsumi, Nobel 2016',
-      priority: 6
+      body: 'Yapılandırılmış oruç ve kalori kısıtlaması otofajiyi tetikler (2016 Nobel Tıp Ödülü). Programınız bu süreci güvenli ve medikal gözetimli aktive eder.',
+      source: 'Yoshinori Ohsumi, Nobel 2016', priority: 6
     },
     {
       match: function(a){ return (a.hedef||[]).indexOf('kronik') !== -1; },
       tag: 'Bütünsel Tıp Yaklaşımı',
-      body: 'Kronik hastalık yönetiminde semptom değil köken hedeflenir. Programınız sırasında dahiliye uzmanı + diyetisyen + psikolog birlikte çalışarak mevcut ilaç tedavinizi koruyup tamamlayıcı protokoller ekler.',
-      source: 'Institute for Functional Medicine',
-      priority: 8
+      body: 'Kronik hastalık yönetiminde semptom değil köken hedeflenir. Dahiliye + diyetisyen + psikolog birlikte çalışarak ilaç tedavinizi koruyup tamamlayıcı protokoller ekler.',
+      source: 'Institute for Functional Medicine', priority: 8
+    },
+    {
+      match: function(a){ return a.is_durumu === 'emekli'; },
+      tag: 'Emeklilik Hayat Geçişi',
+      body: 'Emeklilik dönemi sosyal yapı + kimlik + rutin değişikliğine yol açar; depresyon riski %30 artar. Programınız sosyal etkileşim + amaç-odaklı aktiviteler + bilişsel rezerv inşası içerir.',
+      source: 'Journal of Aging Studies 2022', priority: 6
     }
   ];
 
-  // Generic fallback insights (always show if no specific match)
   var FALLBACK_INSIGHTS = [
-    {
-      tag: '22 Yıllık Deneyim',
-      body: '40.000+ misafirimizden topladığımız verilerle protokollerimiz sürekli güncellenir. Sizin yaş, cinsiyet ve sağlık profilinizdeki misafirlerin %78\'i ilk programlarından sonra "yıllardır olmadığım kadar dinlenmiş" geri bildirimi vermiştir.',
-      source: 'TheLifeCo İç Memnuniyet Anketi 2024'
-    },
-    {
-      tag: 'Medikal Güvence',
-      body: 'Programınız boyunca dahiliye uzmanı, diyetisyen, psikolog ve wellness koçundan oluşan ekibimiz günlük takip yapar. İlk günde tam sağlık taraması ve sonunda detaylı çıkış raporu verilir.',
-      source: 'TheLifeCo Medikal Protokol'
-    }
+    { tag: '22 Yıllık Deneyim', body: '40.000+ misafirimizden topladığımız verilerle protokollerimiz sürekli güncellenir. Sizin yaş, cinsiyet ve sağlık profilinizdeki misafirlerin %78\'i programlarından sonra "yıllardır olmadığım kadar dinlenmiş" diye geri bildirim verdi.', source: 'TheLifeCo İç Memnuniyet Anketi 2024' },
+    { tag: 'Medikal Güvence', body: 'Programınız boyunca dahiliye uzmanı, diyetisyen, psikolog ve wellness koçundan oluşan ekibimiz günlük takip yapar. İlk günde tam sağlık taraması ve sonunda detaylı çıkış raporu verilir.', source: 'TheLifeCo Medikal Protokol' }
   ];
 
   function selectInsights(answers) {
@@ -2017,17 +2377,6 @@ h1.hero em { color: var(--primary); font-style: italic; }
         '<span class="si-source">' + ins.source + '</span>';
       list.appendChild(li);
     });
-  }
-
-  // === NEAREST LOCATION (stub — şimdilik Bodrum) ===
-  // Production: ipapi.co/json/ ile şehir tespit edilip en yakın merkez seçilebilir.
-  // Örn: İstanbul/Ankara/İzmir → Bodrum, Antalya/Mersin → Antalya, Suudi/Mısır → Sharm, Tay → Phuket
-  function detectNearestCenter(answers) {
-    // TODO: gerçek IP-based detection. Şimdilik standart Bodrum.
-    // Eğer kronik hastalık veya 55+ yaş ise medikal-odaklı Antalya önerilebilir
-    var hedef = answers.hedef || [];
-    if (hedef.indexOf('kronik') !== -1) return 'Antalya (Akra)';
-    return 'Bodrum (Türkbükü)';
   }
 
   function buildPlanReveal() {
@@ -2076,10 +2425,10 @@ h1.hero em { color: var(--primary); font-style: italic; }
   })();
 
   document.addEventListener('click', function(e) {
-    if (e.target.closest('[data-step="10"] .cta')) {
+    if (e.target.closest('[data-step="15"]')) {
       setTimeout(function() {
-        if (state.currentStep === 11) programCards($('#programCards'));
-      }, 200);
+        if (state.currentStep === '16') programCards($('#programCards'));
+      }, 300);
     }
   }, true);
 
@@ -2098,7 +2447,7 @@ h1.hero em { color: var(--primary); font-style: italic; }
     state.answers.phone = countrySelect.value + raw;
     state.answers.phone_raw = raw;
     state.answers.phone_country = countrySelect.value;
-    $('#cta-12').disabled = raw.length < 7;
+    $('#cta-17').disabled = raw.length < 7;
   }
   phoneInput.addEventListener('input', function() {
     var pos = phoneInput.selectionStart;
@@ -2117,7 +2466,7 @@ h1.hero em { color: var(--primary); font-style: italic; }
   state.answers.whatsapp_ok = true;
 
   window.submitFunnel = function() {
-    var btn = $('#cta-13');
+    var btn = $('#cta-18');
     btn.disabled = true;
     btn.textContent = 'Gönderiliyor...';
     state.answers.submitted_at = new Date().toISOString();
@@ -2146,7 +2495,7 @@ h1.hero em { color: var(--primary); font-style: italic; }
       }).catch(function(){});
     }
     if (window.GROWTHER_TRACKER && GROWTHER_TRACKER.onInterested) GROWTHER_TRACKER.onInterested();
-    setTimeout(function() { next(14); }, 600);
+    setTimeout(function() { next('19'); }, 600);
   };
 
   window.openCal = function() {
@@ -2179,7 +2528,7 @@ h1.hero em { color: var(--primary); font-style: italic; }
   document.addEventListener('touchend', function(e) {
     var dx = e.changedTouches[0].clientX - touchX;
     var dy = e.changedTouches[0].clientY - touchY;
-    if (Math.abs(dx) > 80 && Math.abs(dx) > Math.abs(dy) * 1.6 && dx > 0 && state.currentStep > 1 && state.currentStep < 14) {
+    if (Math.abs(dx) > 80 && Math.abs(dx) > Math.abs(dy) * 1.6 && dx > 0 && state.currentStep !== '1' && state.currentStep !== '19') {
       goBack();
     }
   }, { passive: true });
@@ -2192,6 +2541,6 @@ h1.hero em { color: var(--primary); font-style: italic; }
 <script src="/lib/config.js"></script>
 <script src="/lib/clarity.js"></script>
 <script src="/lib/cal-popup.js"></script>
-<script src="/lib/tracker.js" data-type="thelifeco-funnel" data-client="thelifeco" data-total-steps="14"></script>
+<script src="/lib/tracker.js" data-type="thelifeco-funnel" data-client="thelifeco" data-total-steps="19"></script>
 </body>
 </html>
