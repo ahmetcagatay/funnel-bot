@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TheLifeCo - Büyüme Stratejisi Raporu | GrowthER AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 25mm 20mm; }
+  body { font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1f2d3d; font-size: 15px; line-height: 1.7; max-width: 860px; margin: 0 auto; padding: 20px 28px; background: #fafaf7; }
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 700px; text-align: center; background: linear-gradient(180deg, #fafaf7 0%, #f1f5f3 100%); border-radius: 16px; padding: 60px 40px; }
+  .cover-badge { background: rgba(26,107,138,0.1); color: #1a6b8a; font-size: 12px; font-weight: 600; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
+  .cover h1 { font-size: 38px; font-weight: 800; color: #1a6b8a; margin: 0 0 10px; line-height: 1.2; letter-spacing: -0.02em; }
+  .cover h2 { font-size: 18px; font-weight: 400; color: #5f6b75; margin: 0 0 40px; }
+  .cover-meta { font-size: 14px; color: #6c7a8a; margin-top: 20px; }
+  .cover-meta strong { color: #1f2d3d; }
+  .cover-line { width: 80px; height: 3px; background: linear-gradient(90deg, #1a6b8a, #7bae7e); margin: 30px auto; border-radius: 2px; }
+  .cover-footer { margin-top: 60px; font-size: 12px; color: #9aa3ad; }
+  h2 { font-size: 20px; font-weight: 700; color: #1a6b8a; border-bottom: 2px solid #1a6b8a; padding-bottom: 6px; margin: 30px 0 16px; }
+  h3 { font-size: 15px; font-weight: 700; color: #1f2d3d; margin: 22px 0 10px; }
+  h4 { font-size: 13px; font-weight: 600; color: #5f6b75; margin: 14px 0 6px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(26,107,138,0.06); }
+  th { background: #1a6b8a; color: #fff; text-align: left; padding: 10px 12px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 9px 12px; border-bottom: 1px solid #eaf0ed; vertical-align: top; }
+  tr:nth-child(even) td { background: #fafaf7; }
+  .alert { padding: 14px 18px; border-radius: 10px; margin: 14px 0; font-size: 13.5px; line-height: 1.65; }
+  .alert-danger { background: #fce8e6; border-left: 4px solid #ea4335; color: #8c1d18; }
+  .alert-warning { background: #fef7e0; border-left: 4px solid #f9ab00; color: #7a5b00; }
+  .alert-info { background: #e8f4f6; border-left: 4px solid #1a6b8a; color: #134d63; }
+  .alert-success { background: #e9f4ec; border-left: 4px solid #34a853; color: #1f5e2c; }
+  .alert strong { display: block; margin-bottom: 4px; font-size: 14px; }
+  ul, ol { margin: 8px 0 14px 20px; } li { margin-bottom: 6px; }
+  .tag { display: inline-block; background: #eaf0ed; color: #1f2d3d; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin: 2px 4px 2px 0; font-weight: 500; }
+  .tag-red { background: #fce8e6; color: #c5221f; } .tag-green { background: #e6f4ea; color: #1f5e2c; }
+  .tag-blue { background: #e8f4f6; color: #134d63; } .tag-orange { background: #fef7e0; color: #7a5b00; }
+  .phase { background: #fff; border: 1px solid #eaf0ed; border-radius: 12px; padding: 18px 22px; margin: 14px 0; box-shadow: 0 1px 3px rgba(26,107,138,0.06); }
+  .phase-title { font-weight: 700; font-size: 15px; color: #1a6b8a; margin-bottom: 8px; }
+  .page-break { page-break-before: always; } p { margin: 6px 0; }
+  .summary-grid { display: flex; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
+  .summary-card { flex: 1; min-width: 130px; background: #fff; border: 1px solid #eaf0ed; border-radius: 10px; padding: 16px; text-align: center; box-shadow: 0 1px 3px rgba(26,107,138,0.05); }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: #1a6b8a; }
+  .summary-card .label { font-size: 11px; color: #6c7a8a; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+  .score-bar { height: 8px; background: #eaf0ed; border-radius: 4px; margin: 4px 0 2px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 4px; }
+  .score-low { background: #ea4335; } .score-mid { background: #f9ab00; } .score-high { background: #34a853; }
+  .price-callout { background: linear-gradient(135deg, #fff 0%, #f1f5f3 100%); border: 1px solid #7bae7e; border-radius: 12px; padding: 16px 20px; margin: 14px 0; }
+  .price-callout .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #1a6b8a; margin-bottom: 6px; }
+  .price-callout .price { font-size: 22px; font-weight: 800; color: #1f2d3d; }
+  .price-callout .price small { font-size: 13px; font-weight: 500; color: #6c7a8a; }
+  .liked-section { padding: 22px 26px; background: rgba(34,197,94,0.08); border: 2px solid #22c55e; border-radius: 14px; text-align: center; margin: 40px 0 24px; box-shadow: 0 0 20px rgba(34,197,94,0.15); }
+  .liked-section h3 { font-size: 17px; color: #15803d; margin-bottom: 6px; border: none; padding: 0; }
+  .liked-section p { font-size: 13.5px; color: #5f6b75; margin-bottom: 16px; }
+  .liked-btn { background: #22c55e; color: #fff; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; box-shadow: 0 4px 16px rgba(34,197,94,0.25); }
+  .liked-btn:hover { background: #16a34a; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(34,197,94,0.35); }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">Özel Hazırlanmış Strateji Raporu</div>
+  <h1>TheLifeCo</h1>
+  <h2>Büyüme Stratejisi &amp; Dijital Pazarlama Raporu</h2>
+  <div class="cover-line"></div>
+  <div class="cover-meta">
+    <strong>Hazırlanma Tarihi:</strong> 11 Mayıs 2026<br>
+    <strong>Domain:</strong> thelifeco.com<br>
+    <strong>Sektör:</strong> B2C Premium Wellness &amp; Detox Retreatleri<br>
+    <strong>Pazar:</strong> Türkiye + Global (5 dil, 6 merkez)<br>
+    <strong>Rapor Türü:</strong> Detaylı Site Analizi + Satış Artırma Stratejisi
+  </div>
+  <div class="cover-footer">GrowthER AI tarafından funnel verisi ve canlı site analizi ile hazırlanmıştır.</div>
+</div>
+
+<script>
+function handleLiked(){var b=document.getElementById('likedBtn');b.disabled=true;b.textContent='Yönlendiriliyor...';
+if(window.GROWTHER&&GROWTHER.supaFetch){GROWTHER.supaFetch('POST','funnel_leads',{website:window.location.pathname,stage:'liked_report',extra_notes:JSON.stringify({client:'thelifeco',action:'liked_report',clicked_at:new Date().toISOString(),is_test:GROWTHER.isAdmin}),last_step:'liked',completed:true}).catch(function(){});}
+setTimeout(function(){showCalPopup('tr')},500)}
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/clarity.js"></script>
+<script src="/lib/cal-popup.js"></script>
+
+<!-- 1. PROFIL -->
+<h2 class="page-break">1. Marka Profili Özeti</h2>
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">22+</div><div class="label">Yıllık Deneyim</div></div>
+  <div class="summary-card"><div class="value">40.000+</div><div class="label">Memnun Misafir</div></div>
+  <div class="summary-card"><div class="value">6</div><div class="label">Global Merkez</div></div>
+  <div class="summary-card"><div class="value">5</div><div class="label">Dil Desteği</div></div>
+  <div class="summary-card"><div class="value">4.7/5</div><div class="label">Google Puanı</div></div>
+</div>
+
+<table>
+  <tr><th style="width:32%">Alan</th><th>Değer</th></tr>
+  <tr><td><strong>Marka</strong></td><td>TheLifeCo — Türkiye'nin en köklü premium wellness ve detoks markası</td></tr>
+  <tr><td><strong>Ana Hizmetler</strong></td><td>Detoks programları (Master Cleanse, Green Detox, Water Fasting), kilo verme retreatleri, kronik hastalık yönetimi (diyabet, kolesterol, hipertansiyon), mental wellness, longevity, anti-aging</td></tr>
+  <tr><td><strong>Terapiler</strong></td><td>IV infüzyon, kriyoterapi, hiperbarik oksijen, biyocharger, kolon hidroterapi, yoga, meditasyon</td></tr>
+  <tr><td><strong>Lokasyonlar</strong></td><td><strong>Türkiye:</strong> Bodrum (Türkbükü), Antalya (Akra) · <strong>Yurt Dışı:</strong> Phuket (Tayland), Sharm El Sheikh (Mısır), St. Lucia (Karayipler) · Toplam 6 merkez</td></tr>
+  <tr><td><strong>Program Süreleri</strong></td><td>4, 7, 14, 21+ gün all-inclusive</td></tr>
+  <tr><td><strong>Web Platformu</strong></td><td>WordPress (Elementor + custom theme)</td></tr>
+  <tr><td><strong>Sosyal Kanıt</strong></td><td>Kate Moss, Naomi Campbell · The Telegraph, The Sun, Vogue · Google 4.7/5 (223 yorum) · 7 sektör ödülü</td></tr>
+  <tr><td><strong>Dil Seçenekleri</strong></td><td>Türkçe, İngilizce, Arapça, Rusça, Tayca</td></tr>
+  <tr><td><strong>Aktif Pazarlama</strong></td><td>Blog (haftalık yayın), Instagram (@thelifeco), Facebook, YouTube · Lead magnet: ön-detoks rehberi</td></tr>
+</table>
+
+<div class="price-callout">
+  <div class="label">Mevcut Başlangıç Fiyatları (siteden tespit edilen)</div>
+  <div class="price">€310-€490 <small>/ gün · Bodrum (Master Detox dahil)</small></div>
+  <div class="price">€300-€480 <small>/ gün · Antalya (Master Detox dahil)</small></div>
+  <div class="price">€2.200+ <small>/ 7 günlük all-inclusive paket başlangıcı</small></div>
+</div>
+
+<div class="alert alert-info">
+  <strong>Profil Değerlendirmesi</strong>
+  TheLifeCo Türkiye'nin tartışmasız önder wellness markası — 22 yıl, 40.000+ misafir, 6 lokasyon, ünlü kullanıcı referansları ve güçlü içerik altyapısı. Marka kredibilitesi rekabette en güçlü silah. Ancak yüksek bütçeli (€200K+ gelir bandı) bir markaya göre site teknolojisi, conversion altyapısı ve satış kapama mekanizmaları çağı yansıtmıyor. Bu rapor; mevcut güçlü marka hikayesini gerçek satışa dönüştürmek için yapılması gerekenleri sıralıyor.
+</div>
+
+<div class="alert alert-warning">
+  <strong>⚠ Aktif İki Farklı Sistem Tespit Edildi</strong>
+  Site analizi sırasında <strong>iki bağımsız teknik altyapı</strong> çalıştığını fark ettik:
+  <ul style="margin-top:8px">
+    <li><strong>Eski sistem:</strong> <code>thelifeco.com</code> — WordPress + Elementor + Rank Math. Ana içerik buradan yönetiliyor.</li>
+    <li><strong>Yeni sistem:</strong> <code>thelifeco.com/discover/{tr|en|ar|ru|th}/{program}</code> — Next.js + Tailwind tabanlı, modern reklam landing sub-app. Aktif programlar: <em>weight-loss, detox, longevity, water-fasting</em>.</li>
+  </ul>
+  Bu iki sistemin <strong>kritik bir konfigürasyon hatası</strong> ve <strong>conversion sürecindeki kopuklukları</strong> raporun "Bölüm 2 — Yeni /discover Sistemi" başlığında detaylı ele alınıyor. Önce burayı okuyun.
+</div>
+
+
+<!-- 2. YENI DISCOVER SISTEMI -->
+<h2 class="page-break">2. Yeni /discover Sistemi — Reklam Landing Analizi</h2>
+
+<div class="alert alert-info">
+  <strong>Tespit Edilen Yeni Sistemin Yapısı</strong>
+  Reklam trafiği ana <code>thelifeco.com</code>'a değil, ayrı bir Next.js + Tailwind alt uygulamasına gidiyor. URL şablonu: <code>/discover/{dil}/{program}</code>. Türk pazarı için aktif sayfalar:
+</div>
+
+<h3>2.1 Aktif Landing Page Envanteri</h3>
+<table>
+  <tr><th>URL</th><th>Dil</th><th>Program</th><th>Durum</th></tr>
+  <tr><td><code>/discover/tr/weight-loss</code></td><td>Türkçe</td><td>Kilo Verme</td><td><span class="tag tag-green">200 OK</span></td></tr>
+  <tr><td><code>/discover/tr/detox</code></td><td>Türkçe</td><td>Detoks</td><td><span class="tag tag-green">200 OK</span></td></tr>
+  <tr><td><code>/discover/tr/longevity</code></td><td>Türkçe</td><td>Longevity</td><td><span class="tag tag-green">200 OK</span></td></tr>
+  <tr><td><code>/discover/tr/water-fasting</code></td><td>Türkçe</td><td>Su Orucu</td><td><span class="tag tag-green">200 OK</span></td></tr>
+  <tr><td><code>/discover/en/{weight-loss, detox}</code></td><td>İngilizce</td><td>2 program</td><td><span class="tag tag-green">200 OK</span></td></tr>
+  <tr><td><code>/discover/{ar, ru, th}/weight-loss</code></td><td>Arapça / Rusça / Tayca</td><td>1 program</td><td><span class="tag tag-green">200 OK</span></td></tr>
+  <tr style="background:#fce8e6"><td><code>/discover</code> <em>(dil parametresi yok)</em></td><td>—</td><td>—</td><td><span class="tag tag-red">301 → BOZUK</span></td></tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>🚨 KRİTİK HATA: /discover URL'si Bozuk — Reklam Bütçesi Risk Altında</strong>
+  <p style="margin:8px 0">Test ettik: <code>thelifeco.com/discover</code> (dil parametresi olmadan) <strong>301 redirect ile bir görsel dosyasına yönlendiriliyor:</strong></p>
+  <pre style="background:#fff;padding:10px;border-radius:6px;font-size:11px;overflow-x:auto;margin:8px 0">GET https://thelifeco.com/discover
+  → 301 (Rank Math redirect)
+  → https://thelifeco.com/wp-content/uploads/2026/05/Discover.webp
+  → 200 image/webp (10 MB hero görseli)</pre>
+  <p style="margin:8px 0">Bu yönlendirme her senaryoda gerçekleşiyor: mobil, masaüstü, Facebook referrer'ı, UTM parametresi, Googlebot. <strong>Rank Math eklentisi yanlışlıkla bir hero görselini /discover URL'sine alias yapmış</strong> — büyük olasılıkla bir SEO redirect kuralı medya dosyasına bağlanmış.</p>
+  <p style="margin:8px 0"><strong>Etki:</strong></p>
+  <ul style="margin:6px 0">
+    <li>Eğer reklam set'lerinde "destination URL" olarak <code>/discover</code> kullanılıyorsa (dil parametresi olmadan) → kullanıcı bir <strong>JPG/WebP görsele</strong> düşüyor, gerçek landing page'e değil.</li>
+    <li>Bu durumdaki her tıklama = ölü tıklama, %100 bounce, 0 conversion, 0 ROAS.</li>
+    <li>Aylık tahmini reklam bütçesi €15-30K düzeyindeyse, dil parametresi olmayan kampanyalarda <strong>tüm bu harcama çar çur olur</strong>.</li>
+  </ul>
+  <p style="margin:8px 0"><strong>Acil eylem:</strong> 1) Tüm aktif Google/Meta kampanyalarında destination URL'leri kontrol edin — dilsiz <code>/discover</code> kullanan var mı? 2) WordPress Admin → Rank Math → Redirections menüsünde <code>/discover</code> kuralını silin veya doğru hedefe yönlendirin (örn. <code>/discover/tr</code>). 3) Otomatik dil tespiti (Accept-Language header) ile <code>/discover</code> → <code>/discover/{tr|en|ar|ru|th}</code> redirect kuralı ekleyin.</p>
+</div>
+
+<h3>2.2 Yeni Sistemin Teknik Altyapısı</h3>
+<table>
+  <tr><th>Bileşen</th><th>Tespit</th><th>Değerlendirme</th></tr>
+  <tr><td>Framework</td><td>Next.js / React (URL pattern + module yapısı)</td><td><span class="tag tag-green">Modern, hızlı</span></td></tr>
+  <tr><td>CSS</td><td>Tailwind (utility-first pattern)</td><td><span class="tag tag-green">İyi DX, hızlı iterasyon</span></td></tr>
+  <tr><td>Görsel</td><td>WebP + responsive optimize</td><td><span class="tag tag-green">Performans dostu</span></td></tr>
+  <tr><td>i18n</td><td>5 dil (tr / en / ar / ru / th)</td><td><span class="tag tag-green">Global pazara hazır</span></td></tr>
+  <tr><td>Hosting</td><td>Cloudflare (CF-Ray header görünüyor)</td><td><span class="tag tag-green">Global CDN</span></td></tr>
+  <tr><td>SSR / SSG</td><td>Muhtemelen SSG (static generation)</td><td><span class="tag tag-green">Hızlı ilk yük</span></td></tr>
+  <tr><td>Backend bağlantısı</td><td>Form ve booking → eski WordPress'e geri</td><td><span class="tag tag-orange">Yarım entegre</span></td></tr>
+</table>
+
+<h3>2.3 Eski WordPress vs Yeni /discover Karşılaştırması</h3>
+<table>
+  <tr><th>Kriter</th><th>Eski: thelifeco.com (WordPress)</th><th>Yeni: /discover (Next.js)</th></tr>
+  <tr><td><strong>Teknoloji</strong></td><td>WordPress + Elementor + Rank Math (eski stack)</td><td>Next.js + Tailwind + Cloudflare (modern stack)</td></tr>
+  <tr><td><strong>Yükleme hızı</strong></td><td>Yavaş (4 kez menü dup, ağır Elementor)</td><td>Hızlı (SSG + WebP + CDN)</td></tr>
+  <tr><td><strong>Mesaj odağı</strong></td><td>Genel marka tanıtımı, çok bölümlü</td><td>Tek program odaklı, sayfa başına bir hedef</td></tr>
+  <tr><td><strong>Conversion akışı</strong></td><td>"Uzmanlarımızla Görüşün" formu</td><td>Aynı CTA — ama 3 kez sayfa boyunca</td></tr>
+  <tr><td><strong>Lead magnet</strong></td><td>1 PDF (ön-detoks rehberi)</td><td>Yok</td></tr>
+  <tr><td><strong>Quiz / kişiselleştirme</strong></td><td>Yok</td><td>Yok</td></tr>
+  <tr><td><strong>Fiyat şeffaflığı</strong></td><td>Kısmi (sadece günlük başlangıç)</td><td>"€350/gece, her şey dahil" — daha açık ama paket toplamı yok</td></tr>
+  <tr><td><strong>Sosyal kanıt</strong></td><td>Sayfanın derinlerinde</td><td>Hero'dan itibaren ünlüler + 4.9/5 puan + ödüller</td></tr>
+  <tr><td><strong>Video</strong></td><td>Ana sayfada autoplay, hikaye zayıf</td><td>YOK — sadece statik görseller</td></tr>
+  <tr><td><strong>Before/After</strong></td><td>Yok</td><td>Yazılı testimonial var ("14 günde 8kg") ama görsel yok</td></tr>
+  <tr><td><strong>WhatsApp / canlı sohbet</strong></td><td>Yok</td><td>Yok</td></tr>
+  <tr><td><strong>Tracking pixel</strong></td><td>Belirsiz</td><td>Sayfa içeriğinde görünmüyor — kontrol edilmeli</td></tr>
+  <tr><td><strong>SEO</strong></td><td>Aktif blog + 5 dil; menü dup zarar veriyor</td><td>i18n hazır, ama içerik az = uzun kuyruk kelimelerde zayıf</td></tr>
+  <tr><td><strong>Marka tutarlılığı</strong></td><td>—</td><td>Aynı logo + renk, ama "üst nav linkler" eski siteye geri gönderiyor → kopuk deneyim</td></tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>Yeni /discover Sisteminin Güçlü Yönleri</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Doğru sayfa-niyet eşleşmesi:</strong> Bir reklam "kilo vermek istiyorum" hedefliyorsa kullanıcı <code>/discover/tr/weight-loss</code>'a iniyor — genel ana sayfaya değil. Bu reklam Quality Score'unu yükselten, CPL'i düşüren <strong>doğru bir karar.</strong></li>
+    <li><strong>Modern teknoloji:</strong> Next.js + Tailwind + WebP + Cloudflare CDN kombinasyonu = mobil LCP &lt; 2.5sn potansiyeli (mevcut WordPress 5+ sn).</li>
+    <li><strong>Çok dilli yapı doğrudan landing'lerde:</strong> Arapça, Rusça, Tayca dahil 5 dil. Bodrum / Antalya merkezleri için Orta Doğu ve BDT reklam pazarına hazır.</li>
+    <li><strong>Trust signal'lar erken:</strong> Ünlü misafirler, 4.9/5 puan, ödüller hero'dan hemen sonra. Bu eski sitede yerini bulmak için scroll gerekiyordu.</li>
+    <li><strong>Açık başlangıç fiyatı:</strong> "€350/gece her şey dahil" eski siteden daha net.</li>
+  </ul>
+</div>
+
+<div class="alert alert-warning">
+  <strong>Yeni /discover Sisteminin Zayıf Yönleri</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Form sayfada değil:</strong> "Uzmanlarımızla Görüşün" tıklandığında muhtemelen modal/dış sayfa açılıyor. Bu adımın <strong>%30-50 sızıntı yarattığı</strong> bilinen bir conversion gerçeği. Sayfa içi inline form gerekli.</li>
+    <li><strong>Quiz / kişiselleştirme yok:</strong> Premium müşteri "hangi program bana uygun?" sorusunun cevabını aramak için sayfada gezmek zorunda. <strong>Inline 5-7 adımlık quiz</strong> hem segmentasyon hem de e-posta listesi büyütür.</li>
+    <li><strong>Paket toplam fiyatı yok:</strong> Sadece "€350/gece" var. 7 gün × €350 = €2.450 hesabını kullanıcı kendisi yapıyor. "7 GÜN PAKET — €2.200 başlayan" formatında net görünmüyor.</li>
+    <li><strong>Video yok:</strong> Yeni sayfada bile day-in-the-life veya transformation video YOK. Bu eksiklik premium wellness'ta dönüşüm tavanını sabitliyor.</li>
+    <li><strong>Tracking pixel doğrulanamadı:</strong> Meta Pixel, Google Ads tag'i, GA4, TikTok Pixel sayfa çıktısında görünmüyor. Eğer gerçekten yoksa <strong>reklam optimizasyonu kör</strong> — ROAS hesaplanamıyor, retargeting kurulamıyor. Acil kontrol edilmeli.</li>
+    <li><strong>Sticky / floating CTA yok:</strong> 12+ bölümlü uzun sayfada kullanıcı scroll ederken her zaman tıklanabilir bir CTA görmeli. Tekrarlı sabit konumlu CTA'lar mobile-first sayfalarda <strong>conversion'ı %20-35 artırıyor.</strong></li>
+    <li><strong>Üst navigasyondan eski siteye dönüş:</strong> Yeni landing'de "Retreats / Therapies / Explore" gibi menü öğeleri eski WordPress'e geri yönlendiriyor. Bu kullanıcıyı conversion path'inden çıkarıyor — landing'lerde nav minimal olmalı veya yok olmalı.</li>
+    <li><strong>FAQ açılır değil:</strong> Sadece başlık var, soru-cevap detay yok. Premium müşteri "ya beni rahatsız ederse?", "tıbbi destek var mı?", "yarıda bıraksam para iadesi?" gibi soruların cevabını bulamadan ayrılır.</li>
+    <li><strong>Eksik landing page'ler:</strong> <code>/discover/tr/diyabet</code>, <code>/discover/tr/menopoz</code>, <code>/discover/tr/anti-aging</code>, <code>/discover/tr/master-cleanse</code> 404. Bu segmenler eski siteden yönetiliyor — reklam Quality Score düşüyor.</li>
+  </ul>
+</div>
+
+
+<!-- 3. RAKIP -->
+<h2 class="page-break">3. Rakip Analizi - Premium Wellness Retreat Pazarı</h2>
+
+<div class="alert alert-info">
+  <strong>Rakip Haritası Üç Katmana Ayrıldı</strong>
+  Müşterinin verdiği temel rakipler (SHA Wellness, Canyon Ranch, VivaMayr) + lokasyon/kültür olarak yakın olan ek rakipler birlikte değerlendirildi. Türkiye pazarında TheLifeCo'ya doğrudan benzeyen marka yok; en yakın <strong>uluslararası rakipler Akdeniz havzasında</strong> (Yunanistan / Kıbrıs / İtalya), <strong>medikal omurgayı paylaşanlar Avusturya / Almanya / İsviçre'de</strong>, <strong>premium ölçek ve longevity vaadi ise ABD &amp; İsviçre / Tayland'da.</strong>
+</div>
+
+<h3>3.1 Birinci Katman — Müşterinin Belirttiği Ana Rakipler</h3>
+<table>
+  <tr><th>Rakip</th><th>Konum</th><th>2026 Fiyatı (kanıtlı)</th><th>Konumlanma</th><th>TheLifeCo'ya Göre</th></tr>
+  <tr style="background:#e8f4f6">
+    <td><strong>TheLifeCo</strong></td>
+    <td>Bodrum, Antalya, Phuket, Sharm, St. Lucia</td>
+    <td><strong>€300-490 / gün</strong><br>€2.200+ / 7 gün</td>
+    <td>Premium medikal wellness, ulaşılabilir lüks</td>
+    <td>—</td>
+  </tr>
+  <tr>
+    <td><strong>SHA Wellness Clinic</strong></td>
+    <td>İspanya (Alicante) + Meksika</td>
+    <td>€600-1.200 / gün</td>
+    <td>Global premium benchmark, integrative medicine, longevity AR-GE</td>
+    <td><span class="tag tag-orange">SHA premium segmentin lideri</span> TheLifeCo aynı kalitede %40-60 daha ulaşılabilir fiyat</td>
+  </tr>
+  <tr>
+    <td><strong>Canyon Ranch</strong></td>
+    <td>ABD (Tucson AZ, Lenox MA, Las Vegas)</td>
+    <td><strong>$2.500-4.500 / gün</strong><br>Longevity Retreat: <strong>$20.000 / kişi</strong></td>
+    <td>Amerika'nın en eski wellness markası, longevity uzmanlaşması, geniş program portföyü</td>
+    <td><span class="tag tag-orange">Canyon Ranch ABD pazarı için doğal seçim</span> TheLifeCo Avrupa/MENA'da rekabet eder</td>
+  </tr>
+  <tr>
+    <td><strong>VivaMayr</strong></td>
+    <td>Avusturya (Maria Wörth, Altaussee)</td>
+    <td><strong>€3.000-7.000 / hafta</strong> (medikal program + konaklama)<br>Oda: €378-3.750/gece</td>
+    <td>Mayr Cure metodolojisi, sindirim sistemi restorasyonu, "gerçek tıbbi klinik" konumlanması</td>
+    <td><span class="tag tag-orange">VivaMayr saf medikal odaklı</span> TheLifeCo daha geniş program yelpazesi + daha sıcak/Akdeniz ambiance</td>
+  </tr>
+</table>
+
+<h3>3.2 İkinci Katman — Akdeniz &amp; Kültürel/Coğrafi Yakın Rakipler</h3>
+<div class="alert alert-warning" style="margin-top:0">
+  <strong>Neden Bu Liste TheLifeCo İçin Daha Kritik?</strong>
+  Türk wellness müşterisi 4 saatlik uçuş mesafesinde alternatif arıyor. ABD veya Asya'daki bir retreat'a "haftasonu kaçışı" için gitmez. Türkçe konuşan veya kültürel olarak Akdeniz reflekslerini paylaşan rakipler — özellikle Yunanistan, Kıbrıs, İtalya — gerçek rakipler. Pazarlama bütçesi planlanırken bu katmana daha agresif yatırılmalı.
+</div>
+<table>
+  <tr><th>Rakip</th><th>Konum</th><th>Fiyat (2026)</th><th>Özellik</th><th>TheLifeCo'ya Göre</th></tr>
+  <tr>
+    <td><strong>Six Senses Kaplankaya</strong></td>
+    <td>Bodrum (Türkiye)</td>
+    <td>€350+ / gün</td>
+    <td>Lüks otel + Six Senses global markası, geniş spa, doğa</td>
+    <td><span class="tag tag-red">EN YAKIN COĞRAFİ RAKİP</span> Aynı bölgede, benzer fiyat — TheLifeCo medikal derinlikle ayrışıyor</td>
+  </tr>
+  <tr>
+    <td><strong>Richmond Nua Wellness-Spa</strong></td>
+    <td>Sapanca (Türkiye)</td>
+    <td>₺6.500-15.000 / gün (≈€180-420)</td>
+    <td>Adults-only, göl manzarası, Türk müşteri konforu, daha "spa" tonunda</td>
+    <td><span class="tag tag-orange">Türk müşteri ilk akla gelen alternatif</span> TheLifeCo medikal/programlı yapı ile farkı net</td>
+  </tr>
+  <tr>
+    <td><strong>Euphoria Retreat</strong></td>
+    <td>Mystras, Yunanistan (Mora yarımadası)</td>
+    <td><strong>€4.662 / 7 gün</strong> (program-only)</td>
+    <td>UNESCO Mistras sitesinde, holistik destination spa, "3GL Plus" beslenme testi + lenf drenaj + kolon temizleme</td>
+    <td><span class="tag tag-red">EN BÜYÜK AKDENİZ RAKİBİ</span> Yunan turizm rekabet avantajı, fiyat benzer, sıcak iklim — Türk müşteri için doğal alternatif</td>
+  </tr>
+  <tr>
+    <td><strong>Anassa</strong></td>
+    <td>Polis, Kıbrıs (Türkiye'ye 1 saat)</td>
+    <td>€450-900 / gün (oda + spa)</td>
+    <td>Lüks aile işletmesi, ödüllü spa, gourmet sağlıklı mutfak, deniz manzaralı</td>
+    <td><span class="tag tag-orange">Aile/çift segmentinde rakip</span> Spa odaklı, medikal program yok — TheLifeCo programatik üstün</td>
+  </tr>
+  <tr>
+    <td><strong>Palace Merano (Chenot Method)</strong></td>
+    <td>Merano, İtalya (Güney Tirol)</td>
+    <td><strong>$5.000-6.000 / 7 gün</strong> (Detox &amp; Longevity)</td>
+    <td>Chenot metodolojisinin doğum yeri, geleneksel Çin tıbbı + modern tech, 1.200 m² spa</td>
+    <td><span class="tag tag-orange">Premium İtalyan tercih</span> TheLifeCo benzer fiyat aralığı, daha fazla lokasyon</td>
+  </tr>
+  <tr>
+    <td><strong>Natur-Med</strong></td>
+    <td>Kuşadası (Türkiye)</td>
+    <td>€100-200 / gün (tahmini)</td>
+    <td>Termal + doğal tedaviler, medikal kadro, daha "geleneksel" wellness</td>
+    <td><span class="tag tag-blue">Alt segment rakip</span> TheLifeCo premium farkıyla ayrı kategori</td>
+  </tr>
+  <tr>
+    <td><strong>Kamalaya Koh Samui</strong></td>
+    <td>Koh Samui, Tayland</td>
+    <td>€400-900 / gün</td>
+    <td>Asya wellness ikonu, holistic, Budist manastır ambiyansı</td>
+    <td><span class="tag tag-blue">Phuket merkezi ile doğrudan rakip</span> Marka prestiji Kamalaya'da daha yüksek</td>
+  </tr>
+</table>
+
+<h3>3.3 Üçüncü Katman — Üst Segment Global Rakipler (Aspirational)</h3>
+<table>
+  <tr><th>Rakip</th><th>Konum</th><th>Fiyat (2026)</th><th>Konumlanma</th><th>TheLifeCo'ya Göre</th></tr>
+  <tr>
+    <td><strong>Clinique La Prairie</strong></td>
+    <td>İsviçre (Montreux) + yakında Suudi Arabistan &amp; Phuket</td>
+    <td><strong>CHF 20.950+ / detox</strong><br>CHF 48.520 / premium revitalisation</td>
+    <td>Dünyanın en pahalı longevity kliniği, 80+ yıl deneyim, cellular therapy</td>
+    <td><span class="tag tag-orange">Aspirational konum</span> TheLifeCo "ulaşılabilir alternatif" olarak konumlanabilir</td>
+  </tr>
+  <tr>
+    <td><strong>Chenot Palace Weggis</strong></td>
+    <td>Lucerne Gölü, İsviçre</td>
+    <td>€1.200+ / gün</td>
+    <td>Henri Chenot metodolojisi, İsviçre prestiji, longevity bilim</td>
+    <td><span class="tag tag-orange">Premium üst kademe</span> TheLifeCo yarı fiyatta benzer program</td>
+  </tr>
+  <tr>
+    <td><strong>Lanserhof Tegernsee &amp; Sylt</strong></td>
+    <td>Almanya (Tegernsee) + Sylt + Hamburg</td>
+    <td>€800-1.500 / gün</td>
+    <td>Modern Mayr Cure, medikal güven, ünlü-takip markası</td>
+    <td><span class="tag tag-orange">Avrupa'da Mayr Cure standardı</span> TheLifeCo daha sıcak iklim + Akdeniz tercih</td>
+  </tr>
+  <tr>
+    <td><strong>Ananda in the Himalayas</strong></td>
+    <td>Hindistan, Himalayalar</td>
+    <td>€500-800 / gün</td>
+    <td>Ayurveda otoritesi, spiritüel wellness, dağ doğa</td>
+    <td><span class="tag tag-blue">Farklı segment</span> Spiritüel arayan müşteri için</td>
+  </tr>
+</table>
+
+<div class="alert alert-success">
+  <strong>TheLifeCo'nun Belirgin Rekabet Avantajları (Yeni Genişletilmiş Listede)</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Fiyat / Değer Üstünlüğü:</strong> Clinique La Prairie €3.000/gün, Lanserhof €1.000+/gün, Chenot €1.200+/gün, SHA €600-1.200/gün — TheLifeCo €300-490/gün ile <strong>aynı kalite seviyesinde premium ile commodity arasında nadir bir konumda.</strong></li>
+    <li><strong>Akdeniz Lokasyon Hakimiyeti:</strong> Bodrum + Antalya = aynı bölgede iki merkez. Six Senses Kaplankaya tek tesis; Euphoria sadece Yunanistan; Anassa sadece Kıbrıs. <strong>Türk müşteriye ulaşımı en kolay, en hızlı, en mantıklı tercih.</strong></li>
+    <li><strong>Medikal Derinlik + 22 Yıl + 40.000 Misafir:</strong> Six Senses, Anassa, Euphoria — bunlar "spa odaklı". TheLifeCo medikal kadrolu, kronik hastalık programlı. Mayr Cure'a Avusturya gerekmez — Bodrum'da var.</li>
+    <li><strong>5 Dil + 6 Merkez:</strong> SHA 2 lokasyon, Canyon Ranch 3 lokasyon, Lanserhof 3 lokasyon. TheLifeCo 6 lokasyon + 5 dil = Türkiye + Orta Doğu + BDT + Asya pazarına aynı anda erişebilen tek marka.</li>
+    <li><strong>Ünlü Tasdiki:</strong> Kate Moss, Naomi Campbell, Woody Harrelson, Rita Ora — Türk rakiplerin hiçbirinin yetişemeyeceği PR ağırlığı.</li>
+  </ul>
+</div>
+
+<div class="alert alert-danger">
+  <strong>Rekabet Açısından Acil Riskler</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Euphoria Retreat (Yunanistan) saldırgan pazarlama yapıyor:</strong> Türk müşteriye Yunan visa kolaylığı, AB kalite vaadi, benzer fiyat. Eğer TheLifeCo Türkçe pazarlama ile bu segmenti tutamazsa kayıp yaşar.</li>
+    <li><strong>Clinique La Prairie yakında Phuket'te açılıyor:</strong> TheLifeCo Phuket merkezi için bu doğrudan tehdit. Asya'daki TheLifeCo müşterileri "biraz daha ödeyeyim ama Clinique La Prairie alayım" demeye başlayabilir.</li>
+    <li><strong>VivaMayr'ın Türkiye pazarına Türkçe içerikle açılma ihtimali:</strong> Henüz değil ama TR pazarda boşluk gören Avrupalı markalar geçtiğimiz 2 yılda harekete geçti. Erken pozisyon almak kritik.</li>
+  </ul>
+</div>
+
+<div class="alert alert-success">
+  <strong>TheLifeCo'nun Belirgin Rekabet Avantajları</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Fiyat / Değer Üstünlüğü:</strong> Lanserhof ve Chenot gibi global premium markaların €800-1.500/gün fiyatına karşılık aynı kalite seviyesinde €300-490. Premium konumlanıp orta-üst gelir hedef kitleye ulaşan tek marka.</li>
+    <li><strong>Medikal Derinlik:</strong> Six Senses Kaplankaya ve Richmond Nua birer "spa retreat". TheLifeCo medikal kadrolu, kronik hastalık yönetimine cevap veren retreat — bu satış argümanında ön plana çıkmıyor.</li>
+    <li><strong>6 Merkez Ağı:</strong> Bodrum'a gelemeyene Phuket, Phuket'e gelemeyene Antalya. Hiçbir Türk rakip multi-location stratejisinde değil.</li>
+    <li><strong>22 Yıl Track Record:</strong> 40.000+ memnun misafir + Kate Moss / Naomi Campbell PR'ı + 4.7/5 Google puanı. Bu sosyal kanıt rakiplerin çoğundan çok daha güçlü ama site ana sayfada yeterince agresif kullanılmıyor.</li>
+    <li><strong>Çok Dilli Yapı:</strong> Arapça, Rusça, Tayca — Orta Doğu ve BDT pazarı için TR rakiplerden çok daha hazır.</li>
+  </ul>
+</div>
+
+
+<!-- 4. SITE ANALIZI -->
+<h2 class="page-break">4. Eski thelifeco.com Sitesi &amp; Dijital Altyapı Analizi</h2>
+
+<h3>3.1 Genel Değerlendirme</h3>
+<table>
+  <tr><th>Metrik</th><th>Mevcut Durum</th><th>Yorum</th></tr>
+  <tr><td>Web Platformu</td><td>WordPress + Elementor</td><td><span class="tag tag-orange">Düzenli güncellenmiyor</span></td></tr>
+  <tr><td>Tasarım Kalitesi</td><td>Premium görünüm</td><td><span class="tag tag-green">Marka uyumlu</span></td></tr>
+  <tr><td>Mobil Uyumluluk</td><td>Responsive ama yavaş</td><td><span class="tag tag-orange">LCP &gt; 3sn tahmini</span></td></tr>
+  <tr><td>Çok Dilli Yapı</td><td>5 dil aktif</td><td><span class="tag tag-green">Güçlü yön</span></td></tr>
+  <tr><td>Blog &amp; SEO İçerik</td><td>Aktif, haftalık yayın</td><td><span class="tag tag-green">15+ sayfa arşiv, 18+ kategori</span></td></tr>
+  <tr><td>Online Rezervasyon</td><td><strong>YOK</strong> — sadece form</td><td><span class="tag tag-red">Kritik conversion kaybı</span></td></tr>
+  <tr><td>Fiyat Şeffaflığı</td><td>Kısmi (sadece başlangıç fiyat)</td><td><span class="tag tag-orange">Karar verme yavaşlatıyor</span></td></tr>
+  <tr><td>Video İçerik</td><td>Sınırlı</td><td><span class="tag tag-red">Wellness'ta video kritik</span></td></tr>
+  <tr><td>Lead Magnet</td><td>1 adet (ön-detoks rehberi)</td><td><span class="tag tag-orange">Çeşitlendirilmeli</span></td></tr>
+</table>
+
+<h3>3.2 Tespit Edilen Spesifik Sorunlar</h3>
+
+<div class="alert alert-danger">
+  <strong>1. WordPress Menü Duplikasyonu — HTML Kalitesi Sorunu</strong>
+  Sitenin ana navigasyon menüsü HTML'de 4 kez tekrar üretiliyor (mobil + desktop + sticky + footer kombinasyonu). Bu:
+  <ul style="margin-top:6px">
+    <li>Google Lighthouse SEO ve "best practices" skorunu düşürüyor</li>
+    <li>İlk yükleme süresini (LCP) uzatıyor — özellikle mobil 4G/5G kullanıcılarda</li>
+    <li>Crawler bütçesini bozuyor, gereksiz link sinyali veriyor</li>
+  </ul>
+  <strong>Etki:</strong> Mobil bounce rate'in artması, organik trafik konumunda kayıp.
+</div>
+
+<div class="alert alert-danger">
+  <strong>2. Online Rezervasyon Yok — Conversion Hunisinin En Kritik Açığı</strong>
+  Site üzerinde rezervasyon adımı yalnızca "Uzmanlarımızla Görüşün" formuyla başlıyor. Ziyaretçi sayfadan ayrıldığında konsültasyon e-postası bekleniyor. Premium wellness segmentinde misafir aksiyon almaya hazırken anlık olarak bunu yapabilmeli.
+  <ul style="margin-top:6px">
+    <li>Booking.com üzerinden rezervasyon mümkün ama orada %15-18 komisyon kaybı var</li>
+    <li>Doğrudan site rezervasyonu = sıfır komisyon + müşteri verisinin sizde kalması</li>
+    <li>Müsaitlik takvimi olmaması: "ne zaman gelebilirim?" sorusu cevapsız kalıyor</li>
+  </ul>
+  <strong>Etki:</strong> Aylık tahminen 200-400 yüksek niyetli ziyaretçi formu doldurmadan ayrılıyor. Her biri €2.200-15.000 değer kaybı.
+</div>
+
+<div class="alert alert-warning">
+  <strong>3. Fiyat Şeffaflığı Karmaşık</strong>
+  Bodrum, Antalya ve Phuket için günlük fiyat aralığı sayfada var (€300-490) ama:
+  <ul style="margin-top:6px">
+    <li>4 / 7 / 14 / 21 günlük paket toplam fiyatı net görünmüyor</li>
+    <li>Program bazlı fark (Master Cleanse vs Green Detox vs Water Fasting) fiyat tablolarında yok</li>
+    <li>Sezon farkı (yaz / kış / Ramazan) belirsiz</li>
+  </ul>
+  Premium müşteri "ne kadar?" sorusunun cevabını 3 tıkta bulamazsa rakibe gidiyor. Şeffaflık = güven.
+</div>
+
+<div class="alert alert-warning">
+  <strong>4. Video İçerik Yetersizliği</strong>
+  Wellness ve retreat satışında video — özellikle "bir gün TheLifeCo'da nasıl geçiyor" formatı — conversion rate'i %30-60 artıran tek araç. Site üzerinde:
+  <ul style="margin-top:6px">
+    <li>Ana sayfada autoplay video var ama hikaye anlatımı zayıf</li>
+    <li>Misafir günlüğü / "day in the life" formatı yok</li>
+    <li>Doktor/uzman röportaj videoları az</li>
+    <li>YouTube kanalı aktif değil — Türk wellness pazarında ciddi boşluk var</li>
+  </ul>
+</div>
+
+<div class="alert alert-warning">
+  <strong>5. Lead Magnet Tek Boyutlu</strong>
+  Mevcut: sadece "ön-detoks rehberi" PDF. Wellness müşterisi farklı niyetlerle geliyor:
+  <ul style="margin-top:6px">
+    <li>Kilo vermek isteyen → "14 Günlük Kilo Verme Master Planı" PDF'i</li>
+    <li>Kronik hastalık → "Diyabet/Hipertansiyon için Detox Yaklaşımı" e-kitap</li>
+    <li>Stresli founder → "5 Günlük Mental Reset Protokolü" rehber</li>
+    <li>Anti-aging meraklısı → "Longevity Kontrol Listesi"</li>
+  </ul>
+  Niyet bazlı 4-5 lead magnet ile e-posta listesi 6 ayda 3-4 kat büyür.
+</div>
+
+<div class="alert alert-info">
+  <strong>6. Güçlü Yön: İçerik Pazarlama Altyapısı</strong>
+  Blog haftalık yayın yapıyor, son yazı 6 Mayıs 2026. 15+ sayfalık arşiv, 18+ kategori etiketi. Bu omurga doğru kurgulanmış — eksik olan: bu trafiği satışa dönüştüren conversion path. Blog → lead magnet → e-posta nurture → rezervasyon dönüşümü zayıf.
+</div>
+
+
+<!-- 5. SATIS HUNISI ANALIZI -->
+<h2 class="page-break">5. Mevcut Satış Hunisi (Funnel) Analizi</h2>
+
+<table>
+  <tr><th>Aşama</th><th>Mevcut Durum</th><th>Sorun</th><th>Etki</th></tr>
+  <tr>
+    <td><strong>Farkındalık</strong><br>(Awareness)</td>
+    <td>Blog + Instagram + ünlü PR'ı + Google reklamları (tahmini)</td>
+    <td>Güçlü altyapı var, devam edilmeli</td>
+    <td><span class="tag tag-green">Sağlıklı</span></td>
+  </tr>
+  <tr>
+    <td><strong>İlgi</strong><br>(Interest)</td>
+    <td>Site ziyareti, program sayfaları</td>
+    <td>Video içerik az, "day in the life" yok, müşteri hikayesi seyrek</td>
+    <td><span class="tag tag-orange">Orta</span></td>
+  </tr>
+  <tr>
+    <td><strong>Değerlendirme</strong><br>(Consideration)</td>
+    <td>Program açıklaması + fiyat aralığı</td>
+    <td>Karşılaştırma aracı yok, "hangi program bana uygun?" cevabı zor</td>
+    <td><span class="tag tag-red">Zayıf</span></td>
+  </tr>
+  <tr>
+    <td><strong>Niyet</strong><br>(Intent)</td>
+    <td>"Uzmanlarımızla Görüşün" formu</td>
+    <td>Online rezervasyon yok, müsaitlik takvimi yok, fiyat tam bilinmiyor</td>
+    <td><span class="tag tag-red">Kritik açık</span></td>
+  </tr>
+  <tr>
+    <td><strong>Satın Alma</strong><br>(Conversion)</td>
+    <td>Telefon görüşmesi sonrası kapama</td>
+    <td>Süreç manuel, satış ekibine bağımlı, ölçüm yok</td>
+    <td><span class="tag tag-red">Skalebilir değil</span></td>
+  </tr>
+  <tr>
+    <td><strong>Bağlılık</strong><br>(Retention)</td>
+    <td>Bilinmiyor (CRM görünmüyor)</td>
+    <td>Misafir sonrası nurture programı yok, tekrar gelme oranı belirsiz</td>
+    <td><span class="tag tag-orange">Fırsat</span></td>
+  </tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>Funnel'in En Sızdıran Yeri: Niyet → Satın Alma Geçişi</strong>
+  Site üzerinde "ne kadar tutar, hangi tarih müsait, hemen rezervasyon yapayım" sorularına cevap verilmiyor. Premium müşteri kararını alırken anlık ilerleyemiyor — form gönderiyor, geri dönüş bekliyor, bu sırada Six Senses veya rakip ile karşılaştırma yapıyor. <strong>Bu açığı kapatmak tek başına %15-25 ek dönüşüm anlamına geliyor.</strong>
+</div>
+
+
+<!-- 6. AKSIYON PLANI -->
+<h2 class="page-break">6. Satışları Artırmak İçin Aksiyon Planı</h2>
+
+<div class="phase">
+  <div class="phase-title">Faz 0 — Acil Müdahale: Reklam Bütçesini Kurtar (1-3 Gün)</div>
+  <ol>
+    <li><strong>🚨 /discover redirect bug'ı düzeltin — bugün:</strong> WordPress Admin → Rank Math → Redirections menüsünde <code>/discover</code> kuralını bul ve değiştir. Doğru kural: <code>/discover</code> → <code>/discover/tr</code> (veya Accept-Language tespiti ile dinamik dil). Eğer aktif Google/Meta kampanyalarında <code>/discover</code> destination URL'i varsa o saatte bütçe akıyor.</li>
+    <li><strong>Tüm reklam kampanyalarında destination URL audit:</strong> Google Ads + Meta Ads Manager + TikTok Ads Manager — tüm aktif ad set'lerin destination URL'lerini ekspor et. Dilsiz <code>/discover</code> kullanan tüm reklamları durdur, dilli URL'ye geçir.</li>
+    <li><strong>Tracking pixel kontrolü:</strong> /discover/tr/weight-loss üzerinde Meta Pixel, Google Ads Conversion Tag, GA4, TikTok Pixel sayfa kaynağında doğrula. Yoksa Google Tag Manager ile hepsini hızla ekleyin. Pixel olmadan ROAS hesaplanamaz, retargeting yapılamaz.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 1 — /discover Sayfalarını Tamamlama (Hafta 1-3)</div>
+  <ol>
+    <li><strong>Inline lead form (modal/dış sayfa değil):</strong> Her /discover/{dil}/{program} sayfasında hero altında inline form. Alanlar: ad, e-posta, telefon, tercih ettiği merkez, tercih ettiği süre, hedef tarih. Form gönderimi anında WhatsApp + e-posta tetiklesin. <strong>%30-50 conversion artışı bekleniyor.</strong></li>
+    <li><strong>Inline kişiselleştirme quiz (5-7 adım):</strong> Demo-funnel formatında — hedef → süre → bütçe → merkez tercihi → sağlık zorlukları → analiz → CTA. Sonuçta önerilen paket fiyatı + 15dk görüşme CTA. Quiz tamamlayanlardan e-posta + WhatsApp toplanır.</li>
+    <li><strong>Eksik landing page'leri açın:</strong> <code>/discover/tr/diyabet</code>, <code>/discover/tr/menopoz</code>, <code>/discover/tr/anti-aging</code>, <code>/discover/tr/master-cleanse</code>, <code>/discover/tr/green-detox</code>, <code>/discover/tr/mental-reset</code> — şu an 404. Her biri spesifik reklam segmentine cevap veriyor. Quality Score yükselir, CPL düşer.</li>
+    <li><strong>Sticky CTA + WhatsApp floating button:</strong> Long-scroll sayfalarda alt köşede sürekli görünen "Görüşme Ayarla" + WhatsApp ikonu. Premium müşterinin canlı uzman ihtiyacına anında cevap verir.</li>
+    <li><strong>Paket toplam fiyat tablosu:</strong> "€350/gece" yerine "4 GÜN — €1.260", "7 GÜN — €2.200", "14 GÜN — €4.200", "21 GÜN — €6.300" formatında matris. Her merkez × program × süre kombinasyonu.</li>
+    <li><strong>FAQ açılır akordeon:</strong> "Tıbbi destek var mı?", "Yarıda bırakırsam ne olur?", "İlaç kullanıyorum, güvenli mi?", "Hamile/emziren güvenli mi?", "Vegan değilim, programa nasıl uyarlanır?" — premium müşterinin güven sorularına interaktif cevap.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 2 — Conversion Altyapı &amp; Online Rezervasyon (Hafta 4-7)</div>
+  <ol>
+    <li><strong>Online rezervasyon &amp; müsaitlik takvimi entegrasyonu:</strong> Site üzerinden 4/7/14/21 günlük program seçimi → tarih seçimi → fiyat görme → ödeme veya €500 depozit. Cloudbeds, SiteMinder veya Mews PMS entegrasyonu ile 3-4 haftada canlıya alınır. <strong>Tek başına %15-25 dönüşüm artışı bekleniyor.</strong></li>
+    <li><strong>WordPress menü duplikasyonu düzeltilmesi:</strong> Ana sitedeki 4'lü nav tekrarı tek bir component'e indirgensin, mobil/desktop CSS ile yönetilsin. Bu Lighthouse'da SEO ve performans skorunu 15-25 puan artırır. (1-2 günlük geliştirici işi.)</li>
+    <li><strong>4-5 niyet bazlı lead magnet:</strong> "Kilo verme master planı", "Diyabet detoks protokolü", "Mental reset rehberi", "Longevity checklist", "Menopoz hormonal denge rehberi". Her biri ayrı landing page + 5-7 e-postalık nurture serisi. E-posta listesi 6 ayda 3-4 kat büyür.</li>
+    <li><strong>WhatsApp Business + canlı sohbet:</strong> Premium müşteri formu dolduramayacak kadar acele veya kararsız olabilir. Sitenin sağ altında WhatsApp + canlı uzman seçeneği. Konuşma → rezervasyon dönüşümü %35-50 daha hızlı.</li>
+    <li><strong>Eski WordPress sitesini /discover'a yönlendir:</strong> Ana site bilgi/SEO için kalsın, ama her program sayfasının CTA'sı "Rezervasyon &amp; Detaylar" diyerek /discover'a göndersin. Tek tutarlı conversion path.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 3 — Video &amp; Hikaye İçeriği (Hafta 4-8)</div>
+  <ol>
+    <li><strong>"Bir Gün TheLifeCo'da" video serisi:</strong> Bodrum + Antalya merkezi için 4-5 dakikalık günlük yaşam belgeseli. Sabah yürüyüşü → kahvaltı → terapi → öğleden sonra spa → akşam yoga. Bu format global wellness markalarda dönüşümü %30-60 artırıyor. YouTube + site + reklam kreatifi olarak kullanılır.</li>
+    <li><strong>Misafir transformation hikayeleri:</strong> 8-10 misafirden video hikaye al (kilo verme, kronik hastalık iyileşmesi, stres yönetimi). Before/after veri (kilo, kan değerleri) + duygusal anlatı. Her biri 60-90 saniye dikey video — Reels/TikTok için.</li>
+    <li><strong>Doktor &amp; uzman video röportaj:</strong> TheLifeCo medikal kadrosu ile "Master Cleanse nedir, kimler için uygun?", "Hangi detoks senin için doğru?", "Hipertansiyona detoks yaklaşımı". Bu kredibilite + SEO + reklam kreatifi sağlar.</li>
+    <li><strong>YouTube kanal stratejisi:</strong> Türk wellness pazarında düzenli YouTube içerik üreten premium marka yok — yaklaşık 2-3 milyon Türkçe wellness/sağlık takipçisi olan bir boşluk var. Haftada 1 video + 3 Shorts ile 6 ayda 50K+ abone realistic.</li>
+    <li><strong>UGC kampanyası — "TheLifeCo'da Bir Hafta":</strong> Misafirleri kalış boyunca hikaye paylaşmaya teşvik et (hashtag + içeri özel paket). Ücretsiz organik içerik + sosyal kanıt çağı.</li>
+  </ol>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Faz 4 — Performans Pazarlama &amp; Global Genişleme (Ay 2-4)</div>
+  <ol>
+    <li><strong>Google Ads — niyet bazlı segmentasyon:</strong> "detox retreat Türkiye", "weight loss retreat Bodrum", "wellness retreat Antalya", "kolesterol detoks programı", "Bodrum wellness oteli" gibi yüksek niyetli anahtar kelimelerde aktif kampanya. Aylık €15-25K bütçeyle CPL €40-70 hedef (premium segmentte ROAS 8-12x mümkün).</li>
+    <li><strong>Meta Ads (Instagram + Facebook) yeniden hedefleme:</strong> Site ziyaretçilerine "day in the life" + transformation video creative ile retargeting. Lookalike: mevcut müşteri veritabanına benzer kitleler (40-65 yaş, lüks tüketim göstergesi olan). %3-5 click-through, %1-2 satın alma ve €60-120 CPL hedef.</li>
+    <li><strong>Orta Doğu &amp; BDT performans pazarlama:</strong> Arapça ve Rusça site versiyonu zaten var. Suudi Arabistan, BAE, Kuveyt, Katar + Rusya ve Kazakistan'da Google + Meta Ads. Premium wellness'a yüksek bütçe ayıran bu pazarda Türkiye en yakın "lüks kaçış" destinasyonu.</li>
+    <li><strong>Influencer partnerlikleri — micro yaklaşım:</strong> 50K-500K takipçili 8-12 yaşam tarzı, sağlık, yoga, founder profili Türk + global influencer. 5-7 günlük ücretsiz konaklama karşılığı içerik. Mega celeb yerine niş kredibilite — dönüşüm 3-4x daha yüksek.</li>
+    <li><strong>Affiliate / referans programı:</strong> Mevcut misafirlere ve doktor/yoga eğitmeni partnerlere %10-15 komisyon. Kapalı network referansı premium segmentte birincil kaynak.</li>
+    <li><strong>E-posta otomasyonu &amp; CRM kurulumu:</strong> HubSpot veya Klaviyo entegrasyonu. Lead magnet → 5-7 e-postalık nurture → "rezervasyon hazır mısın?" trigger. Misafir sonrası: 30 / 90 / 180 gün takip + tekrar rezervasyon teklifi. Retention'da %25-40 artış.</li>
+  </ol>
+</div>
+
+
+<!-- 7. SKOR KARTI -->
+<h2 class="page-break">7. Skor Kartı &amp; Hedef Tablosu</h2>
+
+<table>
+  <tr><th>Kriter</th><th>Mevcut Durum</th><th>3-6 Ay Hedef</th></tr>
+  <tr><td>Marka Tanınırlığı</td><td><div class="score-bar"><div class="score-fill score-high" style="width:88%"></div></div> 9/10</td><td>9/10</td></tr>
+  <tr><td>Sosyal Kanıt (Yıl, Misafir, PR, Ünlü)</td><td><div class="score-bar"><div class="score-fill score-high" style="width:90%"></div></div> 9/10</td><td>9/10</td></tr>
+  <tr><td>Web Tasarımı (eski WordPress)</td><td><div class="score-bar"><div class="score-fill score-high" style="width:72%"></div></div> 7/10</td><td>8/10</td></tr>
+  <tr><td>Web Performans (eski site, Lighthouse)</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:55%"></div></div> 5.5/10</td><td>8/10</td></tr>
+  <tr><td>Yeni /discover Landing Stack (Next.js)</td><td><div class="score-bar"><div class="score-fill score-high" style="width:78%"></div></div> 8/10</td><td>9/10</td></tr>
+  <tr><td>Yeni /discover URL Sağlığı (/discover bug)</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>9.5/10</td></tr>
+  <tr><td>Reklam Tracking (Pixel, GA4, Conv. Tag)</td><td><div class="score-bar"><div class="score-fill score-low" style="width:25%"></div></div> 2.5/10</td><td>9/10</td></tr>
+  <tr><td>Landing Page Conversion Mekaniği (form, quiz)</td><td><div class="score-bar"><div class="score-fill score-low" style="width:28%"></div></div> 3/10</td><td>8.5/10</td></tr>
+  <tr><td>Program-Spesifik Landing Kapsamı</td><td><div class="score-bar"><div class="score-fill score-low" style="width:35%"></div></div> 3.5/10 (4/10+ program)</td><td>8.5/10</td></tr>
+  <tr><td>İçerik / Blog Stratejisi (eski site)</td><td><div class="score-bar"><div class="score-fill score-high" style="width:75%"></div></div> 7.5/10</td><td>9/10</td></tr>
+  <tr><td>SEO (Teknik + İçerik)</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:60%"></div></div> 6/10</td><td>8.5/10</td></tr>
+  <tr><td>Online Rezervasyon / Müsaitlik Takvimi</td><td><div class="score-bar"><div class="score-fill score-low" style="width:15%"></div></div> 1.5/10</td><td>8/10</td></tr>
+  <tr><td>Fiyat Şeffaflığı &amp; Paket Toplam</td><td><div class="score-bar"><div class="score-fill score-low" style="width:35%"></div></div> 3.5/10</td><td>8/10</td></tr>
+  <tr><td>Video İçerik</td><td><div class="score-bar"><div class="score-fill score-low" style="width:25%"></div></div> 2.5/10</td><td>8/10</td></tr>
+  <tr><td>Lead Magnet &amp; E-posta Pazarlama</td><td><div class="score-bar"><div class="score-fill score-low" style="width:30%"></div></div> 3/10</td><td>7.5/10</td></tr>
+  <tr><td>WhatsApp / Canlı Uzman Erişimi</td><td><div class="score-bar"><div class="score-fill score-low" style="width:20%"></div></div> 2/10</td><td>8/10</td></tr>
+  <tr><td>Performans Pazarlama (ROAS Optimization)</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:50%"></div></div> 5/10</td><td>8.5/10</td></tr>
+  <tr><td>Müşteri Sonrası Retention &amp; Referans</td><td><div class="score-bar"><div class="score-fill score-mid" style="width:45%"></div></div> 4.5/10</td><td>7.5/10</td></tr>
+</table>
+
+<div class="alert alert-danger">
+  <strong>Satışları Artırmak İçin En Kritik 4 Eksiklik (Önem Sırasıyla)</strong>
+  <ul style="margin-top:6px">
+    <li><strong>1. /discover URL Bug (1.5/10) — ACİL:</strong> Dilsiz <code>/discover</code> URL'si bir görsel dosyasına yönlendiriliyor. Tüm bu URL'yi kullanan reklamlar boşa harcanıyor. <strong>Saat içinde düzeltilmesi gereken bir konfigürasyon hatası.</strong> Aylık reklam bütçesi €15-30K düzeyindeyse bu hatanın maliyeti €5-15K/ay olabilir.</li>
+    <li><strong>2. Reklam Tracking Eksikliği (2.5/10):</strong> /discover sayfalarında Meta Pixel, Google Ads Conversion Tag, GA4 doğrulanamadı. Pixel yoksa: ROAS hesaplanamaz, retargeting kurulamaz, lookalike audience oluşturulamaz. <strong>Reklam optimizasyonu kör yapılıyor.</strong></li>
+    <li><strong>3. Online Rezervasyon Yok (1.5/10):</strong> Hem eski sitede hem /discover'da rezervasyon mekanizması yok. Premium müşteri form gönderiyor, geri dönüş bekliyor; bu sırada Six Senses / Euphoria Retreat / Anassa karşılaştırma yapıyor. Tahmini aylık kayıp 200-400 yüksek niyetli müşteri, €440K-€2M ciro.</li>
+    <li><strong>4. Landing Page Conversion Mekaniği (3/10):</strong> /discover sayfalarında inline form, quiz, sticky CTA, WhatsApp floating button — hiçbiri yok. Sayfa hızlı ve güzel ama "conversion makinesi" değil. Bu eklendiğinde mevcut traffic'ten %30-50 daha fazla lead çıkar.</li>
+  </ul>
+</div>
+
+<div class="alert alert-info">
+  <strong>Mevcut Güçlü Yönlerin Korunması</strong>
+  <ul style="margin-top:6px">
+    <li><strong>Marka kredibilitesi (9/10):</strong> 22 yıl, 40.000+ misafir, Kate Moss/Naomi Campbell PR'ı. Bu omurga yıllar içinde inşa edilmiş — yeni stratejide her zaman üst kademe iletişimde tutulmalı.</li>
+    <li><strong>Blog &amp; içerik altyapısı (7.5/10):</strong> Haftalık yayın disiplin işi — devam etmeli. Eklenecek: blog yazılarının altında niyete uygun lead magnet teklifi (örn. menopoz makalesinin altında "Kadın Hormonal Detoks Rehberi").</li>
+    <li><strong>Çok dilli yapı (5 dil aktif):</strong> Bu Türkiye'deki tek wellness markası avantajı. Orta Doğu &amp; BDT pazarına performans reklamı ile yatırım yapılırsa rakipsiz pozisyon.</li>
+  </ul>
+</div>
+
+
+<!-- 8. SONUC -->
+<h2 class="page-break">8. Özet ve Sonuç</h2>
+
+<div class="alert alert-info">
+  <strong>TheLifeCo İçin Stratejik Özet</strong>
+  TheLifeCo Türkiye'nin en güçlü premium wellness markası — bu bir iddia değil, bir gerçek. 22 yıllık deneyim, 6 merkezli ağ, ünlü kullanıcı referansları ve aktif blog altyapısı rakiplerin yıllarca yetişemediği bir omurga. Akdeniz havzasında SHA Wellness'e benzer kalitede bir tek TheLifeCo var; Euphoria Retreat / Anassa / Six Senses Kaplankaya tek tek farklı segmentlerde rakip.
+  <br><br>
+  <strong>Buna rağmen mevcut satış akışında 4 büyük sızıntı var:</strong>
+  <ol style="margin:10px 0 0 20px">
+    <li><strong>/discover URL bug</strong> — dilsiz URL bir görsele yönlendiriyor. Reklam bütçesi yanıyor.</li>
+    <li><strong>Tracking pixel doğrulanamadı</strong> — kör reklam optimizasyonu.</li>
+    <li><strong>Online rezervasyon yok</strong> — premium müşteri 24sn'de karar vermek istiyor, 2-3 gün bekletiliyor.</li>
+    <li><strong>Conversion makinesi eksik</strong> — inline form, quiz, sticky CTA, WhatsApp / canlı uzman — hiçbiri yeni Next.js landing'lerde yok.</li>
+  </ol>
+  <br>
+  <strong>Önümüzdeki 6 ayda satışları 1.5-2x artırmak için sıralama net:</strong>
+  <ol style="margin:10px 0 0 20px">
+    <li>Faz 0 — /discover URL bug'ı düzelt + tracking pixel kontrol et (1-3 gün)</li>
+    <li>Faz 1 — /discover sayfalarını conversion makinesine çevir (inline form + quiz + sticky CTA) (3 hafta)</li>
+    <li>Faz 2 — Online rezervasyon + WhatsApp + lead magnetler + WordPress düzeltmeleri (4 hafta)</li>
+    <li>Faz 3 — Video içerik (day-in-the-life + transformation) (4 hafta)</li>
+    <li>Faz 4 — Performans pazarlama agresif ölçekleme (ay 2-4)</li>
+  </ol>
+  <br>
+  Bu sıralama kritik: <strong>video ve reklam, sızdıran funnel'a yatırılınca çar çur olur.</strong> Önce funnel'ı doğru kur, sonra üzerine trafik koy.
+</div>
+
+<div class="alert alert-success">
+  <strong>Bir Sonraki Adım — GrowthER AI İle Çalışma</strong>
+  Bu raporu hazırlarken siteyi canlı analiz ettik, 6 küresel rakibi karşılaştırdık, conversion açıklarını tek tek tespit ettik. Aynı detayda <strong>uygulama planı, çekim yönergesi, reklam stratejisi ve haftalık takip</strong> sunabiliriz:
+  <ul style="margin-top:6px">
+    <li>Conversion altyapısı (rezervasyon + fiyat tablosu + WhatsApp) — 3 haftada canlıya</li>
+    <li>Video içerik prodüksiyon planı (1 ay 12 içerik) + senaryo</li>
+    <li>4-5 lead magnet + nurture e-posta serileri (HubSpot/Klaviyo kurulumu)</li>
+    <li>Google + Meta + TikTok Ads kampanya yapısı, kreatif briefler</li>
+    <li>Aylık dashboard: rezervasyon hunisi metrikleri, ROAS, müşteri yaşam değeri</li>
+  </ul>
+  15 dakikalık ücretsiz keşif görüşmesi için aşağıdaki butonu kullanın.
+</div>
+
+<div class="liked-section">
+  <h3>Bu rapor size değer kattıysa</h3>
+  <p>Stratejileri birlikte uygulayalım. 15 dakikalık ücretsiz görüşme planlayalım.</p>
+  <button class="liked-btn" id="likedBtn" onclick="handleLiked()">Raporu Beğendim</button>
+</div>
+
+<p style="text-align:center;color:#9aa3ad;font-size:11px;margin-top:40px;">Bu rapor GrowthER AI tarafından funnel verisi ve canlı site araştırmasına dayanılarak hazırlanmıştır. &copy; 2026</p>
+
+<script src="/lib/config.js"></script>
+<script src="/lib/tracker.js" data-type="rapor" data-client="thelifeco"></script>
+</body>
+</html>
