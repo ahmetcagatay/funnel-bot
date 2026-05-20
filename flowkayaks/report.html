@@ -537,8 +537,31 @@ td strong { color: var(--ink); }
 </head>
 <body>
 
+<style>
+.lang-switch {
+  position: absolute; top: 24px; right: 32px; z-index: 5;
+  display: flex; gap: 4px;
+  background: rgba(0,0,0,0.25); padding: 4px; border-radius: 24px;
+  backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.15);
+}
+.lang-switch a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  padding: 6px 14px; border-radius: 18px; border: none;
+  transition: all 0.2s;
+}
+.lang-switch a:hover { color: #fff; border: none; }
+.lang-switch a.active { background: var(--teal); color: #fff; }
+@media (max-width: 640px) { .lang-switch { top: 16px; right: 16px; } }
+</style>
+
 <!-- ==== COVER ==== -->
 <header class="cover">
+  <div class="lang-switch">
+    <a href="report.html" class="active">EN</a>
+    <a href="rapor.html">TR</a>
+  </div>
   <div class="cover-inner">
     <span class="cover-meta">CRO Application · For growth.agency</span>
     <h1>From traffic to revenue — a <em>CRO brief</em> for growth.agency</h1>

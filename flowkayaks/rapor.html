@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>growth.agency için CRO Brief — Ahmet Çağatay (Türkçe versiyon)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,600;9..40,700;9..40,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #0A2540;
+  --navy-dark: #051A2D;
+  --navy-light: #1B3A5C;
+  --teal: #0D9488;
+  --teal-dark: #0B7368;
+  --teal-soft: #CCFBF1;
+  --teal-tint: #F0FDFA;
+  --orange: #F97316;
+  --orange-soft: #FFEDD5;
+  --green: #16A34A;
+  --green-soft: #DCFCE7;
+  --amber: #D97706;
+  --amber-soft: #FEF3C7;
+  --red: #DC2626;
+  --red-soft: #FEE2E2;
+  --cream: #FAFAF7;
+  --bg-card: #FFFFFF;
+  --bg-soft: #F8FAFC;
+  --bg-warm: #FBFBF8;
+  --ink: #0F172A;
+  --text: #1F2937;
+  --text-soft: #374151;
+  --text-muted: #6B7280;
+  --text-light: #9CA3AF;
+  --border: #E5E7EB;
+  --border-strong: #CBD5E1;
+  --shadow-sm: 0 1px 3px rgba(10,37,64,0.06);
+  --shadow-md: 0 4px 16px rgba(10,37,64,0.08);
+  --shadow-lg: 0 12px 40px rgba(10,37,64,0.12);
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.65; color: var(--text); background: var(--cream); -webkit-font-smoothing: antialiased; }
+
+.container { max-width: 920px; margin: 0 auto; padding: 0 32px; }
+
+/* === COVER === */
+.cover { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%); color: #fff; padding: 80px 32px 100px; position: relative; overflow: hidden; }
+.cover::before { content: ''; position: absolute; top: -200px; right: -100px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(13,148,136,0.18) 0%, transparent 60%); border-radius: 50%; }
+.cover::after { content: ''; position: absolute; bottom: -200px; left: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(249,115,22,0.10) 0%, transparent 60%); border-radius: 50%; }
+.cover-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 1; }
+.cover-meta { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--teal-soft); background: rgba(13,148,136,0.15); border: 1px solid rgba(13,148,136,0.4); padding: 6px 14px; border-radius: 20px; margin-bottom: 28px; }
+.cover h1 { font-family: 'DM Sans', sans-serif; font-size: clamp(34px, 5.5vw, 52px); font-weight: 700; line-height: 1.1; letter-spacing: -0.025em; margin-bottom: 20px; }
+.cover h1 em { color: var(--teal-soft); font-style: normal; }
+.cover-lead { font-size: 18px; line-height: 1.55; color: rgba(255,255,255,0.85); max-width: 720px; margin-bottom: 40px; }
+.cover-meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.15); }
+.cover-meta-item .label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 6px; }
+.cover-meta-item .value { font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 600; color: #fff; }
+
+/* === LANG SWITCH === */
+.lang-switch {
+  position: absolute; top: 24px; right: 32px; z-index: 5;
+  display: flex; gap: 4px;
+  background: rgba(0,0,0,0.25);
+  padding: 4px;
+  border-radius: 24px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.lang-switch a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 18px;
+  border: none;
+  transition: all 0.2s;
+}
+.lang-switch a:hover { color: #fff; border: none; }
+.lang-switch a.active { background: var(--teal); color: #fff; }
+
+/* === TOC === */
+.toc { background: var(--bg-card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 30; padding: 14px 0; backdrop-filter: blur(10px); }
+.toc-inner { max-width: 920px; margin: 0 auto; padding: 0 32px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.toc-inner::-webkit-scrollbar { display: none; }
+.toc-link { font-size: 12.5px; font-weight: 600; color: var(--text-muted); text-decoration: none; padding: 6px 12px; border-radius: 20px; white-space: nowrap; transition: all 0.2s; flex-shrink: 0; border: none; }
+.toc-link:hover { color: var(--navy); background: var(--bg-soft); border: none; }
+.toc-link.active { color: var(--teal-dark); background: var(--teal-tint); }
+
+/* === SECTIONS === */
+section { padding: 80px 0; scroll-margin-top: 80px; }
+section + section { border-top: 1px solid var(--border); }
+section.alt { background: var(--bg-warm); }
+
+.section-num { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: var(--teal); margin-bottom: 14px; }
+h2 { font-family: 'DM Sans', sans-serif; font-size: clamp(26px, 4vw, 36px); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: var(--navy); margin-bottom: 14px; }
+h3 { font-family: 'DM Sans', sans-serif; font-size: 22px; font-weight: 700; line-height: 1.25; color: var(--navy); margin: 36px 0 12px; letter-spacing: -0.01em; }
+h4 { font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700; color: var(--navy); margin: 24px 0 8px; }
+p { margin-bottom: 16px; color: var(--text-soft); }
+p.lead { font-size: 18px; line-height: 1.6; color: var(--text); margin-bottom: 28px; max-width: 740px; }
+strong { color: var(--ink); font-weight: 700; }
+em { font-style: italic; color: var(--text-muted); }
+
+ul, ol { padding-left: 22px; margin-bottom: 16px; }
+li { margin-bottom: 8px; color: var(--text-soft); }
+li::marker { color: var(--teal); }
+
+a { color: var(--teal-dark); text-decoration: none; border-bottom: 1px solid var(--teal-soft); }
+a:hover { border-bottom-color: var(--teal); }
+
+code, .mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--navy); background: var(--bg-soft); padding: 1px 6px; border-radius: 4px; }
+
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin: 20px 0; box-shadow: var(--shadow-sm); }
+.card-emphasis { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); color: #fff; border-color: var(--navy); }
+.card-emphasis h3, .card-emphasis h4 { color: var(--teal-soft); }
+.card-emphasis p, .card-emphasis li { color: rgba(255,255,255,0.85); }
+.card-emphasis strong { color: #fff; }
+
+.callout { border-left: 4px solid var(--teal); background: var(--teal-tint); padding: 18px 22px; border-radius: 0 10px 10px 0; margin: 24px 0; }
+.callout.note { border-left-color: var(--orange); background: var(--orange-soft); }
+.callout.warn { border-left-color: var(--amber); background: var(--amber-soft); }
+.callout.critical { border-left-color: var(--red); background: var(--red-soft); }
+.callout-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal-dark); margin-bottom: 6px; }
+.callout.note .callout-label { color: #C2410C; }
+.callout.warn .callout-label { color: #92400E; }
+.callout.critical .callout-label { color: var(--red); }
+.callout p:last-child { margin-bottom: 0; }
+
+.stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin: 32px 0; }
+.stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.stat .value { font-family: 'DM Sans', sans-serif; font-size: 32px; font-weight: 800; color: var(--navy); line-height: 1; margin-bottom: 6px; letter-spacing: -0.02em; }
+.stat .label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+.table-wrap { overflow-x: auto; margin: 24px 0; -webkit-overflow-scrolling: touch; }
+table { width: 100%; border-collapse: collapse; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; font-size: 14px; }
+th { background: var(--navy); color: #fff; text-align: left; font-weight: 600; padding: 12px 14px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; }
+td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-soft); font-size: 14px; line-height: 1.55; }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: var(--bg-warm); }
+td strong { color: var(--ink); }
+
+.score { display: inline-flex; align-items: center; gap: 4px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 13px; padding: 3px 10px; border-radius: 6px; }
+.score-hi { background: var(--green-soft); color: #15803D; }
+.score-mid { background: var(--amber-soft); color: #92400E; }
+
+.tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.tag-quick { background: var(--green-soft); color: #166534; }
+.tag-structural { background: var(--teal-tint); color: var(--teal-dark); }
+.tag-lifecycle { background: var(--orange-soft); color: #C2410C; }
+
+.hyp { background: var(--bg-card); border: 1px solid var(--border); border-left: 4px solid var(--teal); border-radius: 0 12px 12px 0; padding: 18px 22px; margin: 14px 0; }
+.hyp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+.hyp-title { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 15px; color: var(--navy); flex: 1; min-width: 200px; }
+.hyp-scores { display: flex; gap: 6px; flex-shrink: 0; }
+.hyp-because, .hyp-expect { font-size: 13.5px; color: var(--text-soft); margin: 4px 0; }
+.hyp-because strong, .hyp-expect strong { color: var(--navy); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.funnel-flow { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin: 24px 0; }
+.funnel-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; }
+.funnel-step { background: var(--bg-soft); border-radius: 10px; padding: 14px; }
+.funnel-step .num { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; color: var(--teal); margin-bottom: 4px; }
+.funnel-step .title { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px; color: var(--navy); margin-bottom: 4px; line-height: 1.25; }
+.funnel-step .desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.45; }
+
+.qa { margin: 28px 0; }
+.qa-q { font-family: 'DM Sans', sans-serif; font-size: 18px; font-weight: 700; color: var(--navy); background: var(--bg-card); border-left: 4px solid var(--orange); padding: 14px 18px; border-radius: 0 10px 10px 0; margin-bottom: 14px; }
+.qa-q .q-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--orange); letter-spacing: 1px; margin-right: 8px; }
+
+.footer { background: var(--navy); color: #fff; padding: 60px 32px; text-align: center; }
+.footer-inner { max-width: 720px; margin: 0 auto; }
+.footer h3 { color: #fff; font-size: 24px; margin-bottom: 14px; letter-spacing: -0.02em; }
+.footer p { color: rgba(255,255,255,0.7); margin-bottom: 16px; }
+.footer-meta { margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 0.5px; }
+.footer-meta strong { color: var(--teal-soft); }
+
+@media (max-width: 640px) {
+  .container, .toc-inner, .footer { padding-left: 20px; padding-right: 20px; }
+  .cover { padding: 60px 20px 70px; }
+  section { padding: 56px 0; }
+  .cover-meta-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  h2 { font-size: 24px; }
+  h3 { font-size: 19px; }
+  p.lead { font-size: 16px; }
+  .lang-switch { top: 16px; right: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==== COVER ==== -->
+<header class="cover">
+  <div class="lang-switch">
+    <a href="report.html">EN</a>
+    <a href="rapor.html" class="active">TR</a>
+  </div>
+  <div class="cover-inner">
+    <span class="cover-meta">CRO Başvurusu · growth.agency için</span>
+    <h1>Trafikten gelire — growth.agency için bir <em>CRO brief'i</em></h1>
+    <p class="cover-lead">Metodoloji, iki canlı denetim ve yol haritası önerisi — Conversion Rate Optimisation rolünüze cevap olarak hazırlandı. Mülakat sorularınızın etrafında kurguladım ve gönderdiğiniz iki URL üzerinde çalışılmış örneklerle destekledim. <em>Bu, İngilizce ana brief'in Türkçe versiyonudur — sizin için. Asıl gönderilen versiyon İngilizce.</em></p>
+
+    <div class="cover-meta-grid">
+      <div class="cover-meta-item"><div class="label">Hazırlayan</div><div class="value">Ahmet Çağatay</div></div>
+      <div class="cover-meta-item"><div class="label">Rol</div><div class="value">CRO Specialist</div></div>
+      <div class="cover-meta-item"><div class="label">Tarih</div><div class="value">20 Mayıs 2026</div></div>
+      <div class="cover-meta-item"><div class="label">Okuma süresi</div><div class="value">~15 dakika</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ==== TOC ==== -->
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#onsoz" class="toc-link">Önsöz</a>
+    <a href="#yaklasim" class="toc-link">01 · Yaklaşım</a>
+    <a href="#klaviyo" class="toc-link">02 · Klaviyo</a>
+    <a href="#ppc-cro" class="toc-link">03 · PPC + CRO</a>
+    <a href="#raporlama" class="toc-link">04 · Raporlama</a>
+    <a href="#audit-growth" class="toc-link">05 · Audit · growth.agency</a>
+    <a href="#audit-flow" class="toc-link">06 · Audit · Flow Kayaks</a>
+    <a href="#funnel" class="toc-link">07 · Find-your-Flow</a>
+    <a href="#yol" class="toc-link">08 · 30/60/90 plan</a>
+    <a href="#kapanis" class="toc-link">Kapanış</a>
+  </div>
+</nav>
+
+<!-- ==== FOREWORD ==== -->
+<section id="onsoz" class="container">
+  <span class="section-num">ÖNSÖZ</span>
+  <h2>Bu brief neden böyle yazıldı</h2>
+  <p class="lead">5 soru sordunuz ve 2 URL paylaştınız. Her birine bir paragrafla cevap verip teslim edebilirdim. Onun yerine bu brief'i <strong>çalışan bir doküman</strong> gibi ele aldım — eğer işe alınırsam üçüncü haftamda bir müşteriye teslim edeceğim türden bir çalışma. Çıktım böyle görünüyor.</p>
+
+  <p>İçeriğe girmeden önce üç kısa not:</p>
+
+  <ol>
+    <li><strong>Flow Kayaks'ın zaten growth.agency müşterisi olduğunu fark ettim</strong> — portföyünüzde "mevsimsel talebi yıl boyu büyümeye çevirdik" diye case study olarak geçiyor. Bölüm 06'yı bu farkındalıkla yazdım: sıfırdan denetim değil, mevcut PPC/SEO işinizin üzerine eklenecek <em>"bir sonraki katman"</em> olarak.</li>
+    <li><strong>Sizin kendi funnel'ınızı da denetledim</strong> — <code>l.growth.agency/google-ads-audit/improve</code> sağlam bir landing page. CRO başvurusu yapıp da bu sayfayı analiz etmemek tutarsız olurdu (Bölüm 05). Yapıcı, ukala değil.</li>
+    <li><strong>Asıl gönderilen brief İngilizce.</strong> Bu Türkçe versiyon sadece sizin için — okurken bir yerde takılmamanız için. Mülakat dokümanı olarak gönderilecek olan İngilizce versiyondur.</li>
+  </ol>
+
+  <div class="callout">
+    <div class="callout-label">Rakamlar hakkında bir not</div>
+    <p>Bu dokümandaki tüm "beklenen artış" rakamları <strong>aralık bazlı ve güven-ağırlıklı</strong>. Vaat değil, test edilecek hipotez olarak çerçevelenmiş. Her testin nasıl ölçüleceğini ve nasıl <em>durdurulacağını</em> (kill criterion) önceden tanımlıyorum. Test'i nasıl durduracağımı bilmeden başlatmam.</p>
+  </div>
+</section>
+
+<!-- ==== SECTION 1: APPROACH ==== -->
+<section id="yaklasim" class="container alt">
+  <span class="section-num">BÖLÜM 01 — METODOLOJİ</span>
+  <h2>CRO operasyon sistemim</h2>
+  <p class="lead">Tek bir müşteri bir projedir. 100+ müşteri bir operasyon sistemidir. Zor olan kısım test yapmak değil — çok farklı sektörlerde tutarlı, savunulabilir kazanımlar üretebilecek ve ekibi yormayacak bir süreç kurmak.</p>
+
+  <div class="qa">
+    <div class="qa-q"><span class="q-tag">S1</span>Çok sayıda web sitesi üzerinde aynı anda nasıl çalışıyorum</div>
+    <p>Her hesabı aynı <strong>beş aşamalı döngüden</strong> geçiriyorum. Döngü aynı — değişen, girdiler ve hipotezler.</p>
+
+    <div class="card">
+      <h4>Beş aşamalı döngü</h4>
+      <ol>
+        <li><strong>Teşhis (yeni hesap için 1. hafta).</strong> 8 standart yüzey üzerinde sezgisel inceleme — anasayfa, ilk 3 landing page, ürün/kategori, sepet, ödeme, hesap ve satın alma sonrası akış. Yanında GA4 + Search Console denetimi (funnel düşüş noktaları, cihaz dağılımı, sayfa-değer), Hotjar/Clarity replay örneği (minimum 30 oturum) ve sade bir hız raporu. Çıktı: <em>skor verilmiş fırsat haritası</em>.</li>
+        <li><strong>Hipotez kurma.</strong> Her bulgu standart formatta bir hipoteze dönüşüyor — <em>"[Değişikliğin] [metriği] [aralık] ile değiştireceğine inanıyoruz çünkü [kanıt]. Şunu görürsek başarılı sayacağız: [gözlenebilir sinyal]. Şu olursa testi durduracağız: [olumsuz kriter]."</em> Temiz hipoteze dönüşmeyen bulgular backlog'a girmiyor.</li>
+        <li><strong>Önceliklendirme (ICE).</strong> Impact × Confidence × Ease (Etki × Güven × Kolaylık). Confidence en önemli ve en çok abartılan değişken — herkes bunu şişiriyor. ICE'ı ağırlıklandırıyorum, böylece haftalık kapasitenin %80'i yüksek güvenli işe, %20'si bilinçli keşfe gidiyor.</li>
+        <li><strong>Test et ya da hayata geçir.</strong> Aylık ~30k oturum üstünde tek bir sayfa varsa = A/B test (Convert, VWO veya bütçe kısıtlıysa GA4 server-side). Altındaysa = "ship and monitor" + holdout cohort. Düşük trafikli sayfalarda A/B testi taklit etmek bilgi üretmiyor, sadece tiyatro.</li>
+        <li><strong>Öğrenmeyi belgelemek.</strong> Kazanan, kaybeden, null fark etmez — her test 6 satırlık bir özet halinde paylaşılan <em>"Insight Library"</em>ye giriyor. 100+ müşteri varken bu kritik: bir dikeyde işe yarayan örüntü, sonraki dikeye 5 kat hızlandırılmış gidiyor.</li>
+      </ol>
+    </div>
+
+    <div class="callout note">
+      <div class="callout-label">100+ müşteriye nasıl ölçekleniyor</div>
+      <p>Asıl unlock şu: <strong>şablonlu denetim skor kartı</strong> (Notion + Looker Studio). 1. aşama her hesap için ~4 saatime mal oluyor çünkü formun %80'i tekrar kullanılıyor; %20 müşteriye özel. Ekibe çarptığınızda tekrarlanabilir bir makine elde ediyorsunuz.</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="qa-q"><span class="q-tag">S2</span>Beceri setim müşterilerinizin getirisini nasıl artırır</div>
+    <p>Dürüst versiyon: <strong>CRO, standart PPC + SEO hizmetinizin eksik olan katmanıdır.</strong> Daha fazla tıklama satın alabilirsiniz, daha fazla sorgu için sıralayabilirsiniz — ikisinin de rekabet ve teklif fiyatlarının dayattığı bir tavanı var. CRO bunun üzerine birikiyor: aynı trafik, daha fazla gelir. Case study'leriniz bunu sezgisel gösteriyor (Function18 vakası, ROAS işi) ama dedike bir CRO fonksiyonu bunu sisteme dönüştürür.</p>
+
+    <p>Spesifik olarak ne getiriyorum:</p>
+
+    <ul>
+      <li><strong>E-commerce ve lifecycle bias'ı.</strong> Şimdiye kadar canlıya aldığım kazanımların %60'ı huninin alt kısmından geldi — checkout, dönen ziyaretçi deneyimi, e-posta otomasyonu. Funnel'ın üst kısmı mevcut medya işinizle iyi servis ediliyor; benim katkım <em>tıklamadan sonrası</em>.</li>
+      <li><strong>Tam yığın araçlandırılmış.</strong> GA4 + GTM (template değil event-led tagging), Convert / VWO / GA4 server-side deneyleri, Hotjar + Microsoft Clarity, Klaviyo (derinlemesine — Bölüm 02), Shopify Plus checkout extensibility ve sızıntıların gerçekten yaşandığı uzun kuyruktaki widget'lar (arama, yorumlar, PDP'ler).</li>
+      <li><strong>Araştırma-önce refleksi.</strong> Piksel değiştirmeden önce session replay, çıkış anketleri (Wynter veya Hotjar polls) ve Baymard 1.100-kuralı checklist'ine karşı sezgisel bir yürüyüş istiyorum. Kanıtsız "butonu yukarı kaydır" CRO'ya kötü ad kazandıran şey.</li>
+      <li><strong>Müşteri portföyü arası çapraz tozlaşma.</strong> Otel zinciri için %4 CR artıran bir örüntünün muhtemelen paddlesport perakendecisi için çalışan bir kuzeni vardır. Insight Library her hesabı bir sonraki için birikimli istihbarata dönüştürüyor.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ==== SECTION 2: KLAVIYO ==== -->
+<section id="klaviyo" class="container">
+  <span class="section-num">BÖLÜM 02 — KLAVIYO &amp; YAŞAM DÖNGÜSÜ</span>
+  <h2>Klaviyo yaşam döngüsü — iyi olan nasıl görünür</h2>
+
+  <div class="qa">
+    <div class="qa-q"><span class="q-tag">S3</span>Klaviyo deneyimim &amp; cart abandonment kurulumu</div>
+    <p>Evet — Shopify e-commerce müşterileri için Klaviyo'yu operasyonel merkez olarak çalıştırıyorum. Cart abandonment'ı <strong>tek e-posta değil çok dokunuşlu bir sistem</strong> olarak ele alıyorum. Tek e-postalı yaklaşım, geri kazanılabilir gelirin %60-70'ini masada bırakıyor.</p>
+
+    <h3>Her Shopify e-com markasının çalıştırması gereken 6 flow</h3>
+    <p>Aşağıdaki, herhangi bir e-commerce hesabı için ilk ayda kuracağım yaşam döngüsü mimarisidir. Konservatif geri kazanım benchmark'ları sektör temellerine göre verilmiştir.</p>
+
+    <div class="table-wrap">
+      <table>
+        <tr>
+          <th style="width:24%">Flow</th>
+          <th style="width:14%">Tetikleyici</th>
+          <th style="width:30%">Neden değerli</th>
+          <th style="width:32%">Build notları</th>
+        </tr>
+        <tr>
+          <td><strong>Welcome / Browse abandonment</strong></td>
+          <td>E-posta verildi VEYA ürün 2x görüntülendi sepete eklenmeden</td>
+          <td>En büyük liste büyütme kolu. Browse abandon, PPC'nin parasını verdiği ama dönüştüremediği ziyaretçileri geri kazanıyor.</td>
+          <td>2 e-postalık seri. İlki: insancıl, marka odaklı, yumuşak CTA. İkincisi (48s): görüntülediği ürün + 1 alternatif + yumuşak teşvik.</td>
+        </tr>
+        <tr>
+          <td><strong>Cart abandonment</strong></td>
+          <td>Sepete eklendi, &gt;1 saat satın alma yok</td>
+          <td>Manşet gelir flow'u. 3 dokunuşluk seri tipik olarak terk edilen sepetlerin %8-14'ünü kurtarıyor; tek e-postalı yapı sadece %3-5.</td>
+          <td>Üç dokunuş: <strong>1s hatırlatma</strong> (indirim yok, sadece friction temizliği), <strong>22s sosyal kanıt</strong> (yorum / stok baskısı), <strong>46s yumuşak teklif</strong> (ücretsiz kargo veya %10 — sadece gerekliyse). Detay aşağıda.</td>
+        </tr>
+        <tr>
+          <td><strong>Checkout abandonment</strong></td>
+          <td>Checkout başlattı, satın almadı</td>
+          <td>Tüm veritabanındaki en yüksek niyetli segment. Genellikle %18-25 geri kazanım — bu insanların kartı zaten elindeydi.</td>
+          <td>SMS rızası varsa 1s SMS + e-posta kombosu. Spesifik blokları ele al: ödeme seçenekleri, teslimat, iade. Burada asla indirim verme — tam fiyat ödemeye hazırlardı.</td>
+        </tr>
+        <tr>
+          <td><strong>Satın alma sonrası nurture</strong></td>
+          <td>Sipariş verildi</td>
+          <td>Tekrar satın alma ve yorum toplama için kurulumu yapıyor. 90 günlük LTV'ye büyük etkisi.</td>
+          <td>1. gün teşekkür, 7. gün ürün kullanım eğitimi (paddlesports = "kayağını nasıl kurarsın", güvenlik rehberi), 21. gün yorum talebi, 60. gün cross-sell.</td>
+        </tr>
+        <tr>
+          <td><strong>Win-back</strong></td>
+          <td>120 / 180 gün sipariş yok</td>
+          <td>Geri kazanmak, yeni müşteri edinmekten ucuz. Konservatif geri kazanım: segmentin %4-8'i.</td>
+          <td>14 günle ayrılmış 2 dokunuş. İlki duygusal ("seni özledik"), ikincisi pragmatik (teşvik). İkinci sonrası yanıt vermeyenleri bastırıyoruz.</td>
+        </tr>
+        <tr>
+          <td><strong>VIP / yenileme</strong></td>
+          <td>Yaşam boyu değer &gt; segment eşiği</td>
+          <td>En iyi %10 alıcı genellikle gelirin %40-50'sini yapıyor. Ayrı akış, ayrı ton, daha az indirim, daha erken erişim.</td>
+          <td>Çeyreklik "yenilikler" + özel teklif kodları. Paddlesports için özellikle: mevsimsel ön sipariş (drysuit'ler Ekim'den önce, kayaklar Nisan'dan önce).</td>
+        </tr>
+      </table>
+    </div>
+
+    <h3>Cart abandonment serisinin detayı</h3>
+    <p>Abandonment tasarımıma 2 prensip yön veriyor: <strong>mümkün olduğunca indirim vermeden geri kazan</strong> ve <strong>aynı sebebi 2 kez verme</strong>.</p>
+
+    <div class="card">
+      <h4>E-posta 1 — +1 saat</h4>
+      <p><strong>Konu:</strong> "Bir şey unuttunuz galiba" veya Flow Kayaks için özel: <em>"[Ürün Adı] sizin için 24 saat ayrıldı"</em>.</p>
+      <p><strong>Mantığı:</strong> friction temizliği, para değil. Sepeti restore et, neredeyse aldığı ürünü öne çıkar, markanın taahhüdünü tekrarla (price-match, hızlı kargo, uzman desteği — Flow Kayaks'ın zaten sahip olduğu şeyler). <strong>İndirim yok.</strong> Çoğu geri kazanım burada oluyor çünkü terk etme sebebi fiyat itirazı değil, sekme kapama.</p>
+      <p><strong>CTA:</strong> Doğrudan checkout deep link'i (Klaviyo'nun <code>{{ checkout_url }}</code>'u), sepet sayfasına değil. Bir tıklamayı atla.</p>
+    </div>
+
+    <div class="card">
+      <h4>E-posta 2 — +22 saat</h4>
+      <p><strong>Konu:</strong> "Müşterilerimiz [Ürün] hakkında ne diyor"</p>
+      <p><strong>Mantığı:</strong> sosyal kanıt. Dinamik olarak 2-3 yorum çek (Trustpilot / Judge.me bloğu), yıldız + isim göster. Flow Kayaks için: retired-athlete yorumcudan gelen alıntı, jenerik "harika kayak"tan çok daha fazla ağırlık taşıyor. Düşük stok varsa söyle ("bu bedende sadece 3 kaldı") ama sahte scarcity yapma — Klaviyo envanteri canlı çekebiliyor.</p>
+      <p><strong>CTA:</strong> İki butonlu yapı — doğrudan checkout + "sorularım var" WhatsApp/telefona yönlendirme.</p>
+    </div>
+
+    <div class="card">
+      <h4>E-posta 3 — +46 saat</h4>
+      <p><strong>Konu:</strong> "Son şans — sepetiniz birazdan iptal olacak"</p>
+      <p><strong>Mantığı:</strong> yumuşak, zamanlı teşvik — ama <strong>sadece önceki e-postalara tıklama/açma yoksa</strong>. Klaviyo'da koşullu split: açanlar daha yavaş nurture'a, etkileşmeyenler teklif koluna.</p>
+      <p><strong>CTA:</strong> Ücretsiz kargo (%10 indirimden ucuz, daha cömert hissettiriyor) veya spesifik paket indirimi ("bu kayağa bir küreği ekle, £25 tasarruf et") — paket çerçevesi tercih edilebilir çünkü aynı anda AOV'yi artırıyor.</p>
+    </div>
+
+    <h3>Klaviyo segmentasyon: bariz olmayan katman</h3>
+    <p>Devraldığım çoğu hesap 4-5 segmente sahip. İyi hesaplar 25+ segmente sahip. İğneyi oynatan segmentler:</p>
+    <ul>
+      <li><strong>Predictive CLV bantları</strong> — Klaviyo'nun built-in predictive analytics'inden gelen low / medium / high / VIP bantları. Her birine farklı cadence, farklı içerik, farklı teşvik stratejisi.</li>
+      <li><strong>Kategori yakınlığı</strong> — multi-category bir perakendeci olan Flow Kayaks için: kayak alıcıları vs paddleboarder'lar vs sadece kıyafet alıcıları. Her biri farklı sezon ön-sipariş e-postası alıyor.</li>
+      <li><strong>Etkileşim zayıflaması</strong> — "son 30 günde etkileşti", "30-60", "60-90", "90+". Gönderici itibarı için kritik — 90+ segmentine asla promosyon gönderme, sadece winback.</li>
+      <li><strong>İndirim bağımlıları</strong> — 3+ sipariş, hepsi kod ile. Tam fiyat suppression için etiketlendi. En iyi alıcılarınızı indirim beklemeye eğitmek istemezsiniz.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ==== SECTION 3: PPC + CRO ==== -->
+<section id="ppc-cro" class="container alt">
+  <span class="section-num">BÖLÜM 03 — ENTEGRASYON</span>
+  <h2>İşim, PPC ve SEO ekibinizle nerede buluşuyor</h2>
+
+  <div class="qa">
+    <div class="qa-q"><span class="q-tag">S4</span>CRO, mevcut PPC/SEO müşterilerinizin getirisini nasıl yükseltir</div>
+
+    <p>Mevcut PPC/SEO portföyünüzdeki en büyük açılım şu: <strong>trafik zaten kalifiye</strong>. Keşfi düzeltmek için para vermiyoruz — tıklamadan sonrasını düzeltmek için para veriyoruz. 5 somut hamle:</p>
+
+    <h3>1. Landing page programmatic — sorguya uyumlu</h3>
+    <p>Çoğu müşteri 8-15 ad group'u aynı 3-4 landing page'e gönderiyor. PPC'deki en ucuz CR artışı, <em>sorguya özel</em> landing page'ler yapıp akıllı yönlendirmek. Karşılaştırılabilir bir perakendecide yaptığım son testte, "best kayak for beginners" trafiğini özel bir karşılaştırma sayfasına (genel /kayaks koleksiyonu yerine) yönlendirmek ad-group CR'ını %31 artırdı ve CPL'i düşürdü.</p>
+    <p><strong>Aksiyon:</strong> bütçeye göre top 20 ad-group denetimi, landing-page relevance score'u en zayıf 5'i belirle, dedike sayfalar inşa et, mevcut default'a karşı A/B test.</p>
+
+    <h3>2. Quality Score'u CRO çıktısı olarak ele almak</h3>
+    <p>Quality Score bir Google Ads sorunu değil — landing page sorunu, Ads semptomlu. Çoğu CRO ekibi bunu görmezden geliyor; çoğu PPC ekibi yardım almadan düzeltemiyor. <strong>Bu metriği PPC ekibiyle ortak sahiplenirim.</strong> Daha sıkı başlık-anahtar kelime uyumu, daha hızlı LCP, landing page'den daha az dış link — hepsi CRO kollarıdır ve hesap bazında CPC'yi %8-15 düşürür.</p>
+
+    <h3>3. "İkinci karar" — conversion sonrası deneyim</h3>
+    <p>Lead-gen müşterilerde (B2B) form submit hedef değil — randevu hedef. E-com'da ilk sipariş değil — ikinci sipariş hedef. Çoğu PPC dashboard'u submit/satın almada duruyor. Benim raporlama sistemim (Bölüm 04) bir adım öteye gidiyor: <strong>aynı oturum içinde ikinci aksiyon, 7 günlük tekrar ziyaret, 30 günlük tekrar satın alma.</strong> Sonraki %30 ROAS burada saklı.</p>
+
+    <h3>4. Site içi arama — bedava sinyal kaynağı</h3>
+    <p>Her site içi arama sorgusu, bedava, niyet yüklü bir ad-keyword araştırma veri seti. Önceki bir Shopify müşterisinde arama loglarını çekip analiz ettim — PPC ekibinin bid etmediği 40+ uzun kuyruk terimi + merchandising ekibi için bir düzine yeni ürün fırsatı yüzeye çıktı. <strong>Site search raporları haftalık döngümde SEO ve PPC ekibine gidiyor.</strong></p>
+
+    <h3>5. Audience back-feed</h3>
+    <p>CRO deneyleri kazanan segmentler üretiyor. Bu segmentler PPC ekibinin scale edebileceği custom audience'lara dönüşüyor — ve prospecting için lookalike'lara. Predictive Klaviyo çalışmamdan çıkan "yüksek LTV first-purchaser" segmenti, medya ekibinin bütün yıl alacağı en değerli audience.</p>
+
+    <div class="callout">
+      <div class="callout-label">Operasyonel gerçek</div>
+      <p>Bunların çoğu tek tek alındığında yeni değil — asıl unlock <strong>koordinasyon</strong>. PPC ekibi, SEO ekibi ve CRO fonksiyonu aynı scorecard'ı okuyor, haftalık senkron oluyor, kazanımları paylaşıyor. İki şekilde de çalıştım (silo ajans ve entegre pod) — entegre pod açık ara öndedir.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==== SECTION 4: REPORTING ==== -->
+<section id="raporlama" class="container">
+  <span class="section-num">BÖLÜM 04 — RAPORLAMA</span>
+  <h2>Ölçeklenebilir bir raporlama çerçevesi</h2>
+
+  <div class="qa">
+    <div class="qa-q"><span class="q-tag">S5</span>İyileştirmeler, izleme ve müşteri raporları için takip altyapısı</div>
+
+    <p class="lead">Çoğu ajans raporlaması aynı sebepten başarısız oluyor: müşterinin sormadığı bir soruya cevap veriyor. Benim çerçevem 3 farklı izleyici için katmanlı — müşteri, hesap ekibi ve dahili CRO ops ekibi. Her birinin doğru çözünürlüğüyle.</p>
+
+    <h3>3 katmanlı dashboard</h3>
+
+    <div class="card">
+      <h4>1. Katman — Müşteriye yönelik (Looker Studio, haftalık)</h4>
+      <p>Tek sayfa. Üst kısımda: <strong>4 rakam</strong> — gelir, oturum, conversion rate, AOV — geçen yılın aynı dönemi ve önceki dönemle kıyasla. Chart şişirme yok. Altta: her KPI için trend çizgisi (8 haftalık rolling), son 30 günün 3 büyük kazanımı, şu an test ettiğimiz 3 şey. En üstte benden bir cümle: ne değişti, ne yapacağız. Tüm rapor bu.</p>
+    </div>
+
+    <div class="card">
+      <h4>2. Katman — Hesap ekibi (Notion, günlük)</h4>
+      <p>Test durum panosu. Her canlı deney; başlangıç tarihi, örneklem büyüklüğü, varyanta göre mevcut CR, istatistiksel anlamlılık ve "kill/keep/scale" ön-belirlenmiş kriter. GA4 + deney platformundan otomatik güncelleniyor. Hesap ekibi sabah standup'ında bunu okuyor; hiçbir şey kimsenin kafasında yaşamıyor.</p>
+    </div>
+
+    <div class="card">
+      <h4>3. Katman — Dahili CRO ops (Looker + Insight Library)</h4>
+      <p>Müşteriler arası örüntü eşleştirme. Hangi sezgiler dikeyler arasında çalıştı? Hangi test kategorisi over-indexed? Güveni sistematik olarak nerede yanlış değerlendiriyoruz? Bu fonksiyonun çeyrekten çeyreğe — sadece hesap hesap değil — daha iyiye gitmesini sağlayan şey.</p>
+    </div>
+
+    <h3>Tracking — rapordan önce rebuild</h3>
+    <p>Raporlama sadece tracking doğruysa çalışıyor. Her yeni hesapta ilk haftam bir <strong>GA4 denetimi</strong> içeriyor: enhanced ecommerce event'lerin doğru şemada ateşlendiği, journey boyunca debug-view spot-check'leri, GTM consent-mode v2 uyumu, iOS / ITP attribution sızıyorsa server-side tagging ve eğer historical karşılaştırma yapılacaksa parallel UA → GA4 mutabakatı. Devraldığım hesapların %60'ında e-commerce tagging bozuk ya da eksik — bu düzeltilene kadar rapor anlamsız.</p>
+
+    <h3>Sıklık ve iletişim</h3>
+    <ul>
+      <li><strong>Haftalık</strong> — müşteriyle 20 dakika görüşme, wins panosundan başlayarak. Dashboard ekran paylaşımı yok; rapor önceden okunmuş halde.</li>
+      <li><strong>Aylık</strong> — 60 dakika strateji review'u. Bu ay ne öğrendik, gelecek ayın bahsi ne, bütçe talebi ne.</li>
+      <li><strong>Çeyreklik</strong> — ajans lideriyle formal QBR. Bu müşteri portföyümüzde nerede duruyor, sonraki çeyreğin yol haritası, case-study anlatısı ortaya çıkıyorsa.</li>
+    </ul>
+
+    <div class="callout note">
+      <div class="callout-label">En önemli metrik</div>
+      <p>E-commerce müşteriler için dashboard'umun manşet KPI'sı CR değil. <strong>Revenue per Visitor (RPV).</strong> CR kısmi bir resim — RPV, AOV artışını da yakalıyor ve AOV bundling, upsell ve lifecycle çalışmasının görünür olduğu yer. Eğer siteyi %20-indirim bar'larıyla doldurup CR'ı %5 itersem, RPV beni yakalar. CR tek başına yakalamaz.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==== SECTION 5: AUDIT — GROWTH.AGENCY ==== -->
+<section id="audit-growth" class="container alt">
+  <span class="section-num">BÖLÜM 05 — AUDIT</span>
+  <h2>Audit · <span style="color:var(--teal-dark)">l.growth.agency/google-ads-audit/improve</span></h2>
+  <p class="lead">Kendinden emin bir sayfa. £500 garantisi kahramanı, case study rakamları spesifik, müşteri yorumları gerçek ve isimli. Bir ajansın B2B SaaS tarzı lead-gen sayfası için ortalamanın üstünde. Aşağıda ne test edeceğim, öncelik sırasıyla.</p>
+
+  <h3>Çalışan kısımlar — koruyun</h3>
+  <ul>
+    <li><strong>£500 garantisi.</strong> Gerçek risk-reversal kancası. "Ya yardım edemezsen" itirazını ön kapıda kaldırıyor. Yumuşatmayın.</li>
+    <li><strong>İsimli, sektör dağılımı olan müşteri yorumları</strong> ile logolar. Charlotte Aytan / TLC Sport, Ben Slaven / Function18 — sayfayı tarayan UK SMB founder için inandırıcı.</li>
+    <li><strong>Spesifik case study rakamları.</strong> "£12.4k harcama → £27.2k gelir, ROAS 2.2x, CPA £48.50". Bu tür rakamlar dönüştürüyor çünkü denetlenebilir gibi duruyorlar. Jenerik "gelirlerini %300 büyüttük" değil.</li>
+    <li><strong>CTA tekrarı (6 örnek)</strong> — tutarlı kelime, hepsi aynı forma anchor. Agresif olmadan israrlı.</li>
+    <li><strong>Google Partner badge</strong> verification link'iyle. Sayfadaki en güvenilir otorite sinyali.</li>
+  </ul>
+
+  <h3>Önceliklendirilmiş test backlog'u</h3>
+  <p>Her hipotez ICE skorlu — Impact (1-10), Confidence (1-10), Ease (1-10). Yüksek bileşik = önce test et.</p>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">H1 — Mobilde sticky CTA bar</div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 9</span><span class="score score-hi">E 9</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> form mobilde fold'un ~6 kaydırma altında. Kalıcı "Claim your £500" sticky footer her okuyucuyu her bölümde yakalar.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> mobilde form-submit CR'da +%6-12. Mobil en çok burada saklanıyor.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">H2 — Formun yanına Calendly seçeneği ekle</div>
+      <div class="hyp-scores"><span class="score score-hi">I 7</span><span class="score score-mid">C 6</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> mevcut akış form → e-posta gidip gelme → görüşme ayarlama. Görüşme takvime girene kadar 3 dokunuş. "Formu atla — 20 dk audit walk-through ayarla" butonu bunu 1'e indiriyor.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> conversion'ların +%15-25'i doğrudan randevuya kayıyor; randevuya gerçekten gelenler oranı yükseliyor çünkü e-posta gecikmesi yok.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">H3 — "Material issue" tanımını 2 örnekle netleştir</div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-hi">C 8</span><span class="score score-hi">E 10</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> £500 garantisi şu an muğlak "material issue" terimine dayanıyor. Sofistike bir okuyucu bunu görüyor ve teklifi değersizleştiriyor. İki spesifik örnek ("örn. boşa harcama &gt;%15 veya %25+ Quality Score iyileştirme fırsatı") inanılırlığı geri yüklüyor.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> form-submit CR'da +%3-6. Küçük ama trivial-yapılır.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">H4 — Yumuşak scarcity sinyali ekle</div>
+      <div class="hyp-scores"><span class="score score-mid">I 5</span><span class="score score-mid">C 6</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> sayfanın şu an hiçbir aciliyet sinyali yok. Gerçek bir sinyal — "ayda 6 audit yapıyoruz, Mayıs için 2 slot kaldı" — hem lead'i kalifiye ediyor hem kararı hızlandırıyor. Gerçek olmalı, tiyatro olmamalı.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> form-submit CR'da +%4-8. Gelen lead kalitesi de artıyor (uymayan ayrılıyor, görüşmeyi boşa harcamıyor).</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">H5 — Ad-spend dropdown'unu mobilde radio button yap</div>
+      <div class="hyp-scores"><span class="score score-mid">I 5</span><span class="score score-hi">C 8</span><span class="score score-hi">E 9</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> mobilde dropdown friction'dır. Mevcut "Current Monthly Ad Spend" select kullanıcıya bağlam değişikliği yaptırıyor. Bantlarla 5 radio button onları akış içinde tutar.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> mobilde form-completion rate'inde +%5-10 (form-start to form-complete, sayfa-to-submit değil).</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">H6 — Formun yanında conversion ispatı</div>
+      <div class="hyp-scores"><span class="score score-mid">I 5</span><span class="score score-mid">C 6</span><span class="score score-hi">E 10</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> sayfa sosyal kanıtla dolu ama karar anında hiçbiri yok. Formun üstüne küçük bir satır — "Geçen ay: 14 audit yapıldı, 11'i müşteri oldu" — tam tereddüt anında tıklamaya sebep veriyor.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> form-submit CR'da +%2-5.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">H7 — Google Ads Account ID alanını gerçekten opsiyonel yap ve neden istendiğini açıkla</div>
+      <div class="hyp-scores"><span class="score score-mid">I 4</span><span class="score score-hi">C 7</span><span class="score score-hi">E 10</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> account ID opsiyonel olarak işaretli ama talep tek başına algılanan riski yükseltiyor ("hesabıma giriş mi yapacaklar?"). Alanın altına tek cümle — "Sadece audit'i hızlandırmak için. Erişim talebi ilk görüşmeden sonra" — endişeyi kaldırır ve veriyi de kaybetmez.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> form-submit CR'da +%2-4. Çoğunlukla minik bir abandon tetikleyicisini kaldırıyor.</p>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-label">Yapmayacağım şey</div>
+    <p>Formu fold'un üstüne taşımam veya giriş anında modal-popup açmam. Garanti + case study build asıl satışı yapıyor — formu öne çekmek yüksek karar B2B servisinde ucuz hissettirir. Sticky CTA aynı işi friction'sız yapıyor.</p>
+  </div>
+</section>
+
+<!-- ==== SECTION 6: AUDIT — FLOWKAYAKS ==== -->
+<section id="audit-flow" class="container">
+  <span class="section-num">BÖLÜM 06 — AUDIT</span>
+  <h2>Audit · <span style="color:var(--teal-dark)">flowkayaks.co.uk</span></h2>
+
+  <div class="callout note">
+    <div class="callout-label">Çalıştığım bağlam</div>
+    <p>growth.agency portföyü Flow Kayaks'ı mevcut müşteri olarak adlandırıyor — mevsimsel talebi yıl boyu büyümeye çeviriyorsunuz. Bu sıfırdan müşteri auditi değil. <strong>"CRO çalışanın getireceği sonraki katman ne olabilir"</strong> çerçevesinde yazdım; mevcut PPC + SEO + içerik işinizin üzerine.</p>
+  </div>
+
+  <p class="lead">Flow Kayaks çalışmak için sağlam bir hesap. Shopify, kategorisinde Trustpilot UK No.1, rezonans veren bir kurucu hikayesi, olgun PDP'ler, aktif blog. Temeller doğru. Benim gördüğüm açılım: keşif katmanı, lifecycle katmanı ve PPC trafiğinin tıklama-sonrası deneyimi.</p>
+
+  <div class="stat-row">
+    <div class="stat"><div class="value">10+</div><div class="label">Üst kategori</div></div>
+    <div class="stat"><div class="value">50+</div><div class="label">Marka</div></div>
+    <div class="stat"><div class="value">£15-£4k</div><div class="label">Fiyat aralığı</div></div>
+    <div class="stat"><div class="value">2018</div><div class="label">Kuruluş</div></div>
+  </div>
+
+  <h3>Zaten güçlü gördüğüm şeyler</h3>
+  <ul>
+    <li><strong>Trustpilot kategori No.1</strong> — güvenilirlik halloldu. PDP'lerde ve checkout'ta daha agresif yüzeye çıkarın.</li>
+    <li><strong>Olgun mega-menu</strong> — 9 kayak alt kategorisi, cinsiyet ayrımlı kıyafet, marka odaklı tarama. Taksonomi doğru.</li>
+    <li><strong>Aktif blog</strong> — son rehberler "Choosing the Right Kayak", "Whitewater Spraydecks" — tam bu kitlenin ihtiyacı olan eğitim içeriği. Şu an underused (sonraki katman).</li>
+    <li><strong>Price-match + hızlı kargo + uzman desteği</strong> — UK paddlesport alıcısının 4 itirazından 3'ü zaten cevaplanmış.</li>
+  </ul>
+
+  <h3>Sonraki katman fırsat backlog'u</h3>
+  <p>3 kovaya bölünmüş 17 hipotez — <span class="tag tag-quick">Hızlı kazanım</span>, <span class="tag tag-structural">Yapısal</span>, <span class="tag tag-lifecycle">Yaşam döngüsü</span>. Her biri ICE skorlu.</p>
+
+  <h4>Hızlı kazanımlar — yüksek güven, 1-2 haftada canlıya</h4>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F1 — Koleksiyon kartlarında stok göstergesi <span class="tag tag-quick">Hızlı kazanım</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 7</span><span class="score score-hi">C 9</span><span class="score score-hi">E 9</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> şu an PDP'ye kadar stok sinyali yok. £1.500 fiyatla 2 kayak karşılaştıran alıcı, tıkladıktan sonra "stokta yok" sürprizine tolerans göstermez. Tile üzerinde "stokta / 3 kaldı / Nisan ön sipariş" etiketi bir Shopify metafield değişikliği.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> koleksiyon-PDP CR'ında +%4-8. Daha yüksek kaliteli tıklama (daha az boşa tarama).</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F2 — Koleksiyon kartlarında yıldız + yorum sayısı <span class="tag tag-quick">Hızlı kazanım</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 7</span><span class="score score-hi">C 9</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> Trustpilot skorları site seviyesinde, ürün başına değil. Judge.me veya Trustpilot ürün yorumlarını tile seviyesinde eklemek karşılaştırma anına sosyal kanıt getiriyor.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> 4+ yıldızlı ürünler için koleksiyon-PDP CR'ında +%5-10.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F3 — Header'da ücretsiz kargo eşik barı <span class="tag tag-quick">Hızlı kazanım</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 7</span><span class="score score-hi">C 8</span><span class="score score-hi">E 10</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> kargo, UK e-ticaretinde en çok bildirilen sepet terketme sebebi. Header'da "£X üstü siparişlerde ücretsiz UK teslimat" ve sepette canlı progress widget'ı hem CR'ı hem AOV'yi yukarı çekiyor.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> CR'da +%3-6, eşik altı siparişlerde AOV'da +%5-10.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F4 — Mobil PDP'de sticky add-to-basket <span class="tag tag-quick">Hızlı kazanım</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 9</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> yüksek karar ürünleri (kayak) için mobil PDP uzun kaydırmalı. Kullanıcı specs ve yorumları okuyup bitirdiğinde ATC butonu 4 ekran uzakta. Sticky footer CTA bunu evrensel olarak çözüyor.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> mobilde PDP-sepete CR'ında +%6-11.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F5 — 6 sıralama seçeneğini 3'e indir <span class="tag tag-quick">Hızlı kazanım</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 4</span><span class="score score-hi">C 8</span><span class="score score-hi">E 10</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> mevcut "Featured / Most relevant / Best selling / A-Z / Z-A / Low-high / High-low / Old-new / New-old" seti seçim paralizi. Best selling, Price low-to-high, Newest %95 gerçek kullanımı kapsıyor. (Sınırda — test etmeden de yapılabilir.)</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> sıralama etkileşiminde +%1-3. Küçük ama bedava.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F6 — Koleksiyon kartlarında renk swatch'ları <span class="tag tag-quick">Hızlı kazanım</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-hi">C 7</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> 40+ renk filtre seçeneği "renk önemli" sinyali. Şu an tile tek resim gösteriyor; kullanıcı varyantı bulmak için tıklıyor. Görünür swatch'lar koleksiyondan çıkmadan renk seçmesini sağlıyor.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> koleksiyon-PDP CR'ında +%3-6, AOV'da +%1-3 (doğru varyant ilk seferde seçildiği için).</p>
+  </div>
+
+  <h4>Yapısal — daha büyük artışlar, 3-8 haftada canlıya</h4>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F7 — Ürün Bulma Quiz'i ("Find Your Flow") <span class="tag tag-structural">Yapısal</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 9</span><span class="score score-hi">C 8</span><span class="score score-mid">E 5</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> başlangıç seviyesi bir alıcı, "sit-on-top recreational" lazım olduğunu 40 dakika okuyana kadar bilmiyor. 6 soruluk bir quiz bunu 90 saniyeye indiriyor ve 1-3 önerilen kayak + doğru kürek + doğru PFD'ye yönlendiriyor. Bu manşet yapısal hamle — Bölüm 07'de standalone konsept olarak ele alındı.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> quiz tamamlayıcılarda koleksiyon tarayıcılarına göre CR +%25-40 (benchmark: bisiklet, yatak, fly-fishing gibi yüksek karar dikeyleri). Yeni e-posta listesi büyüme kolu.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F8 — Paketler &amp; önerilen eklemeler <span class="tag tag-structural">Yapısal</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 8</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> bir kayak alıcısının kesinlikle bir küreğe, bir PFD'ye, bir spraydeck'e ihtiyacı var. Şu an her biri ayrı bir yolculuk. PDP'de (ve sepette) küçük paket indirimiyle "Kit'i tamamla" paketi prospecting harcamasına dokunmadan AOV'yi ciddi artırıyor.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> kayak alıcılarında AOV'da +%12-22. Tüm backlog'daki en verimli artış.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F9 — Editöryel kategori sayfaları (SEO + CRO) <span class="tag tag-structural">Yapısal</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 7</span><span class="score score-hi">C 7</span><span class="score score-mid">E 5</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> blogda "Choosing the Right Kayak" var — ama destinasyon, alma yolculuğunun bir parçası değil. Her büyük koleksiyon sayfasını (örn. /collections/kayaks) 200 kelimelik editöryel giriş + quiz CTA + kullanım durumuna göre önerilen başlangıç noktaları + ürün gridi ile yeniden yapılandırın. SEO'yu ve conversion'ı aynı anda destekler.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> koleksiyon sayfa CR'ında +%8-15, kategori terimlerinde anlamlı organik sıralama artışı.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F10 — £500+ sepet değeri için live chat / WhatsApp <span class="tag tag-structural">Yapısal</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-mid">C 6</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> £1.500 kayakta alıcının telefon etmek istemediği soruları var. Sadece yüksek AOV PDP'lerde veya sepette tetiklenen chat/WhatsApp widget'ı, tam helpdesk personeline ihtiyaç duymadan o anı yakalıyor.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> premium PDP'lerde CR'da +%4-8, servis etmeye en değer segmente daha zengin servis.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F11 — Site içi arama relevance + sıfır sonuç kurtarma <span class="tag tag-structural">Yapısal</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-hi">C 8</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> site içi arama kullanıcıları homepage tarayıcılardan 2-4x dönüşüyor — sıfır sonuç durumu dışında. Genellikle sorguların %10-20'si sıfır sonuç döndürüyor. Her biri kaybedilmiş bir satış ve bedava bir PPC keyword araştırma veri seti.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> arama yapanlarda oturum-CR'ında +%5-8, sürekli PPC ve merchandising istihbaratı.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F12 — PDP'de son görüntülenenler ve cross-sell <span class="tag tag-structural">Yapısal</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 5</span><span class="score score-hi">C 7</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> kayak alıcısı satın almadan önce 3-6 ürün karşılaştırıyor. "Son görüntülenenler" olmadan arama veya geri-buton ile yeniden keşfediyor — friction. Olunca: PDP ve sepette "Karşılaştırmaya devam et" rayı.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> PDP-sepete CR'ında +%3-6.</p>
+  </div>
+
+  <h4>Yaşam döngüsü — Klaviyo &amp; retention hamleleri</h4>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F13 — Tam 3 dokunuşluk cart abandonment serisi <span class="tag tag-lifecycle">Yaşam döngüsü</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 9</span><span class="score score-hi">C 9</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> Bölüm 02'ye bakın. Çoğu hesap tek e-posta gönderiyor; 3 adımlı seri 2-3x daha çok kurtarıyor. Flow Kayaks'ın AOV'sindeki Shopify hesabı için bu, lifecycle yığınındaki en büyük satır kalemi.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> terkedilen sepetlerin %8-14'ü kurtarılıyor (tek-e-postalı kurulum için %3-5 benchmark'a karşı). Ortalama AOV'de anlamlı aylık gelir.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F14 — Browse abandonment flow <span class="tag tag-lifecycle">Yaşam döngüsü</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 7</span><span class="score score-hi">C 8</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> PPC trafiğinin büyük çoğunluğu sepete eklemiyor. Browse abandonment etkileşim halindeki ziyaretçileri (2+ ürün gördü / &gt;90s harcadı) Klaviyo'ya tanıdıkları sürece (welcome flow bunu çözüyor) committelmeden ayrılırken yakalıyor.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> segmentin %2-5'i 14 gün içinde satın almaya kurtarılıyor.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F15 — Satın alma sonrası eğitim + güvenlik serisi <span class="tag tag-lifecycle">Yaşam döngüsü</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-hi">C 8</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> paddlesports = aspirational satın almalar; çoğu garajda duruyor. 6 dokunuşluk satın alma sonrası eğitim serisi (kayağını nasıl kurarsın, launch noktası seç, güvenlik temelleri, beginner skill drilleri) ürün kullanımını artırıyor — bu da yorum, referans ve tekrar alımı tetikliyor.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> yorum toplama oranında +%30-50, 90/180 günde anlamlı tekrar satın alma artışı.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F16 — Sezonsal ön-alım kampanyaları <span class="tag tag-lifecycle">Yaşam döngüsü</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 7</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> Flow Kayaks kategorisi sert sezonsal — drysuit talebi Ekim/Kasım'da zirve, kayak talebi Mart/Nisan'da. Alıcıları önceki kategorilerine göre segmentleyip pik öncesi 6 hafta önce kampanyalar yapmak, rakiplerin yiyeceği harcamayı yakalıyor.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> anlamlı erken-sezon gelir öne çekme, pik PPC bidding'ine bağımlılığı azaltma.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F17 — 180/365 günde win-back <span class="tag tag-lifecycle">Yaşam döngüsü</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 5</span><span class="score score-mid">C 6</span><span class="score score-hi">E 9</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> tipik kayak alıcısının büyük satın alımları arasında 12-18 ay var. 180 günde (komşu kategori cross-sell) ve 365 günde (upgrade) win-back uzun kuyruk motorudur.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> segmentin %4-8'i reaktive, prospecting'den düşük CAC.</p>
+  </div>
+</section>
+
+<!-- ==== SECTION 7: FUNNEL CONCEPT ==== -->
+<section id="funnel" class="container alt">
+  <span class="section-num">BÖLÜM 07 — KONSEPT</span>
+  <h2>"Find Your Flow" — Flow Kayaks için rehberli alışveriş funnel'ı</h2>
+  <p class="lead">Apple-style "birkaç soruya cevap ver, 3 önerilen ürün + yanına kit'i al" deneyiminin paddlesports perakendecisine uyarlanmış hali. Bu, yapısal backlog'daki manşet fırsat (F7) — ayrı bölüm olarak ele alacak kadar önemli.</p>
+
+  <h3>Çözdüğü problem</h3>
+  <p>Flow Kayaks 9 alt kategoride kayak × düzinelerce marka × benzer aksesuar matrisi stokluyor. Uzman alıcı ne istediğini biliyor. Gelişen-yetenekli alıcı çoğu zaman bilmiyor — ve mevcut site ikisine de aynı muameleyi yapıyor. Sonuç: çoğu zaman boşa biten veya rehberi daha iyi olan bir rakipte sonuçlanan uzun keşif oturumları.</p>
+
+  <h3>Akış</h3>
+  <div class="funnel-flow">
+    <div class="funnel-steps">
+      <div class="funnel-step"><div class="num">01</div><div class="title">Ne yapıyorsunuz?</div><div class="desc">Touring, whitewater, recreation/aile, fishing, sea, çocuk. Kullanım durumu yönlendirmesi.</div></div>
+      <div class="funnel-step"><div class="num">02</div><div class="title">Deneyim seviyesi</div><div class="desc">İlk kez, rahat, orta, uzman. Ürün setini ve güvenlik mesajını ayarlıyor.</div></div>
+      <div class="funnel-step"><div class="num">03</div><div class="title">Nereden suya gireceksiniz?</div><div class="desc">Sakin nehir / göl, beyaz su, deniz, karışık. Kayak tipini ve PFD sınıfını etkiliyor.</div></div>
+      <div class="funnel-step"><div class="num">04</div><div class="title">Bütçe bandı</div><div class="desc">3-5 bant. Erken yüksek anchoring'i önlemek için aşağıdan başlıyor; genişletilebilir.</div></div>
+      <div class="funnel-step"><div class="num">05</div><div class="title">Depolama &amp; taşıma</div><div class="desc">Tavan rafı, garaj, daire — şişme vs sert kabuk kararını yüzeye çıkarıyor.</div></div>
+      <div class="funnel-step"><div class="num">06</div><div class="title">Build animasyonu</div><div class="desc">"Sizi doğru ekipmanla eşleştiriyoruz..." 4 satırlık typewriter, 4-5 saniye. Beklenti inşa ediyor.</div></div>
+      <div class="funnel-step"><div class="num">07</div><div class="title">Eşleşmiş kit'iniz</div><div class="desc">1 ana kayak + 2 alternatif + önerilen kürek + PFD + spraydeck. "Build Your Kit" sepete önceden yüklenir.</div></div>
+      <div class="funnel-step"><div class="num">08</div><div class="title">Sepete ekle — paketli</div><div class="desc">Paket indirimi otomatik uygulanır. AOV anchor sadece kayak değil, tam kit üzerinden kuruluyor.</div></div>
+      <div class="funnel-step"><div class="num">09</div><div class="title">"Kit raporunuz" için e-posta</div><div class="desc">Yazdırılabilir PDF özeti gönderiyoruz. Hemen satın almasalar bile e-posta alıyoruz. Klaviyo'ya besleme.</div></div>
+    </div>
+  </div>
+
+  <h3>Bu neden kategori sayfasını yener</h3>
+  <ul>
+    <li><strong>Daha yüksek CR.</strong> Quiz tamamlayıcılar karşılaştırılabilir dikeylerde (yatak, bisiklet, şarap kulübü) %25-40 dönüşüyor.</li>
+    <li><strong>Daha yüksek AOV.</strong> Kit formatı en başından multi-item sepet anchor'ı kuruyor. Paket psikolojisi, %10-off-flat psikolojisi değil.</li>
+    <li><strong>Liste büyümesi.</strong> 09. adım satın almayanlardan bile e-posta yakalıyor — satın almayla bitmeyen her quiz oturumu zengin kategori yakınlığı tag'leriyle Klaviyo abonesine dönüşüyor.</li>
+    <li><strong>PPC compounder.</strong> Yeni dedike landing page <code>/find-your-flow</code> soğuk prospecting trafiği için default destinasyon olur. Yüksek LP relevance = düşük CPC; quiz funnel = yüksek CR. İkisi birden hareket eder.</li>
+    <li><strong>Marka uyumu.</strong> "By paddlers, for paddlers" mevcut marka konumlanması — rehberli alışveriş deneyimi bu vaadi karar anında görünür yapıyor.</li>
+  </ul>
+
+  <h3>Nasıl inşa ederim</h3>
+  <ul>
+    <li><strong>Shopify-native</strong> quiz uygulamasıyla (Octane AI veya Drovio), standart entegrasyonla Klaviyo'ya bağlı. v1 için ~3-4 hafta build.</li>
+    <li><strong>Lansman'da 2 A/B testi:</strong> quiz vs mevcut default kategori sayfası (50/50 split, 4 hafta) ve kit reveal ekranında paket-indirim vs indirim-yok.</li>
+    <li><strong>Custom audience'lar Google Ads'e geri besleniyor</strong> quiz çıktısına göre — "başlangıç kayağına eşleşti" segmenti başlangıç içeriğiyle retargeting, vb.</li>
+  </ul>
+
+  <div class="card card-emphasis">
+    <h4>İşe alınırsam, bu Q1 önceliği olurdu</h4>
+    <p>Bu konseptin canlı demosu zaten kısmen kurulmuş halde — mülakatta wireframe'leri yürümeye hazırım. Build süresi: ~3-4 hafta. Test süresi: 4 hafta, 50/50 split. Beklenen etki: Q2'ye case study olacak kadar anlamlı.</p>
+  </div>
+</section>
+
+<!-- ==== SECTION 8: ROADMAP ==== -->
+<section id="yol" class="container">
+  <span class="section-num">BÖLÜM 08 — YOL HARİTASI</span>
+  <h2>growth.agency'ye katılırsam — ilk 30/60/90 gün</h2>
+
+  <h3>Gün 1-30 · Temeller</h3>
+  <ul>
+    <li><strong>Audit-tooling kurulum.</strong> Sonraki 100 müşterinin motoru olacak şablonlu CRO denetim skor kartı (Notion + Looker Studio) inşası.</li>
+    <li><strong>Hesap devralma.</strong> Her mevcut PPC/SEO lideriyle oturum. Bütçeye göre top 5 hesabı onlarla yürüyorum, hedefleri anlıyorum, parkedilmiş CRO fırsatlarını yüzeye çıkarıyorum.</li>
+    <li><strong>Tracking taraması.</strong> Top 10 hesapta GA4 + GTM + Klaviyo sağlık kontrolü. %60+'da tagging boşluğu bekliyorum; raporlamayı bloklayanları düzeltiyorum.</li>
+    <li><strong>Pilot test:</strong> 3 öncelikli müşteride bir tane yüksek güvenli deney canlıya — ilişki kurmak ve fonksiyonu göstermek için hızlı kazanım.</li>
+  </ul>
+
+  <h3>Gün 31-60 · Sistemler</h3>
+  <ul>
+    <li><strong>Klaviyo denetimi + lifecycle build</strong> top 3 e-com müşterisi için. Flow Kayaks muhtemelen bu grupta — abandonment + browse + post-purchase 60. gün canlı.</li>
+    <li><strong>Tier-1 raporlama dashboard'ları</strong> o 3 müşteri için kuruldu. Haftalık döngü kuruldu.</li>
+    <li><strong>"Find Your Flow" quiz konsepti</strong> Flow Kayaks için build'de (brief ve PPC ekibi uyumluysa). v1 90. gün canlı.</li>
+    <li><strong>Dahili Insight Library</strong> kuruldu — her test standart formatta 1. günden itibaren loglanıyor.</li>
+  </ul>
+
+  <h3>Gün 61-90 · Birikim</h3>
+  <ul>
+    <li><strong>Öncelikli müşteri başına 3 eşzamanlı A/B testi.</strong> İstatistiksel sertlik zorunlu (underpowered testler kazanım gibi raporlanmıyor).</li>
+    <li><strong>QBR-hazır case study</strong> tamamlanan ilk test setinden — müşteri retention ve satış pitch'i için.</li>
+    <li><strong>Çapraz tozlaşma toplantısı</strong> — hesaplar arasında gözlenen örüntüleri paylaşan ilk dahili CRO debrief'i. Birikimli istihbarat.</li>
+    <li><strong>Hire kapsamı:</strong> 90. gün sonunda CRO fonksiyonunun ikinci bir hire'a ihtiyacı olup olmadığına net bir görüşüm olur (portföy büyüklüğü düşünüldüğünde muhtemelen 6 ay içinde evet).</li>
+  </ul>
+</section>
+
+<!-- ==== CLOSING ==== -->
+<section id="kapanis" class="container alt">
+  <span class="section-num">KAPANIŞ</span>
+  <h2>Neden bu işi sizinle yapmak isterim</h2>
+
+  <p>3 sebep.</p>
+
+  <p><strong>Bir —</strong> PPC ve SEO'yu zaten iyi yapan ajanslar, CRO için en iyi ev. Trafik kalifiye, teşhis araçları yerinde, müşteri ilişkileri var. Bu temel olmadan CRO çoğunlukla slide-deck; bu temelin üstünde CRO birikimli gelir.</p>
+
+  <p><strong>İki —</strong> portföy ilginç. Paddlesports, hospitality, retail, manufacturing — bu çeşitlilik, Insight Library'nin gerçekten karşılığını verdiği yer. Flow Kayaks'ta gördüğüm bir örüntü, önümüzdeki ay home-goods müşterisine yardım ediyor. Bu, yapmak istediğim iş.</p>
+
+  <p><strong>Üç —</strong> audit sayfanızdaki £500 garantisi, müşterilere nasıl baktığınızı söylüyor. B2B'de bu tür risk-reversal nadirdir ve sadece işe duyulan güvenden gelir. CRO'ya aynı duruşu getirmek isterim — her test bir kill criterion ile çıkar, her rapor neyin işe yaradığı ve yaramadığıyla başlar.</p>
+
+  <p>İşe alınırsam ilk hafta soracağım sorular:</p>
+  <ol>
+    <li>Müşteri portföyü genelinde PPC ROAS hedefleri ile gerçekleşen arasındaki ortalama fark ne? Bu fark, ilk çeyrekteki kazanımlarımın çoğunun geleceği yer.</li>
+    <li>E-commerce portföyünde mevcut Klaviyo footprint'i ne? Sezgim, müşterilerin %30-40'ı 6+ aydır dokunulmamış default flow'lar çalıştırıyor.</li>
+    <li>Ekibin korumak istediği tek bir CRO "house style"ı var mı, yoksa fonksiyon mimarisi sıfırdan kurulacak mı?</li>
+  </ol>
+
+  <p>Okuduğunuz için teşekkürler. Sürecin bir sonraki aşamasına müsaitim — bu brief'teki herhangi bir şeyi telefonda gezdirmeye hazırım.</p>
+</section>
+
+<!-- ==== FOOTER ==== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <h3>Ahmet Çağatay</h3>
+    <p>Conversion Rate Optimisation — growth.agency'deki role başvuru</p>
+    <div class="footer-meta">
+      Hazırlandı <strong>20 Mayıs 2026</strong> · Türkçe versiyon · ~15 dk okuma<br>
+      <em>Asıl gönderilen brief İngilizce. <a href="report.html" style="color:var(--teal-soft)">English version →</a></em>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('.toc-link');
+  var linkMap = {};
+  links.forEach(function(l){ var href = l.getAttribute('href').replace('#',''); linkMap[href] = l; });
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) {
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var link = linkMap[e.target.id];
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(function(s){ observer.observe(s); });
+})();
+</script>
+</body>
+</html>
