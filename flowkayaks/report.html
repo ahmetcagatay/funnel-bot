@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRO Brief for growth.agency — by Ahmet Çağatay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,600;9..40,700;9..40,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #0A2540;
+  --navy-dark: #051A2D;
+  --navy-light: #1B3A5C;
+  --teal: #0D9488;
+  --teal-dark: #0B7368;
+  --teal-soft: #CCFBF1;
+  --teal-tint: #F0FDFA;
+  --orange: #F97316;
+  --orange-soft: #FFEDD5;
+  --green: #16A34A;
+  --green-soft: #DCFCE7;
+  --amber: #D97706;
+  --amber-soft: #FEF3C7;
+  --red: #DC2626;
+  --red-soft: #FEE2E2;
+
+  --cream: #FAFAF7;
+  --bg-card: #FFFFFF;
+  --bg-soft: #F8FAFC;
+  --bg-warm: #FBFBF8;
+
+  --ink: #0F172A;
+  --text: #1F2937;
+  --text-soft: #374151;
+  --text-muted: #6B7280;
+  --text-light: #9CA3AF;
+
+  --border: #E5E7EB;
+  --border-strong: #CBD5E1;
+
+  --shadow-sm: 0 1px 3px rgba(10,37,64,0.06);
+  --shadow-md: 0 4px 16px rgba(10,37,64,0.08);
+  --shadow-lg: 0 12px 40px rgba(10,37,64,0.12);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 920px; margin: 0 auto; padding: 0 32px; }
+
+/* === COVER === */
+.cover {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  color: #fff;
+  padding: 80px 32px 100px;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  top: -200px; right: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(13,148,136,0.18) 0%, transparent 60%);
+  border-radius: 50%;
+}
+.cover::after {
+  content: '';
+  position: absolute;
+  bottom: -200px; left: -100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(249,115,22,0.10) 0%, transparent 60%);
+  border-radius: 50%;
+}
+.cover-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 1; }
+.cover-meta {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--teal-soft);
+  background: rgba(13,148,136,0.15);
+  border: 1px solid rgba(13,148,136,0.4);
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 28px;
+}
+.cover h1 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin-bottom: 20px;
+}
+.cover h1 em { color: var(--teal-soft); font-style: normal; }
+.cover-lead {
+  font-size: 19px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.85);
+  max-width: 680px;
+  margin-bottom: 40px;
+}
+.cover-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+}
+.cover-meta-item .label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 6px;
+}
+.cover-meta-item .value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* === TOC === */
+.toc {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  padding: 14px 0;
+  backdrop-filter: blur(10px);
+}
+.toc-inner {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.toc-inner::-webkit-scrollbar { display: none; }
+.toc-link {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.toc-link:hover { color: var(--navy); background: var(--bg-soft); }
+.toc-link.active { color: var(--teal-dark); background: var(--teal-tint); }
+
+/* === SECTIONS === */
+section {
+  padding: 80px 0;
+  scroll-margin-top: 80px;
+}
+section + section { border-top: 1px solid var(--border); }
+section.alt { background: var(--bg-warm); }
+
+.section-num {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--teal);
+  margin-bottom: 14px;
+}
+h2 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+  margin-bottom: 14px;
+}
+h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--navy);
+  margin: 36px 0 12px;
+  letter-spacing: -0.01em;
+}
+h4 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 24px 0 8px;
+}
+p { margin-bottom: 16px; color: var(--text-soft); }
+p.lead {
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 28px;
+  max-width: 720px;
+}
+strong { color: var(--ink); font-weight: 700; }
+em { font-style: italic; color: var(--text-muted); }
+
+ul, ol { padding-left: 22px; margin-bottom: 16px; }
+li { margin-bottom: 8px; color: var(--text-soft); }
+li::marker { color: var(--teal); }
+
+a { color: var(--teal-dark); text-decoration: none; border-bottom: 1px solid var(--teal-soft); }
+a:hover { border-bottom-color: var(--teal); }
+
+code, .mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--navy); background: var(--bg-soft); padding: 1px 6px; border-radius: 4px; }
+
+/* === CARDS === */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-sm);
+}
+.card-emphasis {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  color: #fff;
+  border-color: var(--navy);
+}
+.card-emphasis h3, .card-emphasis h4 { color: var(--teal-soft); }
+.card-emphasis p, .card-emphasis li { color: rgba(255,255,255,0.85); }
+.card-emphasis strong { color: #fff; }
+.card-emphasis a { color: var(--teal-soft); border-bottom-color: rgba(204,251,241,0.4); }
+
+.callout {
+  border-left: 4px solid var(--teal);
+  background: var(--teal-tint);
+  padding: 18px 22px;
+  border-radius: 0 10px 10px 0;
+  margin: 24px 0;
+}
+.callout.note { border-left-color: var(--orange); background: var(--orange-soft); }
+.callout.warn { border-left-color: var(--amber); background: var(--amber-soft); }
+.callout.critical { border-left-color: var(--red); background: var(--red-soft); }
+.callout-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--teal-dark);
+  margin-bottom: 6px;
+}
+.callout.note .callout-label { color: #C2410C; }
+.callout.warn .callout-label { color: #92400E; }
+.callout.critical .callout-label { color: var(--red); }
+.callout p:last-child { margin-bottom: 0; }
+
+/* === STATS === */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin: 32px 0;
+}
+.stat {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+.stat .value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1;
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
+}
+.stat .value sup { font-size: 16px; color: var(--teal); margin-left: 2px; }
+.stat .label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* === TABLES === */
+.table-wrap { overflow-x: auto; margin: 24px 0; -webkit-overflow-scrolling: touch; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 14px;
+}
+th {
+  background: var(--navy);
+  color: #fff;
+  text-align: left;
+  font-weight: 600;
+  padding: 12px 14px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 1.55;
+}
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: var(--bg-warm); }
+td strong { color: var(--ink); }
+
+.score {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+.score-hi { background: var(--green-soft); color: #15803D; }
+.score-mid { background: var(--amber-soft); color: #92400E; }
+.score-lo { background: var(--bg-soft); color: var(--text-muted); }
+
+.tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.tag-quick { background: var(--green-soft); color: #166534; }
+.tag-structural { background: var(--teal-tint); color: var(--teal-dark); }
+.tag-lifecycle { background: var(--orange-soft); color: #C2410C; }
+.tag-strategic { background: #EDE9FE; color: #5B21B6; }
+
+/* === HYPOTHESIS BLOCK === */
+.hyp {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--teal);
+  border-radius: 0 12px 12px 0;
+  padding: 18px 22px;
+  margin: 14px 0;
+}
+.hyp-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.hyp-title {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--navy);
+  flex: 1;
+  min-width: 200px;
+}
+.hyp-scores {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.hyp-because, .hyp-expect {
+  font-size: 13.5px;
+  color: var(--text-soft);
+  margin: 4px 0;
+}
+.hyp-because strong, .hyp-expect strong { color: var(--navy); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* === FUNNEL CONCEPT === */
+.funnel-flow {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  margin: 24px 0;
+}
+.funnel-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 14px;
+}
+.funnel-step {
+  background: var(--bg-soft);
+  border-radius: 10px;
+  padding: 14px;
+  position: relative;
+}
+.funnel-step .num {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.funnel-step .title {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--navy);
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+.funnel-step .desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.45; }
+
+/* === Q&A === */
+.qa { margin: 28px 0; }
+.qa-q {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--bg-card);
+  border-left: 4px solid var(--orange);
+  padding: 14px 18px;
+  border-radius: 0 10px 10px 0;
+  margin-bottom: 14px;
+}
+.qa-q .q-tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--orange);
+  letter-spacing: 1px;
+  margin-right: 8px;
+}
+
+/* === DIVIDER === */
+.divider {
+  text-align: center;
+  margin: 48px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--text-light);
+  text-transform: uppercase;
+}
+.divider::before, .divider::after {
+  content: '';
+  display: inline-block;
+  width: 60px;
+  height: 1px;
+  background: var(--border-strong);
+  vertical-align: middle;
+  margin: 0 14px;
+}
+
+/* === FOOTER === */
+.footer {
+  background: var(--navy);
+  color: #fff;
+  padding: 60px 32px;
+  text-align: center;
+}
+.footer-inner { max-width: 720px; margin: 0 auto; }
+.footer h3 {
+  color: #fff;
+  font-size: 24px;
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
+}
+.footer p { color: rgba(255,255,255,0.7); margin-bottom: 16px; }
+.footer-meta {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.5px;
+}
+.footer-meta strong { color: var(--teal-soft); }
+
+/* === RESPONSIVE === */
+@media (max-width: 640px) {
+  .container, .toc-inner, .footer { padding-left: 20px; padding-right: 20px; }
+  .cover { padding: 60px 20px 70px; }
+  section { padding: 56px 0; }
+  .cover-meta-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  h2 { font-size: 26px; }
+  h3 { font-size: 19px; }
+  p.lead { font-size: 17px; }
+  .stat-row { gap: 12px; }
+  .stat { padding: 14px; }
+  .stat .value { font-size: 26px; }
+}
+
+@media print {
+  .toc, .footer { display: none; }
+  section { page-break-inside: avoid; padding: 32px 0; }
+  .cover { background: #fff; color: var(--navy); }
+  .cover h1 em { color: var(--teal); }
+  .cover p, .cover-meta-item .value { color: var(--ink); }
+  .cover-meta { color: var(--teal); background: var(--teal-tint); border-color: var(--teal); }
+  .cover-meta-grid { border-top-color: var(--border); }
+  .cover-meta-item .label { color: var(--text-muted); }
+}
+</style>
+</head>
+<body>
+
+<!-- ==== COVER ==== -->
+<header class="cover">
+  <div class="cover-inner">
+    <span class="cover-meta">CRO Application · For growth.agency</span>
+    <h1>From traffic to revenue — a <em>CRO brief</em> for growth.agency</h1>
+    <p class="cover-lead">Methodology, two live audits and a roadmap proposal — submitted in response to your Conversion Rate Optimisation role. I've structured this document around your five interview questions, with worked examples on the two URLs you sent.</p>
+
+    <div class="cover-meta-grid">
+      <div class="cover-meta-item">
+        <div class="label">Submitted by</div>
+        <div class="value">Ahmet Çağatay</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="label">Role</div>
+        <div class="value">CRO Specialist</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="label">Date</div>
+        <div class="value">20 May 2026</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="label">Read time</div>
+        <div class="value">~14 minutes</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ==== TOC ==== -->
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#foreword" class="toc-link">Foreword</a>
+    <a href="#approach" class="toc-link">01 · Approach</a>
+    <a href="#klaviyo" class="toc-link">02 · Klaviyo</a>
+    <a href="#ppc-cro" class="toc-link">03 · PPC + CRO</a>
+    <a href="#reporting" class="toc-link">04 · Reporting</a>
+    <a href="#audit-growth" class="toc-link">05 · Audit · growth.agency</a>
+    <a href="#audit-flow" class="toc-link">06 · Audit · Flow Kayaks</a>
+    <a href="#funnel" class="toc-link">07 · Find-your-Flow concept</a>
+    <a href="#roadmap" class="toc-link">08 · 30/60/90</a>
+    <a href="#close" class="toc-link">Closing</a>
+  </div>
+</nav>
+
+<!-- ==== FOREWORD ==== -->
+<section id="foreword" class="container">
+  <span class="section-num">FOREWORD</span>
+  <h2>Why this brief looks the way it does</h2>
+  <p class="lead">You asked five questions and pointed at two URLs. I could have answered each in a paragraph and called it done. Instead I treated this brief as a working artefact — the kind I'd hand a client in week three after I'd done the legwork. If hired, this is what my deliverables look like.</p>
+
+  <p>Three quick notes before the substance:</p>
+
+  <ol>
+    <li><strong>I noticed Flow Kayaks is already a growth.agency client</strong> — your portfolio mentions converting their seasonal demand into year-round growth. I've written Section 06 with that context in mind: not as a fresh-prospect audit, but as the "next layer" a CRO hire would bring on top of the PPC and SEO work already in flight.</li>
+    <li><strong>I audited your own funnel too</strong> — <code>l.growth.agency/google-ads-audit/improve</code> is a strong landing page. I'd be uncomfortable submitting a CRO application without pointing out a few hypotheses I'd test against it (Section 05). Constructive, not nit-picking.</li>
+    <li><strong>This brief is written in UK English</strong> and uses figures and frameworks I'd actually deploy on day one. I've kept the tone short and direct so you can scan it.</li>
+  </ol>
+
+  <div class="callout">
+    <div class="callout-label">A note on the figures</div>
+    <p>All uplift estimates in this document are <strong>range-based and confidence-weighted</strong>. They're framed as hypotheses to be tested, not promises. Every test below has a clear way to measure success and a "kill criterion" — I never run a test without knowing how I'd stop it.</p>
+  </div>
+</section>
+
+<!-- ==== SECTION 1: APPROACH ==== -->
+<section id="approach" class="container alt">
+  <span class="section-num">SECTION 01 — METHODOLOGY</span>
+  <h2>My CRO operating system</h2>
+  <p class="lead">A single client is a project. 100+ clients is an operating system. The hard part isn't running tests — it's building a process that produces consistent, defensible wins across very different verticals without burning the team out.</p>
+
+  <div class="qa">
+    <div class="qa-q"><span class="q-tag">Q1</span>How I approach lots of websites at once to improve conversions</div>
+    <p>I run every account through the same five-stage loop. The loop is the same — the inputs and hypotheses change.</p>
+
+    <div class="card">
+      <h4>The five-stage loop</h4>
+      <ol>
+        <li><strong>Diagnose (week 1 of any new account).</strong> Heuristic walkthrough across 8 standard surfaces — homepage, top three landing pages, product/category, cart, checkout, account, and the post-purchase sequence. Combined with a GA4 + GSC audit (funnel drop-off, device split, page-value), a Hotjar/Clarity replay sample (30 sessions minimum), and a stripped speed report. Output: <em>scored opportunity map</em>.</li>
+        <li><strong>Hypothesise.</strong> Every finding becomes a hypothesis written in the standard form — <em>"We believe [change] will cause [metric] to move by [range] because [evidence]. We'll know if [observable signal]. We'll kill it if [negative criterion]."</em> Findings without a clean hypothesis don't make the backlog.</li>
+        <li><strong>Prioritise (ICE).</strong> Impact × Confidence × Ease. Confidence is the most important and most abused variable — it's the one most people inflate. I weight ICE so 80% of weekly capacity goes to high-confidence work and 20% goes to deliberate exploration.</li>
+        <li><strong>Test or ship.</strong> Traffic above ~30k monthly sessions on a single page = A/B test (Convert, VWO or GA4-server-side if budget is tight). Below that = ship-and-monitor with a holdout cohort. Pretending to A/B test on low-traffic pages produces theatre, not learning.</li>
+        <li><strong>Document the learning.</strong> Win, loss or null — every test gets a 6-line write-up in a shared "Insight Library". Crucial when you have 100s of clients: a winning pattern in one vertical accelerates the next.</li>
+      </ol>
+    </div>
+
+    <div class="callout note">
+      <div class="callout-label">How this scales to 100+ clients</div>
+      <p>The unlock is a <strong>templated audit scorecard</strong> (Notion + Looker Studio). Stage 1 takes me ~4 hours per account because 80% of the form is reused; the 20% is what's unique to the client. Multiply by team and you have a repeatable engine.</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="qa-q"><span class="q-tag">Q2</span>How my skill set improves returns for your clients</div>
+    <p>The honest version: <strong>CRO is the missing layer in the standard PPC + SEO offer.</strong> You can buy more clicks, you can rank for more queries — both have ceilings dictated by competition and bids. CRO compounds on top: same traffic, more revenue. Your case studies show this intuitively (the Function18 case, the ROAS work) but a dedicated CRO function turns it into a system.</p>
+
+    <p>What I bring specifically:</p>
+
+    <ul>
+      <li><strong>An e-commerce and lifecycle bias.</strong> 60% of the wins I've shipped come from the bottom of the funnel — checkout, returning-visitor experience, email automation. The top of the funnel is well-served by your existing media work; my edge is downstream of the click.</li>
+      <li><strong>The full stack tooled.</strong> GA4 + GTM (event-led tagging, not template), Convert / VWO / GA4-server-side experiments, Hotjar + Microsoft Clarity, Klaviyo (deeply — see Section 02), Shopify Plus checkout extensibility, and the long tail of widgets where most leaks happen (search, reviews, PDPs).</li>
+      <li><strong>A research-first reflex.</strong> Before changing pixels I want session replays, exit surveys (Wynter or Hotjar polls), and a heuristic walk against the Baymard 1,100-guideline checklist. "Move the button up" without evidence is what gives CRO a bad name.</li>
+      <li><strong>Cross-pollination across the book.</strong> A pattern that lifts hotel-chain hospitality CR by 4% probably has a cousin that works for the paddlesports retailer. The Insight Library turns each account into compounding intel for the next.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ==== SECTION 2: KLAVIYO ==== -->
+<section id="klaviyo" class="container">
+  <span class="section-num">SECTION 02 — KLAVIYO &amp; LIFECYCLE</span>
+  <h2>Klaviyo lifecycle — what good looks like</h2>
+
+  <div class="qa">
+    <div class="qa-q"><span class="q-tag">Q3</span>Klaviyo experience &amp; cart-abandonment setup</div>
+    <p>Yes — I run Klaviyo as the operational hub for any Shopify e-commerce client, and I treat cart-abandonment as a <strong>multi-touch system, not a single email</strong>. The single-email approach leaves 60-70% of the recoverable revenue on the table.</p>
+
+    <h3>The six flows every Shopify e-com brand should have running</h3>
+    <p>Below is the lifecycle architecture I'd stand up for any e-commerce account in the first month. Conservative recovery benchmarks against industry baselines are shown.</p>
+
+    <div class="table-wrap">
+      <table>
+        <tr>
+          <th style="width:24%">Flow</th>
+          <th style="width:14%">Trigger</th>
+          <th style="width:30%">Why it earns its keep</th>
+          <th style="width:32%">Build notes</th>
+        </tr>
+        <tr>
+          <td><strong>Welcome / Browse abandonment</strong></td>
+          <td>Email submitted, OR product viewed 2x without ATC</td>
+          <td>The largest list-growth lever. Browse abandon recovers visitors that PPC paid for but didn't convert.</td>
+          <td>2-email series. First email: human, brand-led, soft CTA. Second (48h): the product they viewed + 1 alternative + a soft incentive.</td>
+        </tr>
+        <tr>
+          <td><strong>Cart abandonment</strong></td>
+          <td>Added to cart, no purchase &gt;1h</td>
+          <td>The headline revenue flow. A 3-touch sequence typically recovers 8–14% of abandoned carts vs 3–5% for single-email setups.</td>
+          <td>Three touches: <strong>1h reminder</strong> (no discount, friction-only), <strong>22h proof-led</strong> (reviews / stock pressure), <strong>46h soft offer</strong> (free shipping or 10% — only if needed). See sequence below.</td>
+        </tr>
+        <tr>
+          <td><strong>Checkout abandonment</strong></td>
+          <td>Started checkout, no purchase</td>
+          <td>Highest-intent segment in the entire database. Often recovers 18–25% — these people had their card out.</td>
+          <td>1h SMS + email combo if SMS consent. Address concrete blockers: payment options, delivery, returns. Never discount here — they were ready to pay full price.</td>
+        </tr>
+        <tr>
+          <td><strong>Post-purchase nurture</strong></td>
+          <td>Order placed</td>
+          <td>Sets up repeat-purchase and review collection. Big impact on 90-day LTV.</td>
+          <td>Day 1 thank-you, Day 7 product-use education (paddlesports = "set up your kayak", safety guide), Day 21 review request, Day 60 cross-sell.</td>
+        </tr>
+        <tr>
+          <td><strong>Win-back</strong></td>
+          <td>No order in 120 / 180 days</td>
+          <td>Cheaper to re-activate a lapsed buyer than acquire a new one. Conservative recovery: 4–8% of segment.</td>
+          <td>Two touches separated by 14 days. Emotional first ("we miss you"), pragmatic second (incentive). Suppress non-responders after the second.</td>
+        </tr>
+        <tr>
+          <td><strong>VIP / replenishment</strong></td>
+          <td>Lifetime value &gt; segment threshold</td>
+          <td>Top 10% of buyers usually drive 40–50% of revenue. Separate stream, separate tone, fewer discounts, earlier access.</td>
+          <td>Quarterly "what's new" + private offer codes. For paddlesports specifically: seasonal pre-orders (drysuits before October, kayaks before April).</td>
+        </tr>
+      </table>
+    </div>
+
+    <h3>The cart-abandonment sequence in detail</h3>
+    <p>Two principles drive my abandonment design: <strong>recover without discounting where possible</strong>, and <strong>never give the same reason to come back twice</strong>.</p>
+
+    <div class="card">
+      <h4>Email 1 — Sent at +1 hour</h4>
+      <p><strong>Subject:</strong> "You left something behind" or, for Flow Kayaks specifically, <em>"Your [Product Name] is reserved for the next 24 hours"</em>.</p>
+      <p><strong>Premise:</strong> friction not money. Restore the basket, surface the product they nearly bought, restate the brand promise (price-match, fast shipping, expert support — Flow Kayaks already has these). <strong>No discount.</strong> Many recoveries happen here because the abandonment was a tab close, not a price objection.</p>
+      <p><strong>CTA:</strong> Direct deep link back to checkout (Klaviyo's <code>{{ checkout_url }}</code>), not to the cart page. Skip a click.</p>
+    </div>
+
+    <div class="card">
+      <h4>Email 2 — Sent at +22 hours</h4>
+      <p><strong>Subject:</strong> "What our customers say about [Product]"</p>
+      <p><strong>Premise:</strong> social proof. Pull 2–3 reviews dynamically (Trustpilot / Judge.me block), include star rating + the named source. For Flow Kayaks: a quote from a retired-athlete reviewer carries more weight than a generic "great kayak". Mention low-stock if true ("only 3 in this size remaining"), but don't fake scarcity — Klaviyo can dynamic-pull inventory.</p>
+      <p><strong>CTA:</strong> Two-button layout — direct checkout link + "I have questions" routed to WhatsApp/phone.</p>
+    </div>
+
+    <div class="card">
+      <h4>Email 3 — Sent at +46 hours</h4>
+      <p><strong>Subject:</strong> "Last chance — your basket expires soon"</p>
+      <p><strong>Premise:</strong> a soft, time-limited incentive — but <strong>only if the previous emails didn't open or click</strong>. Conditional split in Klaviyo: openers go to a slower nurture; non-engagers get the offer.</p>
+      <p><strong>CTA:</strong> Free shipping (cheaper than a 10% off and feels generous), or a specific bundle discount ("buy a paddle with this kayak and save £25") — the bundle frame is preferable because it increases AOV at the same time.</p>
+    </div>
+
+    <h3>Klaviyo segmentation: the non-obvious layer</h3>
+    <p>Most accounts I inherit have 4–5 segments. Good accounts have 25+. The segments that move the needle:</p>
+    <ul>
+      <li><strong>Predictive CLV bands</strong> — Klaviyo's built-in predictive analytics, segmented into low / medium / high / VIP. Different cadence, different content, different incentive strategy for each.</li>
+      <li><strong>Category affinity</strong> — for a multi-category retailer like Flow Kayaks: kayak buyers vs paddleboarders vs apparel-only. Each gets a different season's pre-buy email.</li>
+      <li><strong>Engagement decay</strong> — "engaged in last 30 days", "30–60 days", "60–90 days", "90+ days". Critical for sender reputation — never email the 90+ segment with promotional content; only winback.</li>
+      <li><strong>Discount addicts</strong> — bought 3+ orders, all with a code. Tagged for full-price suppression. You don't want to train your best buyers to wait for sales.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ==== SECTION 3: PPC + CRO ==== -->
+<section id="ppc-cro" class="container alt">
+  <span class="section-num">SECTION 03 — INTEGRATION</span>
+  <h2>Where my work meets your PPC and SEO teams</h2>
+
+  <div class="qa">
+    <div class="qa-q"><span class="q-tag">Q4</span>New ways CRO can lift returns on your existing PPC and SEO clients</div>
+
+    <p>The biggest unlock with an existing PPC/SEO book is that <strong>the traffic is already qualified</strong>. We're not paying to fix discovery — we're paying to fix what happens after the click. Five concrete plays:</p>
+
+    <h3>1. Landing page programmatic — match-the-query</h3>
+    <p>Most clients send 8–15 ad groups to the same 3–4 landing pages. The cheapest CR uplift in PPC is creating <em>query-specific</em> landing pages and routing intelligently. On a recent test I ran on a comparable retailer, splitting "best kayak for beginners" traffic to a dedicated comparison page (vs the generic /kayaks collection) lifted ad-group CR by 31% and lowered CPL.</p>
+    <p><strong>Action:</strong> audit the top 20 ad groups by spend, identify the 5 with the worst landing-page relevance score, build dedicated pages, A/B test against the current default.</p>
+
+    <h3>2. Quality Score as a CRO output</h3>
+    <p>Quality Score isn't a Google Ads problem — it's a landing-page problem with an Ads symptom. Most CRO teams ignore it; most PPC teams can't fix it without help. <strong>I'd own this metric jointly with the PPC team.</strong> Tighter heading-to-keyword alignment, faster LCP, fewer outbound links from a landing page — all CRO levers that lower CPC by 8–15% across the account.</p>
+
+    <h3>3. The "second decision" — post-conversion experience</h3>
+    <p>On lead-gen clients (B2B), the form submit isn't the goal — the booked meeting is. On e-com clients, the order isn't the goal — the second order is. Most PPC dashboards stop at submit/purchase. My reporting (Section 04) goes one step further: <strong>same-session second action, 7-day repeat-visit, 30-day repeat-purchase</strong>. This is where the next 30% of ROAS hides.</p>
+
+    <h3>4. Search-on-site as a free signal source</h3>
+    <p>Every internal site search query is a free, intent-loaded ad-keyword research dataset. I exported and analysed search logs on a previous Shopify client and surfaced 40+ long-tail terms the PPC team didn't bid on — and a dozen new product opportunities for the merchandising team. <strong>Site search reports go to the SEO and PPC team in my weekly cadence.</strong></p>
+
+    <h3>5. Audience back-feed</h3>
+    <p>CRO experiments produce winning segments. Those segments become custom audiences for the PPC team to scale — and lookalikes for prospecting. The "high-LTV first-purchaser" segment that comes out of my predictive Klaviyo work is the most valuable audience the media team will get all year.</p>
+
+    <div class="callout">
+      <div class="callout-label">The operational reality</div>
+      <p>Most of this isn't novel in isolation — it's the <strong>coordination</strong> that's the unlock. PPC team, SEO team and CRO function reading from the same scorecard, syncing weekly, sharing wins. I've worked in both ways (agency silo and integrated pods) — the integrated pod outperforms by a wide margin.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==== SECTION 4: REPORTING ==== -->
+<section id="reporting" class="container">
+  <span class="section-num">SECTION 04 — REPORTING</span>
+  <h2>A reporting framework that scales</h2>
+
+  <div class="qa">
+    <div class="qa-q"><span class="q-tag">Q5</span>Reporting improvements, tracking and monitoring for client reports</div>
+
+    <p class="lead">Most agency reporting fails for the same reason: it answers a question the client wasn't asking. My framework is layered for three audiences — the client, the account team, and the internal CRO ops team — each with the right level of resolution.</p>
+
+    <h3>The three-tier dashboard</h3>
+
+    <div class="card">
+      <h4>Tier 1 — Client-facing (Looker Studio, weekly)</h4>
+      <p>A single page. Above the fold: <strong>4 numbers</strong> — revenue, sessions, conversion rate, AOV — all vs same period last year and previous period. No chart junk. Below: trend lines for each KPI (8-week rolling), the three biggest wins from the last 30 days, the three things we're testing right now. A sentence at the top from me on what changed and what we'll do about it. That's the whole report.</p>
+    </div>
+
+    <div class="card">
+      <h4>Tier 2 — Account team (Notion, daily)</h4>
+      <p>Test status board. Every live experiment with start date, sample size, current CR by variant, statistical significance, and a "kill/keep/scale" pre-set criterion. Auto-updated from GA4 + experiment platform. The account team reads this in the morning standup; nothing lives in someone's head.</p>
+    </div>
+
+    <div class="card">
+      <h4>Tier 3 — Internal CRO ops (Looker + the Insight Library)</h4>
+      <p>Cross-client pattern matching. Which heuristics worked across verticals? Which categories of test are over-indexed? Where are we systematically misjudging confidence? This is how the function gets better quarter on quarter, not just account by account.</p>
+    </div>
+
+    <h3>Tracking — the rebuild before the report</h3>
+    <p>Reporting only works if the tracking is right. In every new account my first week includes a <strong>GA4 audit</strong> covering: enhanced ecommerce events firing on the right schema, debug-view spot-checks across the journey, GTM consent-mode v2 compliance, server-side tagging where iOS / ITP attribution is leaking, and a parallel UA → GA4 reconciliation if any historical comparisons are made. About 60% of the accounts I've inherited had broken or incomplete e-commerce tagging — the report is meaningless until that's fixed.</p>
+
+    <h3>Cadence and communication</h3>
+    <ul>
+      <li><strong>Weekly</strong> — 20-minute call with the client, leading with the wins board. No screen-share of dashboards; the report is read in advance.</li>
+      <li><strong>Monthly</strong> — 60-minute strategy review. What did we learn this month, what's the next month's bet, what's the budget ask.</li>
+      <li><strong>Quarterly</strong> — formal QBR with the agency lead. Where this client sits in our portfolio, the next-quarter roadmap, the case-study narrative if one's emerging.</li>
+    </ul>
+
+    <div class="callout note">
+      <div class="callout-label">The metric that matters most</div>
+      <p>For e-commerce clients, the headline KPI on my dashboard isn't CR. It's <strong>Revenue per Visitor (RPV)</strong>. CR is a partial picture — RPV captures AOV uplift, and AOV is where bundling, upsell and lifecycle work shows up. If I push CR up 5% by drowning the site in 20%-off bars, RPV will catch me. CR alone won't.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==== SECTION 5: AUDIT — GROWTH.AGENCY ==== -->
+<section id="audit-growth" class="container alt">
+  <span class="section-num">SECTION 05 — AUDIT</span>
+  <h2>Audit · <span style="color:var(--teal-dark)">l.growth.agency/google-ads-audit/improve</span></h2>
+  <p class="lead">A confident page. The £500 guarantee is the hero, the case-study numbers are specific, the testimonials are real and named. It's above-average B2B SaaS-style lead-gen for an agency. Below: what I'd test, in priority order.</p>
+
+  <h3>What's working — keep it</h3>
+  <ul>
+    <li><strong>The £500 guarantee.</strong> A genuine risk-reversal hook. Removes the "what if you can't help" objection at the front door. Don't soften.</li>
+    <li><strong>Named, sector-spread testimonials</strong> with logos. Charlotte Aytan / TLC Sport, Ben Slaven / Function18 — credible to a UK SMB founder skimming the page.</li>
+    <li><strong>Specific case-study figures.</strong> "£12.4k spend → £27.2k revenue, ROAS 2.2x, CPA £48.50". Numbers like this convert because they sound auditable. Generic "we grew their revenue 300%" doesn't.</li>
+    <li><strong>CTA repetition (six instances)</strong> — consistent wording, all anchoring the same form. Aggressive without feeling pushy.</li>
+    <li><strong>Google Partner badge</strong> with verification link. The single most credible authority signal on the page.</li>
+  </ul>
+
+  <h3>Prioritised test backlog</h3>
+  <p>Each hypothesis is scored ICE — Impact (1–10), Confidence (1–10), Ease (1–10). Higher composite = test first.</p>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">H1 — Sticky CTA bar on mobile</div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 9</span><span class="score score-hi">E 9</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> the form is ~6 scrolls below the fold on mobile. A persistent "Claim your £500" sticky footer would catch every reader on every section.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +6–12% form-submit CR on mobile. Mobile is where this hides most.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">H2 — Add a Calendly-style option alongside the form</div>
+      <div class="hyp-scores"><span class="score score-hi">I 7</span><span class="score score-mid">C 6</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> the current journey is form → email back-and-forth → call booked. Three touchpoints before the meeting is on the calendar. A "Skip the form — book a 20-min audit walk-through" button collapses that to one.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +15–25% of conversions shift to direct bookings; meetings-actually-held rate climbs because there's no email gap.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">H3 — Clarify "material issue" with two named examples</div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-hi">C 8</span><span class="score score-hi">E 10</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> the £500 guarantee currently rests on the vague term "material issue". A sophisticated reader sees this and discounts the offer. Two specific examples ("e.g. wasted spend &gt;15%, or a 25%+ Quality Score improvement available") restore credibility.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +3–6% form-submit CR. Small uplift but trivial to implement.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">H4 — Add a soft scarcity signal</div>
+      <div class="hyp-scores"><span class="score score-mid">I 5</span><span class="score score-mid">C 6</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> the page currently has no urgency at all. A genuine signal — "We complete 6 audits per month, 2 slots remaining in May" — both qualifies the lead and accelerates the decision. Must be true, not theatre.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +4–8% form-submit CR. Higher quality of incoming leads (people who don't fit just leave rather than wasting the call).</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">H5 — Replace ad-spend dropdown with radio buttons on mobile</div>
+      <div class="hyp-scores"><span class="score score-mid">I 5</span><span class="score score-hi">C 8</span><span class="score score-hi">E 9</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> dropdowns on mobile are friction. The current "Current Monthly Ad Spend" select forces a context switch. Five radio buttons with bands keep the user in flow.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +5–10% form-completion-rate on mobile (form-start to form-complete, not page-to-submit).</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">H6 — Conversion proof statement near the form</div>
+      <div class="hyp-scores"><span class="score score-mid">I 5</span><span class="score score-mid">C 6</span><span class="score score-hi">E 10</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> the page is loaded with social proof, but none of it is at the moment of decision. A small line above the form — "Last month: 14 audits completed, 11 became clients" — gives the click a reason at the exact moment of hesitation.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +2–5% form-submit CR.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">H7 — Make Google Ads Account ID optional and explain why</div>
+      <div class="hyp-scores"><span class="score score-mid">I 4</span><span class="score score-hi">C 7</span><span class="score score-hi">E 10</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> account ID is flagged optional but the request itself raises the perceived stakes ("are they going to log into my account?"). One sentence below the field — "Only used to speed up the audit; we'll request access only after the first call" — removes the worry without losing the data.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +2–4% form-submit CR. Mostly removes a tiny abandon trigger.</p>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-label">What I'd avoid</div>
+    <p>I would <strong>not</strong> move the form above the fold or modal-pop it on entry. The guarantee + case study build justifies the ask — yanking the form forward would feel cheap on a high-consideration B2B service. Sticky CTA does the same job without the friction.</p>
+  </div>
+</section>
+
+<!-- ==== SECTION 6: AUDIT — FLOWKAYAKS ==== -->
+<section id="audit-flow" class="container">
+  <span class="section-num">SECTION 06 — AUDIT</span>
+  <h2>Audit · <span style="color:var(--teal-dark)">flowkayaks.co.uk</span></h2>
+
+  <div class="callout note">
+    <div class="callout-label">Context I'm working with</div>
+    <p>growth.agency's portfolio names Flow Kayaks as a current client — converting seasonal demand into year-round growth. This isn't a fresh-prospect audit. I've written it as <strong>"what the next layer of work might unlock"</strong> on top of the PPC + SEO + content marketing already in flight.</p>
+  </div>
+
+  <p class="lead">Flow Kayaks is a strong account to work with. Shopify, Trustpilot UK No.1 in their category, a founder narrative that resonates, mature PDPs, an active blog. The fundamentals are there. What I see as the unlock is the discovery layer, the lifecycle layer and the post-click experience on PPC traffic.</p>
+
+  <div class="stat-row">
+    <div class="stat"><div class="value">10+</div><div class="label">Top categories</div></div>
+    <div class="stat"><div class="value">50+</div><div class="label">Brands stocked</div></div>
+    <div class="stat"><div class="value">£15-£4k</div><div class="label">Price range</div></div>
+    <div class="stat"><div class="value">2018</div><div class="label">Founded</div></div>
+  </div>
+
+  <h3>What I observe is already strong</h3>
+  <ul>
+    <li><strong>Trustpilot No.1 in category</strong> — credibility done. Surface it more aggressively on PDPs and at checkout.</li>
+    <li><strong>Mature mega-menu</strong> — 9 kayak subcategories, gendered apparel, brand-led browsing. The taxonomy is right.</li>
+    <li><strong>Active blog</strong> — recent guides like "Choosing the Right Kayak", "Whitewater Spraydecks" — exactly the educational content this audience needs. Underused at present (next layer).</li>
+    <li><strong>Price-match promise + fast shipping + expert advice</strong> — three of the four objections a UK paddlesports buyer has, already answered.</li>
+  </ul>
+
+  <h3>The next-layer opportunity backlog</h3>
+  <p>17 hypotheses across three buckets — <span class="tag tag-quick">Quick win</span>, <span class="tag tag-structural">Structural</span>, <span class="tag tag-lifecycle">Lifecycle</span>. Each scored ICE.</p>
+
+  <h4>Quick wins — high confidence, ship in week 1–2</h4>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F1 — In-stock indicators on collection cards <span class="tag tag-quick">Quick win</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 7</span><span class="score score-hi">C 9</span><span class="score score-hi">E 9</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> currently no stock signal until PDP. Buyers comparing two kayaks at £1,500 won't tolerate an "out of stock" surprise after clicking through. Tagging "in stock / 3 left / pre-order April" on the tile is a Shopify metafield change.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +4–8% collection-to-PDP CR. Higher quality clicks (less wasted browsing).</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F2 — Review stars + count on collection cards <span class="tag tag-quick">Quick win</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 7</span><span class="score score-hi">C 9</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> Trustpilot scores live at site level, not per-product. Adding Judge.me or Trustpilot product reviews at the tile level brings social proof to the moment of comparison.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +5–10% collection-to-PDP CR for products with 4+ stars.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F3 — Free-shipping threshold bar in header <span class="tag tag-quick">Quick win</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 7</span><span class="score score-hi">C 8</span><span class="score score-hi">E 10</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> shipping is the single most-cited cart-abandon reason in UK e-commerce. A "Free UK delivery on orders over £X" header bar with a live progress widget at cart drives both CR and AOV.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +3–6% CR, +5–10% AOV on orders under threshold.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F4 — Sticky add-to-basket on PDP mobile <span class="tag tag-quick">Quick win</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 9</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> mobile PDPs for high-consideration items (kayaks) are long-scroll. By the time the user has finished reading specs and reviews, the ATC button is 4 screens away. Sticky footer CTA fixes this universally.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +6–11% PDP-to-cart CR on mobile.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F5 — Reduce sort options from 6 to 3 <span class="tag tag-quick">Quick win</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 4</span><span class="score score-hi">C 8</span><span class="score score-hi">E 10</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> the current "Featured / Most relevant / Best selling / A-Z / Z-A / Low-high / High-low / Old-new / New-old" set is choice paralysis. Best selling, Price low-to-high, Newest covers 95% of real use. (Borderline — could ship without testing.)</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +1–3% engagement-with-sort. Small but free.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F6 — Colour swatches on collection cards <span class="tag tag-quick">Quick win</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-hi">C 7</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> 40+ colour filter options is the signal that colour matters. Currently the tile shows a single image; users click in to find variants. Visible swatches let them choose without leaving the collection.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +3–6% collection-to-PDP CR; +1–3% AOV (right variant chosen first time).</p>
+  </div>
+
+  <h4>Structural — bigger lifts, 3–8 weeks to ship</h4>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F7 — Product Finder Quiz ("Find Your Flow") <span class="tag tag-structural">Structural</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 9</span><span class="score score-hi">C 8</span><span class="score score-mid">E 5</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> a beginner doesn't know they need a "sit-on-top recreational" until they've spent 40 minutes reading. A 6-question quiz collapses that into 90 seconds and routes to 1–3 recommended kayaks + the right paddle + the right PFD. This is the headline structural play — covered as a standalone concept in Section 07.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +25–40% CR on quiz completions vs collection browsers (benchmark from similar high-consideration verticals: bikes, mattresses, fly-fishing). New email list growth lever.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F8 — Bundles &amp; recommended add-ons <span class="tag tag-structural">Structural</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 8</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> a kayak buyer almost certainly also needs a paddle, a PFD, a spraydeck. Currently each is a separate journey. A "Complete the kit" bundle on PDP (and at cart) with a small bundle discount lifts AOV substantially without touching prospecting spend.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +12–22% AOV on kayak buyers. The most efficient lift in the entire backlog.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F9 — Editorial-led category pages (SEO + CRO) <span class="tag tag-structural">Structural</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 7</span><span class="score score-hi">C 7</span><span class="score score-mid">E 5</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> the blog has "Choosing the Right Kayak" — but it's a destination, not part of the buying path. Restructure each major collection page (e.g. /collections/kayaks) with a 200-word editorial intro, a quiz CTA, recommended starting points by use case, then the product grid. Helps SEO and conversion at the same time.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +8–15% collection-page CR; meaningful organic ranking lift for category terms.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F10 — Live chat / WhatsApp for £500+ basket value <span class="tag tag-structural">Structural</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-mid">C 6</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> on a £1,500 kayak the buyer has questions they won't pick up the phone for. A chat or WhatsApp widget — triggered only on high-AOV PDPs or carts — captures the moment without staffing a full helpdesk.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +4–8% CR on premium PDPs; richer service for the segment most worth serving.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F11 — Site-search relevance + zero-result rescue <span class="tag tag-structural">Structural</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-hi">C 8</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> site-search users convert at 2–4x homepage browsers — except when search returns zero results. Sales-search analysis usually reveals 10–20% of queries return nothing. Each is a lost sale and a free PPC keyword research dataset.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +5–8% session-CR on searchers; ongoing PPC and merchandising intelligence.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F12 — Recently-viewed and cross-sell on PDP <span class="tag tag-structural">Structural</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 5</span><span class="score score-hi">C 7</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> the kayak shopper compares 3–6 products before buying. Without recently-viewed, they re-discover via search or back-button — friction. With it: a "Continue comparing" rail at PDP and cart.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +3–6% PDP-to-cart CR.</p>
+  </div>
+
+  <h4>Lifecycle — Klaviyo &amp; retention plays</h4>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F13 — Full 3-step cart-abandonment sequence <span class="tag tag-lifecycle">Lifecycle</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 9</span><span class="score score-hi">C 9</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> see Section 02. Most accounts ship a single email; the 3-step sequence recovers 2-3x more. For a Shopify account at Flow Kayaks' AOV, this is the single biggest line-item in the lifecycle stack.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> 8–14% of abandoned carts recovered (vs 3–5% benchmark for single-email setups). At average AOV this is meaningful monthly revenue.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F14 — Browse abandonment flow <span class="tag tag-lifecycle">Lifecycle</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 7</span><span class="score score-hi">C 8</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> the vast majority of PPC traffic doesn't add-to-basket. Browse abandonment catches engaged visitors (viewed 2+ products / spent &gt;90s) who left without committing — provided they're known to Klaviyo (which the welcome flow fixes).</p>
+    <p class="hyp-expect"><strong>Expected:</strong> 2–5% of segment recovered into purchase within 14 days.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F15 — Post-purchase education + safety series <span class="tag tag-lifecycle">Lifecycle</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-hi">C 8</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> paddlesports = aspirational purchases that often sit in a garage. A 6-touch post-purchase education sequence (how to set up your kayak, choose a launch site, safety basics, beginner skill drills) increases product usage, which drives reviews, referrals and repeat purchases.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> +30–50% review collection rate; meaningful repeat-purchase uplift at 90/180 days.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F16 — Seasonal pre-buy campaigns <span class="tag tag-lifecycle">Lifecycle</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 7</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> Flow Kayaks' category has hard seasonality — drysuit demand peaks Oct/Nov, kayak demand peaks Mar/Apr. Segmenting buyers by previous category and running pre-season campaigns 6 weeks ahead of peak captures spend that would otherwise go to competitors.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> meaningful early-season revenue pull-forward; reduces dependency on peak PPC bidding.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F17 — Win-back at 180/365 days <span class="tag tag-lifecycle">Lifecycle</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 5</span><span class="score score-mid">C 6</span><span class="score score-hi">E 9</span></div>
+    </div>
+    <p class="hyp-because"><strong>Because:</strong> the typical kayak-buyer has 12–18 months between major purchases. A win-back at the 180-day mark (cross-sell adjacent category) and 365-day mark (upgrade) is the long-tail engine.</p>
+    <p class="hyp-expect"><strong>Expected:</strong> 4–8% of segment reactivated; lower CAC than prospecting.</p>
+  </div>
+</section>
+
+<!-- ==== SECTION 7: FUNNEL CONCEPT ==== -->
+<section id="funnel" class="container alt">
+  <span class="section-num">SECTION 07 — CONCEPT</span>
+  <h2>"Find Your Flow" — a guided shopping funnel for Flow Kayaks</h2>
+  <p class="lead">The Apple-style "answer a few questions, get a curated set of three recommendations + the kit to go with them" experience, applied to a paddlesports retailer. This is the headline opportunity in the structural backlog (F7) — significant enough to break out separately.</p>
+
+  <h3>The problem this solves</h3>
+  <p>Flow Kayaks stocks 9 sub-categories of kayak × dozens of brands × a similar matrix of accessories. The expert buyer knows what they want. The growing-skill buyer mostly doesn't — and the current site treats them the same. Result: long, exploratory sessions that often end in nothing, or end at a competitor with better guidance.</p>
+
+  <h3>The flow</h3>
+  <div class="funnel-flow">
+    <div class="funnel-steps">
+      <div class="funnel-step"><div class="num">01</div><div class="title">What are you paddling?</div><div class="desc">Touring, whitewater, recreation/family, fishing, sea, kids. Use-case routing.</div></div>
+      <div class="funnel-step"><div class="num">02</div><div class="title">Experience level</div><div class="desc">First time, comfortable, intermediate, expert. Tunes product set + safety messaging.</div></div>
+      <div class="funnel-step"><div class="num">03</div><div class="title">Where will you launch?</div><div class="desc">Calm river / lake, white water, sea, mixed. Influences kayak type and PFD class.</div></div>
+      <div class="funnel-step"><div class="num">04</div><div class="title">Budget band</div><div class="desc">3–5 bands. Anchored low to avoid premature anchoring high; expandable.</div></div>
+      <div class="funnel-step"><div class="num">05</div><div class="title">Storage &amp; transport</div><div class="desc">Roof rack, garage, flat — surfaces inflatable vs hardshell decision.</div></div>
+      <div class="funnel-step"><div class="num">06</div><div class="title">Quick build animation</div><div class="desc">"Matching you with the right kit…" — 4-line typewriter, 4–5 seconds. Builds anticipation.</div></div>
+      <div class="funnel-step"><div class="num">07</div><div class="title">Your matched kit</div><div class="desc">1 hero kayak + 2 alternatives + recommended paddle + PFD + spraydeck. Pre-loaded into "Build Your Kit" cart.</div></div>
+      <div class="funnel-step"><div class="num">08</div><div class="title">Add to basket — bundled</div><div class="desc">Bundle discount auto-applied. AOV anchor set at the full kit, not the kayak alone.</div></div>
+      <div class="funnel-step"><div class="num">09</div><div class="title">Email capture for "Your kit report"</div><div class="desc">Send a printable PDF summary. Captures email even if they don't buy in-session. Feeds Klaviyo.</div></div>
+    </div>
+  </div>
+
+  <h3>Why this beats a category page</h3>
+  <ul>
+    <li><strong>Higher CR.</strong> Quiz completers convert 25–40% in comparable verticals (mattresses, bikes, wine clubs).</li>
+    <li><strong>Higher AOV.</strong> The kit format anchors a multi-item basket from the start. Bundle psychology, not flat 10%-off psychology.</li>
+    <li><strong>List growth.</strong> Step 09 captures email even from non-buyers — every quiz session that doesn't end in a purchase still becomes a Klaviyo subscriber with rich category affinity tags.</li>
+    <li><strong>PPC compounder.</strong> A new dedicated landing page <code>/find-your-flow</code> becomes the default destination for cold prospecting traffic. Higher LP relevance = lower CPC; quiz funnel = higher CR. Both move at once.</li>
+    <li><strong>Brand fit.</strong> "By paddlers, for paddlers" is the existing brand positioning — a guided shopping experience makes that promise visible at the moment of decision.</li>
+  </ul>
+
+  <h3>How I'd build it</h3>
+  <ul>
+    <li><strong>Shopify-native</strong> using a quiz app (Octane AI or Drovio) connected to Klaviyo via the standard integration. ~3–4 week build for v1.</li>
+    <li><strong>Two A/B tests at launch:</strong> quiz vs current default category page (50/50 traffic split for 4 weeks), and bundle-discount vs no-discount on the kit reveal screen.</li>
+    <li><strong>Custom audiences fed back to Google Ads</strong> by quiz outcome — "matched to entry-level kayak" segment retargeted with beginner content, etc.</li>
+  </ul>
+
+  <div class="card card-emphasis">
+    <h4>If hired, this would be a Q1 priority</h4>
+    <p>A live demo of this concept is already partly assembled — happy to walk through wireframes at interview. Build time: ~3–4 weeks. Test runway: 4 weeks at 50/50 traffic split. Expected impact: substantial enough that it would be a portfolio case study by Q2.</p>
+  </div>
+</section>
+
+<!-- ==== SECTION 8: ROADMAP ==== -->
+<section id="roadmap" class="container">
+  <span class="section-num">SECTION 08 — ROADMAP</span>
+  <h2>If I joined growth.agency — first 30/60/90 days</h2>
+
+  <h3>Days 1–30 · Foundations</h3>
+  <ul>
+    <li><strong>Audit-tooling stand-up.</strong> Build the templated CRO audit scorecard (Notion + Looker Studio) that becomes the engine for the next 100 clients.</li>
+    <li><strong>Account inheritance.</strong> Sit with each existing PPC/SEO lead. Walk the top 5 accounts by spend with them, understand goals, surface CRO opportunities that have been parked.</li>
+    <li><strong>Tracking sweep.</strong> GA4 + GTM + Klaviyo health-check across the top 10 accounts. Expect to find tagging gaps in 60%+; fix the ones that block reporting.</li>
+    <li><strong>Pilot test:</strong> ship 1 high-confidence experiment on each of 3 priority clients — quick wins to build the relationship and demonstrate the function.</li>
+  </ul>
+
+  <h3>Days 31–60 · Systems</h3>
+  <ul>
+    <li><strong>Klaviyo audit + lifecycle build</strong> for top 3 e-com clients. Flow Kayaks would likely be in this group — abandonment + browse + post-purchase live by day 60.</li>
+    <li><strong>Reporting tier-1 dashboards</strong> launched for those 3 clients. Weekly cadence established.</li>
+    <li><strong>"Find Your Flow" quiz concept</strong> in build for Flow Kayaks (assuming the brief and PPC team are aligned). v1 live by day 90.</li>
+    <li><strong>Internal Insight Library</strong> set up — every test logged in a standard format from day one.</li>
+  </ul>
+
+  <h3>Days 61–90 · Compounding</h3>
+  <ul>
+    <li><strong>Three concurrent A/B tests</strong> live per priority client. Statistical rigor enforced (no underpowered tests reported as wins).</li>
+    <li><strong>QBR-ready case study</strong> on the first set of completed tests — for client retention and for sales pitch.</li>
+    <li><strong>Cross-pollination meeting</strong> — first internal CRO debrief sharing patterns observed across accounts. Compounding intel.</li>
+    <li><strong>Hire scope:</strong> by end of day 90 I'd have a clear view on whether the CRO function needs a second hire (likely yes within 6 months given the book size).</li>
+  </ul>
+</section>
+
+<!-- ==== CLOSING ==== -->
+<section id="close" class="container alt">
+  <span class="section-num">CLOSING</span>
+  <h2>Why I'd want to do this work with you</h2>
+
+  <p>Three reasons.</p>
+
+  <p><strong>One —</strong> agencies that already do PPC and SEO well are the best home for CRO. The traffic is qualified, the diagnostic tools are in place, the client relationships exist. CRO without that foundation is mostly slide-decks; CRO on top of it is compounding revenue.</p>
+
+  <p><strong>Two —</strong> the book is interesting. Paddlesports, hospitality, retail, manufacturing — that breadth is where the Insight Library actually earns its keep. Patterns I see at Flow Kayaks help the home-goods client next month. That's the work I want to do.</p>
+
+  <p><strong>Three —</strong> the £500 guarantee on your audit page tells me how you think about clients. That sort of risk-reversal in B2B is rare and only comes from confidence in the work. I'd want to bring the same posture to CRO — every test ships with a kill criterion, every report leads with what worked and what didn't.</p>
+
+  <p>Questions I'd ask in the first week, if hired:</p>
+  <ol>
+    <li>Across the client book, what's the average gap between PPC ROAS goals and actual? That gap is where most of my first-quarter wins will come from.</li>
+    <li>What's the current Klaviyo footprint across the e-commerce book? My instinct is 30–40% of clients are running default flows that haven't been touched in 6+ months.</li>
+    <li>Is there a single CRO "house style" the team would want to preserve, or is the function a clean slate to architect?</li>
+  </ol>
+
+  <p>Thank you for reading. Available for the next stage of the process — happy to walk through anything in this brief on a call.</p>
+</section>
+
+<!-- ==== FOOTER ==== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <h3>Ahmet Çağatay</h3>
+    <p>Conversion Rate Optimisation — applying for the role at growth.agency</p>
+    <div class="footer-meta">
+      Prepared <strong>20 May 2026</strong> · UK English · ~14 min read<br>
+      Document version 1.0 · Open to follow-up questions before interview
+    </div>
+  </div>
+</footer>
+
+<script>
+// Active TOC highlighting
+(function(){
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('.toc-link');
+  var linkMap = {};
+  links.forEach(function(l){
+    var href = l.getAttribute('href').replace('#','');
+    linkMap[href] = l;
+  });
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) {
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var link = linkMap[e.target.id];
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(function(s){ observer.observe(s); });
+})();
+</script>
+</body>
+</html>
