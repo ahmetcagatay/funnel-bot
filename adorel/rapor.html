@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adorel &amp; Stocado · Büyüme Brief'i — Ahmet Çağatay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,600;9..40,700;9..40,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #0C3474;
+  --navy-dark: #061E47;
+  --navy-light: #1B4790;
+  --indigo: #6366F1;
+  --indigo-soft: #E0E7FF;
+  --indigo-tint: #EEF2FF;
+  --indigo-dark: #4338CA;
+  --cyan: #0693E3;
+  --orange: #FF6900;
+  --orange-soft: #FFEDD5;
+  --green: #22C55E;
+  --green-soft: #DCFCE7;
+  --amber: #FCB900;
+  --amber-soft: #FEF3C7;
+  --red: #EF4444;
+  --red-soft: #FEE2E2;
+
+  --cream: #FAFAFB;
+  --bg-card: #FFFFFF;
+  --bg-soft: #F8FAFC;
+  --bg-warm: #F4F6FB;
+
+  --ink: #131022;
+  --text: #1F2937;
+  --text-soft: #374151;
+  --text-muted: #6B7280;
+  --text-light: #9CA3AF;
+
+  --border: #E5E7EB;
+  --border-strong: #CBD5E1;
+
+  --shadow-sm: 0 1px 3px rgba(12,52,116,0.06);
+  --shadow-md: 0 4px 16px rgba(12,52,116,0.08);
+  --shadow-lg: 0 12px 40px rgba(12,52,116,0.12);
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.65; color: var(--text); background: var(--cream); -webkit-font-smoothing: antialiased; }
+
+.container { max-width: 920px; margin: 0 auto; padding: 0 32px; }
+
+.cover { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 60%, var(--indigo-dark) 100%); color: #fff; padding: 80px 32px 100px; position: relative; overflow: hidden; }
+.cover::before { content: ''; position: absolute; top: -200px; right: -100px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(99,102,241,0.20) 0%, transparent 60%); border-radius: 50%; }
+.cover::after { content: ''; position: absolute; bottom: -200px; left: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(6,147,227,0.14) 0%, transparent 60%); border-radius: 50%; }
+.cover-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 1; }
+.cover-meta { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--indigo-soft); background: rgba(99,102,241,0.20); border: 1px solid rgba(99,102,241,0.45); padding: 6px 14px; border-radius: 20px; margin-bottom: 28px; }
+.cover h1 { font-family: 'DM Sans', sans-serif; font-size: clamp(32px, 5.5vw, 50px); font-weight: 700; line-height: 1.1; letter-spacing: -0.025em; margin-bottom: 20px; }
+.cover h1 em { color: var(--indigo-soft); font-style: normal; }
+.cover-lead { font-size: 18px; line-height: 1.55; color: rgba(255,255,255,0.85); max-width: 720px; margin-bottom: 40px; }
+.cover-meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.15); }
+.cover-meta-item .label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 6px; }
+.cover-meta-item .value { font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 600; color: #fff; }
+
+.toc { background: var(--bg-card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 30; padding: 14px 0; backdrop-filter: blur(10px); }
+.toc-inner { max-width: 920px; margin: 0 auto; padding: 0 32px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.toc-inner::-webkit-scrollbar { display: none; }
+.toc-link { font-size: 12.5px; font-weight: 600; color: var(--text-muted); text-decoration: none; padding: 6px 12px; border-radius: 20px; white-space: nowrap; transition: all 0.2s; flex-shrink: 0; border: none; }
+.toc-link:hover { color: var(--navy); background: var(--bg-soft); }
+.toc-link.active { color: var(--indigo-dark); background: var(--indigo-tint); }
+
+section { padding: 80px 0; scroll-margin-top: 80px; }
+section + section { border-top: 1px solid var(--border); }
+section.alt { background: var(--bg-warm); }
+
+.section-num { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: var(--indigo); margin-bottom: 14px; }
+h2 { font-family: 'DM Sans', sans-serif; font-size: clamp(26px, 4vw, 36px); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: var(--navy); margin-bottom: 14px; }
+h3 { font-family: 'DM Sans', sans-serif; font-size: 22px; font-weight: 700; line-height: 1.25; color: var(--navy); margin: 36px 0 12px; letter-spacing: -0.01em; }
+h4 { font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700; color: var(--navy); margin: 24px 0 8px; }
+p { margin-bottom: 16px; color: var(--text-soft); }
+p.lead { font-size: 18px; line-height: 1.6; color: var(--text); margin-bottom: 28px; max-width: 740px; }
+strong { color: var(--ink); font-weight: 700; }
+em { font-style: italic; color: var(--text-muted); }
+
+ul, ol { padding-left: 22px; margin-bottom: 16px; }
+li { margin-bottom: 8px; color: var(--text-soft); }
+li::marker { color: var(--indigo); }
+
+a { color: var(--indigo-dark); text-decoration: none; border-bottom: 1px solid var(--indigo-soft); }
+a:hover { border-bottom-color: var(--indigo); }
+
+code, .mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--navy); background: var(--bg-soft); padding: 1px 6px; border-radius: 4px; }
+
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin: 20px 0; box-shadow: var(--shadow-sm); }
+.card-emphasis { background: linear-gradient(135deg, var(--navy) 0%, var(--indigo-dark) 100%); color: #fff; border-color: var(--navy); }
+.card-emphasis h3, .card-emphasis h4 { color: var(--indigo-soft); }
+.card-emphasis p, .card-emphasis li { color: rgba(255,255,255,0.85); }
+.card-emphasis strong { color: #fff; }
+
+.callout { border-left: 4px solid var(--indigo); background: var(--indigo-tint); padding: 18px 22px; border-radius: 0 10px 10px 0; margin: 24px 0; }
+.callout.note { border-left-color: var(--orange); background: var(--orange-soft); }
+.callout.warn { border-left-color: var(--amber); background: var(--amber-soft); }
+.callout.critical { border-left-color: var(--red); background: var(--red-soft); }
+.callout-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--indigo-dark); margin-bottom: 6px; }
+.callout.note .callout-label { color: #C2410C; }
+.callout.warn .callout-label { color: #92400E; }
+.callout.critical .callout-label { color: #B91C1C; }
+.callout p:last-child { margin-bottom: 0; }
+
+.stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin: 32px 0; }
+.stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.stat .value { font-family: 'DM Sans', sans-serif; font-size: 30px; font-weight: 800; color: var(--navy); line-height: 1; margin-bottom: 6px; letter-spacing: -0.02em; }
+.stat .label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+.table-wrap { overflow-x: auto; margin: 24px 0; -webkit-overflow-scrolling: touch; }
+table { width: 100%; border-collapse: collapse; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; font-size: 14px; }
+th { background: var(--navy); color: #fff; text-align: left; font-weight: 600; padding: 12px 14px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; }
+td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-soft); font-size: 14px; line-height: 1.55; }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: var(--bg-warm); }
+td strong { color: var(--ink); }
+
+.score { display: inline-flex; align-items: center; gap: 4px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 13px; padding: 3px 10px; border-radius: 6px; }
+.score-hi { background: var(--green-soft); color: #15803D; }
+.score-mid { background: var(--amber-soft); color: #92400E; }
+.score-lo { background: var(--bg-soft); color: var(--text-muted); }
+
+.tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.tag-quick { background: var(--green-soft); color: #166534; }
+.tag-structural { background: var(--indigo-tint); color: var(--indigo-dark); }
+.tag-strategic { background: #EDE9FE; color: #5B21B6; }
+
+.hyp { background: var(--bg-card); border: 1px solid var(--border); border-left: 4px solid var(--indigo); border-radius: 0 12px 12px 0; padding: 18px 22px; margin: 14px 0; }
+.hyp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+.hyp-title { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 15px; color: var(--navy); flex: 1; min-width: 200px; }
+.hyp-scores { display: flex; gap: 6px; flex-shrink: 0; }
+.hyp-because, .hyp-expect { font-size: 13.5px; color: var(--text-soft); margin: 4px 0; }
+.hyp-because strong, .hyp-expect strong { color: var(--navy); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.brand-card { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0; }
+.brand-card .item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+.brand-card .item h4 { margin-top: 0; font-size: 18px; }
+.brand-card .item h4 .role { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; letter-spacing: 1px; margin-left: 6px; }
+.brand-card .item .role.parent { background: var(--navy); color: #fff; }
+.brand-card .item .role.product { background: var(--indigo); color: #fff; }
+@media (max-width: 640px) { .brand-card { grid-template-columns: 1fr; } }
+
+.funnel-flow { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin: 24px 0; }
+.funnel-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; }
+.funnel-step { background: var(--bg-soft); border-radius: 10px; padding: 14px; }
+.funnel-step .num { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; color: var(--indigo); margin-bottom: 4px; }
+.funnel-step .title { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px; color: var(--navy); margin-bottom: 4px; line-height: 1.25; }
+.funnel-step .desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.45; }
+
+.footer { background: var(--navy); color: #fff; padding: 60px 32px; text-align: center; }
+.footer-inner { max-width: 720px; margin: 0 auto; }
+.footer h3 { color: #fff; font-size: 24px; margin-bottom: 14px; letter-spacing: -0.02em; }
+.footer p { color: rgba(255,255,255,0.7); margin-bottom: 16px; }
+.footer-meta { margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 0.5px; }
+.footer-meta strong { color: var(--indigo-soft); }
+.footer-meta a { color: var(--indigo-soft); border-bottom-color: rgba(224,231,255,0.4); }
+
+@media (max-width: 640px) {
+  .container, .toc-inner, .footer { padding-left: 20px; padding-right: 20px; }
+  .cover { padding: 60px 20px 70px; }
+  section { padding: 56px 0; }
+  .cover-meta-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  h2 { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="cover-inner">
+    <span class="cover-meta">Büyüme Brief'i · Adorel &amp; Stocado için</span>
+    <h1>İki marka, tek büyüme motoru — Adorel &amp; <em>Stocado</em> için kapsamlı brief</h1>
+    <p class="cover-lead">Stratejik konumlanma, iki ayrı denetim, rakip haritası ve önerilen bir <strong>"Kargo Tasarrufu Hesaplayıcı"</strong> funnel'ı. Yarınki görüşme için hazırlandı — okuyup tartışmaya hazır gelmek üzere.</p>
+    <div class="cover-meta-grid">
+      <div class="cover-meta-item"><div class="label">Hazırlayan</div><div class="value">Ahmet Çağatay</div></div>
+      <div class="cover-meta-item"><div class="label">Pozisyon</div><div class="value">Büyüme / Pazarlama</div></div>
+      <div class="cover-meta-item"><div class="label">Tarih</div><div class="value">25 Mayıs 2026</div></div>
+      <div class="cover-meta-item"><div class="label">Okuma süresi</div><div class="value">~14 dakika</div></div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#onsoz" class="toc-link">Önsöz</a>
+    <a href="#portfoy" class="toc-link">01 · Marka Portföyü</a>
+    <a href="#pazar" class="toc-link">02 · Pazar &amp; Rakip</a>
+    <a href="#adorel" class="toc-link">03 · Adorel Denetimi</a>
+    <a href="#stocado" class="toc-link">04 · Stocado Denetimi</a>
+    <a href="#strateji" class="toc-link">05 · Hibrit Strateji</a>
+    <a href="#funnel" class="toc-link">06 · Tasarruf Hesaplayıcı</a>
+    <a href="#yol" class="toc-link">07 · İlk 30 Gün</a>
+    <a href="#kapanis" class="toc-link">Kapanış</a>
+  </div>
+</nav>
+
+<!-- ÖNSÖZ -->
+<section id="onsoz" class="container">
+  <span class="section-num">ÖNSÖZ</span>
+  <h2>Bu brief'in çerçevesi</h2>
+  <p class="lead">İki marka — bir ana şirket altında iki farklı satış motoru: <strong>Adorel</strong>, kurumsal/devlet odaklı bilişim &amp; lojistik çözümleri sağlayan B2B servis markası; <strong>Stocado</strong>, e-ticaret satıcılarının tek panelden çoklu kargo yönetebildiği self-serve B2B SaaS ürünü. İkisinin satış mantığı, müşteri profili ve büyüme kolu farklı. Brief'i bu ayrımı koruyarak yazdım.</p>
+
+  <p>İçeriğe girmeden önce kısa bir not:</p>
+
+  <ul>
+    <li><strong>Adorel ve Stocado'nun ilişkisi:</strong> Adorel ana firma (Adorel Lojistik Yazılım Bilişim Telekomünikasyon A.Ş., Ankara merkezli), Stocado ise Adorel'in ürettiği bir SaaS ürünü. Stocado'nun footer'ında "web tasarımı &amp; geliştirme" Adorel tarafından yapılmış olarak geçiyor — bu yapısal ipucu önemli, çünkü her iki sitenin de pazarlama altyapısı aynı ekipten geliyor.</li>
+    <li><strong>Pazar bağlamı:</strong> Türkiye'de e-ticaret kargo SaaS pazarı kalabalık ve hızla olgunlaşıyor — Kargonomi, ShipEntegra, Navlungo, Geliver başlıca rakipler. Stocado bu pazarda diferansiyasyon ve pazarlama disiplini ile öne çıkacak ya da geri kalacak.</li>
+    <li><strong>Tahminler aralık bazlı.</strong> Aşağıdaki tüm "beklenen artış" rakamları test edilecek hipotezler — sözleşme değil. Her hipotezin nasıl ölçüleceği ve hangi durumda iptal edileceği önceden tanımlı.</li>
+  </ul>
+
+  <div class="callout">
+    <div class="callout-label">Önemli</div>
+    <p>Bu brief'te <strong>Stocado'ya daha fazla yer ayırdım</strong> çünkü Stocado self-serve PLG (product-led growth) modeliyle satılan bir SaaS — burası pazarlama optimizasyonunun en hızlı ROI verdiği yer. Adorel B2B kurumsal satış (uzun cycle, kişisel ilişki) — orada da öneriler var ama daha az volume-based.</p>
+  </div>
+</section>
+
+<!-- 01 PORTFÖY -->
+<section id="portfoy" class="container alt">
+  <span class="section-num">BÖLÜM 01 — MARKA PORTFÖYÜ</span>
+  <h2>İki marka, iki büyüme motoru</h2>
+
+  <div class="brand-card">
+    <div class="item">
+      <h4>Adorel <span class="role parent">ANA MARKA</span></h4>
+      <p style="font-size:13.5px;color:var(--text-muted)">B2B kurumsal bilişim &amp; lojistik çözümleri. Devlet kurumları, üniversiteler ve büyük işletmelere yönelik özel yazılım, kargo yönetimi, IoT çözümleri.</p>
+      <ul style="font-size:13px;margin-top:8px">
+        <li>Müşteri profili: kurumsal / devlet / üniversite</li>
+        <li>Satış cycle: 3-12 ay, kişisel ilişki</li>
+        <li>Müşteri kaynağı: doğrudan satış + kurumsal ihale + referans</li>
+        <li>20 kişilik ekip, 1.500+ müşteri, 491 proje (siteden)</li>
+      </ul>
+    </div>
+    <div class="item">
+      <h4>Stocado <span class="role product">ÜRÜN</span></h4>
+      <p style="font-size:13.5px;color:var(--text-muted)">Tek panelden çoklu kargo yönetimi sağlayan self-serve B2B SaaS. E-ticaret satıcıları, marketplace satıcıları ve KOBİ'ler için.</p>
+      <ul style="font-size:13px;margin-top:8px">
+        <li>Müşteri profili: e-ticaret, marketplace satıcı, dropshipper</li>
+        <li>Satış cycle: anlık → 30 gün (self-serve)</li>
+        <li>Müşteri kaynağı: SEO + içerik + paid + ürün-led growth</li>
+        <li>Üyelik ücretsiz, kargo başına ücretlendirme</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout note">
+    <div class="callout-label">Stratejik gözlem</div>
+    <p>Bu iki markanın <strong>tamamen farklı pazarlama disiplinleri</strong> ile yönetilmesi gerekiyor. Adorel'in PR-led/relationship-driven büyümesi, Stocado'nun SEO + içerik + funnel optimizasyonu büyümesine paralel ama benzer değil. Hata: iki markayı aynı tonla, aynı kanaldan, aynı içerik takvimiyle yönetmek. Şu an her iki sitenin de altyapısı (WordPress + SpeedyCache) aynı — pazarlama mantığı farklılaşmalı.</p>
+  </div>
+
+  <h3>Adorel'in kazanılmış kredibilite kaynağı</h3>
+  <p>Site üzerinde 20+ kurumsal müşteri logosu sergileniyor — Atatürk Üniversitesi, İçişleri Bakanlığı, Emniyet Genel Müdürlüğü, vb. <strong>Bu, Türkiye'de devlet/kurumsal satış için en güçlü sosyal kanıt türü.</strong> Şu an underused: ana sayfada görünüyor ama vaka çalışmasına dönüşmemiş. "X bakanlığı için Y çözümü ile Z sonuç" hikayesi henüz yok.</p>
+
+  <h3>Stocado'nun ürün avantajları</h3>
+  <p>Stocado'nun şu an yarışmacılarla kıyasla 3 belirgin pozitifi var:</p>
+  <ul>
+    <li><strong>Kapıda ödeme uzmanlaşması</strong> — Türkiye'de hala kritik. Trendyol/Hepsiburada satıcılarının çoğu KDV/iade dengesi nedeniyle kapıda ödemeye ihtiyaç duyuyor.</li>
+    <li><strong>200+ ülke iddiası</strong> — uluslararası kapsama Kargonomi'nin alanında değil; ShipEntegra/Navlungo rakipliği var ama az pazarlanan bir kol.</li>
+    <li><strong>API entegrasyonu</strong> — Shopify, Trendyol, Amazon, vb. 15+ entegrasyon. Bu ürün-led growth için kritik.</li>
+  </ul>
+</section>
+
+<!-- 02 PAZAR -->
+<section id="pazar" class="container">
+  <span class="section-num">BÖLÜM 02 — PAZAR &amp; RAKİPLER</span>
+  <h2>Türkiye e-ticaret kargo SaaS pazarı — kalabalık ama büyüyor</h2>
+  <p class="lead">Stocado'nun girdiği pazar 2022 sonrası belirgin şekilde büyüdü. Türkiye e-ticaret pazarı 2024'te 2,8 trilyon TL'yi geçti ve buna paralel olarak kargo otomasyonu hizmetleri farklı segmentlerde uzmanlaşmaya başladı. Stocado bu pazarda <em>orta segment + kapıda ödeme</em> nişine yerleşebilir, ya da diferansiyasyon olmadan komşularla erimekle yüzleşir.</p>
+
+  <h3>Rakip haritası</h3>
+  <div class="table-wrap">
+    <table>
+      <tr>
+        <th>Rakip</th>
+        <th>Konumlanma</th>
+        <th>Güçlü yön</th>
+        <th>Stocado'ya göre</th>
+      </tr>
+      <tr style="background:var(--indigo-tint)">
+        <td><strong>Stocado</strong></td>
+        <td>Genel kargo SaaS + kapıda ödeme + 200+ ülke</td>
+        <td>Türk pazarı için kapıda ödeme uzmanlaşması, geniş entegrasyon</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>Kargonomi</strong></td>
+        <td>AI-destekli en uygun kargo seçimi, KOBİ odaklı</td>
+        <td>"En ucuz/en hızlı" algoritma vaadi, hızlı kayıt, içerik pazarlama (blog kalitesi yüksek)</td>
+        <td>Kargonomi pazarlamada önde — fiyat karşılaştırma blog yazıları SEO'da güçlü.</td>
+      </tr>
+      <tr>
+        <td><strong>ShipEntegra</strong></td>
+        <td>Etsy &amp; uluslararası kargo uzmanı</td>
+        <td>IOSS gümrük çözümleri, Etsy satıcı topluluğu güveni</td>
+        <td>Stocado uluslararası kargo iddiasını ShipEntegra kadar derin pazarlamıyor.</td>
+      </tr>
+      <tr>
+        <td><strong>Navlungo</strong></td>
+        <td>Geniş taşıyıcı ağı (FedEx, UPS, TNT)</td>
+        <td>Rekabetçi fiyat, kapsamlı uluslararası kapsama</td>
+        <td>Navlungo'nun kargo firma çeşitliliği daha öne çıkıyor.</td>
+      </tr>
+      <tr>
+        <td><strong>Geliver</strong></td>
+        <td>Cloud entegrasyon platformu</td>
+        <td>API-first, indirimli kargo anlaşmaları</td>
+        <td>Geliver geliştirici dostu pazarlamada güçlü.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-label">Pazarlama açığı — fırsat</div>
+    <p>Stocado <strong>içerik pazarlama ve SEO'da rakiplerinin gerisinde</strong>. Kargonomi blog ile aylık yüksek hacimli arama trafiği çekerken Stocado'nun benzer içerik altyapısı görünmüyor. <em>"Türkiye'de en ucuz kargo nasıl bulunur"</em>, <em>"kapıda ödeme avantajları"</em>, <em>"Trendyol satıcısı için kargo entegrasyonu"</em> gibi yüksek-niyet aramalarda Stocado içerik üretmediği için bu trafiği rakiplere bırakıyor.</p>
+  </div>
+
+  <h3>Pazarlama bütçesi açısından bakarsak</h3>
+  <ul>
+    <li><strong>SEO + içerik:</strong> en yüksek ROI'li kanal — düşük niyetli organic traffic yerine yüksek-niyetli ("kargo fiyat karşılaştırma", "Trendyol kargo entegrasyonu") sorgulara odaklanmalı.</li>
+    <li><strong>Google Ads:</strong> rekabet yüksek ama hedeflenmiş düşük-funnel sorguları ("kargo SaaS", "çoklu kargo paneli") karlı olabilir.</li>
+    <li><strong>Marketplace ortaklığı:</strong> Trendyol Satıcı Akademisi, Hepsiburada Pazaryeri benzeri yerlerde içerik/sponsorluk — niş bir lever.</li>
+    <li><strong>Influencer / topluluk:</strong> "Etsy satıcısı Sercan", "Trendyol satıcısı Gizem" gibi mikro-influencer'larla içerik ortaklığı — ShipEntegra'nın güçlü olduğu kanal.</li>
+  </ul>
+</section>
+
+<!-- 03 ADOREL DENETİMİ -->
+<section id="adorel" class="container alt">
+  <span class="section-num">BÖLÜM 03 — DENETİM</span>
+  <h2>Audit · <span style="color:var(--indigo-dark)">adorel.com.tr</span></h2>
+  <p class="lead">Adorel ana sayfası kurumsal kredibiliteyi göstermek için doğru içerikleri barındırıyor (institutional client logo carousel, 491 proje + 1500+ müşteri rakamı, 20 kişilik ekip vurgusu). Ama satış aşaması zayıf — siteden bir tıklama almak için fazla genel bir CTA mantığı kurgulanmış.</p>
+
+  <h3>Çalışan yönler — korunmalı</h3>
+  <ul>
+    <li><strong>Kurumsal logo carousel'i</strong> — 20+ devlet kurumu &amp; üniversite. B2B kurumsal satışta en güçlü sosyal kanıt türü.</li>
+    <li><strong>491 proje / 1.500+ müşteri sayıları</strong> — somut, denetlenebilir, etkili.</li>
+    <li><strong>3 ana servis sütunu</strong> (Sistemler / Yazılım / Entegrasyonlar) — taksonomi mantıklı.</li>
+  </ul>
+
+  <h3>Önceliklendirilmiş hipotez backlog</h3>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">A1 — Vaka çalışması (case study) sayfaları <span class="tag tag-structural">Yapısal</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 9</span><span class="score score-hi">C 8</span><span class="score score-mid">E 5</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> şu an logo carousel'i var ama hiçbir kurum için "ne yapıldı, hangi sorun çözüldü, hangi sonuç alındı" hikayesi yok. Kurumsal alıcı/devlet ihale komitesi karar verirken benzer kurumun hikayesini arıyor. 6-8 detaylı vaka çalışması (her biri 600-1000 kelime + spesifik sonuçlar) Adorel'in kurumsal güvenilirlik avantajını gerçek satış aracına dönüştürür.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> kurumsal lead'lerde +%30-50 artış; karar sürecinde Adorel'in shortlist'e girme oranı yükseliyor.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">A2 — Bozuk görseller / placeholder image temizliği <span class="tag tag-quick">Hızlı kazanım</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 7</span><span class="score score-hi">C 9</span><span class="score score-hi">E 9</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> Adorel sitesinde birden fazla placeholder/bozuk görsel referansı var. Kurumsal alıcı için bu doğrudan profesyonellik sinyali kaybı.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> bounce rate'te düşüş, oturum süresinde artış. Bedava ve kritik.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">A3 — "Learn More" yerine spesifik CTA <span class="tag tag-quick">Hızlı kazanım</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-hi">C 8</span><span class="score score-hi">E 10</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> ana sayfada "Learn More" / "Daha Fazla" CTA'sı tekrarlanıyor. "Lojistik çözümünü konuşalım" / "Demo planla" / "Vaka çalışmasını oku" gibi spesifik aksiyonlar tıklamayı odaklı yapıyor.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> CTA tıklama oranında +%15-25.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">A4 — Sektör/dikey özel landing page'leri <span class="tag tag-structural">Yapısal</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 7</span><span class="score score-mid">E 5</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> Adorel hem devlet kurumlarına hem üniversitelere hem özel sektöre hizmet ediyor. Şu an tek genel sayfa hepsine konuşuyor. Sektör-spesifik landing page'leri (Devlet İçin / Eğitim Kurumları İçin / Lojistik Şirketleri İçin) hem SEO'da derinlik sağlar hem satış sürecini hızlandırır.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> sektör araması yapan ziyaretçi için CR +%25-40; satış ekibi konuşma başlatırken sektör jargonu hazır.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">A5 — Çift dilli site (TR/EN) <span class="tag tag-strategic">Stratejik</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-mid">C 6</span><span class="score score-mid">E 5</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> Adorel kurumsal teknoloji satıyor — Türk teknoloji ihracatı için İngilizce site MENA ve Türki cumhuriyetler pazarına açılım sağlıyor. Kısa vadede getiri orta ama brand pozisyonu için kritik.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> uluslararası lead'ler yıl içinde başlıyor. ROI uzun vadeli.</p>
+  </div>
+</section>
+
+<!-- 04 STOCADO DENETİMİ -->
+<section id="stocado" class="container">
+  <span class="section-num">BÖLÜM 04 — DENETİM</span>
+  <h2>Audit · <span style="color:var(--indigo-dark)">stocado.com</span></h2>
+  <p class="lead">Stocado SaaS bir ürün — bu yüzden onun başarısı pazarlama disiplininden ve self-serve onboarding'ten geçiyor. Mevcut site temel yapı taşlarını barındırıyor (homepage, FAQ, müşteri yorumları, marketplace entegrasyonu görseli) ama <strong>conversion makinesi kurulmamış</strong>. Her aşamada belli sızıntılar var.</p>
+
+  <div class="stat-row">
+    <div class="stat"><div class="value">15+</div><div class="label">Marketplace entegrasyonu</div></div>
+    <div class="stat"><div class="value">200+</div><div class="label">Hizmet verilen ülke</div></div>
+    <div class="stat"><div class="value">4+</div><div class="label">Türk kargo firması</div></div>
+    <div class="stat"><div class="value">Free</div><div class="label">Üyelik modeli</div></div>
+  </div>
+
+  <h3>Çalışan yönler</h3>
+  <ul>
+    <li><strong>5 adımlı süreç görseli</strong> — kayıt → entegrasyon → kargo seçimi → ödeme → teslimat. Karar sürecini görselle hızlandırıyor.</li>
+    <li><strong>Marketplace entegrasyon carousel'i</strong> (Shopify, Trendyol, Amazon vs.) — alıcının "benim platformum destekleniyor mu" sorusuna doğrudan cevap.</li>
+    <li><strong>Müşteri yorumları</strong> — 4 adet isimli yorum. Az ama gerçek.</li>
+    <li><strong>FAQ akordeon</strong> — kullanıcı sorularına detaylı cevap. SEO'da da yardımcı.</li>
+  </ul>
+
+  <h3>Kritik sızıntılar &amp; hipotez backlog'u</h3>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">S1 — Şeffaf fiyatlandırma sayfası <span class="tag tag-structural">Yapısal · ÖNCELİK</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 9</span><span class="score score-hi">C 9</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> Stocado'da fiyat sayfası yok. Ziyaretçinin "kargo başına ne kadar tasarruf edeceğim" sorusu için "Müşteri ol" demek dışında bir yol yok. Bu B2B SaaS'ta en büyük conversion killer. Rakipler (özellikle Kargonomi) fiyat karşılaştırma tablolarını içerik pazarlama silahı olarak kullanıyor. <strong>Önerilen: kargo firması × desi/ağırlık tablosu, dinamik hesaplayıcı, "Stocado avantajı: -%X" satırı.</strong></p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> visitor-to-signup CR'da +%40-60. Aynı zamanda SEO için yüksek-niyet anahtar kelimelerinde sıralama.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">S2 — "Tasarrufunuzu Hesaplayın" funnel <span class="tag tag-structural">Yapısal · ÖNCELİK</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 10</span><span class="score score-hi">C 8</span><span class="score score-mid">E 5</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> SaaS demo talebi yerine "potansiyel tasarrufunu gör" mantığı çok daha düşük friction. Aylık paket sayısı + mevcut kargo firması + ortalama ağırlık → "Stocado ile yıllık tahmini tasarruf: ₺X" + plan. Sonra iletişim. Bu funnel hem doğrudan signup'a hem mailing listine besliyor. <strong>Bölüm 06'da konsept detaylı.</strong></p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> mevcut "Müşteri ol" akışına göre 3-5x daha yüksek dönüşüm. Yeni e-posta listesi büyüme kolu.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">S3 — Yorum sayısını 4'ten 15+'ya çıkar <span class="tag tag-quick">Hızlı kazanım</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 7</span><span class="score score-hi">C 9</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> 4 yorumla 200+ ülke iddiasını destekleyemezsin. Mevcut müşterilerden 12-15 spesifik yorum (ad, şirket, sektör, kullanım süresi, sonuç) toplama kampanyası — 1-2 hafta. Trustpilot veya kendi review widget'ı.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> homepage'den signup'a CR +%10-18.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">S4 — Ücretsiz deneme &amp; canlı demo iki yollu CTA <span class="tag tag-structural">Yapısal</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 7</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> şu an tek CTA "Müşteri ol". Bu büyük bir commitment. Self-serve SaaS'ta küçük adımlar lazım: <strong>"Tek bir kargoyla dene"</strong> (ilk gönderim ücretsiz veya indirimli) ve <strong>"15 dk canlı demo"</strong> (Calendly). Müşteri tipine göre iki yol.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> visitor-to-trial CR +%25-40.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">S5 — Marketplace özel landing page'leri <span class="tag tag-structural">Yapısal</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 8</span><span class="score score-mid">E 5</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> şu an tek genel sayfa Shopify, Trendyol, Amazon, Hepsiburada satıcısına aynı şekilde hitap ediyor. <code>/trendyol-kargo-entegrasyonu</code>, <code>/shopify-kargo-paneli</code>, <code>/hepsiburada-satici-kargo</code> sayfaları SEO için kritik. Trendyol satıcısı "Trendyol kargo entegrasyonu" araması yapıyor, generic sayfaya yönlendirildiğinde anlamsız.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> her marketplace için aylık organic lead +50-200. Quality Score artışı = CPC düşüşü.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">S6 — İngilizce site versiyonu <span class="tag tag-structural">Yapısal</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 7</span><span class="score score-mid">C 6</span><span class="score score-mid">E 5</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> "200+ ülke" iddiası var ama site sadece Türkçe. Yurtdışı kargo hizmeti satabilmek için en azından İngilizce versiyonu lazım. Etsy, Amazon FBA, eBay satıcısı (Türk de olabilir) İngilizce sayfa görmek istiyor.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> uluslararası lead başlıyor; ShipEntegra ile rekabet etmek mümkün hale geliyor.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">S7 — İçerik pazarlama: kargo blog'u <span class="tag tag-strategic">Stratejik</span></div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 8</span><span class="score score-mid">E 5</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> Kargonomi'nin blog'u "kargo fiyat karşılaştırma" arama sonuçlarında üst sıralarda. Stocado içerik pazarlama yapmadığı için bedava organic trafiği rakibe bırakıyor. <strong>Aylık 4-6 yüksek-kalite içerik</strong> ("Trendyol satıcısı için kargo rehberi 2026", "Kapıda ödeme nasıl çalışır", "Etsy'den Türkiye'ye gönderim") 6 ayda organic trafiği 3-5x artırabilir.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> 6 ay sonrası aylık organic visitor +%200-400. Düşük CAC.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">S8 — Sticky CTA + chat widget alt köşede <span class="tag tag-quick">Hızlı kazanım</span></div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-hi">C 8</span><span class="score score-hi">E 9</span></div>
+    </div>
+    <p class="hyp-because"><strong>Neden:</strong> chat widget'ı var mı belirsiz. Mobil için sticky "Müşteri ol" + chat ikonu = scroll boyunca her zaman erişilebilir conversion noktası.</p>
+    <p class="hyp-expect"><strong>Beklenen:</strong> mobilde CR +%8-15.</p>
+  </div>
+</section>
+
+<!-- 05 HIBRIT STRATEJI -->
+<section id="strateji" class="container alt">
+  <span class="section-num">BÖLÜM 05 — STRATEJİ</span>
+  <h2>Hibrit büyüme stratejisi — iki marka, iki disiplin</h2>
+  <p class="lead">İki markayı aynı pazarlama makinesinden geçirmek hata. Her birinin satış mantığına özgü kanal ve içerik üretmek gerekiyor. Aşağıda her marka için 90-günlük genişleme önerisi.</p>
+
+  <h3>Adorel — relationship-led büyüme</h3>
+  <ul>
+    <li><strong>Vaka çalışması üretim hattı:</strong> 6-8 detaylı kurumsal case study (her biri 600-1000 kelime + somut sonuç metrikleri). Devlet, üniversite ve özel sektör örnekleri dengeli.</li>
+    <li><strong>LinkedIn düşünce liderliği:</strong> CEO/founder hesabından haftada 2-3 yazı — Türkiye e-ihale, kurumsal yazılım entegrasyonu, IoT/erken uyarı sistemleri konuları.</li>
+    <li><strong>Sektörel etkinlik &amp; sponsorluk:</strong> Lojistik fuarları (TÜLOMSAŞ, IFM Istanbul), bilişim zirveleri (CIO Summit, Bilişim Vadisi). Konuşmacı pozisyonu &gt; logo sponsorluğu.</li>
+    <li><strong>Referans + tavsiye programı:</strong> Mevcut müşterilerden (1.500+ var) referans alma sistemi. Her tavsiye için somut karşılık (servis kredisi).</li>
+  </ul>
+
+  <h3>Stocado — product-led growth</h3>
+  <ul>
+    <li><strong>Funnel disiplini:</strong> "Tasarruf hesaplayıcı" funnel'ı (Bölüm 06) ana lead-gen aracı. Mevcut homepage CTAlarına paralel çalışıyor.</li>
+    <li><strong>SEO + içerik:</strong> Marketplace özel landing page'leri (Trendyol, Hepsiburada, Shopify, Amazon, Etsy) + aylık 4-6 yüksek-niyet blog yazısı.</li>
+    <li><strong>Free trial / freemium:</strong> İlk 5 gönderi için indirim veya komisyon-sız deneme. Self-serve onboarding flow.</li>
+    <li><strong>Influencer + topluluk:</strong> Türk e-ticaret satıcı topluluklarında (Eticaret Hocası, KOBİ Akademi, Trendyol Satıcı grupları) içerik ortaklığı.</li>
+    <li><strong>Performance pazarlama:</strong> Google Ads (yüksek-niyet terimleri), Meta Ads (lookalike e-ticaret satıcıları), YouTube (kargo SaaS karşılaştırma videoları).</li>
+  </ul>
+
+  <div class="callout">
+    <div class="callout-label">Çapraz tozlaşma fırsatı</div>
+    <p>Adorel'in kurumsal müşteri tabanı — özellikle lojistik şirketleri ve büyük e-ticaret operasyonları — Stocado için doğal cross-sell. <strong>Adorel CRM'inden Stocado'ya warm lead besleme</strong> ucuz bir lever. Tersi de geçerli: Stocado'da büyüyen bir e-ticaret operasyonu, sonraki aşamada Adorel'in kurumsal entegrasyon hizmetlerine ihtiyaç duyar.</p>
+  </div>
+</section>
+
+<!-- 06 FUNNEL -->
+<section id="funnel" class="container">
+  <span class="section-num">BÖLÜM 06 — KONSEPT</span>
+  <h2>"Kargo Tasarrufu Hesaplayıcı" — Stocado için yeni nesil lead-gen funnel</h2>
+  <p class="lead">Klasik "demo talep et / müşteri ol" mantığı yerine <strong>kullanıcıyı kendi tasarrufuyla ödüllendiren</strong> bir akış. B2B SaaS satışında en yüksek dönüşüm üreten patterns'tan biri (insurance comparison sites, mortgage calculators, freight rate tools'tan adapte edilmiş).</p>
+
+  <h3>Çözdüğü problem</h3>
+  <p>Stocado'nun şu anki ana CTA'sı "Müşteri ol" — bu büyük bir commitment. Potansiyel satıcı genellikle "ne kadar tasarruf edeceğim" sorusuna cevap arıyor. Bu sorunun cevabını verebilmek için kullanıcıyı sisteme yatırmaktan kaçınıyoruz; tam tersine, <strong>kullanıcının verdiği 6-7 cevapla ona kişiselleştirilmiş tasarruf tahmini sunuyoruz</strong>. Cevap akışı tamamlandığında lead capture friction'sız oluyor — kullanıcı "raporumu görmek için" e-posta verir.</p>
+
+  <h3>Akış (10 adım)</h3>
+  <div class="funnel-flow">
+    <div class="funnel-steps">
+      <div class="funnel-step"><div class="num">01</div><div class="title">Karşılama</div><div class="desc">"Yıllık kargo giderinizden %25-40 tasarruf etme yolunu hesaplayalım. 90 saniye sürer."</div></div>
+      <div class="funnel-step"><div class="num">02</div><div class="title">İşletme türü</div><div class="desc">E-ticaret sitesi / Marketplace satıcı / Dropshipper / Bireysel gönderici / Kurumsal</div></div>
+      <div class="funnel-step"><div class="num">03</div><div class="title">Aylık kargo hacmi</div><div class="desc">1-50 / 50-200 / 200-1000 / 1000-5000 / 5000+. Plan seçimini yönlendiriyor.</div></div>
+      <div class="funnel-step"><div class="num">04</div><div class="title">Mevcut kargo firmaları</div><div class="desc">Multi-select: PTT / Yurtiçi / Aras / Sürat / MNG / HepsiJET / Karışık. Karşılaştırma baseline'ı.</div></div>
+      <div class="funnel-step"><div class="num">05</div><div class="title">Sattığınız platform(lar)</div><div class="desc">Multi-select: Trendyol / Hepsiburada / N11 / Amazon / Shopify / WooCommerce / Etsy / Kendi site</div></div>
+      <div class="funnel-step"><div class="num">06</div><div class="title">En büyük ağrı noktanız</div><div class="desc">Maliyet / Geri iade yönetimi / Takip ve raporlama / Müşteri hizmetleri / Uluslararası gönderi</div></div>
+      <div class="funnel-step"><div class="num">07</div><div class="title">Ortalama paket ağırlığı</div><div class="desc">1 desi / 2-5 desi / 5-15 desi / 15+ desi. Tarife hesabı için kritik.</div></div>
+      <div class="funnel-step"><div class="num">08</div><div class="title">Hesaplama animasyonu</div><div class="desc">"Stocado AI sizin için en uygun kargo paketini hazırlıyor..." 4-5 saniye. Beklenti inşa ediyor.</div></div>
+      <div class="funnel-step"><div class="num">09</div><div class="title">Tasarruf raporunuz</div><div class="desc">Mevcut: ₺X/yıl · Stocado ile tahmini: ₺Y/yıl · Tasarruf: ₺Z. Önerilen plan + spesifik kargo firmaları.</div></div>
+      <div class="funnel-step"><div class="num">10</div><div class="title">İletişim — raporu al</div><div class="desc">İsim + e-posta + telefon → PDF raporu + Stocado uzmanından ücretsiz aktivasyon görüşmesi.</div></div>
+    </div>
+  </div>
+
+  <h3>Bu funnel'in B2C quiz'lerden farkı</h3>
+  <ul>
+    <li><strong>Niyet kalifiyesi:</strong> her cevap potansiyel müşterinin kalitesini ölçüyor. Aylık 1000+ paket = enterprise lead; 1-50 paket = self-serve segment.</li>
+    <li><strong>Kişisellik:</strong> son raporda gösterilen sayılar gerçek hesaplama — kargo firması × desi × hacim matriksinden geliyor.</li>
+    <li><strong>Anchor kuruluyor:</strong> "Şu an yıllık ₺240.000 kargoya harcıyorsunuz" cümlesi gerçek tasarrufun değerini somutlaştırıyor.</li>
+    <li><strong>Lead capture zamanı doğru:</strong> kullanıcı 90 saniye yatırım yaptıktan sonra e-posta vermesi minimal friction.</li>
+    <li><strong>Sales handoff güçlü:</strong> Satış ekibi telefon açtığında kullanıcının profilini (hacim, kargo tercihi, platform, ağrı noktası) önceden biliyor.</li>
+  </ul>
+
+  <div class="card card-emphasis">
+    <h4>Funnel canlıda — yarın görüşmede gösterilebilir</h4>
+    <p>Bu konseptin demo versiyonu burada yayında: <a href="funnel.html">growtherai.vercel.app/adorel/funnel.html</a> — yarınki görüşmede ekran paylaşımıyla gösterilebilir. v1 build süresi: 2-3 hafta. Test süresi: 4 hafta 50/50 split. Beklenen etki: Q2 case study materyali.</p>
+  </div>
+</section>
+
+<!-- 07 YOL HARITASI -->
+<section id="yol" class="container alt">
+  <span class="section-num">BÖLÜM 07 — YOL HARİTASI</span>
+  <h2>İlk 30 gün — eğer ekibe katılırsam</h2>
+
+  <h3>Hafta 1 — Teşhis &amp; takip altyapısı</h3>
+  <ul>
+    <li>Her iki site için GA4 + GTM denetimi (ne ölçülüyor, ne kayıp). Sızıntı haritası.</li>
+    <li>Mevcut müşteri verisi: Adorel CRM ve Stocado kullanıcı tabanı analizi — segmentasyon temeli.</li>
+    <li>3 kritik conversion path'i Hotjar/Clarity ile gözlem (heatmap + 30 oturum replay).</li>
+    <li>Rakip teknik analizi (SimilarWeb, Ahrefs ile Kargonomi/ShipEntegra trafik kaynak haritası).</li>
+  </ul>
+
+  <h3>Hafta 2 — Hızlı kazanımlar canlıya</h3>
+  <ul>
+    <li>Adorel'de placeholder görsel temizliği + CTA güncellemesi (A2, A3).</li>
+    <li>Stocado'da yorum sayısı artırma kampanyası (S3) — mevcut müşterilere outreach.</li>
+    <li>Stocado'da sticky CTA + chat widget eklemesi (S8).</li>
+  </ul>
+
+  <h3>Hafta 3-4 — Yapısal işler başlıyor</h3>
+  <ul>
+    <li>"Kargo Tasarrufu Hesaplayıcı" funnel build başlangıcı (S2). v1 4 hafta sonra canlıya.</li>
+    <li>Şeffaf fiyatlandırma sayfası tasarımı + hesaplayıcı (S1).</li>
+    <li>İlk marketplace özel landing page (S5) — Trendyol satıcılar için.</li>
+    <li>Adorel için ilk 2 detaylı vaka çalışması taslağı (A1).</li>
+  </ul>
+
+  <h3>30. gün — ilk metrik raporu</h3>
+  <ul>
+    <li>Tracking sağlığı: ne ölçülüyor, ne ölçülmüyor.</li>
+    <li>Hızlı kazanım etkisi: bounce rate, oturum süresi, CTA tıklama.</li>
+    <li>30/60/90 backlog'u önceliklendirilmiş halde.</li>
+    <li>Hangi rakibin nerede agresif olduğu konusunda ilk istihbarat raporu.</li>
+  </ul>
+</section>
+
+<!-- KAPANIŞ -->
+<section id="kapanis" class="container">
+  <span class="section-num">KAPANIŞ</span>
+  <h2>Yarınki görüşmede konuşmak istediklerim</h2>
+
+  <p>3 ana noktada netleşmek istiyorum:</p>
+
+  <ol>
+    <li><strong>Adorel ve Stocado için ayrı KPI'lar belirleyebilir miyiz?</strong> Adorel'in başarısı kurumsal lead sayısı, satış cycle süresi ve average contract value ile ölçülürken; Stocado'nun başarısı aylık aktif kullanıcı, gönderim hacmi, churn rate ile ölçülmeli. Ortak dashboard yanıltıcı.</li>
+    <li><strong>Stocado'da self-serve mi inside sales mi?</strong> Pricing açıklığı, free trial, demo otomasyonu kararlarını bu ayrım belirliyor. Hibrit (her ikisi) mümkün ama net stratejik tercih lazım.</li>
+    <li><strong>Pazarlama bütçesi ve önceliklendirme.</strong> SEO + içerik mi, performance pazarlama mı, yoksa ürün geliştirme (yeni entegrasyon, mobile app) mı önce gelecek? Önümüzdeki 6 ayın en kritik tercihi.</li>
+  </ol>
+
+  <p>Bu brief'i hızlı yazdım — yarına yetiştirmek için. Düzeltilecek veya derinleştirilecek yerler kesinlikle var; görüşmede tartışmayı bekliyorum.</p>
+
+  <p>Detayları konuşmak üzere. Görüşmeyi dört gözle bekliyorum.</p>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <h3>Ahmet Çağatay</h3>
+    <p>Büyüme &amp; pazarlama brief'i — Adorel &amp; Stocado görüşmesi için</p>
+    <div class="footer-meta">
+      Hazırlandı <strong>25 Mayıs 2026</strong> · ~14 dk okuma<br>
+      Funnel demo: <a href="funnel.html">growtherai.vercel.app/adorel/funnel.html</a><br>
+      <em>growther AI: küçük bir CRO/funnel araç projesi — bu brief de aynı altyapıdan deploy edildi.</em>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('.toc-link');
+  var linkMap = {};
+  links.forEach(function(l){ var href = l.getAttribute('href').replace('#',''); linkMap[href] = l; });
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) {
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var link = linkMap[e.target.id];
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(function(s){ observer.observe(s); });
+})();
+</script>
+</body>
+</html>

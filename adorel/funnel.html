@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FFFFFF">
+<title>Stocado · Kargo Tasarrufu Hesaplayıcı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,600;9..40,700;9..40,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --primary: #6366F1;
+  --primary-dark: #4338CA;
+  --primary-deep: #312E81;
+  --primary-soft: #E0E7FF;
+  --primary-tint: #EEF2FF;
+  --accent: #4C82F7;
+  --accent-light: #93C5FD;
+
+  --navy: #0C3474;
+  --navy-deep: #061E47;
+
+  --bg: #FFFFFF;
+  --bg-soft: #F8FAFC;
+  --bg-warm: #F4F6FB;
+  --white: #FFFFFF;
+
+  --ink: #131022;
+  --text: #1F2937;
+  --text-soft: #374151;
+  --text-muted: #5F6B75;
+  --text-light: #9CA3AF;
+
+  --border: #E5E7EB;
+  --border-strong: #CBD5E1;
+
+  --success: #22C55E;
+  --success-soft: #DCFCE7;
+  --warn: #FFBA08;
+  --warn-soft: #FEF3C7;
+  --danger: #EF4444;
+  --danger-soft: #FEE2E2;
+
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+}
+
+html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; overflow: hidden; }
+
+.funnel { position: relative; width: 100%; height: 100vh; height: 100dvh; overflow: hidden; background: var(--bg); }
+
+.deco { position: fixed; top: -200px; right: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%); border-radius: 50%; pointer-events: none; z-index: 0; }
+.deco-2 { position: fixed; bottom: -300px; left: -200px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(76,130,247,0.04) 0%, transparent 70%); border-radius: 50%; pointer-events: none; z-index: 0; }
+
+.top-bar { position: relative; z-index: 20; padding: calc(14px + var(--safe-top)) 20px 8px; display: flex; align-items: center; justify-content: space-between; background: var(--bg); }
+.brand { font-family: 'DM Sans', sans-serif; font-weight: 800; font-size: 22px; color: var(--primary-deep); letter-spacing: -0.02em; }
+.brand .dot { color: var(--primary); }
+.icon-btn { background: none; border: none; color: var(--text); cursor: pointer; padding: 8px; border-radius: 8px; display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; font-family: inherit; transition: background 0.2s; }
+.icon-btn:hover { background: var(--bg-warm); }
+.icon-btn svg { width: 22px; height: 22px; }
+.icon-btn.back-btn { opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.icon-btn.back-btn.visible { opacity: 1; pointer-events: auto; }
+
+.seg-wrap { position: relative; z-index: 20; padding: 4px 20px 14px; background: var(--bg); border-bottom: 1px solid var(--border); }
+.seg-title { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; color: var(--text); text-align: center; margin-bottom: 10px; letter-spacing: -0.01em; min-height: 20px; }
+.seg-tracks { display: flex; gap: 6px; align-items: center; }
+.seg-track { flex: 1; height: 4px; background: var(--border); border-radius: 2px; position: relative; overflow: hidden; }
+.seg-fill { height: 100%; background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%); border-radius: 2px; width: 0%; transition: width 0.55s cubic-bezier(0.4, 0, 0.2, 1); }
+
+.steps { position: relative; z-index: 5; flex: 1; height: calc(100% - 130px - var(--safe-top)); overflow: hidden; }
+.step { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 16px 20px calc(16px + var(--safe-bottom)); overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; opacity: 0; pointer-events: none; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1); }
+.step::-webkit-scrollbar { display: none; }
+.step.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.step.exit { opacity: 0; transform: translateY(-10px); transition: opacity 0.35s ease; }
+
+.step-content { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 8px; }
+.step-footer { flex-shrink: 0; padding-top: 16px; }
+
+.eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--primary); margin-bottom: 12px; display: inline-block; }
+h1.q { font-family: 'DM Sans', sans-serif; font-size: clamp(24px, 5.5vw, 32px); font-weight: 700; line-height: 1.18; color: var(--primary-deep); margin-bottom: 8px; letter-spacing: -0.02em; }
+.subtitle { font-size: 14.5px; color: var(--text-muted); margin-bottom: 22px; line-height: 1.55; max-width: 540px; }
+
+.options { display: flex; flex-direction: column; gap: 10px; margin: 0 auto; width: 100%; max-width: 520px; }
+.opt { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 60px; padding: 16px 18px; background: var(--white); border: 1.5px solid var(--border); border-radius: 14px; color: var(--text); font-family: inherit; font-size: 15px; font-weight: 500; text-align: left; cursor: pointer; transition: all 0.2s; }
+.opt:hover { border-color: var(--accent-light); background: var(--primary-tint); }
+.opt.selected { border-color: var(--primary); background: var(--primary-soft); box-shadow: 0 4px 14px rgba(99,102,241,0.12); }
+.opt:active { transform: scale(0.99); }
+.opt .text { flex: 1; line-height: 1.35; }
+.opt .text small { display: block; font-size: 12.5px; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
+.opt .check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border-strong); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.opt.multi .check { border-radius: 6px; }
+.opt.selected .check { background: var(--primary); border-color: var(--primary); }
+.opt.selected .check::after { content: ''; width: 12px; height: 12px; background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>") no-repeat center / contain; }
+
+.cta { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 56px; background: var(--primary); color: var(--white); border: none; border-radius: 14px; font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.cta:hover:not(:disabled) { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(99,102,241,0.30); }
+.cta:disabled { opacity: 0.4; cursor: not-allowed; }
+.cta-arrow { display: inline-flex; align-items: center; gap: 6px; }
+.cta-arrow svg { width: 18px; height: 18px; transition: transform 0.2s; }
+.cta:hover:not(:disabled) .cta-arrow svg { transform: translateX(3px); }
+
+/* HERO */
+.hero-step { text-align: center; padding: 24px 24px calc(20px + var(--safe-bottom)); }
+.hero-trust-strip { display: flex; justify-content: center; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+.hero-trust-item { font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
+h1.hero { font-family: 'DM Sans', sans-serif; font-size: clamp(28px, 6.5vw, 38px); font-weight: 700; line-height: 1.1; color: var(--primary-deep); margin-bottom: 14px; letter-spacing: -0.02em; }
+h1.hero em { color: var(--primary); font-style: normal; position: relative; }
+h1.hero em::after { content: ''; position: absolute; left: 0; right: 0; bottom: 2px; height: 6px; background: var(--primary-soft); z-index: -1; border-radius: 3px; }
+.hero-sub { font-size: 15px; color: var(--text-muted); line-height: 1.6; margin-bottom: 26px; max-width: 420px; margin-left: auto; margin-right: auto; }
+.hero-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; max-width: 380px; margin-left: auto; margin-right: auto; }
+.hero-bullets li { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text); text-align: left; }
+.hero-bullets .icon { width: 28px; height: 28px; border-radius: 50%; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.hero-bullets .icon svg { width: 14px; height: 14px; }
+.hero-bullets li > span:not(.icon) { flex: 1; line-height: 1.45; }
+.hero-meta { font-size: 12px; color: var(--text-light); margin-top: 14px; }
+
+/* LOADING */
+.loading-stage { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+.spinner-wrap { width: 96px; height: 96px; position: relative; margin-bottom: 24px; animation: gentle-breath 3.2s ease-in-out infinite; }
+.spinner-ring { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, var(--primary-soft) 30%, transparent 70%); }
+.spinner-ring::after { content: ''; position: absolute; inset: 0; border: 2px solid var(--primary-soft); border-top-color: var(--primary); border-radius: 50%; animation: slow-spin 3.2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+.spinner-inner { position: absolute; inset: 22px; background: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); box-shadow: 0 4px 16px rgba(99,102,241,0.15); font-family: 'DM Sans'; font-size: 24px; font-weight: 800; }
+@keyframes slow-spin { to { transform: rotate(360deg); } }
+@keyframes gentle-breath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+.loading-title { font-family: 'DM Sans'; font-size: 22px; color: var(--primary-deep); margin-bottom: 10px; font-weight: 700; }
+.loading-sub { font-size: 14px; color: var(--text-muted); max-width: 320px; margin: 0 auto 18px; line-height: 1.5; }
+.loading-steps { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; width: 100%; max-width: 340px; }
+.loading-step { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text-light); text-align: left; opacity: 0.4; transform: translateX(-8px); transition: all 0.4s ease; }
+.loading-step.shown { opacity: 1; transform: translateX(0); color: var(--text); }
+.loading-step.done { color: var(--success); opacity: 1; transform: translateX(0); }
+.loading-step .ls-icon { width: 22px; height: 22px; border-radius: 50%; background: var(--bg-warm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--text-muted); transition: all 0.3s; }
+.loading-step.shown .ls-icon { background: var(--primary-soft); color: var(--primary); }
+.loading-step.done .ls-icon { background: var(--success-soft); color: var(--success); }
+.loading-step.done .ls-icon svg { width: 12px; height: 12px; }
+
+/* REVEAL */
+.reveal-card { background: var(--white); border-radius: 20px; padding: 24px; box-shadow: 0 20px 50px rgba(99,102,241,0.16), 0 0 0 1px var(--border); max-width: 540px; margin: 0 auto; position: relative; overflow: hidden; animation: revealUp 0.85s cubic-bezier(0.22, 0.61, 0.36, 1); }
+@keyframes revealUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+.reveal-tag { display: inline-block; background: var(--primary); color: var(--white); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 12px; border-radius: 20px; margin-bottom: 14px; }
+.reveal-title { font-family: 'DM Sans'; font-size: 19px; color: var(--primary-deep); margin-bottom: 14px; line-height: 1.25; font-weight: 700; }
+.savings-block { background: linear-gradient(135deg, var(--primary-deep) 0%, var(--primary) 100%); color: var(--white); border-radius: 14px; padding: 20px; margin-bottom: 14px; position: relative; overflow: hidden; }
+.savings-block::before { content: ''; position: absolute; top: -60%; right: -20%; width: 280px; height: 280px; background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 60%); border-radius: 50%; }
+.savings-current { font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 4px; position: relative; }
+.savings-current strong { color: var(--white); }
+.savings-amount { font-family: 'DM Sans'; font-size: 38px; font-weight: 800; letter-spacing: -0.02em; line-height: 1; margin: 8px 0 4px; position: relative; }
+.savings-amount small { font-size: 14px; font-weight: 500; opacity: 0.85; }
+.savings-pct { font-size: 13px; color: var(--accent-light); font-weight: 600; position: relative; }
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.compare-cell { background: var(--bg-warm); border-radius: 10px; padding: 10px 12px; }
+.compare-cell .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); font-weight: 700; }
+.compare-cell .value { font-size: 15px; font-weight: 700; color: var(--primary-deep); margin-top: 2px; }
+.compare-cell.bad .value { color: var(--danger); }
+.compare-cell.good .value { color: var(--success); }
+.plan-row { background: var(--primary-tint); border: 1px dashed var(--primary); border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.plan-row .icon-circle { width: 36px; height: 36px; background: var(--primary); color: var(--white); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'DM Sans'; font-size: 16px; font-weight: 800; flex-shrink: 0; }
+.plan-row .text { flex: 1; }
+.plan-row .text strong { display: block; color: var(--primary-deep); font-size: 14px; font-weight: 700; }
+.plan-row .text small { display: block; font-size: 12px; color: var(--text-muted); }
+.reveal-insights { list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--text-muted); }
+.reveal-insights li { display: flex; align-items: flex-start; gap: 10px; line-height: 1.45; }
+.reveal-insights svg { width: 14px; height: 14px; color: var(--primary); flex-shrink: 0; margin-top: 2px; }
+
+/* CONTACT FORM */
+.form-stage { max-width: 520px; margin: 0 auto; width: 100%; }
+.form-group { margin-bottom: 14px; }
+.form-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-input { width: 100%; background: var(--white); border: 1.5px solid var(--border); border-radius: 14px; padding: 14px 16px; font-family: inherit; font-size: 15px; color: var(--text); font-weight: 500; }
+.form-input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 4px rgba(99,102,241,0.10); }
+.phone-row { display: flex; gap: 8px; }
+.country-select { background: var(--white); border: 1.5px solid var(--border); border-radius: 14px; padding: 14px 26px 14px 10px; font-family: inherit; font-size: 14px; color: var(--text); cursor: pointer; font-weight: 600; flex-shrink: 0; width: 96px; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%235F6B75'%3e%3cpath d='M4.5 6L8 9.5L11.5 6H4.5z'/%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 8px center; }
+.trust-note { font-size: 11.5px; color: var(--text-muted); text-align: center; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.trust-note svg { width: 13px; height: 13px; color: var(--success); }
+
+/* THANK YOU */
+.thank-stage { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+.thank-icon { width: 84px; height: 84px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-deep) 100%); color: var(--white); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; box-shadow: 0 16px 40px rgba(99,102,241,0.30); }
+.thank-icon svg { width: 40px; height: 40px; }
+.confirm-tag { background: var(--primary-soft); border: 1.5px dashed var(--primary); border-radius: 10px; padding: 10px 16px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--primary-deep); font-weight: 700; margin-bottom: 18px; letter-spacing: 1px; }
+.thank-cta-grid { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 380px; margin: 0 auto; }
+.cta-line { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 14px; background: var(--white); border: 1.5px solid var(--border); font-family: inherit; font-size: 14px; font-weight: 600; color: var(--text); cursor: pointer; transition: all 0.2s; text-decoration: none; text-align: left; }
+.cta-line:hover { border-color: var(--primary); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(99,102,241,0.10); }
+.cta-line .ico { width: 36px; height: 36px; border-radius: 10px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cta-line .ico svg { width: 18px; height: 18px; }
+.cta-line.whatsapp .ico { background: #DCFCE7; color: #15803D; }
+.cta-line.whatsapp { border-color: #BBF7D0; }
+.cta-line .arrow { margin-left: auto; color: var(--text-light); }
+.cta-line .arrow svg { width: 16px; height: 16px; }
+.cta-line .lbl-block { flex: 1; }
+.cta-line .lbl-block small { display: block; color: var(--text-muted); font-weight: 500; font-size: 11.5px; margin-top: 2px; }
+
+/* PROOF STRIP */
+.proof-strip { margin: 12px auto 0; max-width: 520px; padding: 10px 14px; background: var(--primary-soft); border-radius: 10px; display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--primary-deep); border-left: 3px solid var(--primary); animation: fadeInUp 0.5s ease; }
+.proof-strip svg { width: 16px; height: 16px; color: var(--primary); flex-shrink: 0; }
+@keyframes fadeInUp { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: translateY(0); } }
+
+@media (max-height: 720px) {
+  h1.q { font-size: 21px; }
+  h1.hero { font-size: 26px; }
+  .subtitle { margin-bottom: 14px; font-size: 13.5px; }
+  .opt { min-height: 52px; padding: 12px 16px; }
+  .savings-amount { font-size: 30px; }
+  .reveal-card { padding: 18px; }
+}
+@media (min-width: 640px) { .step { padding: 24px 40px calc(24px + var(--safe-bottom)); } }
+</style>
+</head>
+<body>
+
+<div class="deco"></div>
+<div class="deco-2"></div>
+
+<div class="funnel">
+
+  <div class="top-bar">
+    <button class="icon-btn back-btn" id="backBtn" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="brand">stocado<span class="dot">.</span></div>
+    <div style="width: 38px"></div>
+  </div>
+
+  <div class="seg-wrap" id="segWrap">
+    <div class="seg-title" id="segTitle">Tasarruf Hesaplayıcı</div>
+    <div class="seg-tracks">
+      <div class="seg-track"><div class="seg-fill" id="segFill"></div></div>
+    </div>
+  </div>
+
+  <div class="steps" id="steps">
+
+    <!-- STEP 1: WELCOME -->
+    <div class="step active" data-step="1">
+      <div class="step-content hero-step">
+        <div class="hero-trust-strip">
+          <div class="hero-trust-item">200+ ÜLKE</div>
+          <div class="hero-trust-item">15+ ENTEGRASYON</div>
+          <div class="hero-trust-item">7/24 DESTEK</div>
+        </div>
+        <h1 class="hero">Yıllık kargo giderinizden <em>%25-40 tasarruf</em> nasıl edilir?</h1>
+        <p class="hero-sub">90 saniyede size özel kargo paketinizi ve tahmini yıllık tasarrufunuzu hesaplayalım. Hiçbir kayıt veya kart bilgisi gerektirmez.</p>
+        <ul class="hero-bullets">
+          <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span>İşletmenize özel <strong>tahmini tasarruf</strong></span></li>
+          <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span>Mevcut kargo firmanızla <strong>karşılaştırmalı</strong> rapor</span></li>
+          <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span>Uzmanımızdan <strong>ücretsiz aktivasyon</strong> görüşmesi</span></li>
+        </ul>
+      </div>
+      <div class="step-footer">
+        <button class="cta" onclick="next(2)">
+          <span class="cta-arrow">Hesaplamaya Başla
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </span>
+        </button>
+        <p class="hero-meta">7 soruda 90 saniye · KVKK uyumlu</p>
+      </div>
+    </div>
+
+    <!-- STEP 2: BUSINESS TYPE -->
+    <div class="step" data-step="2">
+      <div class="step-content">
+        <span class="eyebrow">Adım 1 / 7</span>
+        <h1 class="q">İşletmeniz hangi türde?</h1>
+        <p class="subtitle">Size en uygun kargo paketini buna göre kuruyoruz.</p>
+        <div class="options" data-key="isletme">
+          <button class="opt" data-value="eticaret"><span class="text">Kendi e-ticaret sitem var<small>WooCommerce, Shopify, Magento, IdeaSoft vb.</small></span><span class="check"></span></button>
+          <button class="opt" data-value="marketplace"><span class="text">Marketplace satıcısıyım<small>Trendyol, Hepsiburada, N11, Amazon</small></span><span class="check"></span></button>
+          <button class="opt" data-value="dropship"><span class="text">Dropshipping yapıyorum<small>Çoklu pazaryeri / tedarikçi</small></span><span class="check"></span></button>
+          <button class="opt" data-value="uluslararasi"><span class="text">Uluslararası satış yapıyorum<small>Etsy, eBay, Amazon Global</small></span><span class="check"></span></button>
+          <button class="opt" data-value="bireysel"><span class="text">Bireysel / küçük gönderici<small>Düşük hacimde düzenli kargo</small></span><span class="check"></span></button>
+          <button class="opt" data-value="kurumsal"><span class="text">Kurumsal / büyük ölçek<small>Aylık 1000+ gönderim</small></span><span class="check"></span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: HACIM -->
+    <div class="step" data-step="3">
+      <div class="step-content">
+        <span class="eyebrow">Adım 2 / 7</span>
+        <h1 class="q">Aylık kargo hacminiz ne kadar?</h1>
+        <p class="subtitle">Hacme göre size farklı tarife önerileri sunacağız.</p>
+        <div class="options" data-key="hacim">
+          <button class="opt" data-value="1-50"><span class="text">1 - 50 paket<small>Başlangıç seviyesi</small></span><span class="check"></span></button>
+          <button class="opt" data-value="50-200"><span class="text">50 - 200 paket<small>Küçük işletme</small></span><span class="check"></span></button>
+          <button class="opt" data-value="200-1000"><span class="text">200 - 1.000 paket<small>Orta ölçek</small></span><span class="check"></span></button>
+          <button class="opt" data-value="1000-5000"><span class="text">1.000 - 5.000 paket<small>Büyüyen e-ticaret</small></span><span class="check"></span></button>
+          <button class="opt" data-value="5000+"><span class="text">5.000+ paket<small>Kurumsal ölçek</small></span><span class="check"></span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: MEVCUT KARGO -->
+    <div class="step" data-step="4">
+      <div class="step-content">
+        <span class="eyebrow">Adım 3 / 7</span>
+        <h1 class="q">Şu an hangi kargo firmalarıyla çalışıyorsunuz?</h1>
+        <p class="subtitle">Karşılaştırma için baseline'ınızı kuruyoruz. Birden fazla seçebilirsiniz.</p>
+        <div class="options" data-key="mevcut_kargo" data-multi="true">
+          <button class="opt multi" data-value="ptt"><span class="text">PTT Kargo</span><span class="check"></span></button>
+          <button class="opt multi" data-value="yurtici"><span class="text">Yurtiçi Kargo</span><span class="check"></span></button>
+          <button class="opt multi" data-value="aras"><span class="text">Aras Kargo</span><span class="check"></span></button>
+          <button class="opt multi" data-value="surat"><span class="text">Sürat Kargo</span><span class="check"></span></button>
+          <button class="opt multi" data-value="mng"><span class="text">MNG Kargo</span><span class="check"></span></button>
+          <button class="opt multi" data-value="hepsijet"><span class="text">HepsiJET</span><span class="check"></span></button>
+          <button class="opt multi" data-value="trendyol_express"><span class="text">Trendyol Express</span><span class="check"></span></button>
+          <button class="opt multi" data-value="yok"><span class="text">Henüz düzenli kullandığım yok</span><span class="check"></span></button>
+        </div>
+        <div class="proof-strip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span>Stocado tüm bu firmalarla doğrudan anlaşma sahibi — paneliniz aynı yerden yönetilir.</span>
+        </div>
+      </div>
+      <div class="step-footer"><button class="cta" id="cta-4" disabled onclick="next(5)">Devam Et</button></div>
+    </div>
+
+    <!-- STEP 5: PLATFORM -->
+    <div class="step" data-step="5">
+      <div class="step-content">
+        <span class="eyebrow">Adım 4 / 7</span>
+        <h1 class="q">Hangi platformlarda satıyorsunuz?</h1>
+        <p class="subtitle">Entegrasyonlarımızı buna göre öneririz. Birden fazla seçebilirsiniz.</p>
+        <div class="options" data-key="platform" data-multi="true">
+          <button class="opt multi" data-value="trendyol"><span class="text">Trendyol</span><span class="check"></span></button>
+          <button class="opt multi" data-value="hepsiburada"><span class="text">Hepsiburada</span><span class="check"></span></button>
+          <button class="opt multi" data-value="n11"><span class="text">N11</span><span class="check"></span></button>
+          <button class="opt multi" data-value="amazon"><span class="text">Amazon</span><span class="check"></span></button>
+          <button class="opt multi" data-value="shopify"><span class="text">Shopify</span><span class="check"></span></button>
+          <button class="opt multi" data-value="woocommerce"><span class="text">WooCommerce</span><span class="check"></span></button>
+          <button class="opt multi" data-value="etsy"><span class="text">Etsy</span><span class="check"></span></button>
+          <button class="opt multi" data-value="kendi_site"><span class="text">Kendi sitem / başka platform</span><span class="check"></span></button>
+        </div>
+      </div>
+      <div class="step-footer"><button class="cta" id="cta-5" disabled onclick="next(6)">Devam Et</button></div>
+    </div>
+
+    <!-- STEP 6: AĞRI -->
+    <div class="step" data-step="6">
+      <div class="step-content">
+        <span class="eyebrow">Adım 5 / 7</span>
+        <h1 class="q">En büyük kargo ağrı noktanız ne?</h1>
+        <p class="subtitle">Birden fazla seçebilirsiniz. Çözümünüzü buna göre önceliklendireceğiz.</p>
+        <div class="options" data-key="agri" data-multi="true">
+          <button class="opt multi" data-value="maliyet"><span class="text">Maliyet çok yüksek<small>Marjlarımız eriyor</small></span><span class="check"></span></button>
+          <button class="opt multi" data-value="iade"><span class="text">Geri iade süreci<small>İade ücreti, takip karmaşık</small></span><span class="check"></span></button>
+          <button class="opt multi" data-value="takip"><span class="text">Takip ve raporlama<small>Birden fazla panelde yorulmak</small></span><span class="check"></span></button>
+          <button class="opt multi" data-value="kapida"><span class="text">Kapıda ödeme yönetimi<small>Tahsilat süreci</small></span><span class="check"></span></button>
+          <button class="opt multi" data-value="hizmet"><span class="text">Müşteri hizmetleri<small>Sorun yaşandığında uzun bekleme</small></span><span class="check"></span></button>
+          <button class="opt multi" data-value="uluslararasi"><span class="text">Uluslararası gönderim<small>Gümrük, dokümantasyon</small></span><span class="check"></span></button>
+        </div>
+      </div>
+      <div class="step-footer"><button class="cta" id="cta-6" disabled onclick="next(7)">Devam Et</button></div>
+    </div>
+
+    <!-- STEP 7: DESI -->
+    <div class="step" data-step="7">
+      <div class="step-content">
+        <span class="eyebrow">Adım 6 / 7</span>
+        <h1 class="q">Ortalama paket ağırlığınız?</h1>
+        <p class="subtitle">Desi hesabı tasarruf hesaplamasının kritik parçası.</p>
+        <div class="options" data-key="desi">
+          <button class="opt" data-value="1desi"><span class="text">1 desi altı<small>Aksesuar, küçük elektronik, kozmetik</small></span><span class="check"></span></button>
+          <button class="opt" data-value="2-5desi"><span class="text">2 - 5 desi<small>Tekstil, küçük ev eşyası</small></span><span class="check"></span></button>
+          <button class="opt" data-value="5-15desi"><span class="text">5 - 15 desi<small>Ayakkabı, orta boy elektronik, ev tekstili</small></span><span class="check"></span></button>
+          <button class="opt" data-value="15+desi"><span class="text">15 desi üstü<small>Mobilya, beyaz eşya, hacimli ürün</small></span><span class="check"></span></button>
+          <button class="opt" data-value="karisik"><span class="text">Karışık / değişken</span><span class="check"></span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8: KAPIDA -->
+    <div class="step" data-step="8">
+      <div class="step-content">
+        <span class="eyebrow">Adım 7 / 7</span>
+        <h1 class="q">Kapıda ödeme kullanıyor musunuz?</h1>
+        <p class="subtitle">Türkiye'de çoğu satıcı için kritik. Stocado kapıda ödeme yönetiminde uzmanlaştı.</p>
+        <div class="options" data-key="kapida">
+          <button class="opt" data-value="cok"><span class="text">Evet, çoğunlukla<small>Siparişlerimin %50'sinden fazlası</small></span><span class="check"></span></button>
+          <button class="opt" data-value="orta"><span class="text">Bazen<small>%20-50 arası</small></span><span class="check"></span></button>
+          <button class="opt" data-value="az"><span class="text">Az<small>%20 altı</small></span><span class="check"></span></button>
+          <button class="opt" data-value="yok"><span class="text">Hayır, sadece ön ödeme<small>Kapıda ödeme almıyorum</small></span><span class="check"></span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 9: LOADING -->
+    <div class="step" data-step="9">
+      <div class="step-content loading-stage">
+        <div class="spinner-wrap">
+          <div class="spinner-ring"></div>
+          <div class="spinner-inner">₺</div>
+        </div>
+        <div class="loading-title">Tasarrufunuz hesaplanıyor</div>
+        <p class="loading-sub">Stocado AI verdiğiniz cevaplarla en uygun kargo kombinasyonunu buluyor</p>
+        <div class="loading-steps" id="loadingSteps">
+          <div class="loading-step" data-i="0"><span class="ls-icon">1</span>Mevcut kargo profili analiz ediliyor...</div>
+          <div class="loading-step" data-i="1"><span class="ls-icon">2</span>Uygun kargo firmaları eşleştiriliyor...</div>
+          <div class="loading-step" data-i="2"><span class="ls-icon">3</span>Desi ve hacim bazlı fiyat hesaplanıyor...</div>
+          <div class="loading-step" data-i="3"><span class="ls-icon">4</span>Yıllık tasarruf tahmini oluşturuluyor...</div>
+          <div class="loading-step" data-i="4"><span class="ls-icon">5</span>Size özel kargo paketi hazırlanıyor...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 10: REVEAL -->
+    <div class="step" data-step="10">
+      <div class="step-content">
+        <div style="text-align:center;margin-bottom:14px">
+          <span class="eyebrow" style="color:var(--success)">TASARRUF RAPORUNUZ HAZIR</span>
+          <h1 class="q" style="font-size:20px;margin-top:6px">Size özel hesaplanan tahmini tasarruf</h1>
+        </div>
+        <div class="reveal-card">
+          <div class="reveal-tag">Stocado AI Eşleştirmesi</div>
+          <div class="reveal-title" id="planTitle">Stocado Pro · Çoklu Kargo Paneli</div>
+
+          <div class="savings-block">
+            <div class="savings-current">Mevcut yıllık kargo gideriniz: <strong id="currentCost">₺240.000</strong></div>
+            <div class="savings-amount" id="savingsAmount">₺72.000<small> / yıl tasarruf</small></div>
+            <div class="savings-pct" id="savingsPct">~%30 tasarruf · ~₺6.000/ay</div>
+          </div>
+
+          <div class="compare-grid">
+            <div class="compare-cell bad">
+              <div class="label">Mevcut tarife</div>
+              <div class="value" id="currentRate">₺20/paket</div>
+            </div>
+            <div class="compare-cell good">
+              <div class="label">Stocado tarifesi</div>
+              <div class="value" id="stocadoRate">₺14/paket</div>
+            </div>
+          </div>
+
+          <div class="plan-row">
+            <div class="icon-circle">S</div>
+            <div class="text">
+              <strong>Önerilen plan: <span id="planLabel">Stocado Pro</span></strong>
+              <small id="planSub">5+ kargo firması · Tek panel · API + WebHook · 7/24 destek</small>
+            </div>
+          </div>
+
+          <ul class="reveal-insights" id="insightsList"></ul>
+        </div>
+      </div>
+      <div class="step-footer">
+        <button class="cta" onclick="next(11)">
+          <span class="cta-arrow">Detaylı Raporu Al
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 11: CONTACT -->
+    <div class="step" data-step="11">
+      <div class="step-content">
+        <span class="eyebrow">Son Adım — İletişim</span>
+        <h1 class="q">Raporunuz e-postanıza gitsin</h1>
+        <p class="subtitle">PDF tasarruf raporu + Stocado uzmanından ücretsiz 15 dakika aktivasyon görüşmesi.</p>
+
+        <div class="form-stage">
+          <div class="form-group">
+            <label class="form-label">Ad Soyad</label>
+            <input type="text" class="form-input" id="adInput" placeholder="Adınız Soyadınız" autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">İşletme / Firma Adı</label>
+            <input type="text" class="form-input" id="firmaInput" placeholder="Firmanızın adı (opsiyonel)" autocomplete="organization">
+          </div>
+          <div class="form-group">
+            <label class="form-label">E-posta</label>
+            <input type="email" class="form-input" id="emailInput" placeholder="ornek@firma.com" autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Telefon</label>
+            <div class="phone-row">
+              <select class="country-select" id="countrySelect">
+                <option value="+90" selected>🇹🇷 +90</option>
+                <option value="+1">🇺🇸 +1</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+49">🇩🇪 +49</option>
+                <option value="+971">🇦🇪 +971</option>
+              </select>
+              <input type="tel" class="form-input" id="phoneInput" placeholder="532 123 45 67" inputmode="tel" autocomplete="tel">
+            </div>
+          </div>
+          <div class="trust-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <span>KVKK uyumlu · sadece bu rapor için kullanılır</span>
+          </div>
+        </div>
+      </div>
+      <div class="step-footer"><button class="cta" id="cta-11" disabled onclick="submitFunnel()">Raporu Gönder</button></div>
+    </div>
+
+    <!-- STEP 12: THANK YOU -->
+    <div class="step" data-step="12">
+      <div class="step-content thank-stage">
+        <div class="thank-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="confirm-tag" id="confirmTag">#STC-000000</div>
+        <h2 style="font-family:'DM Sans';font-size:24px;color:var(--primary-deep);margin-bottom:8px;line-height:1.25;font-weight:700">Raporunuz gönderildi!</h2>
+        <p style="font-size:14px;color:var(--text-muted);max-width:380px;margin:0 auto 24px;line-height:1.55">PDF tasarruf raporunuz e-postanıza geliyor. Uzmanımız <strong>15 dakika içinde</strong> sizinle iletişime geçecek.</p>
+
+        <div class="thank-cta-grid">
+          <a class="cta-line whatsapp" id="whatsappBtn" href="#" target="_blank">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A7.86 7.86 0 0012.05 4a7.94 7.94 0 00-6.88 11.92L4 20l4.18-1.1a7.93 7.93 0 003.87.99h.01c4.38 0 7.95-3.57 7.95-7.95a7.9 7.9 0 00-2.41-5.62zm-5.55 12.21a6.6 6.6 0 01-3.36-.92l-.24-.14-2.49.65.67-2.42-.16-.25a6.6 6.6 0 0110.21-8.16 6.55 6.55 0 011.93 4.69c0 3.65-2.97 6.62-6.61 6.62z"/></svg></span>
+            <span class="lbl-block">WhatsApp'tan hemen başla</span>
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span>
+          </a>
+          <a class="cta-line" href="https://app.stocado.com/" target="_blank">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg></span>
+            <span class="lbl-block">Stocado'ya hemen kayıt ol<small>app.stocado.com</small></span>
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span>
+          </a>
+          <a class="cta-line" href="tel:+903121234567">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg></span>
+            <span class="lbl-block">Doğrudan ara<small>Stocado Müşteri Hizmetleri</small></span>
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span>
+          </a>
+        </div>
+
+        <p style="margin-top:24px;font-size:11px;color:var(--text-light);letter-spacing:0.5px">Bu funnel demo amaçlıdır · GrowthER AI tarafından tasarlandı</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var STEPS_ORDER = ['1','2','3','4','5','6','7','8','9','10','11','12'];
+  var TOTAL = 12;
+
+  var state = {
+    currentStep: '1',
+    answers: {},
+    confirmId: 'STC-' + Math.floor(100000 + Math.random() * 900000)
+  };
+
+  function $(s) { return document.querySelector(s); }
+  function $$(s) { return Array.prototype.slice.call(document.querySelectorAll(s)); }
+
+  var SEG_TITLES = {
+    '1': 'Tasarruf Hesaplayıcı',
+    '2': 'İşletme Profili', '3': 'İşletme Profili',
+    '4': 'Mevcut Kargo Durumu', '5': 'Mevcut Kargo Durumu',
+    '6': 'İhtiyaçlarınız', '7': 'İhtiyaçlarınız', '8': 'İhtiyaçlarınız',
+    '9': 'Hesaplama', '10': 'Raporunuz Hazır',
+    '11': 'İletişim', '12': 'Tamamlandı'
+  };
+
+  function goTo(target) {
+    target = String(target);
+    var curr = $('[data-step="' + state.currentStep + '"]');
+    var nextEl = $('[data-step="' + target + '"]');
+    if (!nextEl) return;
+    var forward = STEPS_ORDER.indexOf(target) > STEPS_ORDER.indexOf(state.currentStep);
+    if (forward) {
+      curr.classList.add('exit');
+      setTimeout(function() { curr.classList.remove('active', 'exit'); }, 350);
+    } else {
+      curr.classList.remove('active');
+    }
+    setTimeout(function() { nextEl.classList.add('active'); nextEl.scrollTop = 0; }, forward ? 140 : 60);
+    state.currentStep = target;
+    updateUI();
+    if (target === '9') runLoadingAnimation();
+    if (target === '10') buildReveal();
+  }
+
+  window.next = function(target) { goTo(target); };
+  window.nextStep = function() {
+    var idx = STEPS_ORDER.indexOf(state.currentStep);
+    if (idx < STEPS_ORDER.length - 1) goTo(STEPS_ORDER[idx + 1]);
+  };
+  window.goBack = function() {
+    var idx = STEPS_ORDER.indexOf(state.currentStep);
+    if (idx > 0 && state.currentStep !== '12') goTo(STEPS_ORDER[idx - 1]);
+  };
+
+  function updateUI() {
+    var idx = STEPS_ORDER.indexOf(state.currentStep);
+    var pct = ((idx + 1) / TOTAL) * 100;
+    $('#segFill').style.width = pct + '%';
+    $('#segTitle').textContent = SEG_TITLES[state.currentStep] || '';
+    $('#backBtn').classList.toggle('visible', state.currentStep !== '1' && state.currentStep !== '12' && state.currentStep !== '9');
+  }
+
+  // Hide footers for single-select steps
+  function setupSingleSelectAutoAdvance(area) {
+    var stepEl = area.closest('.step');
+    var footer = stepEl.querySelector('.step-footer');
+    if (footer) footer.style.display = 'none';
+  }
+
+  $$('.options').forEach(function(area) {
+    var key = area.getAttribute('data-key');
+    var isMulti = area.getAttribute('data-multi') === 'true';
+    var stepEl = area.closest('.step');
+    var stepId = stepEl.getAttribute('data-step');
+    var ctaBtn = $('#cta-' + stepId);
+    if (!isMulti) setupSingleSelectAutoAdvance(area);
+
+    area.querySelectorAll('.opt').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        if (isMulti) {
+          btn.classList.toggle('selected');
+          var sel = area.querySelectorAll('.opt.selected');
+          state.answers[key] = Array.prototype.map.call(sel, function(b) { return b.getAttribute('data-value'); });
+          if (ctaBtn) ctaBtn.disabled = sel.length === 0;
+        } else {
+          area.querySelectorAll('.opt').forEach(function(b) { b.classList.remove('selected'); });
+          btn.classList.add('selected');
+          state.answers[key] = btn.getAttribute('data-value');
+          setTimeout(function() { nextStep(); }, 420);
+        }
+      });
+    });
+  });
+
+  function runLoadingAnimation() {
+    var steps = $$('.loading-step');
+    steps.forEach(function(s){ s.classList.remove('shown','done'); });
+    var i = 0;
+    var interval = setInterval(function() {
+      if (i < steps.length) {
+        steps[i].classList.add('shown');
+        if (i > 0) {
+          steps[i-1].classList.remove('shown');
+          steps[i-1].classList.add('done');
+          steps[i-1].querySelector('.ls-icon').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+        }
+        i++;
+      } else {
+        clearInterval(interval);
+        steps[steps.length-1].classList.add('done');
+        steps[steps.length-1].querySelector('.ls-icon').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+        setTimeout(function() { goTo('10'); }, 700);
+      }
+    }, 700);
+  }
+
+  // === Tasarruf hesabı ===
+  function calcSavings(a) {
+    // Aylık paket (median)
+    var pktMonthly = { '1-50': 25, '50-200': 125, '200-1000': 600, '1000-5000': 3000, '5000+': 8000 }[a.hacim] || 125;
+    // Per-paket maliyet (mevcut, ortalama)
+    var desiCost = { '1desi': 28, '2-5desi': 42, '5-15desi': 78, '15+desi': 145, 'karisik': 55 }[a.desi] || 42;
+    // Stocado avantaj %
+    var stocadoDiscount = 0.25;
+    if (pktMonthly >= 600) stocadoDiscount = 0.32;
+    if (pktMonthly >= 3000) stocadoDiscount = 0.38;
+    if (pktMonthly >= 8000) stocadoDiscount = 0.42;
+    if (a.kapida === 'cok') stocadoDiscount += 0.02; // kapıda ödeme uzmanlık bonusu
+
+    var currentMonthly = pktMonthly * desiCost;
+    var stocadoCostPerPkg = Math.round(desiCost * (1 - stocadoDiscount));
+    var stocadoMonthly = pktMonthly * stocadoCostPerPkg;
+    var savingsMonthly = currentMonthly - stocadoMonthly;
+    var savingsYearly = savingsMonthly * 12;
+    var currentYearly = currentMonthly * 12;
+
+    return {
+      currentYearly: currentYearly,
+      savingsYearly: savingsYearly,
+      savingsMonthly: savingsMonthly,
+      pct: Math.round(stocadoDiscount * 100),
+      currentRate: desiCost,
+      stocadoRate: stocadoCostPerPkg,
+      pktMonthly: pktMonthly
+    };
+  }
+
+  function fmt(num) {
+    return '₺' + Math.round(num).toLocaleString('tr-TR');
+  }
+
+  function planFor(a) {
+    var v = a.hacim;
+    if (v === '5000+') return { label: 'Stocado Enterprise', sub: 'Özel hesap yöneticisi · API + WebHook · SLA · 7/24 öncelikli destek' };
+    if (v === '1000-5000') return { label: 'Stocado Business', sub: '5+ kargo firması · Tek panel · API · 7/24 destek · Bulk işlem' };
+    if (v === '200-1000') return { label: 'Stocado Pro', sub: '5+ kargo firması · Tek panel · WebHook · Standart destek' };
+    if (v === '50-200') return { label: 'Stocado Starter', sub: '3+ kargo firması · Tek panel · Temel API · Self-serve' };
+    return { label: 'Stocado Free', sub: 'Tek panel · Temel kargo · Self-serve · Ücretsiz başlangıç' };
+  }
+
+  function buildReveal() {
+    var s = calcSavings(state.answers);
+    var p = planFor(state.answers);
+    state.calc = s;
+    state.plan = p;
+
+    $('#currentCost').textContent = fmt(s.currentYearly);
+    $('#savingsAmount').innerHTML = fmt(s.savingsYearly) + '<small> / yıl tasarruf</small>';
+    $('#savingsPct').textContent = '~%' + s.pct + ' tasarruf · ~' + fmt(s.savingsMonthly) + '/ay';
+    $('#currentRate').textContent = fmt(s.currentRate) + '/paket';
+    $('#stocadoRate').textContent = fmt(s.stocadoRate) + '/paket';
+    $('#planLabel').textContent = p.label;
+    $('#planSub').textContent = p.sub;
+    $('#planTitle').textContent = p.label;
+
+    // Insights
+    var insights = [];
+    var agri = state.answers.agri || [];
+    var platform = state.answers.platform || [];
+    var kargo = state.answers.mevcut_kargo || [];
+
+    if (agri.indexOf('kapida') !== -1 || state.answers.kapida === 'cok') {
+      insights.push('Stocado kapıda ödeme yönetiminde uzmanlaştı — tahsilat süreciniz tek panelden takip edilir');
+    }
+    if (agri.indexOf('iade') !== -1) {
+      insights.push('"Kargo bana gelsin" iade özelliği ile iade maliyetiniz %50 azalır');
+    }
+    if (agri.indexOf('uluslararasi') !== -1 || state.answers.isletme === 'uluslararasi') {
+      insights.push('200+ ülke kapsama + IOSS uyumlu gümrük desteği');
+    }
+    if (platform.indexOf('trendyol') !== -1 || platform.indexOf('hepsiburada') !== -1) {
+      insights.push('Trendyol ve Hepsiburada native entegrasyonu ile siparişler otomatik düşer');
+    }
+    if (platform.indexOf('shopify') !== -1 || platform.indexOf('woocommerce') !== -1) {
+      insights.push('Shopify / WooCommerce API entegrasyonu 10 dakikada kurulur');
+    }
+    if (kargo.length >= 2) {
+      insights.push(kargo.length + ' farklı kargo firmanız var — tek panelden yönetmek ortalama 8 saat/hafta tasarruf');
+    }
+
+    insights = insights.slice(0, 3);
+    if (insights.length === 0) {
+      insights = [
+        'Tek panelden çoklu kargo yönetimi',
+        '7/24 müşteri destek hattı',
+        'Marketplace ve e-ticaret entegrasyonları'
+      ];
+    }
+
+    var list = $('#insightsList');
+    list.innerHTML = '';
+    insights.forEach(function(t) {
+      var li = document.createElement('li');
+      li.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>' + t + '</span>';
+      list.appendChild(li);
+    });
+  }
+
+  // Form validation
+  var requiredInputs = ['adInput', 'emailInput', 'phoneInput'];
+  function validateForm() {
+    var ok = true;
+    requiredInputs.forEach(function(id) {
+      var el = $('#' + id);
+      if (!el || !el.value.trim() || el.value.trim().length < 3) ok = false;
+    });
+    var email = $('#emailInput').value;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) ok = false;
+    var phone = $('#phoneInput').value.replace(/\D/g, '');
+    if (phone.length < 7) ok = false;
+    $('#cta-11').disabled = !ok;
+  }
+  ['adInput', 'emailInput', 'phoneInput', 'firmaInput'].forEach(function(id) {
+    var el = $('#' + id);
+    if (el) el.addEventListener('input', validateForm);
+  });
+  // Phone formatting
+  var phoneInput = $('#phoneInput');
+  phoneInput.addEventListener('input', function() {
+    var digits = phoneInput.value.replace(/\D/g, '').slice(0, 10);
+    if (digits.length === 0) return phoneInput.value = '';
+    if (digits.length <= 3) phoneInput.value = digits;
+    else if (digits.length <= 6) phoneInput.value = digits.slice(0,3) + ' ' + digits.slice(3);
+    else if (digits.length <= 8) phoneInput.value = digits.slice(0,3) + ' ' + digits.slice(3,6) + ' ' + digits.slice(6);
+    else phoneInput.value = digits.slice(0,3) + ' ' + digits.slice(3,6) + ' ' + digits.slice(6,8) + ' ' + digits.slice(8,10);
+    validateForm();
+  });
+
+  window.submitFunnel = function() {
+    var btn = $('#cta-11');
+    btn.disabled = true; btn.textContent = 'Gönderiliyor...';
+    state.answers.ad = $('#adInput').value;
+    state.answers.firma = $('#firmaInput').value;
+    state.answers.email = $('#emailInput').value;
+    state.answers.phone = $('#countrySelect').value + $('#phoneInput').value.replace(/\D/g, '');
+    state.answers.submitted_at = new Date().toISOString();
+    state.answers.confirm_id = state.confirmId;
+    state.answers.calc = state.calc;
+    state.answers.plan = state.plan;
+
+    $('#confirmTag').textContent = '#' + state.confirmId;
+    var phone = state.answers.phone.replace(/\D/g, '');
+    var msg = encodeURIComponent('Merhaba! Stocado tasarruf raporum için ' + state.confirmId + ' kodlu görüşmeyi onaylıyorum. Yıllık tahmini tasarruf: ' + fmt(state.calc.savingsYearly));
+    $('#whatsappBtn').href = 'https://wa.me/' + phone + '?text=' + msg;
+
+    if (window.GROWTHER && window.GROWTHER.supaFetch) {
+      window.GROWTHER.supaFetch('POST', 'funnel_leads', {
+        source: 'stocado-savings-funnel', client: 'adorel',
+        status: 'completed', answers: JSON.stringify(state.answers),
+        created_at: new Date().toISOString()
+      }).catch(function(){});
+    }
+    setTimeout(function() { goTo('12'); }, 600);
+  };
+
+  // Touch swipe back
+  var touchX = 0, touchY = 0;
+  document.addEventListener('touchstart', function(e) { touchX = e.changedTouches[0].clientX; touchY = e.changedTouches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - touchX;
+    var dy = e.changedTouches[0].clientY - touchY;
+    if (Math.abs(dx) > 80 && Math.abs(dx) > Math.abs(dy) * 1.6 && dx > 0 && state.currentStep !== '1' && state.currentStep !== '12' && state.currentStep !== '9') {
+      goBack();
+    }
+  }, { passive: true });
+
+  updateUI();
+})();
+</script>
+<script src="/lib/config.js"></script>
+<script src="/lib/clarity.js"></script>
+<script src="/lib/cal-popup.js"></script>
+<script src="/lib/tracker.js" data-type="stocado-savings-funnel" data-client="adorel" data-total-steps="12"></script>
+</body>
+</html>
