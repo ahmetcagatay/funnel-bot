@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Growth Specialist Brief — for PlusMinusOne · Ahmet Çağatay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #0F0F1E;
+  --ink-deep: #050511;
+  --violet: #6D28D9;
+  --violet-light: #8B5CF6;
+  --violet-soft: #EDE9FE;
+  --violet-tint: #F5F3FF;
+  --violet-deep: #4C1D95;
+  --pink: #EC4899;
+  --pink-soft: #FCE7F3;
+  --orange: #F97316;
+  --orange-soft: #FFEDD5;
+  --green: #16A34A;
+  --green-soft: #DCFCE7;
+  --amber: #D97706;
+  --amber-soft: #FEF3C7;
+  --red: #DC2626;
+  --red-soft: #FEE2E2;
+  --cyan: #06B6D4;
+  --cyan-soft: #CFFAFE;
+
+  --cream: #FAFAFB;
+  --bg-card: #FFFFFF;
+  --bg-soft: #F8FAFC;
+  --bg-warm: #F9F8FE;
+
+  --text: #1F2937;
+  --text-soft: #374151;
+  --text-muted: #6B7280;
+  --text-light: #9CA3AF;
+
+  --border: #E5E7EB;
+  --border-strong: #CBD5E1;
+
+  --shadow-sm: 0 1px 3px rgba(15,15,30,0.06);
+  --shadow-md: 0 4px 16px rgba(15,15,30,0.08);
+  --shadow-lg: 0 12px 40px rgba(15,15,30,0.15);
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.65; color: var(--text); background: var(--cream); -webkit-font-smoothing: antialiased; }
+
+.container { max-width: 920px; margin: 0 auto; padding: 0 32px; }
+
+/* COVER */
+.cover { background: linear-gradient(135deg, var(--ink) 0%, var(--ink-deep) 50%, var(--violet-deep) 100%); color: #fff; padding: 80px 32px 100px; position: relative; overflow: hidden; }
+.cover::before { content: ''; position: absolute; top: -200px; right: -100px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(139,92,246,0.25) 0%, transparent 60%); border-radius: 50%; }
+.cover::after { content: ''; position: absolute; bottom: -200px; left: -100px; width: 450px; height: 450px; background: radial-gradient(circle, rgba(236,72,153,0.12) 0%, transparent 60%); border-radius: 50%; }
+.cover-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 1; }
+.cover-meta { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--violet-soft); background: rgba(139,92,246,0.18); border: 1px solid rgba(139,92,246,0.45); padding: 6px 14px; border-radius: 20px; margin-bottom: 28px; }
+.cover h1 { font-family: 'DM Sans', sans-serif; font-size: clamp(34px, 6vw, 54px); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 20px; }
+.cover h1 em { background: linear-gradient(90deg, var(--violet-light) 0%, var(--pink) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-style: normal; }
+.cover-lead { font-size: 18px; line-height: 1.55; color: rgba(255,255,255,0.82); max-width: 700px; margin-bottom: 40px; }
+.cover-meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.15); }
+.cover-meta-item .label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 6px; }
+.cover-meta-item .value { font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 600; color: #fff; }
+
+/* TOC */
+.toc { background: var(--bg-card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 30; padding: 14px 0; backdrop-filter: blur(10px); }
+.toc-inner { max-width: 920px; margin: 0 auto; padding: 0 32px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.toc-inner::-webkit-scrollbar { display: none; }
+.toc-link { font-size: 12.5px; font-weight: 600; color: var(--text-muted); text-decoration: none; padding: 6px 12px; border-radius: 20px; white-space: nowrap; transition: all 0.2s; flex-shrink: 0; border: none; }
+.toc-link:hover { color: var(--ink); background: var(--bg-soft); }
+.toc-link.active { color: var(--violet-deep); background: var(--violet-tint); }
+
+/* SECTIONS */
+section { padding: 80px 0; scroll-margin-top: 80px; }
+section + section { border-top: 1px solid var(--border); }
+section.alt { background: var(--bg-warm); }
+
+.section-num { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: var(--violet); margin-bottom: 14px; }
+h2 { font-family: 'DM Sans', sans-serif; font-size: clamp(28px, 4vw, 38px); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 14px; }
+h3 { font-family: 'DM Sans', sans-serif; font-size: 22px; font-weight: 700; line-height: 1.25; color: var(--ink); margin: 36px 0 12px; letter-spacing: -0.01em; }
+h4 { font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700; color: var(--ink); margin: 24px 0 8px; }
+p { margin-bottom: 16px; color: var(--text-soft); }
+p.lead { font-size: 19px; line-height: 1.6; color: var(--text); margin-bottom: 28px; max-width: 720px; }
+strong { color: var(--ink); font-weight: 700; }
+em { font-style: italic; color: var(--text-muted); }
+
+ul, ol { padding-left: 22px; margin-bottom: 16px; }
+li { margin-bottom: 8px; color: var(--text-soft); }
+li::marker { color: var(--violet); }
+
+a { color: var(--violet-deep); text-decoration: none; border-bottom: 1px solid var(--violet-soft); }
+a:hover { border-bottom-color: var(--violet); }
+
+code, .mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--violet-deep); background: var(--bg-soft); padding: 1px 6px; border-radius: 4px; }
+
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin: 20px 0; box-shadow: var(--shadow-sm); }
+.card-emphasis { background: linear-gradient(135deg, var(--ink) 0%, var(--violet-deep) 100%); color: #fff; border-color: var(--ink); }
+.card-emphasis h3, .card-emphasis h4 { color: var(--violet-soft); }
+.card-emphasis p, .card-emphasis li { color: rgba(255,255,255,0.85); }
+.card-emphasis strong { color: #fff; }
+.card-emphasis a { color: var(--violet-soft); border-bottom-color: rgba(237,233,254,0.4); }
+
+.callout { border-left: 4px solid var(--violet); background: var(--violet-tint); padding: 18px 22px; border-radius: 0 10px 10px 0; margin: 24px 0; }
+.callout.note { border-left-color: var(--orange); background: var(--orange-soft); }
+.callout.warn { border-left-color: var(--amber); background: var(--amber-soft); }
+.callout.win { border-left-color: var(--green); background: var(--green-soft); }
+.callout-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--violet-deep); margin-bottom: 6px; }
+.callout.note .callout-label { color: #C2410C; }
+.callout.warn .callout-label { color: #92400E; }
+.callout.win .callout-label { color: #15803D; }
+.callout p:last-child { margin-bottom: 0; }
+
+/* BENCH STATS */
+.bench-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin: 28px 0; }
+.bench { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+.bench .value { font-family: 'DM Sans', sans-serif; font-size: 28px; font-weight: 800; color: var(--ink); line-height: 1; margin-bottom: 6px; letter-spacing: -0.02em; }
+.bench .value sup { font-size: 14px; color: var(--violet); margin-left: 2px; }
+.bench .label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.35; }
+.bench .src { display: block; font-size: 10px; color: var(--text-light); margin-top: 4px; font-style: italic; }
+
+/* FUNNEL */
+.funnel-flow { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin: 24px 0; }
+.funnel-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; }
+.funnel-step { background: var(--bg-soft); border-radius: 10px; padding: 14px; position: relative; }
+.funnel-step .num { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; color: var(--violet); margin-bottom: 4px; }
+.funnel-step .title { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px; color: var(--ink); margin-bottom: 4px; line-height: 1.25; }
+.funnel-step .desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.45; }
+.funnel-step .leak { display: inline-block; margin-top: 6px; font-size: 10.5px; color: var(--red); font-weight: 600; background: var(--red-soft); padding: 1px 7px; border-radius: 4px; }
+
+/* APP CARDS */
+.app-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 24px 0; }
+.app-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+.app-card .head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.app-card .name { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 15px; color: var(--ink); }
+.app-card .cat { font-size: 10px; color: var(--violet); background: var(--violet-tint); padding: 2px 8px; border-radius: 4px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+.app-card .meta { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+.app-card .note { font-size: 12.5px; color: var(--text-soft); line-height: 1.45; }
+
+/* HYP */
+.hyp { background: var(--bg-card); border: 1px solid var(--border); border-left: 4px solid var(--violet); border-radius: 0 12px 12px 0; padding: 18px 22px; margin: 14px 0; }
+.hyp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+.hyp-title { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 15px; color: var(--ink); flex: 1; min-width: 200px; }
+.hyp-scores { display: flex; gap: 6px; flex-shrink: 0; }
+.score { display: inline-flex; align-items: center; gap: 4px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 13px; padding: 3px 10px; border-radius: 6px; }
+.score-hi { background: var(--green-soft); color: #15803D; }
+.score-mid { background: var(--amber-soft); color: #92400E; }
+.hyp-because, .hyp-expect { font-size: 13.5px; color: var(--text-soft); margin: 4px 0; }
+.hyp-because strong, .hyp-expect strong { color: var(--ink); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* DEMO LINK */
+.demo-card { background: linear-gradient(135deg, var(--violet-tint) 0%, var(--bg-card) 100%); border: 1.5px solid var(--violet-soft); border-radius: 16px; padding: 24px; margin: 24px 0; display: flex; gap: 20px; align-items: center; }
+.demo-card .ico { width: 56px; height: 56px; background: var(--violet); color: #fff; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 24px; }
+.demo-card .body { flex: 1; }
+.demo-card h4 { margin: 0 0 4px; font-size: 17px; color: var(--ink); }
+.demo-card .desc { font-size: 13.5px; color: var(--text-soft); margin-bottom: 8px; line-height: 1.5; }
+.demo-card .arrow { color: var(--violet-deep); font-weight: 700; font-size: 13px; border-bottom: 1px solid var(--violet-soft); display: inline-block; }
+
+/* TABLE */
+.table-wrap { overflow-x: auto; margin: 24px 0; -webkit-overflow-scrolling: touch; }
+table { width: 100%; border-collapse: collapse; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; font-size: 14px; }
+th { background: var(--ink); color: #fff; text-align: left; font-weight: 600; padding: 12px 14px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; }
+td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-soft); font-size: 14px; line-height: 1.55; }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: var(--bg-warm); }
+td strong { color: var(--ink); }
+
+.tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.tag-quick { background: var(--green-soft); color: #166534; }
+.tag-structural { background: var(--violet-tint); color: var(--violet-deep); }
+.tag-strategic { background: var(--pink-soft); color: #9D174D; }
+
+/* QA */
+.qa-q { font-family: 'DM Sans', sans-serif; font-size: 18px; font-weight: 700; color: var(--ink); background: var(--bg-card); border-left: 4px solid var(--pink); padding: 14px 18px; border-radius: 0 10px 10px 0; margin-bottom: 14px; }
+
+/* FOOTER */
+.footer { background: var(--ink); color: #fff; padding: 60px 32px; text-align: center; }
+.footer-inner { max-width: 720px; margin: 0 auto; }
+.footer h3 { color: #fff; font-size: 24px; margin-bottom: 14px; letter-spacing: -0.02em; }
+.footer p { color: rgba(255,255,255,0.7); margin-bottom: 16px; }
+.footer-meta { margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 0.5px; }
+.footer-meta strong { color: var(--violet-soft); }
+.footer-meta a { color: var(--violet-soft); border-bottom-color: rgba(237,233,254,0.4); }
+
+@media (max-width: 640px) {
+  .container, .toc-inner, .footer { padding-left: 20px; padding-right: 20px; }
+  .cover { padding: 60px 20px 70px; }
+  section { padding: 56px 0; }
+  .cover-meta-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  h2 { font-size: 26px; }
+  h3 { font-size: 19px; }
+  p.lead { font-size: 17px; }
+  .demo-card { flex-direction: column; align-items: flex-start; gap: 14px; }
+}
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="cover-inner">
+    <span class="cover-meta">Web Growth Specialist Application</span>
+    <h1>For <em>PlusMinusOne</em> — a web-to-app growth brief</h1>
+    <p class="cover-lead">Submitted in response to your Web Growth Specialist role. I've put together how I'd think about web-to-app subscription funnels for your portfolio, a portfolio reconnaissance across your 12 apps, two live funnel demos I've built, and what my first 30 days would look like.</p>
+
+    <div class="cover-meta-grid">
+      <div class="cover-meta-item"><div class="label">Submitted by</div><div class="value">Ahmet Çağatay</div></div>
+      <div class="cover-meta-item"><div class="label">Role</div><div class="value">Web Growth Specialist</div></div>
+      <div class="cover-meta-item"><div class="label">Date</div><div class="value">25 May 2026</div></div>
+      <div class="cover-meta-item"><div class="label">Read time</div><div class="value">~12 minutes</div></div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#foreword" class="toc-link">Foreword</a>
+    <a href="#funnel-model" class="toc-link">01 · The funnel</a>
+    <a href="#benchmarks" class="toc-link">02 · Benchmarks</a>
+    <a href="#portfolio" class="toc-link">03 · Your portfolio</a>
+    <a href="#paywall" class="toc-link">04 · Paywall craft</a>
+    <a href="#demos" class="toc-link">05 · Live demos</a>
+    <a href="#ai" class="toc-link">06 · AI in workflow</a>
+    <a href="#roadmap" class="toc-link">07 · 30/60/90</a>
+    <a href="#close" class="toc-link">Closing</a>
+  </div>
+</nav>
+
+<!-- FOREWORD -->
+<section id="foreword" class="container">
+  <span class="section-num">FOREWORD</span>
+  <h2>Why this brief — and why it's longer than a cover letter</h2>
+  <p class="lead">Subscription apps are a craft. The web-to-app funnel — ad click → landing → quiz → paywall → install → trial → conversion → renewal — has more leak points than most marketers realise. Rather than send a CV and ask you to picture how I'd think, I've written the way I think.</p>
+
+  <p>Three quick notes before the substance:</p>
+  <ol>
+    <li><strong>This is application-grade, not a pitch deck.</strong> I've kept it short enough to read in a coffee break (~12 minutes) and structured it so you can skim or read deeply.</li>
+    <li><strong>I've built funnels.</strong> Section 05 links to two live, mobile-optimised quiz funnels I've shipped — for a wellness retreat brand and a B2B SaaS savings calculator. They're not theoretical; you can open them on your phone right now.</li>
+    <li><strong>I'm coming from CRO/e-commerce, moving into mobile subscription.</strong> I'm transparent about that in Section 03. The transfer is closer than it looks — quiz funnels for wellness retreats, savings calculators for SaaS, and quiz onboarding for Cal AI or BetterMe all live in the same craft tradition. The mobile-specific layer (RevenueCat, paywall mechanics, ATT attribution) is what I'm hungry to go deeper on.</li>
+  </ol>
+
+  <div class="callout note">
+    <div class="callout-label">A note on figures</div>
+    <p>All percentages and benchmarks below come from publicly-published industry data (RevenueCat State of Subscription Apps 2026, Adapty, Airbridge, FunnelFox). I cite where possible. Any expected uplifts on hypotheses are aralık-bazlı — ranges, not promises — and every hypothesis ships with a kill criterion.</p>
+  </div>
+</section>
+
+<!-- SECTION 01: THE FUNNEL MODEL -->
+<section id="funnel-model" class="container alt">
+  <span class="section-num">SECTION 01 — MENTAL MODEL</span>
+  <h2>The web-to-app funnel I see in my head</h2>
+  <p class="lead">When I open a web-to-app funnel, I'm looking at 9 distinct stages — each with its own drop-off rate and its own optimisation lever. Most teams treat this as one funnel; in practice it's three funnels stitched together, and the joins are where most money is lost.</p>
+
+  <h3>The 9-stage anatomy</h3>
+  <div class="funnel-flow">
+    <div class="funnel-steps">
+      <div class="funnel-step"><div class="num">01</div><div class="title">Ad click</div><div class="desc">Meta / TikTok / Google. Creative quality and audience match.</div><span class="leak">CPM/CPC volatility</span></div>
+      <div class="funnel-step"><div class="num">02</div><div class="title">Landing page</div><div class="desc">Hero, value prop, social proof. 5 seconds to register.</div><span class="leak">15-30% bounce</span></div>
+      <div class="funnel-step"><div class="num">03</div><div class="title">Quiz / onboarding</div><div class="desc">6-25 questions building commitment and personalisation.</div><span class="leak">20-40% drop</span></div>
+      <div class="funnel-step"><div class="num">04</div><div class="title">Plan preview</div><div class="desc">"Your plan is ready" reveal — anticipation peak.</div><span class="leak">5-10% drop</span></div>
+      <div class="funnel-step"><div class="num">05</div><div class="title">Paywall</div><div class="desc">Hard or freemium. Trial or direct purchase.</div><span class="leak">85-95% drop</span></div>
+      <div class="funnel-step"><div class="num">06</div><div class="title">Email/SMS capture</div><div class="desc">If user doesn't pay, recover via lifecycle.</div><span class="leak">low signup</span></div>
+      <div class="funnel-step"><div class="num">07</div><div class="title">App install</div><div class="desc">Deep link, App Store handoff, deferred attribution.</div><span class="leak">25-40% drop</span></div>
+      <div class="funnel-step"><div class="num">08</div><div class="title">Trial start</div><div class="desc">In-app activation or web-bought entitlement sync.</div><span class="leak">unmeasured by many</span></div>
+      <div class="funnel-step"><div class="num">09</div><div class="title">Trial→Paid</div><div class="desc">Day 3 / Day 7 / Day 35. The real revenue moment.</div><span class="leak">~10% (hard) / ~2% (freemium)</span></div>
+    </div>
+  </div>
+
+  <h3>The three sub-funnels inside</h3>
+  <div class="card">
+    <h4>Sub-funnel A — Click to landing (the ad → page join)</h4>
+    <p>This is media-team territory but CRO-adjacent. The hand-off between ad creative and landing page is where most quality-score damage happens. If your TikTok ad promises "lose 5kg in 30 days" and the landing page leads with "Improve your wellness", the message-match score crashes and CPM rises across every campaign downstream. I'd own this hand-off jointly with the performance marketing team — same metric, two owners.</p>
+  </div>
+  <div class="card">
+    <h4>Sub-funnel B — Landing to paywall (the conversion engine)</h4>
+    <p>The heart of the role. Quiz design, personalisation, plan reveal, paywall psychology. This is where 80% of testable improvements live and where most of my hands-on craft is concentrated. Every question in the quiz earns its place by either improving personalisation, building commitment, or qualifying the buyer — questions that don't do any of those are a tax on conversion.</p>
+  </div>
+  <div class="card">
+    <h4>Sub-funnel C — Paywall to retained subscriber (the LTV engine)</h4>
+    <p>Where web-to-app gets distinctive. The web-bought subscriber retains differently than the in-app buyer — RevenueCat's 2026 data shows web paywall M1 retention at 84.5% vs in-app 48.2%, but the curves crossed by M8 (in-app 30% vs web 20%). That suggests web subscribers come in hot and cool faster — onboarding and product activation post-purchase are critical, and most teams under-invest here because the buyer is already "won".</p>
+  </div>
+</section>
+
+<!-- SECTION 02: BENCHMARKS -->
+<section id="benchmarks" class="container">
+  <span class="section-num">SECTION 02 — BENCHMARKS</span>
+  <h2>The numbers I anchor against</h2>
+  <p class="lead">Hard data from the 2026 State of Subscription Apps report (RevenueCat, n &gt; 56,000 apps), Adapty paywall studies, Airbridge web-to-app guides and FunnelFox onboarding analyses. These are the baselines I'd benchmark PlusMinusOne's funnels against on day one.</p>
+
+  <div class="bench-row">
+    <div class="bench"><div class="value">~3%</div><div class="label">Session → purchase</div><span class="src">Typical web2app funnel</span></div>
+    <div class="bench"><div class="value">13%</div><div class="label">Sessions reaching paywall</div><span class="src">Typical web2app funnel</span></div>
+    <div class="bench"><div class="value">10.7%</div><div class="label">T35 trial→paid · hard paywall</div><span class="src">RevenueCat 2026</span></div>
+    <div class="bench"><div class="value">2.1%</div><div class="label">T35 trial→paid · freemium</div><span class="src">RevenueCat 2026</span></div>
+    <div class="bench"><div class="value">84.5%</div><div class="label">Web paywall · M1 retention</div><span class="src">RevenueCat 2026</span></div>
+    <div class="bench"><div class="value">48.2%</div><div class="label">In-app paywall · M1 retention</div><span class="src">RevenueCat 2026</span></div>
+    <div class="bench"><div class="value">20%</div><div class="label">Web paywall · M8 retention</div><span class="src">Curves cross around M5-M6</span></div>
+    <div class="bench"><div class="value">18.7x</div><div class="label">Revenue premium · 50+ paywall tests</div><span class="src">vs. apps running ≤1 test</span></div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">The headline insight</div>
+    <p>The largest LTV-moving lever isn't paywall copy or layout — it's <strong>plan structure and trial duration</strong>. RevenueCat's data is clear: teams that test plan price points, plan count (1 vs 3 vs 5 options) and trial length (3 vs 7 vs 14 days) consistently outperform teams that A/B test button colour. Most teams have this backwards.</p>
+  </div>
+
+  <h3>What's also true (less talked about)</h3>
+  <ul>
+    <li><strong>App Store route still wins on raw conversion.</strong> Users coming through the App Store search → product page → install converted at 1.65% on average vs 1.13% for web paywall users. Web-to-app loses some volume but compensates with subscription quality.</li>
+    <li><strong>Hard paywall is back.</strong> The 2022 freemium consensus has broken — teams seeing trial→paid lift of 4-5x by switching from "free with limits" to "trial then pay". Trade-off: top-of-funnel volume drops 20-30%.</li>
+    <li><strong>iOS 17.4 ATT attribution changes</strong> mean less deterministic data from Meta/TikTok ad clicks. Probabilistic attribution + first-party tracking (UTM-tagged landing + on-device install referrer where available) is the new normal. Adjust/Branch/AppsFlyer still useful for the deferred deep-link layer.</li>
+  </ul>
+</section>
+
+<!-- SECTION 03: PORTFOLIO -->
+<section id="portfolio" class="container alt">
+  <span class="section-num">SECTION 03 — PORTFOLIO RECON</span>
+  <h2>What I see across your 12 apps</h2>
+  <p class="lead">A quick read on the portfolio you've built. I haven't installed every app — these are quick observations from App Store pages and your website. Goal here is to show I've looked, not pretend I've audited each one in depth.</p>
+
+  <div class="app-grid">
+    <div class="app-card">
+      <div class="head"><div class="name">Photo Print / Print Photo</div><div class="cat">Utilities</div></div>
+      <div class="meta">52.8K + 60.4K ratings · 4.8★</div>
+      <div class="note"><strong>Your biggest engines.</strong> ~113K combined ratings is significant — this is where paywall optimisation and lifecycle email could move the most ARR. Likely highest test traffic.</div>
+    </div>
+    <div class="app-card">
+      <div class="head"><div class="name">Easy Fax / Easy Scanner</div><div class="cat">Business</div></div>
+      <div class="meta">21K + 21K ratings · 4.7★</div>
+      <div class="note"><strong>Classic urgent-need apps.</strong> User intent is sky-high (you don't search "fax app" for fun). Hard paywall + short trial probably already converts well. Pricing tests likely under-explored.</div>
+    </div>
+    <div class="app-card">
+      <div class="head"><div class="name">Planty</div><div class="cat">Education</div></div>
+      <div class="meta">13K ratings · 4.5★ · 1M+ plans · 2M+ identified</div>
+      <div class="note"><strong>BetterMe-shaped quiz funnel candidate.</strong> Identify-and-care category overlaps with Cal AI / PictureThis / NatureID. Web quiz funnel ("identify your plant + get a custom care plan") could be a massive web2app lever.</div>
+    </div>
+    <div class="app-card">
+      <div class="head"><div class="name">Math AI / Math Hero</div><div class="cat">Education</div></div>
+      <div class="meta">AI Solver &amp; Helper</div>
+      <div class="note"><strong>Education + AI = high paywall acceptance.</strong> Photomath / Gauthmath competitors. Parent buyer + student user — paywall psychology splits along that axis. Worth a "parent landing page" experiment.</div>
+    </div>
+    <div class="app-card">
+      <div class="head"><div class="name">Cute Collage</div><div class="cat">Photo &amp; Video</div></div>
+      <div class="meta">31.6K ratings · 4.5★</div>
+      <div class="note">Photo collage category — Pic Stitch / Photo Grid competitors. Likely younger demo; TikTok-led acquisition strong. Aesthetic-driven landing page test territory.</div>
+    </div>
+    <div class="app-card">
+      <div class="head"><div class="name">Pixy</div><div class="cat">Graphics &amp; Design</div></div>
+      <div class="meta">770 ratings · 4.6★ · AI photo studio</div>
+      <div class="note">Newer launch ("Your AI photo studio always with you"). Wave of AI photo apps — competing with Lensa, Photoroom, Remini. Critical category and a fast-moving one.</div>
+    </div>
+    <div class="app-card">
+      <div class="head"><div class="name">Call Recorder</div><div class="cat">Business</div></div>
+      <div class="meta">3.4K ratings · 4.1★</div>
+      <div class="note">4.1★ — lowest in the portfolio. Either a product-quality issue, or a paywall friction perception issue showing up in reviews. Worth a deeper look at review themes.</div>
+    </div>
+    <div class="app-card">
+      <div class="head"><div class="name">Baby Journal / Pixbook</div><div class="cat">Utilities</div></div>
+      <div class="meta">323 + 323 ratings · 4.8★</div>
+      <div class="note">Smaller-scale apps. Likely niche, parent-focused. Lifecycle email (post-purchase) probably the highest leverage — emotional retention vs functional.</div>
+    </div>
+    <div class="app-card">
+      <div class="head"><div class="name">Free Up</div><div class="cat">Utilities</div></div>
+      <div class="meta">1.3K ratings · 4.7★</div>
+      <div class="note">Storage cleaner. High-intent install, low-LTV typical. Paywall psychology: convert at the "uh-oh" moment when user sees their used storage.</div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-label">What I'd want to look at first</div>
+    <p>Two apps stand out as the highest-leverage starting points: <strong>Planty</strong> (because the quiz funnel pattern is so well-suited to identify-and-care apps, and the user volume — 2M+ plants identified — is substantial), and <strong>Photo Print / Print Photo</strong> (because the combined rating volume suggests these are the bread-and-butter ARR engines, and any test there compounds across both apps).</p>
+  </div>
+</section>
+
+<!-- SECTION 04: PAYWALL CRAFT -->
+<section id="paywall" class="container">
+  <span class="section-num">SECTION 04 — PAYWALL CRAFT</span>
+  <h2>What I know about paywall optimisation</h2>
+  <p class="lead">Paywall is where I'd want to go deepest, fastest. The conversion mechanics, the trial structures, the test backlog — this is the function the role exists to scale.</p>
+
+  <h3>Hard paywall vs freemium — when each wins</h3>
+  <p>The trade-off is volume vs quality. Hard paywall (must subscribe or trial to use) loses 50-70% of top-of-funnel — but the people who clear it convert at 10.7% T35 vs 2.1% for freemium (RevenueCat 2026). For high-intent utilities (Easy Fax, Free Up) hard paywall almost always wins. For habit-formation apps (Planty?) freemium with limits and an upgrade nudge can win — the upgrade nudge fires when user is already attached.</p>
+
+  <h3>The trial structures I'd test</h3>
+  <div class="table-wrap">
+    <table>
+      <tr>
+        <th>Structure</th>
+        <th>When it works</th>
+        <th>Trade-off</th>
+      </tr>
+      <tr>
+        <td><strong>3-day trial</strong></td>
+        <td>High urgency, instant value (utilities, AI solvers)</td>
+        <td>Lower trial start volume; higher trial→paid</td>
+      </tr>
+      <tr>
+        <td><strong>7-day trial</strong></td>
+        <td>Habit-formation, learning curve apps</td>
+        <td>Industry standard — safe default but rarely optimal</td>
+      </tr>
+      <tr>
+        <td><strong>14-day trial</strong></td>
+        <td>Tools with delayed perceived value (Baby Journal)</td>
+        <td>Higher abandonment by day 5; needs nurture</td>
+      </tr>
+      <tr>
+        <td><strong>Hard pay (no trial)</strong></td>
+        <td>Strong demand + transparent value (one-shot prints)</td>
+        <td>Volume drops; LTV per converter is highest</td>
+      </tr>
+      <tr>
+        <td><strong>Pay-now-or-pay-later split</strong></td>
+        <td>Higher-AOV apps with hesitant buyers</td>
+        <td>Operational complexity; needs Adapty/Superwall infra</td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>Test priorities I'd recommend in order</h3>
+  <ol>
+    <li><strong>Plan price points</strong> — annual price especially. Often the single most LTV-moving variable.</li>
+    <li><strong>Plan count</strong> — 1 plan (decisive) vs 3 plans (anchored) vs 5 plans (paradox of choice). Most teams default to 3 without testing.</li>
+    <li><strong>Trial length</strong> — 3 vs 7 vs 14 days. As above, defaults rarely optimal.</li>
+    <li><strong>Hard vs freemium</strong> — heavy lever; needs sample size and patience.</li>
+    <li><strong>Plan reveal pacing</strong> — when in the quiz does plan/price first appear? Too early and friction kills; too late and feels like a switch.</li>
+    <li><strong>Then</strong> — copy, headline, layout, button colour. These are the last 20%.</li>
+  </ol>
+
+  <div class="callout">
+    <div class="callout-label">The tooling I'd reach for</div>
+    <p><strong>Superwall</strong> for paywall A/B testing infrastructure (no-code editor + trigger logic, 30+ variants), <strong>RevenueCat</strong> for subscription management and Experiments for in-app paywalls, <strong>Adapty</strong> as a viable alternative if a particular feature is needed. For web funnels: <strong>Heyflow / custom build</strong> for the quiz layer, <strong>GA4 + Mixpanel</strong> for analytics, <strong>Hotjar / Microsoft Clarity</strong> for session replay, <strong>Klaviyo / Customer.io</strong> for lifecycle email and SMS recovery.</p>
+  </div>
+</section>
+
+<!-- SECTION 05: DEMOS -->
+<section id="demos" class="container alt">
+  <span class="section-num">SECTION 05 — PROOF OF EXECUTION</span>
+  <h2>Two funnels I've built and shipped</h2>
+  <p class="lead">Worth more than describing the work — these are live, mobile-optimised quiz funnels you can open right now. Both follow the BetterMe / Cal AI architectural pattern (welcome → multi-step quiz → loading reveal → personalised plan → conversion). Open them on your phone for the intended experience.</p>
+
+  <div class="demo-card">
+    <div class="ico">🌿</div>
+    <div class="body">
+      <h4>TheLifeCo · Wellness retreat quiz funnel</h4>
+      <p class="desc">14-step funnel for a premium wellness brand. Gender → age → maternal status (conditional) → activity → nutrition → emotional goals → health conditions → duration → AI-style loading → personalised plan + price + urgency coupon → date picker → phone capture → call-time picker → thank you with WhatsApp deep link. Includes a "science insights" segment-matching layer that pulls 3 of 13 medical citations based on quiz answers.</p>
+      <a class="arrow" href="https://growtherai.vercel.app/thelifeco/funnel.html" target="_blank">growtherai.vercel.app/thelifeco/funnel.html →</a>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <div class="ico">📦</div>
+    <div class="body">
+      <h4>Stocado · B2B SaaS savings calculator</h4>
+      <p class="desc">12-step quiz funnel for a Turkish shipping SaaS. Business type → monthly volume → current carriers → platforms → pain points → weight class → COD usage → loading animation → personalised yearly savings reveal (₺ figure, % discount, per-package comparison, recommended plan tier) → contact form → thank-you with WhatsApp + app signup CTAs. Calc engine is dynamic — uses real per-desi rates and plan tiering by volume.</p>
+      <a class="arrow" href="https://growtherai.vercel.app/adorel/funnel.html" target="_blank">growtherai.vercel.app/adorel/funnel.html →</a>
+    </div>
+  </div>
+
+  <h3>What these demos prove (and don't prove)</h3>
+  <p>What they prove: I can architect a multi-step quiz with conditional logic, build the personalisation engine, design for mobile-first, structure a paywall-equivalent reveal moment, and ship to production. The structure is directly transferable to a Pixy onboarding quiz or a Planty plant-care personalisation flow.</p>
+  <p>What they don't prove: live A/B test results, subscription LTV improvements, RevenueCat integration. Those are exactly what I'd want to build at PlusMinusOne.</p>
+</section>
+
+<!-- SECTION 06: AI WORKFLOW -->
+<section id="ai" class="container">
+  <span class="section-num">SECTION 06 — AI IN MY WORKFLOW</span>
+  <h2>How I use AI in growth work</h2>
+  <p class="lead">You called out AI tooling as a "good to have". For me it's how I work — not as a magic-wand replacement for thinking, but as a leverage layer on top of it. Three specific uses:</p>
+
+  <h3>1. Research and competitor benchmarking</h3>
+  <p>Within an hour of starting this brief I had structured insights on RevenueCat's 2026 benchmark report, the BetterMe / Cal AI quiz funnel patterns, the Adapty vs Superwall vs RevenueCat trade-off matrix, and 12 PlusMinusOne portfolio apps with their App Store ratings. AI shortens the research-to-insight time by an order of magnitude — but only if you ask the right questions.</p>
+
+  <h3>2. First-draft creative + copy variants</h3>
+  <p>For paywall A/B testing, generating 8-10 headline variants and screening them before going live is a 30-minute job with AI vs a half-day without. The kill criterion stays the same; the variant pipeline gets faster.</p>
+
+  <h3>3. Building demos and prototypes fast</h3>
+  <p>The two funnel demos in Section 05 went from concept to deployed in ~4 hours each because I work with Claude as a coding partner. For a growth role this matters: when you need to ship a landing page variant for a TikTok campaign tomorrow, the cost of "building it properly" drops to "shipping something testable today".</p>
+
+  <div class="callout">
+    <div class="callout-label">Where AI doesn't help</div>
+    <p>AI doesn't replace product instinct, customer interviews, or knowing which test to run. Those still require time on actual users, qualitative listening and judgement. AI multiplies a good growth instinct; it doesn't substitute for one.</p>
+  </div>
+</section>
+
+<!-- SECTION 07: ROADMAP -->
+<section id="roadmap" class="container alt">
+  <span class="section-num">SECTION 07 — IF HIRED</span>
+  <h2>My first 30 / 60 / 90 days</h2>
+
+  <h3>Days 1–30 · Listen, instrument, ship one quick win</h3>
+  <ul>
+    <li><strong>Funnel audit across top 3 apps by traffic.</strong> Open the live ads → landing → quiz → paywall journey for each. Heatmap, session replay sample, conversion-path drop-offs in GA4 + Mixpanel.</li>
+    <li><strong>Sit with growth, performance marketing and product.</strong> What's the current backlog? What hypotheses have been parked? Who owns what metric?</li>
+    <li><strong>One quick-win test live by day 30.</strong> Likely a paywall variant on the highest-traffic app. High confidence, low risk — to build trust and establish how I'd want to run experiments going forward.</li>
+    <li><strong>Tracking sanity check.</strong> Are GA4, Mixpanel/Amplitude, Adjust, RevenueCat events firing where I'd expect them? In my experience, ~60% of accounts have tagging gaps that mute the report.</li>
+  </ul>
+
+  <h3>Days 31–60 · One structural play + one new funnel</h3>
+  <ul>
+    <li><strong>Stand up A/B testing infrastructure</strong> if not already operational — Superwall or RevenueCat Experiments for in-app paywall variants, Convert / VWO / GA4-server for web funnel variants.</li>
+    <li><strong>Build a new web-to-app quiz funnel</strong> for one app (my recommendation: Planty — the category fits best). Branch from current onboarding, route 50% of paid traffic to the new flow, measure trial start rate and T7 conversion.</li>
+    <li><strong>Lifecycle email recovery</strong> — for quiz starters who don't complete, paywall reachers who don't subscribe, trial starters who don't convert. Each has a different message and a different timing.</li>
+  </ul>
+
+  <h3>Days 61–90 · Compound and document</h3>
+  <ul>
+    <li><strong>Three concurrent live A/B tests</strong> across the portfolio. Statistical rigor enforced — no underpowered tests reported as wins.</li>
+    <li><strong>First QBR-ready case study</strong> from the completed tests. Internal Insight Library entries for each.</li>
+    <li><strong>Cross-portfolio pattern matching.</strong> What worked on Photo Print probably has a cousin that works on Print Photo. What works on Planty probably informs Pixy. The point of running a portfolio of apps is exactly this compounding.</li>
+  </ul>
+</section>
+
+<!-- CLOSING -->
+<section id="close" class="container">
+  <span class="section-num">CLOSING</span>
+  <h2>Three reasons I'd be a great fit — and questions I'd ask in week 1</h2>
+
+  <p><strong>One — I've built the artefact this role ships.</strong> The two demos in Section 05 are the same architectural pattern your Planty / Pixy / Math AI quiz funnels would use. The mobile-specific layer (RevenueCat, paywall A/B infra, ATT attribution) is what I'm hungry to learn fast.</p>
+
+  <p><strong>Two — the breadth of the portfolio is exactly where I want to work.</strong> 12 apps across 5 categories means the Insight Library compounds. A pattern I find on Easy Fax probably has a cousin for Free Up. Working on one app teaches me about three.</p>
+
+  <p><strong>Three — I work fast with AI as a force multiplier.</strong> This brief was researched, written and deployed in a workday. That same speed applies to landing page variants, paywall copy iteration, and competitor monitoring. Not as a replacement for craft — as leverage on top of it.</p>
+
+  <p>Questions I'd want to ask in the first week:</p>
+  <ol>
+    <li>What's the current spread between best-performing and worst-performing paywall in the portfolio? That gap is where most of my first quarter wins will come from.</li>
+    <li>Which apps already run a real A/B testing cadence vs which ones have parked it? The function maturity probably varies; that's normal but worth mapping.</li>
+    <li>Where's the most pain right now — ad costs rising, trial start rate falling, T35 conversion declining, or churn post-renewal? Different problems, different first moves.</li>
+  </ol>
+
+  <p>Thank you for reading. Available for the next stage — happy to walk through anything in this brief on a call.</p>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <h3>Ahmet Çağatay</h3>
+    <p>Web Growth Specialist — application for PlusMinusOne</p>
+    <div class="footer-meta">
+      Prepared <strong>25 May 2026</strong> · ~12 min read<br>
+      Live funnel demos: <a href="https://growtherai.vercel.app/thelifeco/funnel.html">TheLifeCo</a> · <a href="https://growtherai.vercel.app/adorel/funnel.html">Stocado</a><br>
+      <em>Hosted on growther AI — a small CRO/funnel tooling side-project of mine. Felt right to dogfood it.</em>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('.toc-link');
+  var linkMap = {};
+  links.forEach(function(l){ var href = l.getAttribute('href').replace('#',''); linkMap[href] = l; });
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) {
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var link = linkMap[e.target.id];
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(function(s){ observer.observe(s); });
+})();
+</script>
+</body>
+</html>
