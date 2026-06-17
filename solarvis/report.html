@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>solarVis — Strategic Growth Intelligence Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,600;9..40,700;9..40,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #0A2540;
+  --navy-dark: #051A2D;
+  --navy-light: #1B3A5C;
+  --blue: #1E40AF;
+  --blue-light: #3B82F6;
+  --blue-soft: #DBEAFE;
+  --blue-tint: #EFF6FF;
+  --solar: #F59E0B;
+  --solar-light: #FCD34D;
+  --solar-soft: #FEF3C7;
+  --solar-deep: #B45309;
+  --green: #16A34A;
+  --green-soft: #DCFCE7;
+  --teal: #0D9488;
+  --red: #DC2626;
+  --red-soft: #FEE2E2;
+  --amber: #D97706;
+  --amber-soft: #FEF3C7;
+
+  --cream: #FAFAFB;
+  --bg-card: #FFFFFF;
+  --bg-soft: #F8FAFC;
+  --bg-warm: #FBFBF8;
+
+  --ink: #0F172A;
+  --text: #1F2937;
+  --text-soft: #374151;
+  --text-muted: #6B7280;
+  --text-light: #9CA3AF;
+
+  --border: #E5E7EB;
+  --border-strong: #CBD5E1;
+
+  --shadow-sm: 0 1px 3px rgba(10,37,64,0.06);
+  --shadow-md: 0 4px 16px rgba(10,37,64,0.08);
+  --shadow-lg: 0 12px 40px rgba(10,37,64,0.12);
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; line-height: 1.65; color: var(--text); background: var(--cream); -webkit-font-smoothing: antialiased; }
+
+.container { max-width: 960px; margin: 0 auto; padding: 0 32px; }
+
+/* COVER */
+.cover { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 50%, #0a1f3d 100%); color: #fff; padding: 80px 32px 100px; position: relative; overflow: hidden; }
+.cover::before { content: ''; position: absolute; top: -150px; right: -100px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(245,158,11,0.18) 0%, transparent 60%); border-radius: 50%; }
+.cover::after { content: ''; position: absolute; bottom: -200px; left: -100px; width: 450px; height: 450px; background: radial-gradient(circle, rgba(59,130,246,0.14) 0%, transparent 60%); border-radius: 50%; }
+.cover-inner { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
+.cover-meta { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--solar-light); background: rgba(245,158,11,0.14); border: 1px solid rgba(245,158,11,0.40); padding: 6px 14px; border-radius: 20px; margin-bottom: 28px; }
+.cover h1 { font-family: 'DM Sans', sans-serif; font-size: clamp(36px, 6vw, 56px); font-weight: 800; line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 20px; }
+.cover h1 em { color: var(--solar-light); font-style: normal; }
+.cover-lead { font-size: 18px; line-height: 1.55; color: rgba(255,255,255,0.85); max-width: 720px; margin-bottom: 40px; }
+.cover-meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.15); }
+.cover-meta-item .label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 6px; }
+.cover-meta-item .value { font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600; color: #fff; }
+
+/* TOC */
+.toc { background: var(--bg-card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 30; padding: 14px 0; backdrop-filter: blur(10px); }
+.toc-inner { max-width: 960px; margin: 0 auto; padding: 0 32px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.toc-inner::-webkit-scrollbar { display: none; }
+.toc-link { font-size: 12.5px; font-weight: 600; color: var(--text-muted); text-decoration: none; padding: 6px 12px; border-radius: 20px; white-space: nowrap; transition: all 0.2s; flex-shrink: 0; border: none; }
+.toc-link:hover { color: var(--navy); background: var(--bg-soft); }
+.toc-link.active { color: var(--solar-deep); background: var(--solar-soft); }
+
+/* SECTIONS */
+section { padding: 72px 0; scroll-margin-top: 80px; }
+section + section { border-top: 1px solid var(--border); }
+section.alt { background: var(--bg-warm); }
+
+.section-num { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: var(--solar); margin-bottom: 14px; }
+h2 { font-family: 'DM Sans', sans-serif; font-size: clamp(26px, 4vw, 36px); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: var(--navy); margin-bottom: 14px; }
+h3 { font-family: 'DM Sans', sans-serif; font-size: 22px; font-weight: 700; line-height: 1.25; color: var(--navy); margin: 36px 0 12px; letter-spacing: -0.01em; }
+h4 { font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700; color: var(--navy); margin: 24px 0 8px; }
+p { margin-bottom: 16px; color: var(--text-soft); }
+p.lead { font-size: 18px; line-height: 1.6; color: var(--text); margin-bottom: 28px; max-width: 760px; }
+strong { color: var(--ink); font-weight: 700; }
+em { font-style: italic; color: var(--text-muted); }
+
+ul, ol { padding-left: 22px; margin-bottom: 16px; }
+li { margin-bottom: 8px; color: var(--text-soft); }
+li::marker { color: var(--solar); }
+
+a { color: var(--blue); text-decoration: none; border-bottom: 1px solid var(--blue-soft); }
+a:hover { border-bottom-color: var(--blue); }
+
+code, .mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--navy); background: var(--bg-soft); padding: 1px 6px; border-radius: 4px; }
+
+/* CARDS */
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin: 20px 0; box-shadow: var(--shadow-sm); }
+.card-emphasis { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); color: #fff; border-color: var(--navy); }
+.card-emphasis h3, .card-emphasis h4 { color: var(--solar-light); }
+.card-emphasis p, .card-emphasis li { color: rgba(255,255,255,0.85); }
+.card-emphasis strong { color: #fff; }
+
+.callout { border-left: 4px solid var(--solar); background: var(--solar-soft); padding: 18px 22px; border-radius: 0 10px 10px 0; margin: 24px 0; }
+.callout.note { border-left-color: var(--blue); background: var(--blue-tint); }
+.callout.warn { border-left-color: var(--amber); background: var(--amber-soft); }
+.callout.critical { border-left-color: var(--red); background: var(--red-soft); }
+.callout.win { border-left-color: var(--green); background: var(--green-soft); }
+.callout-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--solar-deep); margin-bottom: 6px; }
+.callout.note .callout-label { color: var(--blue); }
+.callout.warn .callout-label { color: #92400E; }
+.callout.critical .callout-label { color: #B91C1C; }
+.callout.win .callout-label { color: #15803D; }
+.callout p:last-child { margin-bottom: 0; }
+
+/* STATS */
+.stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px; margin: 32px 0; }
+.stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; position: relative; overflow: hidden; }
+.stat::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--solar); }
+.stat .value { font-family: 'DM Sans', sans-serif; font-size: 30px; font-weight: 800; color: var(--navy); line-height: 1; margin-bottom: 6px; letter-spacing: -0.02em; }
+.stat .value sup { font-size: 14px; color: var(--solar); margin-left: 2px; font-weight: 600; }
+.stat .label { font-size: 11.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.4; }
+.stat .src { display: block; font-size: 10px; color: var(--text-light); margin-top: 6px; font-style: italic; }
+
+/* TABLES */
+.table-wrap { overflow-x: auto; margin: 24px 0; -webkit-overflow-scrolling: touch; border-radius: 12px; }
+table { width: 100%; border-collapse: collapse; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; font-size: 14px; }
+th { background: var(--navy); color: #fff; text-align: left; font-weight: 600; padding: 12px 14px; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.6px; }
+td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-soft); font-size: 13.5px; line-height: 1.55; }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: var(--bg-warm); }
+tr.highlight td { background: var(--solar-soft); }
+tr.highlight td strong { color: var(--solar-deep); }
+td strong { color: var(--ink); }
+
+.tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.tag-green { background: var(--green-soft); color: #166534; }
+.tag-blue { background: var(--blue-tint); color: var(--blue); }
+.tag-amber { background: var(--amber-soft); color: #92400E; }
+.tag-red { background: var(--red-soft); color: #B91C1C; }
+.tag-solar { background: var(--solar-soft); color: var(--solar-deep); }
+
+/* COMPETITOR CARD */
+.comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 24px 0; }
+.comp-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
+.comp-card.featured { border: 2px solid var(--solar); background: linear-gradient(180deg, var(--solar-soft) 0%, var(--bg-card) 30%); }
+.comp-card .name { font-family: 'DM Sans', sans-serif; font-weight: 800; font-size: 17px; color: var(--navy); margin-bottom: 2px; }
+.comp-card .meta { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; letter-spacing: 0.3px; }
+.comp-card .meta strong { color: var(--solar-deep); }
+.comp-card .key { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+.comp-card .desc { font-size: 13px; line-height: 1.5; color: var(--text-soft); margin-bottom: 8px; }
+.comp-card .strengths { font-size: 12px; color: var(--green); font-weight: 600; }
+.comp-card .weakness { font-size: 12px; color: var(--red); font-weight: 600; margin-top: 4px; }
+
+/* HYP */
+.hyp { background: var(--bg-card); border: 1px solid var(--border); border-left: 4px solid var(--solar); border-radius: 0 12px 12px 0; padding: 18px 22px; margin: 14px 0; }
+.hyp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+.hyp-title { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 15px; color: var(--navy); flex: 1; min-width: 200px; }
+.hyp-scores { display: flex; gap: 6px; flex-shrink: 0; }
+.score { display: inline-flex; align-items: center; gap: 4px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 13px; padding: 3px 10px; border-radius: 6px; }
+.score-hi { background: var(--green-soft); color: #15803D; }
+.score-mid { background: var(--amber-soft); color: #92400E; }
+.hyp-because, .hyp-expect { font-size: 13.5px; color: var(--text-soft); margin: 4px 0; line-height: 1.55; }
+.hyp-because strong, .hyp-expect strong { color: var(--navy); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* MARKET CHART */
+.market-chart { background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-warm) 100%); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin: 24px 0; }
+.chart-bars { display: flex; align-items: flex-end; gap: 12px; height: 200px; margin: 20px 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--border-strong); }
+.chart-bar { flex: 1; background: linear-gradient(180deg, var(--solar) 0%, var(--solar-deep) 100%); border-radius: 6px 6px 0 0; position: relative; transition: all 0.3s; min-height: 30px; display: flex; align-items: flex-start; justify-content: center; padding-top: 8px; }
+.chart-bar:hover { transform: translateY(-2px); }
+.chart-bar .val { color: #fff; font-size: 12px; font-weight: 700; font-family: 'DM Sans'; }
+.chart-labels { display: flex; gap: 12px; margin-top: 4px; }
+.chart-labels .lbl { flex: 1; text-align: center; font-size: 11px; color: var(--text-muted); font-weight: 600; }
+
+/* CUSTOMER LOGO GRID */
+.logo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin: 20px 0; }
+.logo-cell { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 13px; font-weight: 600; color: var(--text-soft); text-align: center; }
+
+/* FOOTER */
+.footer { background: var(--navy); color: #fff; padding: 60px 32px; text-align: center; }
+.footer-inner { max-width: 720px; margin: 0 auto; }
+.footer h3 { color: #fff; font-size: 22px; margin-bottom: 14px; letter-spacing: -0.02em; }
+.footer p { color: rgba(255,255,255,0.7); margin-bottom: 16px; }
+.footer-meta { margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 0.5px; }
+.footer-meta strong { color: var(--solar-light); }
+
+@media (max-width: 640px) {
+  .container, .toc-inner, .footer { padding-left: 20px; padding-right: 20px; }
+  .cover { padding: 60px 20px 70px; }
+  section { padding: 56px 0; }
+  .cover-meta-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  h2 { font-size: 24px; }
+  h3 { font-size: 19px; }
+  p.lead { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="cover-inner">
+    <span class="cover-meta">Strategic Growth Intelligence Brief</span>
+    <h1>solarVis — market position, <em>competitive landscape</em>, and growth opportunities</h1>
+    <p class="cover-lead">An analytical brief on solarVis's position in the global solar design software market. Covers market sizing, head-to-head competitor benchmarking against Aurora Solar, HelioScope, OpenSolar and PVcase, a website and conversion audit of solarvis.co, and a prioritised opportunity backlog.</p>
+
+    <div class="cover-meta-grid">
+      <div class="cover-meta-item"><div class="label">Subject</div><div class="value">solarvis.co</div></div>
+      <div class="cover-meta-item"><div class="label">Sector</div><div class="value">Solar Design SaaS</div></div>
+      <div class="cover-meta-item"><div class="label">Coverage</div><div class="value">Market + 6 Competitors</div></div>
+      <div class="cover-meta-item"><div class="label">Read time</div><div class="value">~15 minutes</div></div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#summary" class="toc-link">Executive Summary</a>
+    <a href="#company" class="toc-link">01 · Company</a>
+    <a href="#market" class="toc-link">02 · Market</a>
+    <a href="#competitors" class="toc-link">03 · Competitors</a>
+    <a href="#position" class="toc-link">04 · Position</a>
+    <a href="#customers" class="toc-link">05 · Traction</a>
+    <a href="#website" class="toc-link">06 · Website Audit</a>
+    <a href="#opportunities" class="toc-link">07 · Opportunities</a>
+    <a href="#roadmap" class="toc-link">08 · Roadmap</a>
+  </div>
+</nav>
+
+<!-- EXECUTIVE SUMMARY -->
+<section id="summary" class="container">
+  <span class="section-num">EXECUTIVE SUMMARY</span>
+  <h2>solarVis at a glance — and what the data says</h2>
+  <p class="lead">solarVis is a Turkish-built, internationally-positioned B2B SaaS platform that consolidates solar design, sales, and project management for solar installers and EPC firms. The product is well-architected, the customer base is enterprise-grade for a domestic market, and the timing aligns with a $1.2B → $2.5B global market opportunity. The principal growth gaps are not product gaps — they are commercial: pricing transparency, quantified social proof, and category positioning against well-capitalised incumbents.</p>
+
+  <div class="stat-row">
+    <div class="stat"><div class="value">$1.2B<sup>→$2.5B</sup></div><div class="label">Solar design software TAM 2024 → 2033</div><span class="src">Verified Market Reports</span></div>
+    <div class="stat"><div class="value">8.8%</div><div class="label">Sector CAGR 2026-2033</div><span class="src">Verified Market Reports</span></div>
+    <div class="stat"><div class="value">24+</div><div class="label">Named enterprise customers</div><span class="src">solarvis.co/en</span></div>
+    <div class="stat"><div class="value">3</div><div class="label">Continents in active deployment</div><span class="src">EU, MENA, Sub-Saharan Africa</span></div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">Top-line takeaway</div>
+    <p>solarVis enjoys an asymmetric advantage in the Turkish + adjacent regional market — banking-grade enterprise references (Garanti BBVA, Türkiye İş Bankası, Akbank, Yapı Kredi), localised tariff and regulation modules, and TR + EN language support. The 12-month commercial question is whether the company will commit to a differentiated international position against Aurora Solar and OpenSolar, or remain a strong regional player. Both paths are viable; they require different go-to-market motions.</p>
+  </div>
+
+  <h3>The five strategic findings of this brief</h3>
+  <ol>
+    <li><strong>Market timing is excellent.</strong> The solar design software TAM more than doubles by 2033 at 8.8% CAGR. Residential and commercial both grow; commercial growth is the steeper curve.</li>
+    <li><strong>Pricing strategy is the most consequential undefined variable.</strong> Aurora Solar charges $159-259/month; OpenSolar is free (monetised via referral/hardware revenue). solarVis's silence on pricing creates friction in both buyer evaluation and category positioning.</li>
+    <li><strong>The website undersells the platform.</strong> Zero quantified outcomes (no MW deployed, no users, no proposal-time-saved metric), generic FAQ, no comparison content. The product is stronger than the homepage suggests.</li>
+    <li><strong>AI Sales Agent is the most defensible differentiator</strong> against Aurora's residential dominance and OpenSolar's price disruption. It deserves higher visibility and category leadership content.</li>
+    <li><strong>The Turkish enterprise reference base is undervalued internationally.</strong> A customer base that includes four of the largest Turkish banks is, in market terms, a credibility moat. Single line: "Trusted by 4 of Turkey's largest banks" outperforms a generic logo carousel.</li>
+  </ol>
+</section>
+
+<!-- 01 COMPANY -->
+<section id="company" class="container alt">
+  <span class="section-num">SECTION 01 — COMPANY PROFILE</span>
+  <h2>What solarVis is and what it sells</h2>
+  <p class="lead">solarVis positions itself as <em>"The Command Center for Solar Sales"</em> — a unified workflow that replaces the typical tool-stack of CAD design software, spreadsheet financials, separate CRMs, and PDF proposal generators.</p>
+
+  <h3>Product architecture</h3>
+  <div class="table-wrap">
+    <table>
+      <tr>
+        <th>Module</th>
+        <th>Function</th>
+        <th>Maturity signal</th>
+      </tr>
+      <tr>
+        <td><strong>Solar 3D Design &amp; Simulation</strong></td>
+        <td>Geo-referenced roof modeling, live satellite imagery, panel placement with irradiation data, shading analysis, string/inverter design</td>
+        <td><span class="tag tag-green">Core / mature</span></td>
+      </tr>
+      <tr>
+        <td><strong>Proposal Generator</strong></td>
+        <td>One-click bankable technical, financial, sustainability reports; branded; open-tracking analytics</td>
+        <td><span class="tag tag-green">Core / mature</span></td>
+      </tr>
+      <tr>
+        <td><strong>Lead Generator</strong></td>
+        <td>Embeddable website calculator widget, smart forms, conversion-optimised landing flows</td>
+        <td><span class="tag tag-blue">Recent / scaling</span></td>
+      </tr>
+      <tr>
+        <td><strong>AI Sales Agent</strong></td>
+        <td>24/7 visitor engagement on installer sites, automated lead qualification</td>
+        <td><span class="tag tag-solar">New (flagged on homepage)</span></td>
+      </tr>
+      <tr>
+        <td><strong>CRM &amp; Pipeline</strong></td>
+        <td>Lead-to-installation workflow management</td>
+        <td><span class="tag tag-blue">Recent / scaling</span></td>
+      </tr>
+      <tr>
+        <td><strong>Battery &amp; Heat Pump Modeling</strong></td>
+        <td>Adjacent system design for hybrid installations</td>
+        <td><span class="tag tag-blue">Adjacent</span></td>
+      </tr>
+      <tr>
+        <td><strong>Tariff &amp; Regulations Database</strong></td>
+        <td>Localised feed-in tariff and regulatory data</td>
+        <td><span class="tag tag-amber">Region-dependent</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>Target customer segmentation</h3>
+  <p>The product spans three customer archetypes that are commonly underserved by single-purpose tools:</p>
+  <ul>
+    <li><strong>Solar installer (SMB).</strong> 5-50 employee EPC firm. Designs 10-300 systems per year. Cares about per-proposal speed and quote conversion.</li>
+    <li><strong>Mid-market EPC.</strong> 50-300 employees. Designs 300-3,000 systems per year. Cares about team workflow, CRM integration, branded customer experience.</li>
+    <li><strong>Enterprise / utility-adjacent.</strong> Banks (offering solar financing), retailers (Arçelik adds solar to product line), distributors. Cares about white-label, API access, compliance.</li>
+  </ul>
+
+  <h3>Geographic footprint (observed)</h3>
+  <div class="logo-grid">
+    <div class="logo-cell">🇹🇷 Turkey (primary)</div>
+    <div class="logo-cell">🇩🇪 Germany (Intersolar 2026)</div>
+    <div class="logo-cell">🇿🇦 South Africa (Energy4All)</div>
+    <div class="logo-cell">🇪🇺 EU (active expansion)</div>
+    <div class="logo-cell">🌍 EMEA targeting</div>
+    <div class="logo-cell">TR + EN languages</div>
+  </div>
+
+  <div class="callout note">
+    <div class="callout-label">Product observation</div>
+    <p>The platform's <strong>module breadth is competitive with Aurora Solar Pro</strong> at a structural level: 3D design, proposal generation, CRM, AI assistance, battery support. Public signals do not clarify the maturity gap on engineering-grade simulation (where HelioScope leads) or on residential design speed (where Aurora leads). Deeper product comparison would require trial access.</p>
+  </div>
+</section>
+
+<!-- 02 MARKET -->
+<section id="market" class="container">
+  <span class="section-num">SECTION 02 — MARKET CONTEXT</span>
+  <h2>The solar design software market — sizing and tailwinds</h2>
+  <p class="lead">The solar design software category sits within a broader solar SaaS market that is one of the more attractive vertical-SaaS segments in 2026. Three independent reports converge on similar fundamentals.</p>
+
+  <h3>Market sizing (TAM consensus)</h3>
+  <div class="table-wrap">
+    <table>
+      <tr>
+        <th>Source</th>
+        <th>2024 / 2025 size</th>
+        <th>Forecast year</th>
+        <th>Forecast value</th>
+        <th>CAGR</th>
+      </tr>
+      <tr>
+        <td>Verified Market Reports</td>
+        <td>$1.2B (2024)</td>
+        <td>2033</td>
+        <td>$2.5B</td>
+        <td><strong>8.8%</strong></td>
+      </tr>
+      <tr>
+        <td>Intel Market Research</td>
+        <td>$2.01B (2025)</td>
+        <td>2032</td>
+        <td>$2.97B</td>
+        <td>5.8%</td>
+      </tr>
+      <tr>
+        <td>Global Market Statistics</td>
+        <td>~$1.5B (2024)</td>
+        <td>2035</td>
+        <td>$3.2-3.8B</td>
+        <td>~7-9%</td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>TAM expansion visualised</h3>
+  <div class="market-chart">
+    <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Solar design software TAM — $B</div>
+    <div class="chart-bars">
+      <div class="chart-bar" style="height: 40%"><span class="val">$1.2B</span></div>
+      <div class="chart-bar" style="height: 55%"><span class="val">$1.6B</span></div>
+      <div class="chart-bar" style="height: 70%"><span class="val">$2.0B</span></div>
+      <div class="chart-bar" style="height: 87%"><span class="val">$2.5B</span></div>
+    </div>
+    <div class="chart-labels">
+      <div class="lbl">2024</div>
+      <div class="lbl">2027</div>
+      <div class="lbl">2030</div>
+      <div class="lbl">2033</div>
+    </div>
+    <div style="font-size:11px;color:var(--text-light);margin-top:8px;font-style:italic">Source: Verified Market Reports · CAGR 8.8% · TAM more than doubles in 9 years</div>
+  </div>
+
+  <h3>Market drivers (the tailwinds)</h3>
+  <ul>
+    <li><strong>Global solar installation growth.</strong> IEA projects 600+ GW added annually by 2027. Each installation funnel needs design tools.</li>
+    <li><strong>EU REPowerEU package.</strong> 750 GW of solar capacity target by 2030. Direct demand expansion for European installer tools.</li>
+    <li><strong>Residential solar maturation.</strong> Falling hardware cost is shifting the bottleneck to <em>sales and design cycle time</em> — exactly where SaaS tools compress margin.</li>
+    <li><strong>Battery + heat pump bundling.</strong> Single-purpose solar design tools lose relevance as systems become multi-component. Integrated platforms (solarVis, Aurora) win.</li>
+    <li><strong>AI-driven design.</strong> Automated obstruction detection, panel placement, and proposal generation are emerging table-stakes (Aurora Pro's AI obstruction is a key paid upgrade).</li>
+  </ul>
+
+  <h3>Market headwinds (the risks)</h3>
+  <ul>
+    <li><strong>OpenSolar's free model.</strong> Below-price disruption in residential SMB segment. Monetises via hardware/financing referrals, not SaaS subscriptions.</li>
+    <li><strong>Aurora's enterprise consolidation.</strong> Aurora acquired HelioScope; the company is consolidating both residential (Aurora) and commercial (HelioScope) markets in the US.</li>
+    <li><strong>Hardware vertical integration.</strong> Tesla, SunPower, and others bundle proprietary design tools with their hardware, reducing third-party software demand at top end.</li>
+    <li><strong>Regional regulation fragmentation.</strong> Tariff, interconnection, and incentive databases must be maintained per country. High operational cost.</li>
+  </ul>
+
+  <div class="callout warn">
+    <div class="callout-label">Strategic implication</div>
+    <p>The market is structurally favourable but increasingly bifurcated: <strong>free + hardware-referral (OpenSolar)</strong> at the bottom, <strong>premium + AI-heavy (Aurora Pro)</strong> at the top. Mid-market SaaS at $50-150/month is a viable but contested position. solarVis's natural niche may be <em>"enterprise-grade design at SMB price points, with strong regional regulatory depth"</em> — but this requires explicit articulation.</p>
+  </div>
+</section>
+
+<!-- 03 COMPETITORS -->
+<section id="competitors" class="container alt">
+  <span class="section-num">SECTION 03 — COMPETITIVE LANDSCAPE</span>
+  <h2>Head-to-head: solarVis vs. 6 global competitors</h2>
+  <p class="lead">The solar design software category in 2026 has three distinct tiers: free-disruptive, mid-market SaaS, and engineering-grade premium. solarVis competes across two of them. Below: detailed profiles of every meaningful competitor.</p>
+
+  <div class="comp-grid">
+    <div class="comp-card featured">
+      <div class="name">solarVis</div>
+      <div class="meta">🇹🇷 Istanbul · Founded ~2020 · <strong>Pricing: undisclosed</strong></div>
+      <div class="key">
+        <span class="tag tag-solar">All-in-one</span>
+        <span class="tag tag-solar">AI Sales Agent</span>
+        <span class="tag tag-solar">EMEA focus</span>
+      </div>
+      <div class="desc">Unified solar sales platform (design + proposal + lead gen + CRM + AI Agent). Strongest in Turkey + nearby markets. New AI Sales Agent module differentiates against incumbents.</div>
+      <div class="strengths">+ Module breadth, enterprise references, regional regulation depth</div>
+      <div class="weakness">– Opaque pricing, limited international brand visibility</div>
+    </div>
+
+    <div class="comp-card">
+      <div class="name">Aurora Solar</div>
+      <div class="meta">🇺🇸 San Francisco · Founded 2013 · <strong>$159 / $259 per month</strong></div>
+      <div class="key">
+        <span class="tag tag-blue">US leader</span>
+        <span class="tag tag-blue">Residential dominant</span>
+      </div>
+      <div class="desc">The category leader for US residential. ~$500M+ valuation. Acquired HelioScope to consolidate commercial market. AI obstruction detection on Pro plan.</div>
+      <div class="strengths">+ Network effects, AI features, brand</div>
+      <div class="weakness">– US-centric, high price point, weaker EMEA presence</div>
+    </div>
+
+    <div class="comp-card">
+      <div class="name">HelioScope</div>
+      <div class="meta">🇺🇸 San Francisco · Aurora-owned · <strong>$159-$259 per month</strong></div>
+      <div class="key">
+        <span class="tag tag-blue">Engineering-grade</span>
+        <span class="tag tag-blue">Commercial focus</span>
+      </div>
+      <div class="desc">DNV GL-validated simulation engine. Industry standard for commercial and utility-scale projects. Reabsorbed under Aurora.</div>
+      <div class="strengths">+ Simulation accuracy, commercial credibility</div>
+      <div class="weakness">– Steeper learning curve, less sales-friendly</div>
+    </div>
+
+    <div class="comp-card">
+      <div class="name">OpenSolar</div>
+      <div class="meta">🇦🇺 Sydney · Founded 2018 · <strong>FREE</strong></div>
+      <div class="key">
+        <span class="tag tag-green">Free</span>
+        <span class="tag tag-green">Disruptive</span>
+      </div>
+      <div class="desc">3D modeling, shading, proposal, CRM — all free. Monetises through integrated hardware suppliers and financing partners. 14,000+ installers globally.</div>
+      <div class="strengths">+ Zero acquisition friction, scale</div>
+      <div class="weakness">– Conflict of interest concerns (hardware-paid), less customisation</div>
+    </div>
+
+    <div class="comp-card">
+      <div class="name">PVcase</div>
+      <div class="meta">🇱🇹 Lithuania · Founded 2018 · <strong>Custom enterprise</strong></div>
+      <div class="key">
+        <span class="tag tag-blue">Utility-scale</span>
+        <span class="tag tag-blue">European</span>
+      </div>
+      <div class="desc">CAD-integrated utility-scale solar design. Strong European foothold. Acquired Solea Energy Group in 2024. Premium positioning.</div>
+      <div class="strengths">+ Utility-scale depth, European network</div>
+      <div class="weakness">– High-end only; residential underserved</div>
+    </div>
+
+    <div class="comp-card">
+      <div class="name">PVsyst</div>
+      <div class="meta">🇨🇭 Switzerland · Founded 1992 · <strong>~$1,500 perpetual license</strong></div>
+      <div class="key">
+        <span class="tag tag-amber">Legacy engineering</span>
+        <span class="tag tag-amber">Desktop</span>
+      </div>
+      <div class="desc">Engineering reference standard for 30+ years. Used in bankability assessments globally. Desktop-only, no cloud, no sales features.</div>
+      <div class="strengths">+ Industry trust, deep simulation</div>
+      <div class="weakness">– No cloud, no sales workflow, dated UX</div>
+    </div>
+
+    <div class="comp-card">
+      <div class="name">SolarEdge Designer</div>
+      <div class="meta">🇮🇱 Israel · Hardware-tied · <strong>Free (with SolarEdge inverters)</strong></div>
+      <div class="key">
+        <span class="tag tag-red">Hardware-locked</span>
+      </div>
+      <div class="desc">Free design tool tied to SolarEdge hardware ecosystem. Good for SolarEdge installers; lock-in for everyone else.</div>
+      <div class="strengths">+ Free, deep integration</div>
+      <div class="weakness">– Hardware lock-in, limited brand-agnostic design</div>
+    </div>
+  </div>
+
+  <h3>Feature parity matrix</h3>
+  <div class="table-wrap">
+    <table>
+      <tr>
+        <th>Feature</th>
+        <th>solarVis</th>
+        <th>Aurora Pro</th>
+        <th>HelioScope</th>
+        <th>OpenSolar</th>
+        <th>PVcase</th>
+        <th>PVsyst</th>
+      </tr>
+      <tr><td>3D roof design</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>—</td></tr>
+      <tr><td>Live satellite imagery</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>—</td></tr>
+      <tr><td>Shading analysis</td><td>✓</td><td>✓</td><td>✓ (industry leading)</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Inverter / string design</td><td>✓ auto</td><td>✓</td><td>✓ (depth)</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Proposal generation</td><td>✓ bankable</td><td>✓</td><td>—</td><td>✓</td><td>—</td><td>—</td></tr>
+      <tr><td>CRM / pipeline</td><td>✓</td><td>✓</td><td>—</td><td>✓</td><td>—</td><td>—</td></tr>
+      <tr><td>Lead capture widgets</td><td>✓</td><td>partial</td><td>—</td><td>✓</td><td>—</td><td>—</td></tr>
+      <tr><td>AI Sales Agent</td><td><strong>✓ (new, distinct)</strong></td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>Battery modeling</td><td>✓</td><td>✓</td><td>✓</td><td>partial</td><td>—</td><td>partial</td></tr>
+      <tr><td>Heat pump modeling</td><td>✓</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>Tariff / regulation DB</td><td>✓ (TR + EU)</td><td>✓ (US)</td><td>partial</td><td>✓</td><td>✓ (EU)</td><td>—</td></tr>
+      <tr><td>API access</td><td>partial</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>—</td></tr>
+      <tr><td>DNV GL validation</td><td>—</td><td>—</td><td><strong>✓</strong></td><td>—</td><td>—</td><td>✓</td></tr>
+      <tr><td>Cloud / web</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>—</td></tr>
+      <tr class="highlight"><td><strong>Public pricing</strong></td><td><strong>—</strong></td><td>$159-259/mo</td><td>$159-259/mo</td><td>FREE</td><td>Custom</td><td>~$1,500</td></tr>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">Two non-obvious findings</div>
+    <p><strong>First:</strong> solarVis is the only platform on this list that ships a productised <em>AI Sales Agent</em> — Aurora, OpenSolar, and others have AI features for design (obstruction detection) but not for the sales-conversation layer. This is a category whitespace opportunity.</p>
+    <p style="margin-top:8px"><strong>Second:</strong> the heat pump modeling module is functionally unique. As European markets push electrification (UK Boiler Upgrade Scheme, Germany's Heizungsgesetz, EU heat-pump action plan), this becomes a meaningful EMEA differentiator. Single solar+heat-pump quote vs separate processes.</p>
+  </div>
+</section>
+
+<!-- 04 POSITION -->
+<section id="position" class="container">
+  <span class="section-num">SECTION 04 — STRATEGIC POSITION</span>
+  <h2>Where solarVis sits in the global map</h2>
+  <p class="lead">Two-axis positioning analysis: <strong>price point</strong> (Y) × <strong>geographic strength</strong> (X). This frames the strategic choice solarVis faces in the next 12-18 months.</p>
+
+  <div class="card">
+    <h4>Positioning quadrants</h4>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px">
+      <div style="background:var(--bg-warm);border-radius:10px;padding:14px;border-top:3px solid var(--solar)">
+        <div style="font-family:'DM Sans';font-weight:700;color:var(--navy);font-size:14px;margin-bottom:4px">High price · US-centric</div>
+        <div style="font-size:13px;color:var(--text-soft);line-height:1.5"><strong>Aurora Solar, HelioScope.</strong> Network effects + AI features + brand. Hard for new entrants to displace.</div>
+      </div>
+      <div style="background:var(--bg-warm);border-radius:10px;padding:14px;border-top:3px solid var(--blue)">
+        <div style="font-family:'DM Sans';font-weight:700;color:var(--navy);font-size:14px;margin-bottom:4px">High price · European focus</div>
+        <div style="font-size:13px;color:var(--text-soft);line-height:1.5"><strong>PVcase, PVsyst.</strong> Engineering depth, utility-scale, premium pricing. Underserve SMB.</div>
+      </div>
+      <div style="background:var(--bg-warm);border-radius:10px;padding:14px;border-top:3px solid var(--green)">
+        <div style="font-family:'DM Sans';font-weight:700;color:var(--navy);font-size:14px;margin-bottom:4px">Free · Global</div>
+        <div style="font-size:13px;color:var(--text-soft);line-height:1.5"><strong>OpenSolar.</strong> Volume play, hardware-monetised. Wins SMB residential globally.</div>
+      </div>
+      <div style="background:linear-gradient(135deg,var(--solar-soft) 0%,var(--bg-card) 100%);border-radius:10px;padding:14px;border-top:3px solid var(--solar-deep);border:2px solid var(--solar)">
+        <div style="font-family:'DM Sans';font-weight:700;color:var(--navy);font-size:14px;margin-bottom:4px">Mid-price · EMEA strength</div>
+        <div style="font-size:13px;color:var(--text-soft);line-height:1.5"><strong>solarVis — open territory.</strong> No dominant incumbent. The most defensible position the company can claim.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>The three strategic paths forward</h3>
+
+  <div class="card">
+    <h4>Path A · Premium Vertical SaaS in EMEA</h4>
+    <p>Position solarVis as "the European Aurora" — premium pricing ($99-199/mo), AI features as the headline (AI Sales Agent is the wedge), region-specific tariff databases as the moat. Compete on integration depth, not price.</p>
+    <p><strong>Pros:</strong> highest LTV per customer; aligns with banking/enterprise reference base; defensible against OpenSolar's free model. <strong>Cons:</strong> direct competition with Aurora's international expansion; longer sales cycles.</p>
+  </div>
+
+  <div class="card">
+    <h4>Path B · SMB Volume Play (Freemium)</h4>
+    <p>Match OpenSolar's free tier with limits (5 projects/month, basic features), monetise paid tiers ($49-149/mo) for higher volume and premium features. Build EMEA installer marketplace.</p>
+    <p><strong>Pros:</strong> aggressive top-of-funnel; community building; appeals to SMB. <strong>Cons:</strong> cannibalises higher tiers; harder to monetise enterprise references.</p>
+  </div>
+
+  <div class="card">
+    <h4>Path C · Banking &amp; Distributor White-Label Platform</h4>
+    <p>Leverage the existing banking customer base (Garanti BBVA, İş Bankası, Akbank, Yapı Kredi) to white-label a financing-integrated solar tool. Banks offer "Get your solar plan + financing in one place"; solarVis powers the engine. Repeat with European banks.</p>
+    <p><strong>Pros:</strong> uses an existing asymmetric advantage; high contract values; defensible. <strong>Cons:</strong> long bank sales cycles; lower-volume but higher-revenue customers.</p>
+  </div>
+
+  <div class="callout note">
+    <div class="callout-label">The author's read</div>
+    <p>Path A and Path C are not mutually exclusive — they are the same go-to-market with two motions. Build the premium SaaS for installers (Path A) and the white-label platform for banks/distributors (Path C) as two co-existing revenue streams. Path B (freemium) introduces strategic conflict and competes head-on with OpenSolar's structural advantage of hardware-referral monetisation.</p>
+  </div>
+</section>
+
+<!-- 05 CUSTOMERS -->
+<section id="customers" class="container alt">
+  <span class="section-num">SECTION 05 — TRACTION ANALYSIS</span>
+  <h2>The customer base, decoded</h2>
+  <p class="lead">solarVis's named customer list (publicly displayed on the homepage) is more strategically significant than a typical SaaS logo carousel. It reveals a deliberate enterprise + financial-services posture that is rare for a Turkish vertical SaaS at this stage.</p>
+
+  <h3>Customer segmentation by type</h3>
+  <div class="table-wrap">
+    <table>
+      <tr>
+        <th>Segment</th>
+        <th>Named customers</th>
+        <th>Strategic value</th>
+      </tr>
+      <tr>
+        <td><strong>Banks (financing)</strong></td>
+        <td>Garanti BBVA, Türkiye İş Bankası, Akbank, Yapı Kredi</td>
+        <td><span class="tag tag-solar">Highest</span> 4 of 5 largest TR banks; suggests financing-integrated offering</td>
+      </tr>
+      <tr>
+        <td><strong>Energy &amp; utility</strong></td>
+        <td>EnerjiSA, Apex Energy, Aksa Solar, Manisa Enerji</td>
+        <td><span class="tag tag-blue">High</span> grid-connected commercial</td>
+      </tr>
+      <tr>
+        <td><strong>Industrial conglomerate</strong></td>
+        <td>Arçelik (largest TR appliance manufacturer)</td>
+        <td><span class="tag tag-blue">High</span> credibility transfer; ESG signal</td>
+      </tr>
+      <tr>
+        <td><strong>Solar installer / EPC</strong></td>
+        <td>Solino, Solimpeks, Synerlution, DJ Solar, GAMA Proje, Winsolar, Leo Solar, Gridvolt, Kreasol, Altera, Azul, Langa, Kwikelec, IBT, Energiezentrum, Blue Hybrid</td>
+        <td><span class="tag tag-green">Core</span> day-to-day SaaS revenue base</td>
+      </tr>
+      <tr>
+        <td><strong>International (Africa)</strong></td>
+        <td>Energy4All, Langa Energy, Kwikelec</td>
+        <td><span class="tag tag-amber">Emerging</span> proof of geographic transferability</td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>The undervalued asset</h3>
+  <p>Most SaaS companies at solarVis's stage display 6-10 logos and the language is uniformly "trusted by". solarVis displays 24+ logos but does not separate them by tier or extract narrative. This is a missed framing opportunity. Three observations:</p>
+  <ul>
+    <li><strong>Garanti BBVA, İş Bankası, Akbank, Yapı Kredi.</strong> Four of Turkey's largest commercial banks running solar offerings. Headline copy could be <em>"Powering solar offerings for 4 of Turkey's largest banks"</em>. This single line is enterprise-grade social proof unavailable to any global competitor.</li>
+    <li><strong>Arçelik.</strong> Top-5 European white-goods manufacturer. Their adoption suggests solarVis is being used not just for traditional installer workflows but for adjacent retail/B2B2C offerings. Worth a case study.</li>
+    <li><strong>Energy4All in South Africa.</strong> The presence of a sub-Saharan customer at this stage indicates geographic transferability has been proven. Worth amplifying in EMEA expansion messaging.</li>
+  </ul>
+
+  <div class="callout win">
+    <div class="callout-label">High-leverage rewrite opportunity</div>
+    <p>The "Trusted by" section homepage rewrite from a generic logo carousel to <strong>three tiered narratives</strong> ("4 of Turkey's largest banks", "Adopted by Arçelik for solar B2B2C", "Active in 3 continents") would meaningfully upgrade the enterprise-buyer first impression at near-zero implementation cost.</p>
+  </div>
+</section>
+
+<!-- 06 WEBSITE AUDIT -->
+<section id="website" class="container">
+  <span class="section-num">SECTION 06 — WEBSITE &amp; CONVERSION AUDIT</span>
+  <h2>solarvis.co — what works, what leaks</h2>
+  <p class="lead">A homepage built on Next.js with clean architecture and considered visual design. The product surface is well-explained but the commercial layer (pricing transparency, quantified outcomes, comparison content) is structurally underbuilt. The page is competent — what it is missing is the conversion-engine layer that turns competent into compounding.</p>
+
+  <h3>What's working</h3>
+  <ul>
+    <li><strong>Hero clarity.</strong> "Built for solar professionals" + "Design, quote, and sell solar. All in one place." 5-second message-match is achieved.</li>
+    <li><strong>Concrete hero visual.</strong> 3D mockup with sample system output (8.4 kWp, €14,200, 14.2% ROI) is more persuasive than abstract product screenshots.</li>
+    <li><strong>Workflow visualisation.</strong> 6-step process (Lead → Design → Feasibility → Proposal → CRM → Installation) is a strong product-narrative device.</li>
+    <li><strong>Solid technical foundation.</strong> Next.js + image optimisation + Vercel/standard CDN delivery. LCP likely strong.</li>
+    <li><strong>Real case study links.</strong> Three named customer stories (Solino, Arçelik, Energy4All) is above average for a vertical SaaS at this stage.</li>
+  </ul>
+
+  <h3>Friction inventory (prioritised)</h3>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F1 — No pricing visibility above the fold or in the navigation</div>
+      <div class="hyp-scores"><span class="score score-hi">I 9</span><span class="score score-hi">C 9</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Issue:</strong> the homepage shows "Get Started" CTAs but no price anchor. Buyers comparing solarVis against Aurora ($159-259/mo) and OpenSolar (free) cannot place solarVis on the price-quality map. A pricing page exists but is not surfaced.</p>
+    <p class="hyp-expect"><strong>Recommended:</strong> add a "Starting at €X/month" tag in the hero, or move "Pricing" to the primary nav. Either decision (transparency or strategic opacity) should be explicit; current state is by-default opacity.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F2 — Zero quantified outcomes anywhere on the page</div>
+      <div class="hyp-scores"><span class="score score-hi">I 9</span><span class="score score-hi">C 8</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Issue:</strong> no MW deployed, no user count, no proposals generated, no average proposal-time reduction. Aurora cites "thousands of projects per week" and OpenSolar cites "14,000+ installers". A B2B buyer evaluating SaaS adoption looks for these figures within the first 30 seconds.</p>
+    <p class="hyp-expect"><strong>Recommended:</strong> within 2 weeks, surface 3-4 specific numbers — "Powering X MW of solar designs annually", "Adopted by 250+ installers", "Average proposal time reduced from 4 hours to 20 minutes". Data probably exists internally; it just isn't externalised.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F3 — Testimonials describe sentiment, not outcomes</div>
+      <div class="hyp-scores"><span class="score score-mid">I 7</span><span class="score score-hi">C 8</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Issue:</strong> 8 testimonials on the homepage. Most say "efficient", "easy", "saves time". None say "reduced our proposal-to-close cycle from 11 days to 4 days" or "doubled our conversion rate". B2B testimonials only convert when they include before/after numbers.</p>
+    <p class="hyp-expect"><strong>Recommended:</strong> reach out to top 5 customers and request quantified version of testimonial. Should be deliverable in 2-3 weeks.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F4 — Generic FAQ with no objection handling</div>
+      <div class="hyp-scores"><span class="score score-mid">I 5</span><span class="score score-hi">C 8</span><span class="score score-hi">E 9</span></div>
+    </div>
+    <p class="hyp-because"><strong>Issue:</strong> the 8 FAQ items are surface-level. Missing the questions every buyer actually asks: "How does this compare to Aurora?", "Can I migrate from PVsyst?", "What's the onboarding time?", "Do you offer SSO / SCIM?", "GDPR/KVKK compliance?", "What CRM does it integrate with?".</p>
+    <p class="hyp-expect"><strong>Recommended:</strong> double the FAQ with objection-handling content. Source from sales team's recorded calls.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F5 — No comparison content (vs Aurora, OpenSolar, PVsyst)</div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 7</span><span class="score score-mid">E 5</span></div>
+    </div>
+    <p class="hyp-because"><strong>Issue:</strong> evaluating buyers search "solarVis vs Aurora" or "OpenSolar alternative". solarVis does not own any of these queries. Aurora, by contrast, ranks for "HelioScope alternative" comparisons.</p>
+    <p class="hyp-expect"><strong>Recommended:</strong> produce 3 honest comparison pages (vs Aurora, vs OpenSolar, vs PVcase). Each frames the trade-offs without disparaging — "Aurora is the better choice if you are US-residential focused; solarVis is the better choice if you are EMEA + need integrated heat pump modeling". Strategic SEO play.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F6 — Free trial CTA without specifying trial mechanics</div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-hi">C 8</span><span class="score score-hi">E 10</span></div>
+    </div>
+    <p class="hyp-because"><strong>Issue:</strong> the primary CTA is "Get Started" but unclear what happens next. Trial duration? Card required? Feature limits? Trial conversion psychology requires the answer to "what am I committing to" be one click away.</p>
+    <p class="hyp-expect"><strong>Recommended:</strong> add a sub-line under the CTA: "14-day free trial · No credit card required · Full feature access". Removes adoption hesitation at zero cost.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F7 — AI Sales Agent under-marketed despite differentiation value</div>
+      <div class="hyp-scores"><span class="score score-mid">I 7</span><span class="score score-hi">C 7</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Issue:</strong> AI Sales Agent is the most defensible whitespace in solarVis's stack (no competitor ships an equivalent). It is shown as one of three product cards on the homepage with a "New" badge — but the page doesn't articulate why it matters, what installer pain it solves, or what early customers see in conversion lift.</p>
+    <p class="hyp-expect"><strong>Recommended:</strong> dedicated landing page with a 90-second demo, 2-3 early customer outcomes, and a competitive comparison framing ("Aurora has AI obstruction detection for design. solarVis has AI for the sales conversation"). Category leadership positioning.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">F8 — No security / compliance trust signals</div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-hi">C 7</span><span class="score score-mid">E 5</span></div>
+    </div>
+    <p class="hyp-because"><strong>Issue:</strong> banks (Garanti BBVA, İş Bankası, Akbank, Yapı Kredi) are customers — they would only purchase from a vendor with serious security posture. But the homepage shows no SOC 2, ISO 27001, GDPR or KVKK badges. Implied compliance, not communicated.</p>
+    <p class="hyp-expect"><strong>Recommended:</strong> badge row in the footer + dedicated security/trust page covering audit certifications, data residency, encryption posture, GDPR + KVKK compliance.</p>
+  </div>
+</section>
+
+<!-- 07 OPPORTUNITIES -->
+<section id="opportunities" class="container alt">
+  <span class="section-num">SECTION 07 — STRATEGIC OPPORTUNITIES</span>
+  <h2>The prioritised growth backlog</h2>
+  <p class="lead">Twelve opportunities synthesised from market position, competitive analysis, customer-base re-framing, and website audit. Ranked by ICE (Impact × Confidence × Ease) for execution sequencing.</p>
+
+  <h3>Quick wins (0-30 days)</h3>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">O1 — Re-frame the social proof section with tiered narratives</div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 9</span><span class="score score-hi">E 10</span></div>
+    </div>
+    <p class="hyp-because"><strong>Action:</strong> replace flat logo carousel with three named tiers — "Banks &amp; Financial Services" (4 banks), "Industrial &amp; Energy" (Arçelik, EnerjiSA), "Solar Installers (TR + EMEA + Africa)". Zero dev cost; significant credibility lift.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">O2 — Add quantified outcomes block to hero</div>
+      <div class="hyp-scores"><span class="score score-hi">I 9</span><span class="score score-hi">C 8</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Action:</strong> 3-4 numeric proof points immediately under hero ("X MW designed · Y installers · Z proposals/month · ABC% faster proposals"). Internal data; surface externally.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">O3 — Pricing transparency decision (and execution)</div>
+      <div class="hyp-scores"><span class="score score-hi">I 9</span><span class="score score-mid">C 7</span><span class="score score-mid">E 7</span></div>
+    </div>
+    <p class="hyp-because"><strong>Action:</strong> commit to a pricing strategy decision in this quarter. Either publish anchor pricing (e.g., "From €99/mo") and lift on-site conversion, or keep enterprise-bespoke pricing and add "Request pricing" CTA with 24-hour SLA. Current ambiguity is the worst option.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">O4 — Trial mechanics clarity sub-line</div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-hi">C 9</span><span class="score score-hi">E 10</span></div>
+    </div>
+    <p class="hyp-because"><strong>Action:</strong> add sub-CTA "14-day free trial · No credit card · Full feature access". Removes friction in 30 seconds.</p>
+  </div>
+
+  <h3>Structural plays (30-90 days)</h3>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">O5 — Build comparison pages (vs Aurora, vs OpenSolar, vs PVcase)</div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 8</span><span class="score score-mid">E 5</span></div>
+    </div>
+    <p class="hyp-because"><strong>Action:</strong> three honest comparison pages. SEO and sales enablement value compound. Reference Surge PV's approach as template.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">O6 — Dedicated AI Sales Agent landing page</div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 7</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Action:</strong> standalone page with 90-second demo video, 2-3 quantified customer outcomes, and explicit category framing ("AI for the sales conversation, not just design"). Differentiator deserves its own real estate.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">O7 — Quantified testimonials refresh</div>
+      <div class="hyp-scores"><span class="score score-mid">I 7</span><span class="score score-hi">C 8</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Action:</strong> rerun 5 customer interviews with the explicit ask of "what changed in numbers" — proposal time, conversion rate, deal size, cycle length. Replace sentiment quotes with outcome quotes.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">O8 — Security &amp; compliance trust page</div>
+      <div class="hyp-scores"><span class="score score-mid">I 6</span><span class="score score-hi">C 8</span><span class="score score-mid">E 6</span></div>
+    </div>
+    <p class="hyp-because"><strong>Action:</strong> SOC 2 (if held), ISO 27001 (if held), GDPR + KVKK statements, data residency, encryption-at-rest/in-transit. Banking customers expect this; enterprise sales accelerates with it.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">O9 — Heat pump as European wedge</div>
+      <div class="hyp-scores"><span class="score score-hi">I 7</span><span class="score score-hi">C 7</span><span class="score score-mid">E 5</span></div>
+    </div>
+    <p class="hyp-because"><strong>Action:</strong> publish content + sales materials positioning the integrated solar + heat pump quoting as a European acceleration play. EU electrification mandates make this a 2026-2027 tailwind. Aurora doesn't ship it; OpenSolar partial.</p>
+  </div>
+
+  <h3>Strategic bets (90+ days)</h3>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">O10 — White-label banking platform productisation</div>
+      <div class="hyp-scores"><span class="score score-hi">I 10</span><span class="score score-mid">C 6</span><span class="score score-mid">E 4</span></div>
+    </div>
+    <p class="hyp-because"><strong>Action:</strong> productise the bank-side offering (existing customer base provides validation) as a separate SKU. Sell into European retail banks adding solar financing offerings. Highest LTV; longest sales cycle.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">O11 — Installer community / marketplace</div>
+      <div class="hyp-scores"><span class="score score-mid">I 7</span><span class="score score-mid">C 5</span><span class="score score-mid">E 4</span></div>
+    </div>
+    <p class="hyp-because"><strong>Action:</strong> launch an installer matching service (homeowners → installers) as a community + lead-gen layer. Mirrors OpenSolar's approach without the hardware-referral conflict. Adds B2B2C dimension to the platform.</p>
+  </div>
+
+  <div class="hyp">
+    <div class="hyp-head">
+      <div class="hyp-title">O12 — Intersolar Munich activation (June 23-25, 2026)</div>
+      <div class="hyp-scores"><span class="score score-hi">I 8</span><span class="score score-hi">C 7</span><span class="score score-hi">E 8</span></div>
+    </div>
+    <p class="hyp-because"><strong>Action:</strong> the Intersolar Munich appearance is the single highest-leverage international visibility moment of 2026. Deserves: dedicated landing page, pre-event email campaign to 24+ existing customers (referral push), booth demo of AI Sales Agent (not generic product), and 5-7 specific installer prospect meetings booked pre-show. Maximise the asset.</p>
+  </div>
+</section>
+
+<!-- 08 ROADMAP -->
+<section id="roadmap" class="container">
+  <span class="section-num">SECTION 08 — ROADMAP</span>
+  <h2>Suggested 30 / 60 / 90 day sequencing</h2>
+  <p class="lead">Realistic phasing that balances quick-win compounding with structural play preparation. Built around the assumption of a small but coordinated growth team.</p>
+
+  <h3>Days 1-30 · Quick wins + infrastructure</h3>
+  <ul>
+    <li><strong>Ship the social proof tiered narratives</strong> (O1) — 2 days.</li>
+    <li><strong>Ship quantified outcomes hero block</strong> (O2) — 5 days, pending data extraction.</li>
+    <li><strong>Trial mechanics clarity sub-line</strong> (O4) — 1 day.</li>
+    <li><strong>Pricing strategy decision</strong> (O3) — internal alignment within 2 weeks; execution follows.</li>
+    <li><strong>GA4 / GTM audit and event hygiene</strong> — baseline tracking for all subsequent experiments.</li>
+    <li><strong>Begin customer interview round</strong> for quantified testimonials (O7).</li>
+  </ul>
+
+  <h3>Days 31-60 · Differentiation content</h3>
+  <ul>
+    <li><strong>AI Sales Agent landing page</strong> (O6) live.</li>
+    <li><strong>First comparison page</strong> (O5) — "solarVis vs Aurora Solar" — published.</li>
+    <li><strong>Quantified testimonials</strong> (O7) replace existing sentiment quotes.</li>
+    <li><strong>Security &amp; compliance page</strong> (O8) published.</li>
+    <li><strong>Pricing page</strong> (O3) — execution following decision.</li>
+    <li><strong>Intersolar Munich pre-event campaign</strong> (O12) launch.</li>
+  </ul>
+
+  <h3>Days 61-90 · Strategic positioning</h3>
+  <ul>
+    <li><strong>Remaining comparison pages</strong> (vs OpenSolar, vs PVcase) — O5.</li>
+    <li><strong>Heat pump positioning content</strong> (O9) — 3 blog posts, 1 case study, 1 landing page.</li>
+    <li><strong>Intersolar Munich execution</strong> (O12) — booth, meetings, follow-up sequence.</li>
+    <li><strong>White-label banking productisation discovery</strong> (O10) — discovery conversations with 3-5 European retail banks.</li>
+    <li><strong>Marketplace/community discovery</strong> (O11) — feasibility scoping.</li>
+    <li><strong>Quarterly metric review</strong>: which quick wins paid out, which need adjustment, which to retire.</li>
+  </ul>
+
+  <div class="callout">
+    <div class="callout-label">North-star KPIs to track</div>
+    <ul style="margin-top:6px">
+      <li><strong>Hero-to-trial conversion rate</strong> — baseline within week 2, weekly tracking.</li>
+      <li><strong>Pricing page views &amp; bounce rate</strong> — measure friction reduction directly.</li>
+      <li><strong>Branded search volume</strong> ("solarvis", "solarvis vs", "solarvis pricing") — track via GSC monthly.</li>
+      <li><strong>Trial-to-paid conversion</strong> — core SaaS metric; segment by source.</li>
+      <li><strong>Intersolar Munich attributed pipeline</strong> — single-event ROI measurement.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <h3>solarVis — Strategic Growth Intelligence Brief</h3>
+    <p>Prepared as a market and competitive intelligence analysis</p>
+    <div class="footer-meta">
+      Compiled <strong>17 June 2026</strong> · ~15 min read · English<br>
+      Sources: solarvis.co · Verified Market Reports · RevenueCat State of Subscription Apps 2026 · SurgePV competitor analyses · SPOTIO solar tools survey · Aurora / OpenSolar public pricing
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('.toc-link');
+  var linkMap = {};
+  links.forEach(function(l){ var href = l.getAttribute('href').replace('#',''); linkMap[href] = l; });
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) {
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var link = linkMap[e.target.id];
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(function(s){ observer.observe(s); });
+})();
+</script>
+</body>
+</html>
